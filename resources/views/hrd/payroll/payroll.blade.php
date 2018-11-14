@@ -201,7 +201,7 @@ function simpanm(){
 											});
 											table.ajax.reload();
 										} else {
-											iziToast.success({
+											iziToast.warning({
 										    title: 'Info',
 										    message: 'Failed deleted record!',
 										});
@@ -232,14 +232,14 @@ function simpanm(){
 
   }
 
-  function success(){
-
-  	iziToast.success({
-	    title: 'OK',
-	    message: 'Successfully deleted record!',
-	});
-
-  }
+  // function success(){
+	//
+  // 	iziToast.success({
+	//     title: 'OK',
+	//     message: 'Successfully deleted record!',
+	// });
+	//
+  // }
 
 </script>
 
