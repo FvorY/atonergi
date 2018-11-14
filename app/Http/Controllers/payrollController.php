@@ -130,4 +130,45 @@ class payrollController extends Controller
       }
 
     }
+
+    public function edit_payroll(Request $request){
+      $data = DB::table('m_gaji_man')
+                ->where('c_id', $request->id)
+                ->get();
+
+      return response()->json($data);
+    }
+
+    public function update_payroll(Request $request){
+      DB::beginTransaction();
+      try {
+
+        DB::table('m_gaji_man')
+            ->where('c_id', $request->id)
+            ->update([
+              'nm_gaji' => $request->nm_gaji,
+              'c_sd' => (float)$request->c_sd,
+              'c_smp' => (float)$request->c_smp,
+              'c_sma' => (float)$request->c_sma,
+              'c_smk' => (float)$request->c_smk,
+              'c_d1' => (float)$request->c_d1,
+              'c_d2' => (float)$request->c_d2,
+              'c_d3' => (float)$request->c_d3,
+              'c_s1' => (float)$request->c_s1,
+              'c_jabatan' => $request->c_jabatan,
+              'updated_at' => Carbon::now('Asia/Jakarta')
+            ]);
+
+        DB::commit();
+        return response()->json([
+          'status' => 'berhasil'
+        ]);
+      } catch (\Exception $e) {
+        DB::rollback();
+        return response()->json([
+          'status' => 'gagal'
+        ]);
+      }
+
+    }
 }

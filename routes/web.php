@@ -480,4 +480,6 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/hrd/payroll/datatable_payroll', 'payrollController@datatable_payroll')->name('datatable_payroll');
     Route::get('/hrd/payroll/simpan_payroll', 'payrollController@simpan_payroll')->name('simpan_payroll');
     Route::get('/hrd/payroll/hapus_payroll', 'payrollController@hapus_payroll')->name('hapus_payroll');
+    Route::get('/hrd/payroll/edit_payroll', 'payrollController@edit_payroll')->name('edit_payroll');
+    Route::get('/hrd/payroll/update_payroll', 'payrollController@update_payroll')->name('update_payroll');
 }); // End Route Groub middleware auth
