@@ -475,4 +475,9 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/master/jabatan/update', 'JabatanController@update');
     Route::get('/master/jabatan/hapus', 'JabatanController@hapus');
     Route::get('/master/jabatan/edit', 'JabatanController@edit');
+
+    //Payroll
+    Route::get('/hrd/payroll/datatable_payroll', 'payrollController@datatable_payroll')->name('datatable_payroll');
+    Route::get('/hrd/payroll/simpan_payroll', 'payrollController@simpan_payroll')->name('simpan_payroll');
+    Route::get('/hrd/payroll/hapus_payroll', 'payrollController@hapus_payroll')->name('hapus_payroll');
 }); // End Route Groub middleware auth

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use DB;
+
 class HRDController extends Controller
 {
     public function absensi()
@@ -40,7 +42,10 @@ class HRDController extends Controller
     }
     public function payroll()
     {
-        return view('hrd/payroll/payroll');
+        $jabatan = DB::table('m_jabatan')
+                      ->get();
+
+        return view('hrd/payroll/payroll', compact('jabatan'));
     }
     public function payroll_manajemen()
     {
