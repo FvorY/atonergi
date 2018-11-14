@@ -80,6 +80,14 @@ class payrollController extends Controller
           $id += 1;
         }
 
+        $request->c_sd = str_replace('.','',$request->c_sd);
+        $request->c_sma = str_replace('.','',$request->c_sma);
+        $request->c_smk = str_replace('.','',$request->c_smk);
+        $request->c_d1 = str_replace('.','',$request->c_d1);
+        $request->c_d2 = str_replace('.','',$request->c_d2);
+        $request->c_d3 = str_replace('.','',$request->c_d3);
+        $request->c_s1 = str_replace('.','',$request->c_s1);
+
 
         DB::table('m_gaji_man')
             ->insert([
@@ -142,6 +150,15 @@ class payrollController extends Controller
     public function update_payroll(Request $request){
       DB::beginTransaction();
       try {
+
+
+        $request->c_sd = str_replace('.','',$request->c_sd);
+        $request->c_sma = str_replace('.','',$request->c_sma);
+        $request->c_smk = str_replace('.','',$request->c_smk);
+        $request->c_d1 = str_replace('.','',$request->c_d1);
+        $request->c_d2 = str_replace('.','',$request->c_d2);
+        $request->c_d3 = str_replace('.','',$request->c_d3);
+        $request->c_s1 = str_replace('.','',$request->c_s1);
 
         DB::table('m_gaji_man')
             ->where('c_id', $request->id)
