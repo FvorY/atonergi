@@ -72,10 +72,11 @@
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="mp_status">
-                <option selected="" value="">- Pilih -</option>
-                <option>Lajang</option>
-                <option>Sudah Menikah</option>
+              <select class="form-control" name="mp_position">
+                <option value="">- Pilih -</option>
+                @foreach ($jabatan as $key => $value)
+                  <option value="{{$value->c_id}}">{{$value->c_posisi}}</option>
+                @endforeach
               </select>
             </div>
           </div>
