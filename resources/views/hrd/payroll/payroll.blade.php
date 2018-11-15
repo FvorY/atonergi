@@ -240,6 +240,7 @@
                 function (instance, toast) {
 
                   $.ajax({
+<<<<<<< HEAD
 	                  url: '{{ url("hrd/payroll/delete-gaji-man/") }}' + id,
 	                  async: false,
 	                  type: "DELETE",
@@ -254,6 +255,34 @@
 	                  }
 	              });
                  
+=======
+                   type: "get",
+                     url: '{{route('hapus_payroll')}}',
+                     data: {id},
+                     success: function(data){
+											if (data.status == 'berhasil') {
+												iziToast.success({
+											    title: 'OK',
+											    message: 'Successfully deleted record!',
+											});
+											table.ajax.reload();
+										} else {
+											iziToast.warning({
+										    title: 'Info',
+										    message: 'Failed deleted record!',
+										});
+										}
+                     },
+                     error: function(){
+                      iziToast.warning({
+                        icon: 'fa fa-times',
+                        message: 'Terjadi Kesalahan!',
+                      });
+                     },
+                     async: false
+                   });
+
+>>>>>>> 2044b44b6a66f66a26a88648d95146551e123225
                 }
               ],
               [
@@ -270,14 +299,65 @@
 
   }
 
-  function success(){
+	function edit(id){
+		$.ajax({
+			type: 'get',
+			data: {id:id},
+			dataType: 'json',
+			url: '{{route('edit_payroll')}}',
+			success : function(response){
+				$('#nm_gaji').val(response[0].nm_gaji);
+				$('#c_jabatanedit').val(response[0].c_jabatan);
+				$('#c_jabatanedit').find('option[value="'+response[0].c_jabatan+'"]').attr('selected','selected');
+	      var text = $('#c_jabatanedit').find('option[value="'+response[0].c_jabatan+'"]').text();
+				$('#select2-c_jabatanedit-container').text(text);
+				$('#c_sd').val(accounting.formatMoney(response[0].c_sd,"",2,'.',','));
+				$('#c_smp').val(accounting.formatMoney(response[0].c_smp,"",2,'.',','));
+				$('#c_sma').val(accounting.formatMoney(response[0].c_sma,"",2,'.',','));
+				$('#c_smk').val(accounting.formatMoney(response[0].c_smk,"",2,'.',','));
+				$('#c_d1').val(accounting.formatMoney(response[0].c_d1,"",2,'.',','));
+				$('#c_d2').val(accounting.formatMoney(response[0].c_d2,"",2,'.',','));
+				$('#c_d3').val(accounting.formatMoney(response[0].c_d3,"",2,'.',','));
+				$('#c_s1').val(accounting.formatMoney(response[0].c_s1,"",2,'.',','));
 
-  	iziToast.success({
-	    title: 'OK',
-	    message: 'Successfully deleted record!',
-	});
+				$('#updatem').attr('onclick', 'updatem('+id+')');
 
-  }
+				$('#editmanagement').modal('show');
+			}
+		});
+	}
+
+	function updatem(id){
+		$.ajax({
+			type: 'get',
+			data: $('#data_editm').serialize()+'&id='+id,
+			dataType: 'json',
+			url: '{{route('update_payroll')}}',
+			success : function(response){
+				if (response.status == 'berhasil') {
+					iziToast.success({
+						title: 'OK',
+						message: 'Successfully deleted record!',
+				});
+				table.ajax.reload();
+			} else {
+				iziToast.warning({
+					title: 'Info',
+					message: 'Failed deleted record!',
+			});
+			}
+			}
+		});
+	}
+
+  // function success(){
+	//
+  // 	iziToast.success({
+	//     title: 'OK',
+	//     message: 'Successfully deleted record!',
+	// });
+	//
+  // }
 
 </script>
 
