@@ -225,6 +225,7 @@
                     Master Data Customer
                     Master Data Vendor
                     Master Data Pegawai
+                    Master Data Jabatan
                     Master Data Akun Keuangan
                     Master Data Transaksi Keuangan
                     Master Data Barang
@@ -244,6 +245,7 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/vendor/vendor') ? 'active' : '' || Request::is('master/vendor/*') ? 'active' : '' }}" href="{{url('master/vendor/vendor')}}">Master Data Vendor</a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/customer/cust') ? 'active' : '' || Request::is('master/customer/*') ? 'active' : '' }}" href="{{url('master/customer/cust')}}">Master Data Customer</a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/pegawai/pegawai') ? 'active' : '' || Request::is('master/pegawai/*') ? 'active' : '' }}" href="{{url('master/pegawai/pegawai')}}">Master Data Pegawai</a></li>
+                  <li class="nav-item"> <a class="nav-link {{Request::is('master/jabatan/jabatan') ? 'active' : '' || Request::is('master/jabatan/*') ? 'active' : '' }}" href="{{url('master/jabatan/jabatan')}}">Master Data Jabatan</a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/akun/a_keuangan') ? 'active' : '' || Request::is('master/akun/*') ? 'active' : '' }}" href="{{url('master/akun/a_keuangan')}}">Master Data Akun Keuangan</a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/transaksi/t_keuangan') ? 'active' : '' || Request::is('master/transaksi/*') ? 'active' : '' }}" href="{{url('master/transaksi/t_keuangan')}}">Master Data Transaksi<br> Keuangan</a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/barang/barang') ? 'active' : '' || Request::is('master/barang/*') ? 'active' : '' }}" href="{{url('master/barang/barang')}}">Master Data Barang</a></li>
@@ -312,7 +314,7 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/salesorder/s_order') ? 'active' : '' || Request::is('order/salesorder/*') ? 'active' : '' }}" href="{{url('order/salesorder/s_order')}}"> Sales Order<span class="d-none">Order</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/cekbarang/cekbarang') ? 'active' : '' || Request::is('order/cekbarang/*') ? 'active' : '' }}" href="{{url('order/cekbarang/cekbarang')}}">Check Stock<span class="d-none">Order</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/workorder/w_order') ? 'active' : '' || Request::is('order/workorder/*') ? 'active' : '' }}" href="{{url('order/workorder/w_order')}}">Work Order<span class="d-none">Order</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('order/s_invoice/s_invoice') ? 'active' : '' || Request::is('order/s_invoice/*') ? 'active' : '' }}" href="{{url('order/s_invoice/s_invoice')}}">Sales Invoice<span class="d-none">Order</span></a></li>                  
+                  <li class="nav-item"> <a class="nav-link {{Request::is('order/s_invoice/s_invoice') ? 'active' : '' || Request::is('order/s_invoice/*') ? 'active' : '' }}" href="{{url('order/s_invoice/s_invoice')}}">Sales Invoice<span class="d-none">Order</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/payment_order') ? 'active' : '' || Request::is('order/payment_order/*') ? 'active' : '' }}" href="{{url('order/payment_order')}}">Payment Order<span class="d-none">Order</span></a></li>
                 </ul>
                 </div>
@@ -420,19 +422,14 @@
               <div class="collapse {{Request::is('hrd') ? 'show' : '' || Request::is('hrd/*') ? 'show' : '' }}" id="hrd">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/absensi/absensi') ? 'active' : '' || Request::is('hrd/absensi/*') ? 'active' : '' }}" href="{{url('hrd/absensi/absensi')}}">Absensi<span class="d-none">HRD</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/data_lembur/data_lembur') ? 'active' : '' || Request::is('hrd/data_lembur/*') ? 'active' : '' }}" href="{{url('hrd/data_lembur/data_lembur')}}">Data Lembur Pegawai<span class="d-none">HRD</span></a></li>
-                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll/payroll') ? 'active' : '' || Request::is('hrd/payroll/*') ? 'active' : '' }}" href="{{url('hrd/payroll/payroll')}}">Payroll<span class="d-none">HRD</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll_produksi/payroll_produksi') ? 'active' : '' || Request::is('hrd/payroll_produksi/*') ? 'active' : '' }}" href="{{url('hrd/payroll_produksi/payroll_produksi')}}">Payroll Pegawai Produksi<span class="d-none">HRD</span></a></li>
+                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll/payroll') ? 'active' : '' || Request::is('hrd/payroll/*') ? 'active' : '' }}" href="{{url('hrd/payroll/payroll')}}">Payroll<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll_manajemen/payroll_manajemen') ? 'active' : '' || Request::is('hrd/payroll_manajemen/*') ? 'active' : '' }}" href="{{url('hrd/payroll_manajemen/payroll_manajemen')}}">Payroll Pegawai Manajemen<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/scoreboard_pegawai/scoreboard_pegawai') ? 'active' : '' || Request::is('hrd/scoreboard_pegawai/*') ? 'active' : '' }}" href="{{url('hrd/scoreboard_pegawai/scoreboard_pegawai')}}">Scoreboard Pegawai<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/data_kpi/data_kpi') ? 'active' : '' || Request::is('hrd/data_kpi/*') ? 'active' : '' }}" href="{{url('hrd/data_kpi/data_kpi')}}">Data KPI<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_scoreboard/manajemen_scoreboard') ? 'active' : '' || Request::is('hrd/manajemen_scoreboard/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_scoreboard/manajemen_scoreboard')}}">Manajemen Scoreboard<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi') ? 'active' : '' || Request::is('hrd/manajemen_scoreboard_kpi/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi')}}">Scoreboard & KPI<span class="d-none">HRD</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/training_pegawai/training_pegawai') ? 'active' : '' || Request::is('hrd/training_pegawai/*') ? 'active' : '' }}" href="{{url('hrd/training_pegawai/training_pegawai')}}">Training Pegawai<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/recruitment/recruitment') ? 'active' : '' || Request::is('hrd/recruitment/*') ? 'active' : '' }}" href="{{url('hrd/recruitment/recruitment')}}">Recruitment<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_surat/manajemen_surat') ? 'active' : '' || Request::is('hrd/manajemen_surat/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_surat/manajemen_surat')}}">Manajemen Surat<span class="d-none">HRD</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/freelance/freelance') ? 'active' : '' || Request::is('hrd/freelance/*') ? 'active' : '' }}" href="{{url('hrd/freelance/freelance')}}">Freelance<span class="d-none">HRD</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/kesejahteraan/kesejahteraan') ? 'active' : '' || Request::is('hrd/kesejahteraan/*') ? 'active' : '' }}" href="{{url('hrd/kesejahteraan/kesejahteraan')}}">Kesejahteraan<span class="d-none">HRD</span></a></li>
                 </ul>
                 </div>
             </li>

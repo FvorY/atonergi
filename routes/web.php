@@ -468,18 +468,6 @@ Route::get('/master/type/type_hapus', 'MasterType\TypeController@type_hapus');
 Route::get('/master/type/type_update', 'MasterType\TypeController@type_update');
 Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_type')->name('datatable_type');
 
-    //Data Lembur
-    Route::get('/hrd/datalembur/get-lembur-by-tgl/{tgl1}/{tgl2}', 'Hrd\HlemburController@getLemburByTgl');
-    Route::get('/hrd/datalembur/lookup-data-divisi', 'Hrd\HlemburController@lookup_divisi');
-    Route::get('/hrd/datalembur/lookup-data-jabatan', 'Hrd\HlemburController@lookup_jabatan');
-    Route::get('/hrd/datalembur/lookup-data-pegawai', 'Hrd\HlemburController@lookup_pegawai');
-    Route::post('/hrd/datalembur/simpan-lembur', 'Hrd\HlemburController@simpanLembur');
-    Route::get('/hrd/datalembur/get-detail/{id}/{id2}', 'Hrd\HlemburController@getDataDetail');
-    Route::get('/hrd/datalembur/get-edit/{id}/{id2}', 'Hrd\HlemburController@getDataEdit');
-    Route::post('/hrd/datalembur/update-lembur', 'Hrd\HlemburController@updateLembur');
-    Route::post('/hrd/datalembur/delete-lembur', 'Hrd\HlemburController@deleteLembur');
-    Route::get('/hrd/datalembur/print/{id}/{id2}', 'Hrd\HlemburController@print');
-
     //Master jabatan
     Route::get('/master/jabatan/jabatan', 'JabatanController@index');
     Route::get('/master/jabatan/datatable_jabatan', 'JabatanController@datatable_jabatan')->name('datatable_jabatan');
