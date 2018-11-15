@@ -24,7 +24,7 @@
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="form-group">
-              <input type="number" class="form-control" name="mp_nik">
+              <input type="text" class="form-control" name="mp_nik">
             </div>
           </div>
            <div class="col-md-6 col-sm-6 col-xs-12">
@@ -35,8 +35,8 @@
               <input type="text" class="form-control" name="mp_name">
             </div>
           </div>
-
-
+           
+           
            <div class="col-md-6 col-sm-6 col-xs-12">
             <label>E-mail</label>
           </div>
@@ -59,10 +59,11 @@
           <div class="col-md-6 col-sm-6 col-xs-12" >
             <div class="form-group">
               <select class="form-control" name="mp_position">
-                <option value="">- Pilih -</option>
-                @foreach ($jabatan as $key => $value)
-                  <option value="{{$value->c_id}}">{{$value->c_posisi}}</option>
-                @endforeach
+                <option selected="" value="">- Pilih -</option>
+                <option>Manager</option>
+                <option>Pegawai</option>
+                <option>Magang</option>
+                <option></option>
               </select>
             </div>
           </div>
@@ -78,7 +79,7 @@
               </select>
             </div>
           </div>
-
+          
          </div>
         </form>
       </div>

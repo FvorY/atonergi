@@ -7,7 +7,7 @@
 <!-- partial -->
 <div class="content-wrapper">
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-12">	
 			<nav aria-label="breadcrumb" role="navigation">
 				<ol class="breadcrumb bg-info">
 					<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -31,7 +31,7 @@
 				      	<div class="card">
 					        <div class="card-body">
 					          	<h4 class="card-title">Data Lembur Pegawai</h4>
-
+								
 								<div class="row form-group">
 				                	<div class="col-lg-8 col-md-12 col-sm-12">
 					                	<label class="col-lg-12 col-form-label alamraya-no-padding">Periode</label>
@@ -117,7 +117,7 @@
 										  </tbody>
 										</table>
 									</div>
-
+									
 					        	</div>
 					      	</div>
 				    	</div>
@@ -132,7 +132,7 @@
 @section('extra_script')
 
 <script type="text/javascript">
-
+	
 	function hapus(){
 	// function hapus(parm){
     // var par   = $(parm).parents('tr');
@@ -141,7 +141,7 @@
     iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000,
+            timeout: 20000, 
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Important!',
@@ -161,8 +161,8 @@
                   //     console.log(data);
                   //     var table = $('#table-data-lembur').DataTable();
                   //     table.ajax.reload();
-
-
+                      
+                     
                   //    },
                   //    error: function(){
                   //     iziToast.warning({
@@ -172,7 +172,7 @@
                   //    },
                   //    async: false
                   //  });
-
+                 
                 }
               ],
               [

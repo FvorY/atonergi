@@ -254,14 +254,26 @@ Route::get('/finance/bookkeeping/transaksi_bank', 'FinanceController@transaksi_b
 Route::get('/finance/bookkeeping/transaksi_memorial', 'FinanceController@transaksi_memorial');
 Route::get('/finance/costmanajemen/costmanajemen', 'FinanceController@costmanajemen');
 
+
+
 // HRD
+
+
+// Sub-bagian absensi
+Route::get('/hrd/absensi/absensi', 'HRDController@absensi');
+Route::get('/hrd/absensi/absensi-manajemen', 'HRDController@findAbsManajemen');
+Route::get('/hrd/absensi/absensi-produksi', 'HRDController@findAbsManajemen');
+
+Route::post('/hrd/absensi/import-data-manajemen', 'HRDController@importDataManajemen');
+Route::post('/hrd/absensi/import-data-produksi', 'HRDController@importDataProduksi');
+// =========================================================
+
 Route::get('/hrd/recruitment/recruitment', 'HRDController@recruitment');
 Route::get('/hrd/payroll/payroll', 'HRDController@payroll');
 Route::get('/hrd/payroll/setting_tunjangan', 'HRDController@setting_tunjangan');
 Route::get('/hrd/freelance/freelance', 'HRDController@freelance');
 Route::get('/hrd/kesejahteraan/kesejahteraan', 'HRDController@kesejahteraan');
 Route::get('/hrd/data_kpi/data_kpi', 'HRDController@data_kpi');
-Route::get('/hrd/absensi/absensi', 'HRDController@absensi');
 Route::get('/hrd/data_lembur/data_lembur', 'HRDController@data_lembur');
 Route::get('/hrd/manajemen_scoreboard/manajemen_scoreboard', 'HRDController@manajemen_scoreboard');
 Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi', 'HRDController@manajemen_scoreboard_kpi');
