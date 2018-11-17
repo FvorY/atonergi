@@ -64,53 +64,9 @@
 				</div>
 
 				<div class="tab-pane fade " id="abstunjangan" role="tabpanel" aria-labelledby="tab-6-2">
-					<div class="col-lg-12 grid-margin stretch-card alamraya-no-padding">
-				      	<div class="card">
-					        <div class="card-body">
-					          <h4 class="card-title">Payroll Tunjangan</h4>
-					          	<div class="row">
 
-									<div class="col-md-12 col-sm-12 col-xs-12 alamraya-btn-add-row" align="right">
-										<a class="btn btn-warning " href="{{url('hrd/payroll/setting_tunjangan')}}"><i class="fa fa-cog"></i>&nbsp;&nbsp;Setting Tunjangan Pegawai</a>
-										<button class="btn btn-info" data-toggle="modal" data-target="#tambahtunjangan"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
-									</div>
-									<div class="table-responsive">
-										<table class="table table-hover data-table" cellspacing="0">
-										  <thead class="bg-gradient-info">
-										    <tr>
-										      <th>Nama</th>
-										      <th>Periode</th>
-										      <th>Nilai</th>
-										      <th>Aksi</th>
-										    </tr>
-										  </thead>
-										  <tbody class="center">
-										    <tr>
-										    	<td>Kehadiran (Leader)</td>
-										    	<td>Hari</td>
-										    	<td>
-										    		<div class="pull-left">Rp.</div>
-										    		<div class="pull-right">40.000,00</div>
-										    	</td>
-										    	<td>
-										    		<center>
-											    		<div class="btn-group">
-											    			<button type="button" class="btn btn-primary btn-lg alamraya-btn-aksi" title="edit" data-toggle="modal" data-target="#edittunjangan"><label class="fa fa-pencil-alt"></label></button>
-											    			<button type="button" class="btn btn-danger btn-lg alamraya-btn-aksi" title="hapus" onclick="hapus()">
-											    				<label class="fa fa-trash"></label>
-											    			</button>
-											    		</div>
-										    		</center>
-										    	</td>
-										    </tr>
-										  </tbody>
-										</table>
-									</div>
+				@include('hrd/payroll/include/tunjangan')
 
-					        	</div>
-					      	</div>
-				    	</div>
-					</div>
 				</div>
 
 			</div>
@@ -121,6 +77,8 @@
 @endsection
 @section('extra_script')
 
+@include('hrd/payroll/js/commander')
+@include('hrd/payroll/js/form_commander')
 <script type="text/javascript">
 
 var table;
@@ -172,7 +130,7 @@ function simpanm(){
     // var par   = $(parm).parents('tr');
     // var id    = $(par).find('.d_id').text();
 
-    iziToast.show({
+    	iziToast.show({
             overlay: true,
             close: false,
             timeout: 20000,
@@ -188,22 +146,23 @@ function simpanm(){
                 function (instance, toast) {
 
                   $.ajax({
-                   type: "get",
+                     type: "get",
                      url: '{{route('hapus_payroll')}}',
                      data: {id},
                      success: function(data){
-											if (data.status == 'berhasil') {
-												iziToast.success({
-											    title: 'OK',
-											    message: 'Successfully deleted record!',
-											});
-											table.ajax.reload();
-										} else {
-											iziToast.warning({
-										    title: 'Info',
-										    message: 'Failed deleted record!',
-										});
-										}
+						if (data.status == 'berhasil') {
+							iziToast.success({
+							    title: 'OK',
+							    message: 'Successfully deleted record!',
+							});
+							table.ajax.reload();
+						} 
+						else {
+							iziToast.warning({
+							    title: 'Info',
+							    message: 'Failed deleted record!',
+							});
+						}
                      },
                      error: function(){
                       iziToast.warning({
