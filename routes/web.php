@@ -269,8 +269,17 @@ Route::post('/hrd/absensi/import-data-produksi', 'HRDController@importDataProduk
 // =========================================================
 
 Route::get('/hrd/recruitment/recruitment', 'HRDController@recruitment');
+
+// Sub-bagian tunjangan
 Route::get('/hrd/payroll/payroll', 'HRDController@payroll');
+Route::get('/hrd/payroll/find-tunjangan', 'HRDController@findTunjangan');
+Route::post('/hrd/payroll/insert-tunjangan', 'HRDController@insertTunjangan');
+Route::post('/hrd/payroll/update-tunjangan', 'HRDController@updateTunjangan');
+Route::post('/hrd/payroll/hapus-tunjangan', 'HRDController@hapusTunjangan')->name('hapus_tunjangan');
+
 Route::get('/hrd/payroll/setting_tunjangan', 'HRDController@setting_tunjangan');
+// ====================================================================
+
 Route::get('/hrd/freelance/freelance', 'HRDController@freelance');
 Route::get('/hrd/kesejahteraan/kesejahteraan', 'HRDController@kesejahteraan');
 Route::get('/hrd/data_kpi/data_kpi', 'HRDController@data_kpi');
