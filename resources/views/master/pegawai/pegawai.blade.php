@@ -6,7 +6,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-  	<div class="col-lg-12">	
+  	<div class="col-lg-12">
   		<nav aria-label="breadcrumb" role="navigation">
   			<ol class="breadcrumb bg-info">
   				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -36,11 +36,11 @@
   				                          </thead>
 
   				                          <tbody>
-  				                          
+
   				                          </tbody>
 
-  				                          
-  				            </table> 
+
+  				            </table>
   				          </div>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
-	
+
 
     $('#table-pegawai').DataTable({
             processing: true,
@@ -65,7 +65,7 @@
                   {
                      targets: 0 ,
                      className: 'center d_id'
-                  }, 
+                  },
                 ],
             "columns": [
             { "data": "mp_kode" },
@@ -80,16 +80,15 @@
   $('#button_add').click(function(){
     var mp_name      = $("input[name='mp_name']").val('');
     var mp_nik       = $("input[name='mp_nik']").val('');
-    var mp_tlp       = $("input[name='mp_phone']").val(''); 
-    var mp_email     = $("input[name='mp_email']").val(''); 
-    var mp_address   = $("textarea#mp_address").val(''); 
-    var mp_status    = $("select[name='mp_status']").val('').trigger('change'); 
-    var mp_position  = $("select[name='mp_position']").val('').trigger('change'); 
+    var mp_tlp       = $("input[name='mp_phone']").val('');
+    var mp_email     = $("input[name='mp_email']").val('');
+    var mp_address   = $("textarea#mp_address").val('');
+    var mp_status    = $("select[name='mp_status']").val('').trigger('change');
+    var mp_position  = $("select[name='mp_position']").val('').trigger('change');
     $.ajax({
          type: "get",
          url:'{{ route('kode_pegawai') }}',
          success: function(data){
-         	console.log(data);
             var mp_id   = $("input[name='mp_id']").val(data[0]);
          },
          async: false
@@ -158,14 +157,14 @@
      	 $('#tambah').modal('hide');
           var table = $('#table-pegawai').DataTable();
           table.ajax.reload();
-          console.log(data);
             var mp_name      = $("input[name='mp_name']").val(data[0].mp_name);
             var mp_nik       = $("input[name='mp_nik']").val(data[0].mp_nik);
-            var mp_tlp       = $("input[name='mp_phone']").val(data[0].mp_phone); 
-            var mp_email     = $("input[name='mp_email']").val(data[0].mp_email); 
-            var mp_address   = $("textarea#mp_address").val(data[0].mp_address); 
-            var mp_status    = $("select[name='mp_status']").val(data[0].mp_status).trigger('change'); 
-            var mp_position  = $("select[name='mp_position']").val(data[0].mp_position).trigger('change'); 
+            var mp_tlp       = $("input[name='mp_phone']").val(data[0].mp_phone);
+            var mp_email     = $("input[name='mp_email']").val(data[0].mp_email);
+            var mp_address   = $("textarea#mp_address").val(data[0].mp_address);
+            var mp_pendidikan= $("input[name=pendidikan][value=" + data[0].mp_pendidikan + "]").prop('checked', true);
+            var mp_status    = $("select[name='mp_status']").val(data[0].mp_status).trigger('change');
+            var mp_position  = $("select[name='mp_position']").val(data[0].mp_position).trigger('change');
             var mp_id        = $("input[name='mp_id']").val(data[0].mp_kode);
 
             $('#change_function').html('<button class="btn btn-primary" type="button" onclick="update()">Update Data</button>')
@@ -187,7 +186,7 @@
     iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Important!',
@@ -204,11 +203,10 @@
                      url: baseUrl + '/master/hapuspegawai/hapus_pegawai',
                      data: {id},
                      success: function(data){
-                      console.log(data);
                       var table = $('#table-pegawai').DataTable();
           			  table.ajax.reload();
-                      
-                     
+
+
                      },
                      error: function(){
                       iziToast.warning({
@@ -218,7 +216,7 @@
                      },
                      async: false
                    });
-                 
+
                 }
               ],
               [

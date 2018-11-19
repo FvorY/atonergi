@@ -6,7 +6,7 @@
 <!-- partial -->
 <div class="content-wrapper">
 	<div class="row">
-		<div class="col-lg-12">	
+		<div class="col-lg-12">
 			<nav aria-label="breadcrumb" role="navigation">
 				<ol class="breadcrumb bg-info">
 					<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -15,7 +15,7 @@
 				</ol>
 			</nav>
 		</div>
-		
+
 		<div class="col-lg-12 alamraya-row-nav">
 			<ul class="nav nav-tabs tab-solid tab-solid-primary alamraya-navtab" role="tablist">
 		        <li class="nav-item">
@@ -30,6 +30,19 @@
 				      	<div class="card">
 					        <div class="card-body">
 					          <h4 class="card-title">Payroll Pegawai Manajemen</h4>
+										<div class="row ">
+				          		<form method="POST" enctype="multipart/form-data" action="{{ url('/hrd/absensi/import-data-manajemen') }}" style="width: 100%">
+				          			{{csrf_field()}}
+					          		<div class="col-md-12 ">
+						          		<label class="col-lg-12 col-form-label alamraya-no-padding">Upload File Absensi (Maks. 5mb)</label>
+						          		<input type="file" name="file-manajemen" class="dropify" data-height="100" data-max-file-size="5000kb"/>
+						          	</div>
+
+						          	<div class="col-md-12" style="margin-top: 2mm">
+						          		<button class="btn btn-primary" type="submit">Upload</button>
+						          	</div>
+				          		</form>
+				            </div><br>
 					          	<div class="row form-group">
 				              	  	<div class="col-lg-6 col-md-12 col-sm-12">
 					                	<label class="col-lg-12 col-form-label alamraya-no-padding">Divisi</label>
@@ -104,7 +117,7 @@
 									</div>
 				                </div>
 					          	<div class="row">
-					          		
+
 									<div class="table-responsive">
 										<table class="table table-hover data-table" cellspacing="0">
 										  <thead class="bg-gradient-info">
@@ -149,7 +162,7 @@
 										  </tbody>
 										</table>
 									</div>
-									
+
 					        	</div>
 					      	</div>
 				    	</div>
@@ -164,7 +177,7 @@
 @section('extra_script')
 
 <script type="text/javascript">
-	
+
 	function hapus(){
 	// function hapus(parm){
     // var par   = $(parm).parents('tr');
@@ -173,7 +186,7 @@
     iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Important!',
@@ -193,8 +206,8 @@
                   //     console.log(data);
                   //     var table = $('#table-data-lembur').DataTable();
                   //     table.ajax.reload();
-                      
-                     
+
+
                   //    },
                   //    error: function(){
                   //     iziToast.warning({
@@ -204,7 +217,7 @@
                   //    },
                   //    async: false
                   //  });
-                 
+
                 }
               ],
               [

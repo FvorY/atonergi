@@ -35,8 +35,41 @@
               <input type="text" class="form-control" name="mp_name">
             </div>
           </div>
-           
-           
+          <div class="col-md-6 col-sm-6 col-xs-12">
+           <label>Education</label>
+         </div>
+         <div class="col-md-6 col-sm-6 col-xs-12">
+           <div class="form-group">
+             <div class="radio radio-primary radio-inline col-sm-2">
+                 <input type="radio" id="sd" value="SD" name="pendidikan" checked="">
+                 <label for="sd"> SD </label>
+              </div>
+              <div class="radio radio-primary radio-inline col-sm-2">
+                  <input type="radio" id="sma" value="SMA" name="pendidikan">
+                  <label for="sma"> SMA </label>
+               </div>
+               <div class="radio radio-primary radio-inline col-sm-2">
+                   <input type="radio" id="smk" value="SMK" name="pendidikan">
+                   <label for="smk"> SMK </label>
+                </div>
+                <div class="radio radio-primary radio-inline col-sm-2">
+                    <input type="radio" id="d1" value="D1" name="pendidikan">
+                    <label for="d1"> D1 </label>
+                 </div>
+                 <div class="radio radio-primary radio-inline col-sm-2">
+                     <input type="radio" id="d2" value="D2" name="pendidikan">
+                     <label for="d2"> D2 </label>
+                  </div>
+                  <div class="radio radio-primary radio-inline col-sm-2">
+                      <input type="radio" id="d3" value="D3" name="pendidikan">
+                      <label for="d3"> D3 </label>
+                   </div>
+                   <div class="radio radio-primary radio-inline col-sm-2">
+                       <input type="radio" id="s1" value="S1" name="pendidikan">
+                       <label for="s1"> S1 </label>
+                    </div>
+           </div>
+         </div>
            <div class="col-md-6 col-sm-6 col-xs-12">
             <label>E-mail</label>
           </div>
@@ -71,15 +104,14 @@
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="mp_position">
-                <option value="">- Pilih -</option>
-                @foreach ($jabatan as $key => $value)
-                  <option value="{{$value->c_id}}">{{$value->c_posisi}}</option>
-                @endforeach
+              <select class="form-control" name="mp_status">
+                <option selected="" value="">- Pilih -</option>
+                <option>Lajang</option>
+                <option>Sudah Menikah</option>
               </select>
             </div>
           </div>
-          
+
          </div>
         </form>
       </div>
