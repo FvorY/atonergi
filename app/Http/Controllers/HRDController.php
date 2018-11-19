@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\abs_pegawai_man;
 use App\abs_pegawai_pro;
 use App\Divisi;
-use App\M_tunjangan_man;
 // ===================================
 
 // Menarik plugin
@@ -27,15 +26,15 @@ class HRDController extends Controller
     }
 
     public function findAbsManajemen(Request $req) {
-        
+
         $abs = new abs_pegawai_man();
         $data = $abs;
 
         if(isset($req)) {
 
             $tgl_awal = $req->tgl_awal == null ? '' : $req->tgl_awal;
-            $tgl_akhir = $req->tgl_akhir == null ? '' : $req->tgl_akhir;     
-            $id_divisi = $req->id_divisi == null ? '' : $req->id_divisi;     
+            $tgl_akhir = $req->tgl_akhir == null ? '' : $req->tgl_akhir;
+            $id_divisi = $req->id_divisi == null ? '' : $req->id_divisi;
 
             if($id_divisi != '') {
                 $data = $data::where('apm_nama', "(SELECT mp_name FROM m_pegawai P LEFT JOIN m_jabatan J ON mp_position = c_id WHERE c_divisi_id = $id_divisi)");
@@ -55,15 +54,15 @@ class HRDController extends Controller
     }
 
     public function findAbsProduksi(Request $req) {
-        
+
         $abs = new abs_pegawai_pro();
         $data = $abs;
 
         if(isset($req)) {
 
             $tgl_awal = $req->tgl_awal == null ? '' : $req->tgl_awal;
-            $tgl_akhir = $req->tgl_akhir == null ? '' : $req->tgl_akhir;     
-            $id_divisi = $req->id_divisi == null ? '' : $req->id_divisi;     
+            $tgl_akhir = $req->tgl_akhir == null ? '' : $req->tgl_akhir;
+            $id_divisi = $req->id_divisi == null ? '' : $req->id_divisi;
 
             if($id_divisi != '') {
                 $data = $data::where('app_nama', "(SELECT mp_name FROM m_pegawai P LEFT JOIN m_jabatan J ON mp_position = c_id WHERE c_divisi_id = $id_divisi)");
@@ -165,8 +164,6 @@ class HRDController extends Controller
     {
         return view('hrd/manajemen_surat/manajemen_surat');
     }
-
-    // Bagian payroll
     public function payroll()
     {
         $jabatan = DB::table('m_jabatan')
@@ -174,62 +171,6 @@ class HRDController extends Controller
 
         return view('hrd/payroll/payroll', compact('jabatan'));
     }
-
-    public function findTunjangan(Request $req) {
-        $tunj = new M_tunjangan_man();
-        $data = $tunj->take(500)->get();
-        $result = "{\"data\" : $data}";
-
-        return response($result, 200)->header('Content-Type', 'application/json');
-    }
-
-    public function insertTunjangan(Request $req) {
-        $tunj = new M_tunjangan_man();
-
-        $tunj->tman_levelpeg = $req->tman_levelpeg;
-        $tunj->tman_nama = $req->tman_nama;
-        $tunj->tman_periode = $req->tman_periode;
-        $value = str_replace('.', '', $req->tman_value);
-        $value = str_replace(',', '.', $value);
-        $tunj->tman_value = $value;
-
-        $tunj->save();
-        $result = "{\"status\" : 1}";
-
-        return response($result, 200)->header('Content-Type', 'application/json');
-    }
-
-    public function hapusTunjangan(Request $req) {
-        $id = $req->tman_id;
-        if($id != null || $id != '') {
-            $tunj = new M_tunjangan_man();
-            $data = $tunj->find($id);
-            $data->delete();
-            return response('{"status" : 1}', 200)->header('Content-Type', 'application/json');
-        }
-        else {
-            return response('{"status" : 0}', 200)->header('Content-Type', 'application/json');
-        }
-    }
-
-    public function updateTunjangan(Request $req) {
-        $tunj = new M_tunjangan_man();
-        $data = $tunj->find( $req->tman_id );
-
-        $data->tman_levelpeg = $req->tman_levelpeg;
-        $data->tman_nama = $req->tman_nama;
-        $data->tman_periode = $req->tman_periode;
-
-        $value = str_replace('.', '', $req->tman_value);
-        $value = str_replace(',', '.', $value);
-        $tunj->tman_value = $value;
-
-        $data->save();
-        $result = "{\"status\" : 1}";
-
-        return response($result, 200)->header('Content-Type', 'application/json');
-    }
-    // ============================================================
     public function payroll_manajemen()
     {
         return view('hrd/payroll_manajemen/payroll_manajemen');
