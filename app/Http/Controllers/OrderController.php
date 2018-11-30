@@ -307,7 +307,7 @@ class OrderController extends Controller
     public function cekbarang()
     {
       $data = DB::table('i_stock_gudang')
-                ->join('m_item', 'i_code', '=', 'sg_iditem')
+                ->leftjoin('m_item', 'i_code', '=', 'sg_iditem')
                 ->select('sg_iditem', 'i_name', 'sg_qty', DB::raw('sg_qty as sum'), DB::raw('sg_qty as deficieny'))
                 ->get();
 
@@ -320,7 +320,7 @@ class OrderController extends Controller
       for ($i=0; $i < count($data); $i++) {
           $data[$i]->deficieny = (int)$data[$i]->sum - (int)$data[$i]->sg_qty;
       }
-
+      
     	return view('order/cekbarang/cekbarang', compact('data'));
     }
     public function detailbarang($id){
