@@ -33,11 +33,7 @@
                         <td>{{ $e->qd_item }}</td>
                         <td>{{ $e->i_name }}</td>
                         <td>{{ $e->qd_qty }}</td>
-                        @if ($e->qd_description == "null")
-                          <td></td>
-                        @else
-                          <td>{{ $e->qd_description }}</td>
-                        @endif
+                        <td>{{ $e->qd_description }}</td>
                       </tr>
                     @endforeach
                  </tbody>

@@ -20,6 +20,9 @@
 		        <li class="nav-item">
 		          <a class="nav-link active" id="tab-6-1" data-toggle="tab" href="#absmanajemen" role="tab" aria-controls="absmanajemen" aria-selected="true"><i class="mdi mdi-home-outline"></i>Absensi Manajemen</a>
 		        </li>
+		        <li class="nav-item">
+		          <a class="nav-link" id="tab-6-2" data-toggle="tab" href="#absproduksi" role="tab" aria-controls="absproduksi" aria-selected="false"><i class="mdi mdi-account-outline"></i>Absensi Produksi</a>
+		        </li>
 		    </ul>
 
 			<div class="tab-content tab-content-solid col-lg-12">

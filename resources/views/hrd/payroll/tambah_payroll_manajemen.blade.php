@@ -24,7 +24,7 @@
               <label>Jabatan</label>
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="form-group">                
+              <div class="form-group">
                 <select class="form-control form-control-sm select2" name="c_jabatan" id="filter">
                   <option value="">--Pilih--</option>
                   @foreach ($jabatan as $key => $value)

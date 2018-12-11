@@ -5,7 +5,7 @@
 <!-- partial -->
 <div class="content-wrapper">
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-12">	
 			<nav aria-label="breadcrumb" role="navigation">
 				<ol class="breadcrumb bg-info">
 					<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -19,7 +19,7 @@
 		        <div class="card-body">
 		          <h4 class="card-title">Check Stock</h4>
 		          	<div class="row">
-
+		          		
 						<div class="table-responsive">
 							<table class="table table-hover data-table" cellspacing="0">
 							  <thead class="bg-gradient-info">
@@ -32,19 +32,11 @@
 							    </tr>
 							  </thead>
 							  <tbody>
-									@foreach ($data as $key => $value)
-								    <tr>
-								    	<td>{{$value->sg_iditem}}</td>
-											<td>{{$value->i_name}}</td>
-											<td><a href="{{url('/order/cekbarang/detail')}}/{{encrypt($value->sg_iditem)}}">{{$value->sum}}</a></td>
-											<td>{{$value->sg_qty}}</td>
-											<td>{{$value->deficieny}}</td>
-								    </tr>
-									@endforeach
+							    
 							  </tbody>
 							</table>
 						</div>
-
+						
 		        	</div>
 		      	</div>
 	    	</div>

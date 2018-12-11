@@ -491,8 +491,4 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/hrd/payroll/hapus_payroll', 'payrollController@hapus_payroll')->name('hapus_payroll');
     Route::get('/hrd/payroll/edit_payroll', 'payrollController@edit_payroll')->name('edit_payroll');
     Route::get('/hrd/payroll/update_payroll', 'payrollController@update_payroll')->name('update_payroll');
-
-    //Payroll Management
-    Route::get('/hrd/payroll_manajemen/import-data-payrollman', 'payrollmanController@importpayrollman');
-    Route::post('/hrd/payroll_manajemen/import-data-payrollman', 'payrollmanController@importpayrollman');
 }); // End Route Groub middleware auth
