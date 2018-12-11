@@ -41,6 +41,6 @@
 @endsection
 @section('extra_script')
 
-@include('hrd/Absensi/js/commander')
+@include('hrd/absensi/js/commander')
 
 @endsection
