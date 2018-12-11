@@ -1,4 +1,3 @@
-
 					<div class="col-lg-12 grid-margin stretch-card alamraya-no-padding">
 				      	<div class="card">
 					        <div class="card-body">
@@ -20,7 +19,7 @@
 										    </tr>
 										  </thead>
 										  <tbody class="center">
-										    
+
 										  </tbody>
 										</table>
 									</div>
