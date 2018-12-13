@@ -36,15 +36,11 @@
 
 					                	<div class="col-lg-12 col-md-12 col-sm-12 alamraya-no-padding">
 											<div class="form-group">
-												<select class="form-control form-control-sm" id="filter">
-													<option value="all">Tampilkan Semua</option>
-													<option value="hrd">HRD dan General Affair</option>
-													<option value="keu">Keuangan dan Akuntansi</option>
-													<option value="snm">Sales dan Marketing</option>
-													<option value="prd">Produksi</option>
-													<option value="gnp">Gudang dan Pengiriman</option>
-													<option value="opr">Operator</option>
-													<option value="gmr">General Manager</option>
+												<select class="form-control form-control-sm" id="searchdivisi">
+													<option value="">Tampilkan Semua</option>
+													@foreach ($divisi as $key => $value)
+														<option value="{{$value->c_id}}">{{$value->c_divisi}}</option>
+													@endforeach
 												</select>
 											</div>
 										</div>
@@ -54,10 +50,10 @@
 
 					                	<div class="col-lg-12 col-md-12 col-sm-12 alamraya-no-padding">
 											<div class="form-group">
-												<select class="form-control form-control-sm" id="filter">
-													<option value="all">Tampilkan Semua</option>
-													<option value="nprtd">Sudah Dicetak</option>
-													<option value="uprtd">Belum Dicetak</option>
+												<select class="form-control form-control-sm" id="searchstatus">
+													<option value="">Tampilkan Semua</option>
+													<option value="Y">Sudah Dicetak</option>
+													<option value="N">Belum Dicetak</option>
 												</select>
 											</div>
 										</div>
@@ -70,8 +66,8 @@
 					                	<div class="col-lg-12 col-md-12 col-sm-12">
 					                		<div class="row">
 												<div class="col-lg-4 col-md-4 col-sm-12 alamraya-no-padding">
-													<div id="datepicker-popup" class="input-group date datepicker">
-								                        <input type="text" class="form-control" placeholder="dd-mm-yyyy">
+													<div class="input-group date datepicker">
+								                        <input type="text" class="form-control" id="searchstart" placeholder="dd-mm-yyyy">
 								                        <div class="input-group-addon">
 								                          <span class="mdi mdi-calendar"></span>
 								                        </div>
@@ -81,8 +77,8 @@
 													-
 												</span>
 												<div class="col-lg-4 col-md-4 col-sm-12 alamraya-no-padding">
-													<div id="datepicker-popup" class="input-group date datepicker">
-								                        <input type="text" class="form-control" placeholder="dd-mm-yyyy">
+													<div class="input-group date datepicker">
+								                        <input type="text" class="form-control" id="searchend" placeholder="dd-mm-yyyy">
 								                        <div class="input-group-addon">
 								                          <span class="mdi mdi-calendar"></span>
 								                        </div>
@@ -90,10 +86,10 @@
 												</div>
 												<div class="col-lg-3 col-md-3 col-sm-12 alamraya-no-padding alamraya-opt-btn">
 													<span class="input-group-append">
-														<button type="button" class="btn btn-primary btn-sm icon-btn ml-2">
+														<button type="button" class="btn btn-primary btn-sm icon-btn ml-2" onclick="search()">
 							                              <i class="fa fa-search"></i>
 							                            </button>
-							                            <button type="button" class="btn btn-info btn-sm icon-btn ml-2" >
+							                            <button type="button" class="btn btn-info btn-sm icon-btn ml-2" onclick="refresh()">
 							                              <i class="fa fa-refresh"></i>
 							                            </button>
 							                        </span>
@@ -106,46 +102,20 @@
 					          	<div class="row">
 
 									<div class="table-responsive">
-										<table class="table table-hover data-table" cellspacing="0">
+										<table class="table table-hover" cellspacing="0" id="table_data">
 										  <thead class="bg-gradient-info">
 										    <tr>
 										      <th>Kode</th>
 										      <th>Tanggal</th>
 										      <th>Periode</th>
-										      <th>NIP</th>
 										      <th>Nama Pegawai</th>
 										      <th>Total Gaji</th>
-										      <th>Tanggal Cetak</th>
+													<th>Status</th>
 										      <th>Aksi</th>
 										    </tr>
 										  </thead>
-										  <tbody class="center">
-										    <tr>
-												<td>#123456789</td>
-												<td>12-12-2018</td>
-												<td>
-													<div class="pull-left">12-12-2018</div><br>
-													<div class="center">s/d</div>
-										    		<div class="pull-right">12-12-2018</div>
-												</td>
-												<td>#123456789</td>
-												<td>Nasikhatul Insaniyah</td>
-												<td>
-													<div class="pull-left">Rp.</div>
-										    		<div class="pull-right">1.430.000,00</div>
-												</td>
-												<td>12-12-2018</td>
-												<td>
-													<center>
-											    		<div class="btn-group">
-											    			<button type="button" class="btn btn-warning btn-lg alamraya-btn-aksi" title="lihat" data-toggle="modal" data-target="#detailpayman"><label class="fa fa-info-circle"></label></button>
-											    			<button type="button" class="btn btn-danger btn-lg alamraya-btn-aksi" title="hapus" onclick="hapus()">
-											    				<label class="fa fa-trash"></label>
-											    			</button>
-											    		</div>
-										    		</center>
-												</td>
-										    </tr>
+										  <tbody class="center" id="tbodytable">
+
 										  </tbody>
 										</table>
 									</div>
@@ -164,12 +134,75 @@
 @section('extra_script')
 
 <script type="text/javascript">
+var table = $('#table_data').DataTable();
+$('.rp').maskMoney({
+          prefix: 'Rp. ',
+          decimal: ',',
+          thousands: '.',
+          precision: 0
+      });
 
-	function hapus(){
-	// function hapus(parm){
-    // var par   = $(parm).parents('tr');
-    // var id    = $(par).find('.d_id').text();
+	$(document).ready(function (){
+		table = $('#table_data').DataTable();
 
+		table_data();
+	});
+
+	function table_data(){
+		var divisi = $('#searchdivisi').val();
+		var status = $('#searchstatus').val();
+		var start = $('#searchstart').val();
+		var end = $('#searchend').val();
+			$.ajax({
+				type: 'get',
+				dataType: 'json',
+				url: baseUrl + '/hrd/payroll/payrollman/datatable?divisi='+divisi+'&status='+status+'&start='+start+'&end='+end,
+				success : function(response){
+					if (response.length == 0) {
+						$('#tbodytable').html('<td valign="top" colspan="7" class="dataTables_empty">No data available in table</td>');
+					} else {
+						table.clear();
+						for (var i = 0; i < response.length; i++) {
+							if (response[i].p_status_cetak == 'Y') {
+								var status = '<span class="badge badge-primary">Sudah Dicetak</span>';
+							} else {
+								var status = '<span class="badge badge-warning">Belum Dicetak</span>';
+							}
+							table.row.add([
+								response[i].p_kode,
+								response[i].p_date,
+								'<div class="pull-left">'+response[i].p_periode_start+'</div><br><div class="center">s/d</div><div class="pull-right">'+response[i].p_periode_end+'</div>',
+								response[i].mp_name,
+								'Rp. '+accounting.formatMoney(response[i].p_total_gaji,"",0,'.',','),
+								status,
+								'<center>'+
+										'<div class="btn-group">'+
+											'<button type="button" class="btn btn-warning btn-lg alamraya-btn-aksi" title="lihat" onclick="detail('+response[i].p_id+')"><label class="fa fa-info-circle"></label></button>'+
+											'<button type="button" class="btn btn-danger btn-lg alamraya-btn-aksi" title="hapus" onclick="hapus('+response[i].p_id+')">'+
+												'<label class="fa fa-trash"></label>'+
+											'</button>'+
+										'</div>'+
+									'</center>'
+							]).draw(false);
+						}
+					}
+				}
+			});
+	}
+
+	function refresh(){
+		$('#searchdivisi').val('').trigger('change');
+		$('#searchstatus').val('').trigger('change');
+		$('#searchstart').val('');
+		$('#searchend').val('');
+		table_data();
+	}
+
+	function search(){
+		table_data();
+	}
+
+	function hapus(id){
     iziToast.show({
             overlay: true,
             close: false,
@@ -185,26 +218,32 @@
                 '<button style="background: rgb(190, 0, 0); color: white;" onclick="success()">Delete</button>',
                 function (instance, toast) {
 
-                  // $.ajax({
-                  //  type: "get",
-                  //    url: baseUrl + '/hrd/data_lembur/hapus_data_lembur',
-                  //    data: {id},
-                  //    success: function(data){
-                  //     console.log(data);
-                  //     var table = $('#table-data-lembur').DataTable();
-                  //     table.ajax.reload();
-
-
-                  //    },
-                  //    error: function(){
-                  //     iziToast.warning({
-                  //       icon: 'fa fa-times',
-                  //       message: 'Terjadi Kesalahan!',
-                  //     });
-                  //    },
-                  //    async: false
-                  //  });
-
+                  $.ajax({
+                   	 type: "get",
+                     url: baseUrl + '/hrd/payroll/payrollman/hapus',
+                     data: {id},
+										 dataType: 'json',
+                     success: function(data){
+											 if (data.status == 'berhasil') {
+												 table_data();
+												 iziToast.success({
+													 title: 'OK',
+													 message: 'Successfully!',
+												 });
+											 } else {
+												 iziToast.warning({
+													 title: 'info',
+													 message: 'Failed!',
+											 });
+											 }
+                     },
+                     error: function(){
+                      iziToast.warning({
+                        icon: 'fa fa-times',
+                        message: 'Terjadi Kesalahan!',
+                      });
+                     },
+                   });
                 }
               ],
               [
@@ -217,18 +256,172 @@
               ]
             ]
           });
-
-
   }
+	// 
+  // function success(){
+	//
+  // 	iziToast.success({
+	//     title: 'OK',
+	//     message: 'Successfully deleted record!',
+	// });
+	//
+  // }
 
-  function success(){
+	function simpan(){
+		$.ajax({
+			type: 'get',
+			data: $('#formtambah').serialize(),
+			dataType: 'json',
+			url: '{{route('payroll_manajemen_simpan')}}',
+			success : function(response){
+				if (response.status == 'berhasil') {
+					iziToast.success({
+						title: 'OK',
+						message: 'Successfully!',
+					});
+					table_data();
+						$(".input").val('');
+			      $(".select").val('').trigger('change');
+						$('#tambahpayman').modal('hide');
+				} else {
+					iziToast.warning({
+						title: 'info',
+						message: 'Failed!',
+				});
+				}
+			}
+		});
+	}
 
-  	iziToast.success({
-	    title: 'OK',
-	    message: 'Successfully deleted record!',
-	});
+	function getdivisi(){
+		var divisi = $('#divisi').val();
+		var html = '<option value="">--Pilih--</option>';
+		$.ajax({
+			type: 'get',
+			data: {divisi:divisi},
+			dataType: 'json',
+			url: baseUrl + '/hrd/payroll/payrollman/getdivisi',
+			success : function(response) {
+				for (var i = 0; i < response.length; i++) {
+					html += '<option value="'+response[i].c_id+'">'+response[i].c_posisi+'</option>';
+				}
+				$('#jabatan').html(html);
+				$('#jabatan').attr('disabled', false);
+			}
+		});
+	}
 
-  }
+	function getjabatan(){
+		var jabatan = $('#jabatan').val();
+		var html = '<option value="">--Pilih--</option>';
+		$.ajax({
+			type: 'get',
+			data: {jabatan:jabatan},
+			dataType: 'json',
+			url: baseUrl + '/hrd/payroll/payrollman/getjabatan',
+			success : function(response) {
+				for (var i = 0; i < response.length; i++) {
+					html += '<option value="'+response[i].mp_id+'">'+response[i].mp_name+'</option>';
+				}
+				$('#pegawai').html(html);
+				$('#pegawai').attr('disabled', false);
+			}
+		});
+	}
+
+	function proses(){
+		var pegawai = $('#pegawai').val();
+		$.ajax({
+			type: 'get',
+			data: {pegawai:pegawai},
+			dataType: 'json',
+			url: baseUrl + '/hrd/payroll/payrollman/proses',
+			success : function(response){
+				$('input[name=gaji]').val('Rp. '+accounting.formatMoney(response.gaji,"",0,'.',','));
+				$('input[name=tunjangan]').val('Rp. '+accounting.formatMoney(response.tunjangan.tunjangan,"",0,'.',','))
+				total();
+			}
+		});
+	}
+
+	function total(){
+		var gaji = $('input[name=gaji]').val();
+		var tunjangan = $('input[name=tunjangan]').val();
+		var potongan = $('input[name=potongan]').val();
+
+		if (gaji == '') {
+			gaji = '0';
+		} else if (tunjangan == '') {
+			tunjangan = '0';
+		} else if (potongan == '') {
+			potongan = '0';
+		}
+
+		gaji = gaji.replace('Rp. ', '');
+		tunjangan = tunjangan.replace('Rp. ', '');
+		potongan = potongan.replace('Rp. ', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+		gaji = gaji.replace('.', '');
+		tunjangan = tunjangan.replace('.', '');
+		potongan = potongan.replace('.', '');
+
+		var total = (parseInt(gaji) + parseInt(tunjangan)) - parseInt(potongan);
+
+		$('input[name=total]').val('Rp. ' + accounting.formatMoney(total,"",0,'.',','));
+	}
+
+	function autopotongan(){
+		total();
+	}
+
+	function autotunjangan(){
+		total();
+	}
+
+	function autogaji(){
+		total();
+	}
 
 </script>
 

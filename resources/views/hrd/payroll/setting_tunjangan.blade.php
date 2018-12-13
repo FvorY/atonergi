@@ -37,12 +37,11 @@
 										<a class="btn btn-info" href="{{url('hrd/payroll/payroll')}}"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Kembali</a>
 									</div>
 									<div class="table-responsive">
-										<table class="table table-hover data-table" cellspacing="0">
+										<table class="table table-hover" cellspacing="0" id="ferdytable">
 										  <thead class="bg-gradient-info">
 										    <tr>
-										      <th>ID</th>
 										      <th>Nama</th>
-										      <th>NIP</th>
+										      <th>NIK</th>
 										      <th>Divisi</th>
 										      <th>Jabatan</th>
 										      <th>Tunjangan</th>
@@ -50,33 +49,7 @@
 										    </tr>
 										  </thead>
 										  <tbody class="center">
-										    <tr>
-										    	<td>1</td>
-										    	<td>
-										    		Nasikhatul Insaniyah
-										    	</td>
-										    	<td>
-										    		170101005
-										    	</td>
-										    	<td>
-										    		HRD dan General Affair
-										    	</td>
-										    	<td>Kepala HRD</td>
-										    	<td>
-										    		<ul class="left">
-										    			<li>Kehadiran (Leader)</li>
-										    			<li>Uang Makan</li>
-										    			<li>Transportasi</li>
-										    		</ul>
-										    	</td>
-										    	<td>
-										    		<center>
-											    		<div class="btn-group">
-											    			<button type="button" class="btn btn-primary btn-lg alamraya-btn-aksi" title="edit" data-toggle="modal" data-target="#editsettunjangan"><label class="fa fa-pencil-alt"></label></button>
-											    		</div>
-										    		</center>
-										    	</td>
-										    </tr>
+
 										  </tbody>
 										</table>
 									</div>
@@ -96,6 +69,22 @@
 @section('extra_script')
 
 <script type="text/javascript">
+var table = $('#ferdytable').DataTable({
+			 processing: true,
+			 responsive:true,
+			 serverSide: true,
+			 ajax: {
+					 url: '{{route('datatable_tunjangan')}}',
+			 },
+			 "columns": [
+			 { "data": "mp_name" },
+			 { "data": "mp_nik" },
+			 { "data": "c_divisi" },
+			 { "data": "c_posisi" },
+			 { "data": "tunjangan" },
+			 { "data": "aksi" },
+			 ]
+ });
 
 	$('.btn-check-all').click(function() {
 	  $('.ceklis_tunjangan').iCheck('check');
@@ -106,6 +95,61 @@
 	  $('.ceklis_tunjangan').iCheck('uncheck');
 	  // alert('checked');
 	});
+
+	function edit(id){
+		var htmltunjangan = '';
+		var checked = '';
+		$.ajax({
+			type: 'get',
+			data: {id:id},
+			dataType: 'json',
+			url: '{{route('finddata')}}',
+			success : function(response){
+				$('#nama').val(response.data[0].mp_name);
+				$('#divisi').val(response.data[0].c_divisi);
+				$('#jabatan').val(response.data[0].c_posisi);
+
+				for (var i = 0; i < response.tunjangan.length; i++) {
+					if (response.data[0].tman_id == response.tunjangan[i].tman_id) {
+						checked = 'checked';
+					}
+
+						htmltunjangan += '<div class="form-check form-check-flat">'+
+															'<label class="">'+
+															'<input type="checkbox" class="ceklis_tunjangan" name="tunjangan[]" value="'+response.tunjangan[i].tman_id+'" '+checked+'>'+
+															' ' + response.tunjangan[i].tman_nama+
+															'</label>'+
+															'</div>';
+				}
+				$('#showtunjangan').html(htmltunjangan);
+				$('#btnsimpan').attr('onclick', 'simpan('+id+')');
+				$('#editsettunjangan').modal('show');
+			}
+		});
+	}
+
+	function simpan(id){
+		$.ajax({
+			type: 'get',
+			data: $('#datasetting').serialize()+'&pegawai='+id,
+			dataType: 'json',
+			url: '{{route('simpansetting')}}',
+			success : function(response){
+				if (response.status == 'berhasil') {
+					iziToast.success({
+						title: 'OK',
+						message: 'Successfully!',
+					});
+					table.ajax.reload();
+				} else {
+					iziToast.warning({
+						title: 'info',
+						message: 'Failed!',
+				});
+				}
+			}
+		});
+	}
 
 </script>
 

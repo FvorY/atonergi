@@ -35,8 +35,8 @@
               <input type="text" class="form-control" name="mp_name">
             </div>
           </div>
-           
-           
+
+
            <div class="col-md-6 col-sm-6 col-xs-12">
             <label>E-mail</label>
           </div>
@@ -66,20 +66,38 @@
               </select>
             </div>
           </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <label>Education</label>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <select class="form-control" name="mp_pendidikan">
+                <option value="">- Pilih -</option>
+                <option value="SD">SD</option>
+                <option value="SMP">SMP</option>
+                <option value="SMA">SMA</option>
+                <option value="SMK">SMK</option>
+                <option value="D1">D1</option>
+                <option value="D2">D2</option>
+                <option value="D3">D3</option>
+                <option value="S1">S1</option>
+              </select>
+            </div>
+          </div>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <label>Employee Status</label>
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="form-group">
-              <select class="form-control" name="mp_position">
+              <select class="form-control" name="mp_status">
                 <option value="">- Pilih -</option>
-                @foreach ($jabatan as $key => $value)
-                  <option value="{{$value->c_id}}">{{$value->c_posisi}}</option>
-                @endforeach
+                <option value="Lajang">Lajang</option>
+                <option value="Menikah">Menikah</option>
               </select>
             </div>
           </div>
-          
+
          </div>
         </form>
       </div>

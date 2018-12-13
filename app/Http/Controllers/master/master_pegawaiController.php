@@ -84,6 +84,7 @@ class master_pegawaiController extends Controller
                 'mp_status'=>$request->mp_status,
                 'mp_address'=>$request->mp_address,
                 'mp_email'=>$request->mp_email,
+                'mp_pendidikan' => $request->mp_pendidikan,
                 'mp_insert'=>$tanggal,
                 ]);
 
@@ -108,6 +109,7 @@ class master_pegawaiController extends Controller
                 'mp_status'=>$request->mp_status,
                 'mp_address'=>$request->mp_address,
                 'mp_email'=>$request->mp_email,
+                'mp_pendidikan' => $request->mp_pendidikan,
                 'mp_update'=>$tanggal,
                 ]);
 
