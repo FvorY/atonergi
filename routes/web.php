@@ -502,4 +502,5 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/hrd/payroll/payrollman/proses', 'HRDController@payroll_manajemen_proses');
     Route::get('/hrd/payroll/payrollman/datatable', 'HRDController@payroll_manajemen_datatable');
     Route::get('/hrd/payroll/payrollman/hapus', 'HRDController@payroll_manajemen_hapus');
+    Route::get('/hrd/payroll/payrollman/detail', 'HRDController@payroll_manajemen_detail');
 }); // End Route Groub middleware auth

@@ -135,6 +135,7 @@
 
 <script type="text/javascript">
 var table = $('#table_data').DataTable();
+var detailtable = $('#detailtable').DataTable();
 $('.rp').maskMoney({
           prefix: 'Rp. ',
           decimal: ',',
@@ -257,7 +258,34 @@ $('.rp').maskMoney({
             ]
           });
   }
-	// 
+
+	function detail(id){
+		$.ajax({
+			type: 'get',
+			data: {id},
+			dataType: 'json',
+			url: baseUrl + '/hrd/payroll/payrollman/detail',
+			success : function(response){
+				$('#tanggaldt').text(response.data[0].p_date);
+				$('#divisidt').text(response.data[0].c_divisi);
+				$('#pegawaidt').text(response.data[0].mp_name);
+				$('#periodedt').text(response.data[0].p_periode_start + 's/d' + response.data[0].p_periode_end);
+				$('#jabatandt').text(response.data[0].c_posisi);
+
+				detailtable.clear();
+				for (var i = 0; i < response.tunjangan.length; i++) {
+					detailtable.row.add([
+						'#'+(i+1),
+						response.tunjangan[i].tman_nama,
+						'<div class="pull-left">Rp.</div><div class="pull-right">'+accounting.formatMoney(response.tunjangan[i].tman_value,"",0,'.',',')+'</div>',
+					]).draw(false);
+				}
+			}
+		});
+		$('#detailpayman').modal('show');
+	}
+
+	//
   // function success(){
 	//
   // 	iziToast.success({

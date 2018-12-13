@@ -10,47 +10,47 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          
+
             <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="col-md-6 col-sm-12 col-xs-12 pull-left">
                 <div class="pull-left">Tanggal</div>
                 <div class="pull-right">:</div>
               </div>
-              <div class="col-md-6 col-sm-12 col-xs-12 pull-left">12-12-2018</div>
+              <div class="col-md-6 col-sm-12 col-xs-12 pull-left" id="tanggaldt">12-12-2018</div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="col-md-6 col-sm-12 col-xs-12 pull-left">
                 <div class="pull-left">Periode</div>
                 <div class="pull-right">:</div>
               </div>
-              <div class="col-md-6 col-sm-12 col-xs-12 pull-left">12-12-2018  s/d  12-12-2018</div>
+              <div class="col-md-6 col-sm-12 col-xs-12 pull-left" id="periodedt">12-12-2018  s/d  12-12-2018</div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="col-md-6 col-sm-12 col-xs-12 pull-left">
                 <div class="pull-left">Divisi</div>
                 <div class="pull-right">:</div>
               </div>
-              <div class="col-md-6 col-sm-12 col-xs-12 pull-left">HRD dan General Affair</div>
+              <div class="col-md-6 col-sm-12 col-xs-12 pull-left" id="divisidt">HRD dan General Affair</div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="col-md-6 col-sm-12 col-xs-12 pull-left">
                 <div class="pull-left">Jabatan</div>
                 <div class="pull-right">:</div>
               </div>
-              <div class="col-md-6 col-sm-12 col-xs-12 pull-left">Kepala HRD</div>
+              <div class="col-md-6 col-sm-12 col-xs-12 pull-left" id="jabatandt">Kepala HRD</div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="col-md-6 col-sm-12 col-xs-12 pull-left">
                 <div class="pull-left">Nama Pegawai</div>
                 <div class="pull-right">:</div>
               </div>
-              <div class="col-md-6 col-sm-12 col-xs-12 pull-left">Nasikhatul Insaniyah</div>
+              <div class="col-md-6 col-sm-12 col-xs-12 pull-left" id="pegawaidt">Nasikhatul Insaniyah</div>
             </div><br><br>
 
             <div class="col-md-12 col-sm-12 col-xs-12">
-                        
+
                   <div class="table-responsive ">
-                    <table class="table table-hover" cellspacing="0" >
+                    <table class="table table-hover" cellspacing="0" id="detailtable">
                       <thead class="bg-gradient-info">
                         <tr>
                           <th >No</th>
@@ -59,20 +59,13 @@
                         </tr>
                       </thead>
                       <tbody class="center">
-                        <tr>
-                          <td>#1</td>
-                          <td>Kehadiran (Leader)</td>
-                          <td>
-                            <div class="pull-left">Rp.</div>
-                            <div class="pull-right">1.430.000,00</div>
-                          </td>
-                        </tr>
+                        
                       </tbody>
                     </table>
                   </div>
-                  
+
                 </div>
-          
+
 
          </div> <!-- End div row -->
       </div>

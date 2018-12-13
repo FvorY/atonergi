@@ -494,6 +494,34 @@ class HRDController extends Controller
 
     }
 
+    public function payroll_manajemen_detail(Request $request){
+      $data = DB::table('d_payroll')
+                  ->join('m_pegawai', 'mp_id', '=', 'p_pegawai')
+                  ->join('m_jabatan', 'm_jabatan.c_id', '=', 'p_jabatan')
+                  ->join('m_divisi', function($e){
+                    $e->on('m_divisi.c_id', '=', 'c_divisi_id')
+                      ->on('m_divisi.c_id', '=', 'p_divisi');
+                  })
+                  ->where('p_id', $request->id)
+                  ->get();
+
+      for ($i=0; $i < count($data); $i++) {
+        $data[$i]->p_date = Carbon::parse($data[$i]->p_date)->format('d-m-Y');
+        $data[$i]->p_periode_start = Carbon::parse($data[$i]->p_periode_start)->format('d-m-Y');
+        $data[$i]->p_periode_end = Carbon::parse($data[$i]->p_periode_end)->format('d-m-Y');
+      }
+
+      $tunjangan = DB::table('d_tunjangan')
+                      ->join('m_tunjangan_man', 'tman_id', '=', 't_tunjangan')
+                      ->where('t_pegawai', $data[0]->p_pegawai)
+                      ->get();
+
+      return response()->json([
+        'data' => $data,
+        'tunjangan' => $tunjangan
+      ]);
+    }
+
     public function payroll_manajemen_getjabatan(Request $request){
       $pegawai = DB::table('m_pegawai')
                     ->where('mp_position', $request->jabatan)
