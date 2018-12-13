@@ -30,7 +30,7 @@
                                 message: 'Successfully deleted record!',
                             });
                             tbl_tunj.ajax.reload();
-                        } 
+                        }
                         else {
                             iziToast.warning({
                                 title: 'Info',
@@ -70,7 +70,7 @@
             form.find('[name="tman_nama"]').val('');
             form.find('[name="tman_levelpeg"]').val('').trigger('change');
             form.find('[name="tman_periode"]').val('').trigger('change');
-            form.find('[name="tman_value"]').val('');   
+            form.find('[name="tman_value"]').val('');
         }
 
     function edit_tunj(obj) {
@@ -80,13 +80,13 @@
 
         form.find('[name="tman_id"]').val( data.tman_id );
         form.find('[name="tman_nama"]').val( data.tman_nama );
-        form.find('[name="tman_levelpeg"]').val( data.tman_levelpeg ).trigger('change');
+        form.find('[name="tman_levelpeg"]').val( data.tman_jabatan ).trigger('change');
         form.find('[name="tman_periode"]').val( data.tman_periode ).trigger('change');
         form.find('[name="tman_value"]').val( data.tman_value );
     }
     $(document).ready(function(){
 
-       
+
 
         // Sesi Tunjangan
         var tunj_url = "{{ url('/hrd/payroll/find-tunjangan') }}";
@@ -94,43 +94,43 @@
         tbl_tunj = $('#tbl_tunjangan').DataTable( {
             ajax: tunj_url,
             columns: [
-                
+
                 { data: "tman_nama" },
-                { 
+                {
                     data: null,
                     render : function(res) {
                         var result = '';
                         switch(res.tman_periode) {
                             case 'JM' :
                                 result = 'Jam';
-                            break; 
+                            break;
                             case 'HR' :
                                 result = 'Hari';
-                            break; 
+                            break;
                             case 'MG' :
                                 result = 'Minggu';
-                            break; 
+                            break;
                             case 'TH' :
                                 result = 'Tahun';
-                            break; 
+                            break;
                             case 'ST' :
                                 result = 'Statis';
-                            break; 
+                            break;
                         }
 
                         return result;
-                    } 
+                    }
                 },
                 { data: "tman_value" },
-                { 
+                {
                     data: null,
                     render : function(r) {
                         var btn = '<center><div class="btn-group"><button type="button" class="alamraya-btn-aksi btn btn-primary btn-lg " title="edit" data-toggle="modal" data-target="#edittunjangan" onclick="edit_tunj(this)"><label class="fa fa-pencil-alt"></label></button><button type="button" class="btn btn-danger btn-lg alamraya-btn-aksi" title="hapus" onclick="hapus_tunj(' + r.tman_id + ')"><label class="fa fa-trash"></label></button></div></center>';
-                        
+
                         return btn;
-                    } 
+                    }
                 },
-                
+
             ]
         } );
 

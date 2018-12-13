@@ -19,20 +19,17 @@
 			<ul class="nav nav-tabs tab-solid tab-solid-primary alamraya-navtab" role="tablist">
 		        <li class="nav-item">
 		          <a class="nav-link active" id="tab-6-1" data-toggle="tab" href="#absmanajemen" role="tab" aria-controls="absmanajemen" aria-selected="true"><i class="mdi mdi-home-outline"></i>Absensi Manajemen</a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link" id="tab-6-2" data-toggle="tab" href="#absproduksi" role="tab" aria-controls="absproduksi" aria-selected="false"><i class="mdi mdi-account-outline"></i>Absensi Produksi</a>
-		        </li>
+		        </li>		        
 		    </ul>
 
 			<div class="tab-content tab-content-solid col-lg-12">
 
 	            <div class="tab-pane fade show active" id="absmanajemen" role="tabpanel" aria-labelledby="tab-6-1">
-	            	@include('hrd/Absensi/include/absmanajemen')
+	            	@include('hrd/absensi/include/absmanajemen')
 				</div>
 
 	            <div class="tab-pane fade" id="absproduksi" role="tabpanel" aria-labelledby="tab-6-2">
-	            	@include('hrd/Absensi/include/absproduksi')
+	            	@include('hrd/absensi/include/absproduksi')
 				</div>
 
 			</div>
@@ -44,6 +41,6 @@
 @endsection
 @section('extra_script')
 
-@include('hrd/Absensi/js/commander')
+@include('hrd/absensi/js/commander')
 
 @endsection

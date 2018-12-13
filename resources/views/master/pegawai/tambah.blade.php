@@ -35,41 +35,8 @@
               <input type="text" class="form-control" name="mp_name">
             </div>
           </div>
-          <div class="col-md-6 col-sm-6 col-xs-12">
-           <label>Education</label>
-         </div>
-         <div class="col-md-6 col-sm-6 col-xs-12">
-           <div class="form-group">
-             <div class="radio radio-primary radio-inline col-sm-2">
-                 <input type="radio" id="sd" value="SD" name="pendidikan" checked="">
-                 <label for="sd"> SD </label>
-              </div>
-              <div class="radio radio-primary radio-inline col-sm-2">
-                  <input type="radio" id="sma" value="SMA" name="pendidikan">
-                  <label for="sma"> SMA </label>
-               </div>
-               <div class="radio radio-primary radio-inline col-sm-2">
-                   <input type="radio" id="smk" value="SMK" name="pendidikan">
-                   <label for="smk"> SMK </label>
-                </div>
-                <div class="radio radio-primary radio-inline col-sm-2">
-                    <input type="radio" id="d1" value="D1" name="pendidikan">
-                    <label for="d1"> D1 </label>
-                 </div>
-                 <div class="radio radio-primary radio-inline col-sm-2">
-                     <input type="radio" id="d2" value="D2" name="pendidikan">
-                     <label for="d2"> D2 </label>
-                  </div>
-                  <div class="radio radio-primary radio-inline col-sm-2">
-                      <input type="radio" id="d3" value="D3" name="pendidikan">
-                      <label for="d3"> D3 </label>
-                   </div>
-                   <div class="radio radio-primary radio-inline col-sm-2">
-                       <input type="radio" id="s1" value="S1" name="pendidikan">
-                       <label for="s1"> S1 </label>
-                    </div>
-           </div>
-         </div>
+
+
            <div class="col-md-6 col-sm-6 col-xs-12">
             <label>E-mail</label>
           </div>
@@ -99,15 +66,34 @@
               </select>
             </div>
           </div>
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <label>Education</label>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <select class="form-control" name="mp_pendidikan">
+                <option value="">- Pilih -</option>
+                <option value="SD">SD</option>
+                <option value="SMP">SMP</option>
+                <option value="SMA">SMA</option>
+                <option value="SMK">SMK</option>
+                <option value="D1">D1</option>
+                <option value="D2">D2</option>
+                <option value="D3">D3</option>
+                <option value="S1">S1</option>
+              </select>
+            </div>
+          </div>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <label>Employee Status</label>
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="form-group">
               <select class="form-control" name="mp_status">
-                <option selected="" value="">- Pilih -</option>
-                <option>Lajang</option>
-                <option>Sudah Menikah</option>
+                <option value="">- Pilih -</option>
+                <option value="Lajang">Lajang</option>
+                <option value="Menikah">Menikah</option>
               </select>
             </div>
           </div>

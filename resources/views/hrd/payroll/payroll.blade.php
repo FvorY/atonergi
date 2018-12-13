@@ -156,7 +156,7 @@ function simpanm(){
 							    message: 'Successfully deleted record!',
 							});
 							table.ajax.reload();
-						} 
+						}
 						else {
 							iziToast.warning({
 							    title: 'Info',
@@ -165,10 +165,10 @@ function simpanm(){
 						}
                      },
                      error: function(){
-                      iziToast.warning({
-                        icon: 'fa fa-times',
-                        message: 'Terjadi Kesalahan!',
-                      });
+	                     iziToast.warning({
+	                        icon: 'fa fa-times',
+	                        message: 'Terjadi Kesalahan!',
+	                     });
                      },
                      async: false
                    });
@@ -187,7 +187,7 @@ function simpanm(){
           });
 
 
-  }
+  	}
 
 	function edit(id){
 		$.ajax({

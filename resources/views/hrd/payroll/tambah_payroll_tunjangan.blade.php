@@ -19,19 +19,19 @@
                 <div class="form-group">
                   {{ csrf_field() }}
                   <input type="text" class="form-control" name="tman_nama">
-                  
+
                 </div>
-              </div>  
+              </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <label>Jabatan</label>
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                   <select class="form-control form-control-sm" id="filter" name="tman_levelpeg">
-                    <option disabled selected>--Pilih--</option>
-                    <option value="LD">Leader</option>
-                    <option value="ST">Staff</option>
-                    <option value="AL" >Semua</option>
+                    <option value="">--Pilih--</option>
+                    @foreach ($jabatan as $key => $value)
+                      <option value="{{$value->c_id}}">{{$value->c_posisi}}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
@@ -59,7 +59,7 @@
                   <input type="text" class="form-control currency" placeholder="RP. 0,00" data-thousands="." data-decimal="," data-prefix="RP. " name="tman_value">
                 </div>
               </div>
-            
+
 
            </div> <!-- End div row -->
         </div>

@@ -287,6 +287,9 @@ Route::get('/hrd/payroll/find-tunjangan', 'HRDController@findTunjangan');
 Route::post('/hrd/payroll/insert-tunjangan', 'HRDController@insertTunjangan');
 Route::post('/hrd/payroll/update-tunjangan', 'HRDController@updateTunjangan');
 Route::post('/hrd/payroll/hapus-tunjangan', 'HRDController@hapusTunjangan')->name('hapus_tunjangan');
+Route::get('/hrd/payroll/tunjangan', 'HRDController@datatable_tunjangan')->name('datatable_tunjangan');
+Route::get('/hrd/payroll/finddata', 'HRDController@finddata')->name('finddata');
+Route::get('/hrd/payroll/simpansetting', 'HRDController@simpansetting')->name('simpansetting');
 
 Route::get('/hrd/payroll/setting_tunjangan', 'HRDController@setting_tunjangan');
 // ====================================================================
@@ -503,7 +506,12 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/hrd/payroll/edit_payroll', 'payrollController@edit_payroll')->name('edit_payroll');
     Route::get('/hrd/payroll/update_payroll', 'payrollController@update_payroll')->name('update_payroll');
 
-    //Payroll Management
-    Route::get('/hrd/payroll_manajemen/import-data-payrollman', 'payrollmanController@importpayrollman');
-    Route::post('/hrd/payroll_manajemen/import-data-payrollman', 'payrollmanController@importpayrollman');
+    //Payroll Manajemen
+    Route::get('/hrd/payroll/payrollman/simpan', 'HRDController@payroll_manajemen_simpan')->name('payroll_manajemen_simpan');
+    Route::get('/hrd/payroll/payrollman/getdivisi', 'HRDController@payroll_manajemen_getdivisi');
+    Route::get('/hrd/payroll/payrollman/getjabatan', 'HRDController@payroll_manajemen_getjabatan');
+    Route::get('/hrd/payroll/payrollman/proses', 'HRDController@payroll_manajemen_proses');
+    Route::get('/hrd/payroll/payrollman/datatable', 'HRDController@payroll_manajemen_datatable');
+    Route::get('/hrd/payroll/payrollman/hapus', 'HRDController@payroll_manajemen_hapus');
+    Route::get('/hrd/payroll/payrollman/detail', 'HRDController@payroll_manajemen_detail');
 }); // End Route Groub middleware auth

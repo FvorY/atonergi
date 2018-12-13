@@ -83,6 +83,7 @@
     var mp_tlp       = $("input[name='mp_phone']").val('');
     var mp_email     = $("input[name='mp_email']").val('');
     var mp_address   = $("textarea#mp_address").val('');
+    var mp_pendidikan    = $("select[name='mp_pendidikan']").val('').trigger('change');
     var mp_status    = $("select[name='mp_status']").val('').trigger('change');
     var mp_position  = $("select[name='mp_position']").val('').trigger('change');
     $.ajax({
@@ -162,7 +163,7 @@
             var mp_tlp       = $("input[name='mp_phone']").val(data[0].mp_phone);
             var mp_email     = $("input[name='mp_email']").val(data[0].mp_email);
             var mp_address   = $("textarea#mp_address").val(data[0].mp_address);
-            var mp_pendidikan= $("input[name=pendidikan][value=" + data[0].mp_pendidikan + "]").prop('checked', true);
+            var mp_pendidikan    = $("select[name='mp_pendidikan']").val(data[0].mp_pendidikan).trigger('change');
             var mp_status    = $("select[name='mp_status']").val(data[0].mp_status).trigger('change');
             var mp_position  = $("select[name='mp_position']").val(data[0].mp_position).trigger('change');
             var mp_id        = $("input[name='mp_id']").val(data[0].mp_kode);
