@@ -81,7 +81,7 @@ Route::get('/master/barang/cari', 'MasterController@cari');
     Route::get('/master/akun/edit_a_keuangan', 'MasterController@edit_a_keuangan')->name('edit_a_keuangan');
     Route::get('/master/akun/update_a_keuangan', 'MasterController@update_a_keuangan')->name('update_a_keuangan');
     Route::get('/master/akun/delete_a_keuangan', 'MasterController@delete_a_keuangan')->name('delete_a_keuangan');
-    
+
 
     // STATUS QO
     Route::get('/master/status/status', 'MasterController@status');
@@ -514,4 +514,11 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/hrd/payroll/payrollman/datatable', 'HRDController@payroll_manajemen_datatable');
     Route::get('/hrd/payroll/payrollman/hapus', 'HRDController@payroll_manajemen_hapus');
     Route::get('/hrd/payroll/payrollman/detail', 'HRDController@payroll_manajemen_detail');
+
+    //Master percent
+    Route::get('/master/percent/index', 'percentController@index');
+    Route::get('/master/percent/datatable_percent', 'percentController@datatable_percent');
+    Route::get('/master/percent/aktif', 'percentController@aktif');
+    Route::get('/master/percent/nonaktif', 'percentController@nonaktif');
+    Route::get('/master/percent/simpan', 'percentController@simpan');
 }); // End Route Groub middleware auth

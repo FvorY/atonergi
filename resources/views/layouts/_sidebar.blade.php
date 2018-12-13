@@ -236,6 +236,7 @@
                     Master Currency
                     Master Data Bank
                     Master Data Jasa
+                    Master Data Percent
                   </span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -266,7 +267,7 @@
                       Master Data Bank
                     </a>
                   </li>
-
+                  <li class="nav-item"> <a class="nav-link {{Request::is('master/percent/*') ? 'active' : '' }}" href="{{url('master/percent/index')}}">Master Percent</a></li>
                 </ul>
                 </div>
             </li>
