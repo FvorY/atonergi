@@ -327,7 +327,6 @@
                   Pengiriman Barang
                   Pemasangan
                   Schedule Uji Coba dan Dokumetasi
-                  Sales Common
                   Technician Fee
                 </span>
                 <i class="menu-arrow"></i>
@@ -347,9 +346,6 @@
 
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/jadwalujicoba/*') ? 'active' : ''
                  }}" href="{{url('project/jadwalujicoba/jadwalujicoba')}}">Schedule Uji Coba dan <br>Dokumentasi<span class="d-none">After Order Schedule Uji Coba dan Dokumentasi</span></a></li>
-
-                  <li class="nav-item"> <a class="nav-link {{Request::is('project/salescommon/*') ? 'active' : ''
-                  }}" href="{{url('project/salescommon/salescommon')}}">Sales Common<span class="d-none">After Order</span></a></li>
 
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/technicianfee/*') ? 'active' : ''
                   }}" href="{{url('project/technicianfee/technicianfee')}}">Technician Fee<span class="d-none">After Order</span></a></li>

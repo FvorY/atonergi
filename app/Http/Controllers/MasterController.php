@@ -32,10 +32,152 @@ class MasterController extends Controller
     {
         return view('master/akun/keuangan');
     }
+
+    //KEUANGAN AKUN
     public function a_keuangan()
     {
-        return view('master/akun/a_keuangan');
+
+        $general = DB::table('d_akun')->where('type_akun','GENERAL')->whereNotNull("kelompok_akun")->where("kelompok_akun", "!=", "-")->get();
+        $detail = DB::table('d_akun')->where('type_akun','DETAIL')->get();
+        $labarugi = DB::table('d_group_akun')->where('type_group','laba/rugi')->get();
+        $grupakun = DB::table('d_group_akun')->where('type_group','neraca')->get();
+        /*return*/ $datakelompok = json_encode(DB::table("d_akun")->where("type_akun", "GENERAL")->whereNotNull("kelompok_akun")->where("kelompok_akun", "!=", "-")->select("id_akun as value", "nama_akun as text")->get());
+
+        return view('master/akun/a_keuangan',compact('general','detail','labarugi','grupakun','datakelompok'));
     }
+    public function save_keuangan(Request $request)
+    {
+
+        // dd($request->all());
+        $response = [
+            'status'    => "sukses",
+            'content'   => 'null'
+        ];
+
+        // return $cek;
+
+        if($request->type_akun == "GENERAL"){
+
+            $cek = DB::table("d_akun")->where("id_akun", $request->kelompok_akun.$request->nomor_akun)->first();
+
+            // return json_encode($cek);
+
+            if($cek != null){
+                $response = [
+                    'status'    => 'exist_id',
+                    'content'   =>  $cek->nama_akun
+                ];
+
+                return json_encode($response);
+            }
+
+
+            // // return 'a';
+            // $cek = DB::table("d_akun")->where("group_neraca", $request->group_neraca_general)->where("type_akun", "GENERAL")->first();
+            // // return $cek;
+            // if($cek && !is_null($cek->group_neraca)){
+            //     $response = [
+            //         'status'    => 'exist_group_neraca',
+            //         'content'   =>  $cek->nama_akun
+            //     ];
+            //     return json_encode($response);
+            // }
+
+            // $cek = DB::table("d_akun")->where("group_laba_rugi", $request->group_laba_rugi_general)->where("type_akun", "GENERAL")->first();
+            
+            // // return json_encode($cek);
+
+            // if($cek && !is_null($cek->group_laba_rugi)){
+            //     $response = [
+            //         'status'    => 'exist_group_laba_rugi',
+            //         'content'   =>  $cek->nama_akun
+            //     ];
+
+            //     return json_encode($response);
+            // }
+
+            $data = [
+                "id_akun"           => $request->kelompok_akun.$request->nomor_akun,
+                "nama_akun"         => $request->nama_akun,
+                "kelompok_akun"     => $request->nama_kelompok,
+                "posisi_akun"       => $request->posisi_akun,
+                "type_akun"         => $request->type_akun,
+                "group_neraca"      => null,
+                "group_laba_rugi"   => null
+            ];
+
+            DB::table("d_akun")->insert($data);
+
+
+        }else{
+            $cek = DB::table("d_akun")->where("id_akun", $request->kelompok_akun.'.'.$request->nomor_akun)->first();
+
+            // return json_encode($cek);
+
+            if($cek != null){
+                $response = [
+                    'status'    => 'exist_id',
+                    'content'   =>  $cek->nama_akun
+                ];
+
+                return json_encode($response);
+            }
+
+
+            $data = [
+                "id_akun"           => $request->kelompok_akun.".".$request->nomor_akun,
+                "nama_akun"         => $request->nama_akun,
+                "kelompok_akun"     => $request->nama_kelompok,
+                "posisi_akun"       => $request->posisi_akun,
+                "type_akun"         => $request->type_akun,
+                "group_neraca"      => (isset($request->group_neraca)) ? $request->group_neraca : null,
+                "group_laba_rugi"   => (isset($request->group_laba_rugi)) ? $request->group_laba_rugi : null,
+                "opening_date"      => date('Y-m-d'),
+            ];
+
+
+            $saldo = [
+             "id_akun"           => $request->kelompok_akun.".".$request->nomor_akun,
+             "bulan"             => date("m"),
+             "tahun"             => date("Y"),
+             "saldo"             => str_replace(".", "", explode(',', $request->saldo)[0])
+            ];
+
+            DB::table("d_akun")->insert($data);
+            DB::table("d_akun_saldo")->insert($saldo);
+        }
+
+        return json_encode($response);
+    }
+    public function delete_a_keuangan(Request $request)
+    {
+        // dd($request->all());
+        // $on_jurnal = DB::table('d_jurnal_dt')->where('jrdt_acc', $request->id)->first();
+        // $akun = DB::table('d_akun')->where('id_akun', $request->id)->first();
+
+        // if($on_jurnal)
+            // return response()->json(['status'=>2]);
+
+        // if($akun)
+            // return response()->json(['status'=>3]);
+
+        DB::table("d_akun")->where("id_akun", $request->id)->delete();
+
+        return response()->json(['status'=>1]);
+    }
+
+    public function edit_a_keuangan(Request $request)
+    {
+        $akun = DB::table('d_akun')->where('id_akun', $request->id)->first();
+        // return json_encode($akun);
+        $grupakun = DB::table("d_group_akun")->where("type_group", "neraca")->select("no_group", "nama_group")->get();
+        $labarugi = DB::table("d_group_akun")->where("type_group", "laba/rugi")->select("no_group", "nama_group")->get();
+
+        return view("master/akun/edit",compact('grupakun','labarugi','akun'));
+    }
+
+
+    //END OF
     public function t_keuangan()
     {
         return view('master/transaksi/keuangan');

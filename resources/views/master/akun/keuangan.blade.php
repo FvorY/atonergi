@@ -12,6 +12,7 @@
     		<ol class="breadcrumb bg-info">
     			<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
     			<li class="breadcrumb-item">Master</li>
+          <li class="breadcrumb-item active" aria-current="page">Master Data Akun Keuangan</li>
     			<li class="breadcrumb-item active" aria-current="page">Master Data Akun Keuangan</li>
     		</ol>
     	</nav>
