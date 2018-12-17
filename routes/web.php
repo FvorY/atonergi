@@ -521,4 +521,19 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/master/percent/aktif', 'percentController@aktif');
     Route::get('/master/percent/nonaktif', 'percentController@nonaktif');
     Route::get('/master/percent/simpan', 'percentController@simpan');
+
+    //Master kpi
+    Route::get('/master/kpi/index', 'master\KpiController@index');
+    Route::get('/master/kpi/datatable-index', 'master\KpiController@getDatatableKpi');
+    Route::get('/master/kpi/tambah-kpi', 'master\KpiController@tambahKpi');
+    Route::get('/master/kpi/delete-kpi', 'master\KpiController@deleteKpi');
+    Route::post('/master/kpi/delete-kpi', 'master\KpiController@deleteKpi');
+    Route::get('/master/kpi/simpan-kpi', 'master\KpiController@simpanKpi');
+    Route::POST('/master/kpi/simpan-kpi', 'master\KpiController@simpanKpi');
+    Route::get('/master/kpi/edit-kpi', 'master\KpiController@editKpi');
+    Route::get('/master/kpi/update-kpi', 'master\KpiController@updateKpi');
+    Route::post('/master/kpi/update-kpi', 'master\KpiController@updateKpi');
+    Route::get('/master/kpi/lookup-data-divisi', 'master\KpiController@lookup_divisi');
+    Route::get('/master/kpi/lookup-data-jabatan', 'master\KpiController@lookup_jabatan');
+    Route::get('/master/kpi/lookup-data-pegawai', 'master\KpiController@lookup_pegawai');
 }); // End Route Groub middleware auth

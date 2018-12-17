@@ -237,6 +237,7 @@
                     Master Data Bank
                     Master Data Jasa
                     Master Data Percent
+                    Master Data KPI
                   </span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -268,6 +269,7 @@
                     </a>
                   </li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/percent/*') ? 'active' : '' }}" href="{{url('master/percent/index')}}">Master Percent</a></li>
+                  <li class="nav-item"> <a class="nav-link {{Request::is('master/kpi/*') ? 'active' : '' }}" href="{{url('master/kpi/index')}}">Master KPI</a></li>
                 </ul>
                 </div>
             </li>
