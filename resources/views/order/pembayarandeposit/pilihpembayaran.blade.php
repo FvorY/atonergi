@@ -30,17 +30,17 @@
                 <select class="form-control form-control-sm" name="akun">
                     @if ($so!=null)
                       <option @if ($so->so_type == 'Cash')
-                        selected="" 
+                        selected=""
                       @endif value="Cash">Cash</option>
                       <option @if ($so->so_type == 'Deposit')
-                        selected="" 
+                        selected=""
                       @endif value="Deposit">Deposit</option>
                     @else
                       <option @if ($wo->wo_type == 'Cash')
-                        selected="" 
+                        selected=""
                       @endif>Cash</option>
                       <option @if ($wo->wo_type == 'Deposit')
-                        selected="" 
+                        selected=""
                       @endif>Deposit</option>
                     @endif
                 </select>
@@ -54,6 +54,16 @@
           </div>
 
           <div class="col-md-3 col-sm-6 col-xs-12">
+            <label>Percent</label>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <input class="form-control form-control-sm" value="{{$percent->p_percent}} %" readonly="" name="percent">
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-12">
             <label>Amount</label>
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
@@ -61,7 +71,7 @@
               <input type="text" class="form-control-sm form-control" id="amount" name="amount">
             </div>
           </div>
-          
+
           <div class="col-md-3 col-sm-6 col-xs-12">
             <label>Date</label>
           </div>
@@ -80,17 +90,17 @@
                 <select class="form-control form-control-sm" name="pay_method">
                     @if ($so!=null)
                       <option @if ($so->so_type == 'tunai')
-                        selected="" 
+                        selected=""
                       @endif value="tunai">tunai</option>
                       <option @if ($so->so_type == 'Transfer')
-                        selected="" 
+                        selected=""
                       @endif value="Transfer">Transfer</option>
                     @else
                       <option @if ($wo->wo_type == 'tunai')
-                        selected="" 
+                        selected=""
                       @endif>tunai</option>
                       <option @if ($wo->wo_type == 'Transfer')
-                        selected="" 
+                        selected=""
                       @endif>Transfer</option>
                     @endif
                 </select>
@@ -100,7 +110,7 @@
                   <option value="transfer">Transfer</option>
                 </select>
               @endif
-              
+
             </div>
           </div>
 

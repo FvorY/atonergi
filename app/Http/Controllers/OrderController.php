@@ -432,6 +432,7 @@ class OrderController extends Controller
                   ->leftjoin('d_sales_order','q_nota','=','so_ref')
                   ->where('q_id',$id)
                   ->first();
+
         $so_dt = DB::table("d_quotation_dt")
                    ->join('m_item','qd_item','=','i_code')
                    ->where('qd_id',$id)
@@ -493,7 +494,11 @@ class OrderController extends Controller
                        ->where('qd_id',$id)
                        ->get();
 
-        return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo'));
+        $percent = DB::table('m_percent')
+                    ->where('p_status', 'Y')
+                    ->first();
+
+        return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent'));
     }
 
     public function save_deposit(request $req)
