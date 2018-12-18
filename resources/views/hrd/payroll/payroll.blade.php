@@ -1,10 +1,10 @@
 @extends('main')
 @section('content')
 
-@include('hrd/payroll/tambah_payroll_manajemen')
+{{-- @include('hrd/payroll/tambah_payroll_manajemen')
 @include('hrd/payroll/edit_payroll_manajemen')
 @include('hrd/payroll/tambah_payroll_tunjangan')
-@include('hrd/payroll/edit_payroll_tunjangan')
+@include('hrd/payroll/edit_payroll_tunjangan') --}}
 <!-- partial -->
 <div class="content-wrapper">
 	<div class="row">
@@ -18,56 +18,22 @@
 			</nav>
 		</div>
 
-		<div class="col-lg-12 alamraya-row-nav">
-			<ul class="nav nav-tabs tab-solid tab-solid-primary alamraya-navtab" role="tablist">
+		<div class="col-lg-12 ">
+			<ul class="nav nav-tabs tab-solid tab-solid-primary mb-0" role="tablist">
 		        <li class="nav-item">
-		          <a class="nav-link active" id="tab-6-1" data-toggle="tab" href="#absmanajemen" role="tab" aria-controls="absmanajemen" aria-selected="true"><i class="mdi mdi-folder-account"></i>Manajemen</a>
+		          <a class="nav-link active" id="tab-6-1" data-toggle="tab" href="#pmanagerial" role="tab" aria-controls="pmanagerial" aria-selected="true"><i class="mdi mdi-folder-account"></i>Managerial</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link " id="tab-6-2" data-toggle="tab" href="#abstunjangan" role="tab" aria-controls="abstunjangan" aria-selected="true"><i class="mdi mdi-coin"></i>Tunjangan</a>
+		          <a class="nav-link " id="tab-6-2" data-toggle="tab" href="#pstaff" role="tab" aria-controls="pstaff" aria-selected="true"><i class="mdi mdi-coin"></i>Staff</a>
 		        </li>
 		    </ul>
 
 			<div class="tab-content tab-content-solid col-lg-12">
 
-	            <div class="tab-pane fade show active" id="absmanajemen" role="tabpanel" aria-labelledby="tab-6-1">
-					<div class="col-lg-12 grid-margin stretch-card alamraya-no-padding">
-				      	<div class="card">
-					        <div class="card-body">
-					          <h4 class="card-title">Manajemen Payroll</h4>
-					          	<div class="row">
-									<div class="col-md-12 col-sm-12 col-xs-12 alamraya-btn-add-row" align="right">
-										<button class="btn btn-info" data-toggle="modal" data-target="#tambahmanajemen"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
-									</div>
-									<div class="table-responsive">
-										<table class="table table-hover" cellspacing="0" id="gaji1">
-										  <thead class="bg-gradient-info">
-										    <tr>
-										      <th>Nama</th>
-										      <th>SMA</th>
-										      <th>D3</th>
-										      <th>S1</th>
-										      <th>Pangkat</th>
-										      <th>Aksi</th>
-										    </tr>
-										  </thead>
-										  <tbody class="center">
+				@include('hrd.payroll.tab_managerial')
 
-										  </tbody>
-										</table>
-									</div>
+				@include('hrd.payroll.tab_staff')
 
-					        	</div>
-					      	</div>
-				    	</div>
-					</div>
-				</div>
-
-				<div class="tab-pane fade " id="abstunjangan" role="tabpanel" aria-labelledby="tab-6-2">
-
-				@include('hrd/payroll/include/tunjangan')
-
-				</div>
 
 			</div>
 		</div>
@@ -77,8 +43,8 @@
 @endsection
 @section('extra_script')
 
-@include('hrd/payroll/js/commander')
-@include('hrd/payroll/js/form_commander')
+{{-- @include('hrd/payroll/js/commander')
+@include('hrd/payroll/js/form_commander') --}}
 <script type="text/javascript">
 
 var table;

@@ -69,12 +69,12 @@
       }
 
       //Applying perfect scrollbar
-      if(!body.hasClass("rtl")) {
-        $('.settings-panel .tab-content .tab-pane.scroll-wrapper, ul.chats, .product-chart-wrapper, .table-responsive').perfectScrollbar();
-        if(body.hasClass("sidebar-fixed")) {
-          $('#sidebar .nav').perfectScrollbar();
-        }
-      }
+      // if(!body.hasClass("rtl")) {
+      //   $('.settings-panel .tab-content .tab-pane.scroll-wrapper, ul.chats, .product-chart-wrapper, .table-responsive').perfectScrollbar();
+      //   if(body.hasClass("sidebar-fixed")) {
+      //     $('#sidebar .nav').perfectScrollbar();
+      //   }
+      // }
     }
 
     $('.sidebar [data-toggle="collapse"]').on("click", function(event) {
