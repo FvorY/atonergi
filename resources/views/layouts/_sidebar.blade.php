@@ -17,9 +17,9 @@
         <div class="search-field ml-4 d-none d-md-block">
           <form class="d-flex align-items-stretch h-100" action="#">
             <div class="input-group">
-              <input id="filterInput" type="text" class="form-control bg-transparent border-0" onchange="myFunction()" onfocus="myFunction()" onkeyup="myFunction()" placeholder="Search Menu">
+              <input id="filterInput" type="text" class="form-control bg-transparent border-0" placeholder="Search Menu">
               <div class="input-group-btn">
-                <button id="btn-reset" type="button" class="btn bg-transparent px-0 d-none" onclick="btnReset()" style="cursor: pointer;"><i class="fa fa-times"></i></button>
+                <button id="btn-reset" type="button" class="btn bg-transparent px-0 d-none" style="cursor: pointer;"><i class="fa fa-times"></i></button>
                 <!-- <button type="button" class="btn bg-transparent dropdown-toggle px-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="mdi mdi-earth"></i>
                 </button>
@@ -32,7 +32,7 @@
                 </div> -->
               </div>
               <div class="input-group-addon bg-transparent border-0 search-button">
-                <button type="button" class="btn btn-sm bg-transparent px-0">
+                <button type="button" class="btn btn-sm bg-transparent px-0" id="btn-search-menu">
                   <i class="mdi mdi-magnify"></i>
                 </button>
               </div>
@@ -424,7 +424,7 @@
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/absensi/absensi') ? 'active' : '' || Request::is('hrd/absensi/*') ? 'active' : '' }}" href="{{url('hrd/absensi/absensi')}}">Absensi<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll/payroll') ? 'active' : '' || Request::is('hrd/payroll/*') ? 'active' : '' }}" href="{{url('hrd/payroll/payroll')}}">Payroll<span class="d-none">HRD</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll_manajemen/payroll_manajemen') ? 'active' : '' || Request::is('hrd/payroll_manajemen/*') ? 'active' : '' }}" href="{{url('hrd/payroll_manajemen/payroll_manajemen')}}">Payroll Pegawai Manajemen<span class="d-none">HRD</span></a></li>
+                  {{-- <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll_manajemen/payroll_manajemen') ? 'active' : '' || Request::is('hrd/payroll_manajemen/*') ? 'active' : '' }}" href="{{url('hrd/payroll_manajemen/payroll_manajemen')}}">Payroll Pegawai Manajemen<span class="d-none">HRD</span></a></li> --}}
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/scoreboard_pegawai/scoreboard_pegawai') ? 'active' : '' || Request::is('hrd/scoreboard_pegawai/*') ? 'active' : '' }}" href="{{url('hrd/scoreboard_pegawai/scoreboard_pegawai')}}">Scoreboard Pegawai<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/data_kpi/data_kpi') ? 'active' : '' || Request::is('hrd/data_kpi/*') ? 'active' : '' }}" href="{{url('hrd/data_kpi/data_kpi')}}">Data KPI<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_scoreboard/manajemen_scoreboard') ? 'active' : '' || Request::is('hrd/manajemen_scoreboard/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_scoreboard/manajemen_scoreboard')}}">Manajemen Scoreboard<span class="d-none">HRD</span></a></li>
