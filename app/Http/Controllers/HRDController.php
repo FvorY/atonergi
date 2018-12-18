@@ -591,4 +591,11 @@ class HRDController extends Controller
     {
         return view('hrd/payroll/setting_tunjangan');
     }
+
+    public function kartushift(Request $request){
+      $path = $request->file('kartushift')->getRealPath();
+      $data = Excel::load($path, function($reader){})->get();
+
+        dd($data);
+    }
 }

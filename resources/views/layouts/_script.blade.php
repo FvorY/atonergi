@@ -44,7 +44,7 @@
   <script src="{{asset('assets/js/off-canvas.js')}}"></script>
   <script src="{{asset('assets/js/accounting.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.maskMoney.js')}}"></script>
-  <script src="{{asset('assets/js/misc.js')}}"></script>
+  
   <script src="{{asset('assets/js/hoverable-collapse.js')}}"></script>
   <script src="{{asset('assets/js/settings.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/js/settings.js"></script>
   <script src="{{asset('assets/js/todolist.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/js/todolist.js"></script>
@@ -298,12 +298,12 @@
         Cookies.set('navbar', 'navbar-light', {expires : 365});
     });
 </script>
-  
+
   {{-- Filter Menu --}}
     <script type="text/javascript">
-      
+
       $(document).ready(function(){
-        // custom function .ignore() 
+        // custom function .ignore()
         $.fn.ignore = function(sel){
           return this.clone().find(sel||">*").remove().end();
         };
@@ -358,7 +358,7 @@
                 $('#sidebar ul > li > a').find('.menu-title').parents('li').find('div').removeClass('show');
                 // $('#sidebar ul > li > a').find('.menu-title').parents('li').find('ul').css('display', 'none');
 
-                
+
                 if ($('#sidebar ul > li > a').parents('li').hasClass('active') === true ) {
 
                   $('#sidebar ul > li > a').parents('ul').find('.active').find('div').addClass('show');

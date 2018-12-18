@@ -272,11 +272,11 @@ Route::get('/finance/costmanajemen/costmanajemen', 'FinanceController@costmanaje
 
 // Sub-bagian absensi
 Route::get('/hrd/absensi/absensi', 'HRDController@absensi');
-Route::get('/hrd/absensi/absensi-manajemen', 'HRDController@findAbsManajemen');
-Route::get('/hrd/absensi/absensi-produksi', 'HRDController@findAbsManajemen');
-
-Route::post('/hrd/absensi/import-data-manajemen', 'HRDController@importDataManajemen');
-Route::post('/hrd/absensi/import-data-produksi', 'HRDController@importDataProduksi');
+// Route::get('/hrd/absensi/absensi-manajemen', 'HRDController@findAbsManajemen');
+// Route::get('/hrd/absensi/absensi-produksi', 'HRDController@findAbsManajemen');
+//
+// Route::post('/hrd/absensi/import-data-manajemen', 'HRDController@importDataManajemen');
+// Route::post('/hrd/absensi/import-data-produksi', 'HRDController@importDataProduksi');
 // =========================================================
 
 Route::get('/hrd/recruitment/recruitment', 'HRDController@recruitment');
@@ -499,21 +499,21 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/master/jabatan/hapus', 'JabatanController@hapus');
     Route::get('/master/jabatan/edit', 'JabatanController@edit');
 
-    //Payroll
+    // //Payroll
     Route::get('/hrd/payroll/datatable_payroll', 'payrollController@datatable_payroll')->name('datatable_payroll');
     Route::get('/hrd/payroll/simpan_payroll', 'payrollController@simpan_payroll')->name('simpan_payroll');
     Route::get('/hrd/payroll/hapus_payroll', 'payrollController@hapus_payroll')->name('hapus_payroll');
     Route::get('/hrd/payroll/edit_payroll', 'payrollController@edit_payroll')->name('edit_payroll');
     Route::get('/hrd/payroll/update_payroll', 'payrollController@update_payroll')->name('update_payroll');
 
-    //Payroll Manajemen
-    Route::get('/hrd/payroll/payrollman/simpan', 'HRDController@payroll_manajemen_simpan')->name('payroll_manajemen_simpan');
-    Route::get('/hrd/payroll/payrollman/getdivisi', 'HRDController@payroll_manajemen_getdivisi');
-    Route::get('/hrd/payroll/payrollman/getjabatan', 'HRDController@payroll_manajemen_getjabatan');
-    Route::get('/hrd/payroll/payrollman/proses', 'HRDController@payroll_manajemen_proses');
-    Route::get('/hrd/payroll/payrollman/datatable', 'HRDController@payroll_manajemen_datatable');
-    Route::get('/hrd/payroll/payrollman/hapus', 'HRDController@payroll_manajemen_hapus');
-    Route::get('/hrd/payroll/payrollman/detail', 'HRDController@payroll_manajemen_detail');
+    // //Payroll Manajemen
+    // Route::get('/hrd/payroll/payrollman/simpan', 'HRDController@payroll_manajemen_simpan')->name('payroll_manajemen_simpan');
+    // Route::get('/hrd/payroll/payrollman/getdivisi', 'HRDController@payroll_manajemen_getdivisi');
+    // Route::get('/hrd/payroll/payrollman/getjabatan', 'HRDController@payroll_manajemen_getjabatan');
+    // Route::get('/hrd/payroll/payrollman/proses', 'HRDController@payroll_manajemen_proses');
+    // Route::get('/hrd/payroll/payrollman/datatable', 'HRDController@payroll_manajemen_datatable');
+    // Route::get('/hrd/payroll/payrollman/hapus', 'HRDController@payroll_manajemen_hapus');
+    // Route::get('/hrd/payroll/payrollman/detail', 'HRDController@payroll_manajemen_detail');
 
     //Master percent
     Route::get('/master/percent/index', 'percentController@index');
@@ -545,5 +545,11 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::post('/master/scoreboard/update-score', 'master\ScoreController@update_score');
     Route::get('/master/scoreboard/tambah-score', 'master\ScoreController@tambah_score');
     Route::post('/master/scoreboard/simpan-score', 'master\ScoreController@simpan_score');
+
+    //Absensi
+    Route::post('/hrd/absensi/importbulan', 'HRDController@importbulan');
+    Route::post('/hrd/absensi/kartushift', 'HRDController@kartushift');
+    Route::post('/hrd/absensi/rekap', 'HRDController@rekap');
+    Route::post('/hrd/absensi/tahun', 'HRDController@tahun');
 
 }); // End Route Groub middleware auth

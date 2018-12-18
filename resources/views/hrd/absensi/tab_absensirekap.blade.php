@@ -3,9 +3,10 @@
       	<div class="card">
 	        <div class="card-body">
 	          <h4 class="card-title">Absensi Rekap Periode</h4>
-	          	
-	          	
 
+
+						<form action="{{url('/hrd/absensi/rekap')}}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+							{{ csrf_field() }}
 	          	<div class="row ">
 	          		<div class="col-md-12 ">
 		          		<label class="col-lg-12 col-form-label alamraya-no-padding">Upload File Absensi (Maks. 5mb)</label>
@@ -14,9 +15,10 @@
                 </div>
                 <div class="row mt-3 mb-3">
 	          		<div class="col-lg-12 text-right">
-		          		<button type="button" class="btn btn-info">Simpan Data</button>
+		          		<button type="submit" id="simpanrekap" class="btn btn-info">Simpan Data</button>
 		          	</div>
 	          	</div>
+						</form>
                 <div class="row form-group">
                 	<div class="col-lg-8 col-md-12 col-sm-12">
 	                	<label class="col-lg-12 col-form-label alamraya-no-padding">Tanggal</label>
@@ -150,7 +152,7 @@
 						  	$pegawai = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
 						  @endphp
 						  <tbody>
-						    
+
 						  </tbody>
 						</table>
 					</div>

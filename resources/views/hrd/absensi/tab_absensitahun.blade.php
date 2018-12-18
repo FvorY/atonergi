@@ -3,9 +3,10 @@
       	<div class="card">
 	        <div class="card-body">
 	          <h4 class="card-title">Absensi Rincian Tahunan</h4>
-	          	
-	          	
 
+
+						<form action="{{url('/hrd/absensi/tahun')}}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+							{{ csrf_field() }}
 	          	<div class="row ">
 	          		<div class="col-md-12 ">
 		          		<label class="col-lg-12 col-form-label alamraya-no-padding">Upload File Absensi (Maks. 5mb)</label>
@@ -14,9 +15,10 @@
                 </div>
                 <div class="row mt-3 mb-3">
 	          		<div class="col-lg-12 text-right">
-		          		<button type="button" class="btn btn-info">Simpan Data</button>
+		          		<button type="submit" id="simpantahun" class="btn btn-info">Simpan Data</button>
 		          	</div>
 	          	</div>
+						</form>
                 <div class="row form-group">
                 	<div class="col-lg-8 col-md-12 col-sm-12">
 	                	<label class="col-lg-12 col-form-label alamraya-no-padding">Tanggal</label>
@@ -81,7 +83,7 @@
 					<div class="table-responsive">
 						<table class="table table-hover table-striped data-table" cellspacing="0">
 						  <thead class="bg-gradient-info">
-						  	
+
 						    <tr>
 								<th>PIN</th>
 								<th>NIP</th>

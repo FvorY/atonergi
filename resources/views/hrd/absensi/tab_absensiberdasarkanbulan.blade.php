@@ -3,18 +3,21 @@
       	<div class="card">
 	        <div class="card-body">
 	          <h4 class="card-title">Absensi Berdasarkan Bulan</h4>
-	          	
+
+						<form action="{{url('/hrd/absensi/importbulan')}}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+							{{ csrf_field() }}
 	          	<div class="row ">
-	          		<div class="col-md-12 ">
+								<div class="col-md-12 ">
 		          		<label class="col-lg-12 col-form-label alamraya-no-padding">Upload File Absensi (Maks. 5mb)</label>
 		          		<input type="file" class="dropify" data-height="100" data-max-file-size="5000kb"/>
 		          	</div>
                 </div>
                 <div class="row mt-3 mb-3">
 	          		<div class="col-lg-12 text-right">
-		          		<button type="button" class="btn btn-info">Simpan Data</button>
+		          		<button type="submit" id="simpanbulan" class="btn btn-info">Simpan Data</button>
 		          	</div>
 	          	</div>
+							</form>
                 <div class="row form-group">
                 	<div class="col-lg-8 col-md-12 col-sm-12">
 	                	<label class="col-lg-12 col-form-label alamraya-no-padding">Tanggal</label>
@@ -114,7 +117,7 @@
 					    		<td>1	</td>
 					    		<td>1	</td>
 					    		<td>0	</td>
-					    		<td>61627017120824</td>	
+					    		<td>61627017120824</td>
 					    		<td>Revo-163BNC</td>
 					    	</tr>
 					    	@endfor
