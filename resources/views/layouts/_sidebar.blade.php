@@ -17,9 +17,9 @@
         <div class="search-field ml-4 d-none d-md-block">
           <form class="d-flex align-items-stretch h-100" action="#">
             <div class="input-group">
-              <input id="filterInput" type="text" class="form-control bg-transparent border-0" onchange="myFunction()" onfocus="myFunction()" onkeyup="myFunction()" placeholder="Search Menu">
+              <input id="filterInput" type="text" class="form-control bg-transparent border-0" placeholder="Search Menu">
               <div class="input-group-btn">
-                <button id="btn-reset" type="button" class="btn bg-transparent px-0 d-none" onclick="btnReset()" style="cursor: pointer;"><i class="fa fa-times"></i></button>
+                <button id="btn-reset" type="button" class="btn bg-transparent px-0 d-none" style="cursor: pointer;"><i class="fa fa-times"></i></button>
                 <!-- <button type="button" class="btn bg-transparent dropdown-toggle px-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="mdi mdi-earth"></i>
                 </button>
@@ -32,7 +32,7 @@
                 </div> -->
               </div>
               <div class="input-group-addon bg-transparent border-0 search-button">
-                <button type="button" class="btn btn-sm bg-transparent px-0">
+                <button type="button" class="btn btn-sm bg-transparent px-0" id="btn-search-menu">
                   <i class="mdi mdi-magnify"></i>
                 </button>
               </div>
