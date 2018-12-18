@@ -15031,7 +15031,7 @@ table > thead.bg-gradient-danger{
           display: flex;
           -webkit-align-items: center;
           align-items: center;
-          background: #545454;
+          background: linear-gradient(to bottom, #3a3f51 20%, #3c4875 100%);
           padding: 0.5rem 1.4rem;
           left: 70px;
           position: absolute;
@@ -15041,6 +15041,10 @@ table > thead.bg-gradient-danger{
           z-index: 1;
           height: 48px;
           line-height: 1.8; }
+          .sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title:hover{
+            background: linear-gradient(to bottom, #4D536A 20%, #2F3F78 100%);
+            transition: .2s;
+          }
           .sidebar-light.sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title {
             background: rgba(127, 127, 127, 0.5); }
           .rtl.sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title {
@@ -15057,8 +15061,8 @@ table > thead.bg-gradient-danger{
         .sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapsing {
           display: block;
           padding: .5rem 0;
-          background: -webkit-linear-gradient(to bottom, #32323d 0%, #545454 100%);
-          background: linear-gradient(to bottom, #32323d 0%, #545454 100%);
+          background: -webkit-linear-gradient(to bottom, #3a3f51 20%, #3c4875 100%);
+          background: linear-gradient(to bottom, #3a3f51 20%, #3c4875 100%);
           border-radius: 0 0 5px 0;
           position: absolute;
           top: 48px;
