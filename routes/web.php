@@ -536,4 +536,14 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/master/kpi/lookup-data-divisi', 'master\KpiController@lookup_divisi');
     Route::get('/master/kpi/lookup-data-jabatan', 'master\KpiController@lookup_jabatan');
     Route::get('/master/kpi/lookup-data-pegawai', 'master\KpiController@lookup_pegawai');
+
+    //Master Scoreboard
+    Route::get('/master/scoreboard/index', 'master\ScoreController@index');
+    Route::get('/master/scoreboard/datatable-index', 'master\ScoreController@get_datatable_index');
+    Route::post('/master/scoreboard/delete-score', 'master\ScoreController@delete_score');
+    Route::get('/master/scoreboard/edit-score', 'master\ScoreController@edit_score');
+    Route::post('/master/scoreboard/update-score', 'master\ScoreController@update_score');
+    Route::get('/master/scoreboard/tambah-score', 'master\ScoreController@tambah_score');
+    Route::post('/master/scoreboard/simpan-score', 'master\ScoreController@simpan_score');
+
 }); // End Route Groub middleware auth

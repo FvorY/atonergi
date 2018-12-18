@@ -238,6 +238,7 @@
                     Master Data Jasa
                     Master Data Percent
                     Master Data KPI
+                    Master Data Scoreboard
                   </span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -270,6 +271,7 @@
                   </li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/percent/*') ? 'active' : '' }}" href="{{url('master/percent/index')}}">Master Percent</a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/kpi/*') ? 'active' : '' }}" href="{{url('master/kpi/index')}}">Master KPI</a></li>
+                  <li class="nav-item"> <a class="nav-link {{Request::is('master/scoreboard/*') ? 'active' : '' }}" href="{{url('master/scoreboard/index')}}">Master Scoreboard</a></li>
                 </ul>
                 </div>
             </li>
