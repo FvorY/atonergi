@@ -283,6 +283,7 @@ Route::get('/hrd/recruitment/recruitment', 'HRDController@recruitment');
 
 // Sub-bagian tunjangan
 Route::get('/hrd/payroll/payroll', 'HRDController@payroll');
+Route::get('/hrd/payroll/print_payroll', 'HRDController@print_payroll')->name('print_payroll');
 Route::get('/hrd/payroll/find-tunjangan', 'HRDController@findTunjangan');
 Route::post('/hrd/payroll/insert-tunjangan', 'HRDController@insertTunjangan');
 Route::post('/hrd/payroll/update-tunjangan', 'HRDController@updateTunjangan');

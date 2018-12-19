@@ -598,4 +598,8 @@ class HRDController extends Controller
 
         dd($data);
     }
+
+    public function print_payroll(){
+      return view('hrd.payroll.print_payroll');
+    }
 }
