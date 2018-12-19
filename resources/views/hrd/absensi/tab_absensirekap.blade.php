@@ -3,14 +3,31 @@
       	<div class="card">
 	        <div class="card-body">
 	          <h4 class="card-title">Absensi Rekap Periode</h4>
-
+						@if(Session::has('sukses'))
+								<div class="alert alert-fill-primary" role="alert">
+									<i class="mdi mdi-alert-circle"></i>
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+																aria-hidden="true">&times;</span></button>
+										<strong>{{ Session::get('sukses') }}</strong>
+								</div>
+						@elseif(Session::has('gagal'))
+							<div class="alert alert-fill-danger" role="alert">
+								<i class="mdi mdi-alert-circle"></i>
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+															aria-hidden="true">&times;</span></button>
+									<strong>{{ Session::get('gagal') }}</strong>
+							</div>
+						@endif
+						<a href="javascript:void(0);" onclick="javascipt:window.open('{{url('/public/assets/berkas/absenbulan/absenbulan.xlsx')}}');"><button class="btn btn-success">Download Contoh Excel</button></a>
+						<br>
+						<br>
 
 						<form action="{{url('/hrd/absensi/rekap')}}" class="form-horizontal" method="POST" enctype="multipart/form-data">
 							{{ csrf_field() }}
 	          	<div class="row ">
 	          		<div class="col-md-12 ">
 		          		<label class="col-lg-12 col-form-label alamraya-no-padding">Upload File Absensi (Maks. 5mb)</label>
-		          		<input type="file" class="dropify" data-height="100" data-max-file-size="5000kb"/>
+		          		<input type="file" class="dropify" name="absensirekap" data-height="100" data-max-file-size="5000kb"/>
 		          	</div>
                 </div>
                 <div class="row mt-3 mb-3">
@@ -27,7 +44,7 @@
 	                		<div class="row">
 								<div class="col-lg-4 col-md-4 col-sm-12 alamraya-no-padding">
 									<div id="datepicker-popup" class="input-group date datepicker">
-				                        <input type="text" class="form-control" placeholder="dd-mm-yyyy">
+				                        <input type="text" class="form-control" id="ardatepicker01" placeholder="dd-mm-yyyy">
 				                        <div class="input-group-addon">
 				                          <span class="mdi mdi-calendar"></span>
 				                        </div>
@@ -38,7 +55,7 @@
 								</span>
 								<div class="col-lg-4 col-md-4 col-sm-12 alamraya-no-padding">
 									<div id="datepicker-popup" class="input-group date datepicker">
-				                        <input type="text" class="form-control" placeholder="dd-mm-yyyy">
+				                        <input type="text" class="form-control" id="ardatepicker02" placeholder="dd-mm-yyyy">
 				                        <div class="input-group-addon">
 				                          <span class="mdi mdi-calendar"></span>
 				                        </div>
@@ -46,32 +63,14 @@
 								</div>
 								<div class="col-lg-3 col-md-3 col-sm-12 alamraya-no-padding alamraya-opt-btn">
 									<span class="btn-group mt-1">
-										<button type="button" class="btn btn-primary btn-sm icon-btn">
+										<button type="button" class="btn btn-primary btn-sm icon-btn" onclick="arsearch()">
 			                              <i class="fa fa-search"></i>
 			                            </button>
-			                             <button type="button" class="btn btn-info btn-sm icon-btn" >
+			                             <button type="button" class="btn btn-info btn-sm icon-btn" onclick="arrefresh()">
 			                              <i class="fa fa-refresh"></i>
 			                            </button>
 			                        </span>
 								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-12 col-sm-12 ">
-	                	<label class="col-lg-12 col-form-label alamraya-label-padding">Divisi</label>
-
-	                	<div class="col-lg-12 col-md-12 col-sm-12 alamraya-no-padding">
-							<div class="form-group">
-								<select class="form-control form-control-sm" id="filter">
-									<option>--Select--</option>
-									<option value="hrd">HRD dan General Affair</option>
-									<option value="keu">Keuangan dan Akuntansi</option>
-									<option value="snm">Sales dan Marketing</option>
-									<option value="prd">Produksi</option>
-									<option value="gnp">Gudang dan Pengiriman</option>
-									<option value="opr">Operator</option>
-									<option value="gmr">General Manager</option>
-								</select>
 							</div>
 						</div>
 					</div>
@@ -81,7 +80,7 @@
 						<!-- <button class="btn btn-info" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button> -->
 					<!-- </div> -->
 					<div class="table-responsive">
-						<table class="table table-hover table-striped data-table" cellspacing="0">
+						<table class="table table-hover table-striped data-table" cellspacing="0" id="artable">
 						  <thead class="bg-gradient-info">
 						  	<tr>
 						  		<th colspan="7">Pegawai</th>
@@ -148,9 +147,6 @@
 
 						    </tr>
 						  </thead>
-						  @php
-						  	$pegawai = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
-						  @endphp
 						  <tbody>
 
 						  </tbody>

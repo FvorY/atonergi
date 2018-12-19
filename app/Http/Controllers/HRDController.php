@@ -15,6 +15,8 @@ use Carbon\Carbon;
 // Menarik plugin
 use Excel;
 use DB;
+
+use Session;
 // =====================================
 
 class HRDController extends Controller
@@ -593,9 +595,184 @@ class HRDController extends Controller
     }
 
     public function kartushift(Request $request){
-      $path = $request->file('kartushift')->getRealPath();
-      $data = Excel::load($path, function($reader){})->get();
+      DB::beginTransaction();
+      try {
+        $path = $request->file('kartushift')->getRealPath();
+        $data = Excel::load($path, function($reader){})->get();
 
-        dd($data);
+          if (!empty($data) && $data->count()) {
+            foreach ($data as $key => $value) {
+              $check = DB::table('d_kartushift')
+                          ->where('k_pin', (int)$value->pin)
+                          ->where('k_nip', (int)$value->nip)
+                          ->where('k_nama', $value->nama)
+                          ->where('k_jabatan', $value->jabatan)
+                          ->where('k_departement', $value->departement)
+                          ->where('k_kantor', $value->kantor)
+                          ->where('k_tanggal', Carbon::parse($value->tanggal)->format('Y-m-d'))
+                          ->where('k_kehadiran', (int)$value->kehadiran)
+                          ->where('k_in', $value->in)
+                          ->where('k_out', $value->out)
+                          ->count();
+
+              if ($check == 0) {
+                DB::table('d_kartushift')
+                            ->insert(['k_pin' => (int)$value->pin,
+                            'k_nip' => (int)$value->nip,
+                            'k_nama' => $value->nama,
+                            'k_jabatan' => $value->jabatan,
+                            'k_departement' => $value->departement,
+                            'k_kantor' => $value->kantor,
+                            'k_tanggal' => Carbon::parse($value->tanggal)->format('Y-m-d'),
+                            'k_kehadiran' => (int)$value->kehadiran,
+                            'k_in' => $value->in,
+                            'k_out' => $value->out]);
+              }
+            }
+          }
+
+          DB::commit();
+          Session::flash('sukses', 'Berhasil Disimpan!');
+          return redirect('hrd/absensi/absensi');
+      } catch (\Exception $e) {
+          DB::rollback();
+          Session::flash('gagal', 'Gagal Disimpan!');
+          return redirect('hrd/absensi/absensi');
+      }
+    }
+
+    public function kstable(Request $request){
+      if(isset($request)) {
+
+          $tgl_awal = $request->tgl1 == null ? '' : $request->tgl1;
+          $tgl_akhir = $request->tgl2 == null ? '' : $request->tgl2;
+
+          if($tgl_awal != '' && $tgl_akhir != '') {
+              $tgl_awal = date('Y-m-d', strtotime($tgl_awal));
+              $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
+              $data = DB::table('d_kartushift')
+                        ->whereBetween('k_tanggal', array($tgl_awal, $tgl_akhir))
+                        ->get();
+          } else {
+            $data = DB::table('d_kartushift')
+                        ->get();
+          }
+      }
+
+      for ($i=0; $i < count($data); $i++) {
+        $data[$i]->k_tanggal = Carbon::parse($data[$i]->k_tanggal)->format('d-m-Y');
+      }
+
+      $result = "{\"data\" : $data}";
+
+      header('Content-Type: application/json');
+      return $result;
+    }
+
+    public function abtable(Request $request){
+      if(isset($request)) {
+
+          $tgl_awal = $request->tgl1 == null ? '' : $request->tgl1;
+          $tgl_akhir = $request->tgl2 == null ? '' : $request->tgl2;
+
+          if($tgl_awal != '' && $tgl_akhir != '') {
+              $tgl_awal = date('Y-m-d', strtotime($tgl_awal));
+              $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
+              $data = DB::table('d_absensibulan')
+                        ->whereBetween('a_tanggal', array($tgl_awal, $tgl_akhir))
+                        ->get();
+          } else {
+            $data = DB::table('d_absensibulan')
+                        ->get();
+          }
+      }
+
+      for ($i=0; $i < count($data); $i++) {
+        $data[$i]->a_tanggal = Carbon::parse($data[$i]->a_tanggal)->format('d-m-Y');
+      }
+
+      $result = "{\"data\" : $data}";
+
+      header('Content-Type: application/json');
+      return $result;
+    }
+
+    public function importbulan(Request $request){
+      DB::beginTransaction();
+      try {
+        $path = $request->file('importbulan')->getRealPath();
+        $data = Excel::load($path, function($reader){})->get();
+
+          if (!empty($data) && $data->count()) {
+            foreach ($data as $key => $value) {
+              $check = DB::table('d_absensibulan')
+                          ->where('a_tanggalscan', Carbon::parse($value->tanggal_scan)->format('Y-m-d'))
+                          ->where('a_tanggal', Carbon::parse($value->tanggal)->format('Y-m-d'))
+                          ->where('a_jam', $value->jam)
+                          ->where('a_pin', (int)$value->pin)
+                          ->where('a_nip', (int)$value->nip)
+                          ->where('a_nama', $value->nama)
+                          ->where('a_jabatan', $value->jabatan)
+                          ->where('a_departement', $value->departement)
+                          ->where('a_kantor', $value->kantor)
+                          ->where('a_verifikasi', (int)$value->verifikasi)
+                          ->where('a_io', (int)$value->input_output)
+                          ->where('a_workcode', (int)$value->workcode)
+                          ->where('a_sn', (string)$value->serial_number)
+                          ->where('a_mesin', $value->mesin)
+                          ->count();
+
+              if ($check == 0) {
+                DB::table('d_absensibulan')
+                        ->insert(['a_tanggalscan' => Carbon::parse($value->tanggal_scan)->format('Y-m-d G:i:s'),
+                        'a_tanggal' => Carbon::parse($value->tanggal)->format('Y-m-d'),
+                        'a_jam' => $value->jam,
+                        'a_pin' => (int)$value->pin,
+                        'a_nip' => (int)$value->nip,
+                        'a_nama' => $value->nama,
+                        'a_jabatan' => $value->jabatan,
+                        'a_departement' => $value->departement,
+                        'a_kantor' => $value->kantor,
+                        'a_verifikasi' => (int)$value->verifikasi,
+                        'a_io' => (int)$value->input_output,
+                        'a_workcode' => (int)$value->workcode,
+                        'a_sn' => $value->serial_number,
+                        'a_mesin' => $value->mesin]);
+              }
+            }
+          }
+
+          DB::commit();
+          Session::flash('sukses', 'Berhasil Disimpan!');
+          return redirect('hrd/absensi/absensi');
+      } catch (\Exception $e) {
+          DB::rollback();
+          Session::flash('gagal', 'Gagal Disimpan!');
+          return redirect('hrd/absensi/absensi');
+      }
+    }
+
+    public function artable(Request $request){
+      if(isset($request)) {
+
+          $tgl_awal = $request->tgl1 == null ? '' : $request->tgl1;
+          $tgl_akhir = $request->tgl2 == null ? '' : $request->tgl2;
+
+          if($tgl_awal != '' && $tgl_akhir != '') {
+              $tgl_awal = date('Y-m-d', strtotime($tgl_awal));
+              $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
+              $data = DB::table('d_rekapperiode')
+                        ->whereBetween('r_insert', array($tgl_awal, $tgl_akhir))
+                        ->get();
+          } else {
+            $data = DB::table('d_rekapperiode')
+                        ->get();
+          }
+      }
+
+      $result = "{\"data\" : $data}";
+
+      header('Content-Type: application/json');
+      return $result;
     }
 }

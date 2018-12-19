@@ -551,5 +551,10 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::post('/hrd/absensi/kartushift', 'HRDController@kartushift');
     Route::post('/hrd/absensi/rekap', 'HRDController@rekap');
     Route::post('/hrd/absensi/tahun', 'HRDController@tahun');
+    Route::get('/hrd/absensi/kstable', 'HRDController@kstable');
+
+    Route::get('/hrd/absensi/abtable', 'HRDController@abtable');
+
+    Route::get('/hrd/absensi/artable', 'HRDController@artable');
 
 }); // End Route Groub middleware auth
