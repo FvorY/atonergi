@@ -89,7 +89,11 @@
   <script src="{{asset('assets/jp-list/js/jplist.bootstrap-pagination-bundle-custom.min.js')}}"></script>
 
 
-
+  <script type="text/javascript">
+    $('.input-daterange').datepicker({
+        format:'dd-mm-yyyy'
+    });
+  </script>
 
   <script type="text/javascript">
   iziToast.settings({
@@ -443,4 +447,13 @@
     );
   })
 
+</script>
+
+{{-- Close THeme Setting --}}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.container-scroller').click(function(){
+      $('#theme-settings').removeClass('open');
+    })
+  });
 </script>
