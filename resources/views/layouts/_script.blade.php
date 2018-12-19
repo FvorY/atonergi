@@ -44,7 +44,7 @@
   <script src="{{asset('assets/js/off-canvas.js')}}"></script>
   <script src="{{asset('assets/js/accounting.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.maskMoney.js')}}"></script>
-  
+  <script src="{{asset('assets/js/misc.js')}}"></script>
   <script src="{{asset('assets/js/hoverable-collapse.js')}}"></script>
   <script src="{{asset('assets/js/settings.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/js/settings.js"></script>
   <script src="{{asset('assets/js/todolist.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/js/todolist.js"></script>
