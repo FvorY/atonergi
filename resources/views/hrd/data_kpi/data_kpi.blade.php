@@ -19,46 +19,28 @@
 	      	<div class="card">
 		        <div class="card-body">
 		          <h4 class="card-title">Data KPI</h4>
-		          	<div class="row form-group">
-	                	<div class="col-lg-8 col-md-12 col-sm-12">
-		                	<label class="col-lg-12 col-form-label alamraya-no-padding">Periode</label>
+		          	<div class="row">
+	                	<div class="col-md-2 col-sm-3 col-xs-12">
+		                	<label>Periode</label>
+		                </div>
+	                	<div class="col-md-7 col-sm-9 col-xs-12">
 
-		                	<div class="col-lg-12 col-md-12 col-sm-12">
-		                		<div class="row">
-									<div class="col-lg-4 col-md-4 col-sm-12 alamraya-no-padding">
-										<div id="datepicker-popup" class="input-group date datepicker">
-					                        <input type="text" class="form-control" placeholder="dd-mm-yyyy">
-					                        <div class="input-group-addon">
-					                          <span class="mdi mdi-calendar"></span>
-					                        </div>
-					                    </div>
-									</div>
-									<span class="alamraya-span-addon">
-										-
-									</span>
-									<div class="col-lg-4 col-md-4 col-sm-12 alamraya-no-padding">
-										<div id="datepicker-popup" class="input-group date datepicker">
-					                        <input type="text" class="form-control" placeholder="dd-mm-yyyy">
-					                        <div class="input-group-addon">
-					                          <span class="mdi mdi-calendar"></span>
-					                        </div>
-					                    </div>
-									</div>
-									<div class="col-lg-3 col-md-3 col-sm-12 alamraya-no-padding alamraya-opt-btn">
-										<span class="input-group-append">
-											<button type="button" class="btn btn-primary btn-sm icon-btn ml-2">
-				                              <i class="fa fa-search"></i>
-				                            </button>
-				                             <button type="button" class="btn btn-info btn-sm icon-btn ml-2" >
-				                              <i class="fa fa-refresh"></i>
-				                            </button>
-				                        </span>
-									</div>
-								</div>
-							</div>
+		                	
+		                		<div class="form-group">
+		                			<div class="input-group input-group-sm input-daterange">
+		                				<input type="text" class="form-control form-control-sm" name="">
+		                				<span class="input-group-addon">-</span>
+		                				<input type="text" class="form-control form-control-sm" name="">
+		                				<div class="input-group-btn">
+											<button class="btn btn-info"><i class="fa fa-search"></i></button>
+											<button class="btn btn-secondary"><i class="fa fa-refresh"></i></button>
+										</div>
+		                			</div>
+		                		</div>
+							
 						</div>
-						<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-							<button class="btn btn-info alamraya-btn-add" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
+						<div class="col-md-3 col-sm-12 col-xs-12 text-right">
+							<button class="btn btn-info" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
 						</div>
 	                </div>
 
@@ -72,9 +54,10 @@
 							  <thead class="bg-gradient-info">
 							    <tr>
 							      <th>No</th>
-							      <th>Offer Code</th>
-							      <th>Offer Classification</th>
-							      <th>Information</th>
+							      <th>Date</th>
+							      <th>Code</th>
+							      <th>Employee</th>
+							      <th>Date Confirm</th>
 							      <th>Action</th>
 							    </tr>
 							  </thead>

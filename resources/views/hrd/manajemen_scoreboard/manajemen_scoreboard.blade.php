@@ -19,18 +19,47 @@
 		        <div class="card-body">
 		          <h4 class="card-title">Manajemen Scoreboard</h4>
 		          	<div class="row">
-		          		
-						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
-							<button class="btn btn-info" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
+		          		<div class="col-md-2 col-sm-3 col-xs-12">
+		                	<label>Periode</label>
+		                </div>
+	                	<div class="col-md-7 col-sm-9 col-xs-12">
+
+		                	
+		                		<div class="form-group">
+		                			<div class="input-group input-group-sm input-daterange">
+		                				<input type="text" class="form-control form-control-sm" name="">
+		                				<span class="input-group-addon">-</span>
+		                				<input type="text" class="form-control form-control-sm" name="">
+		                				<div class="input-group-btn">
+											<button class="btn btn-info"><i class="fa fa-search"></i></button>
+											<button class="btn btn-secondary"><i class="fa fa-refresh"></i></button>
+										</div>
+		                			</div>
+		                		</div>
+							
 						</div>
+						<div class="col-md-3 col-sm-12 col-xs-12">
+							<div class="form-group">
+								<select class="form-control form-control-sm">
+									<option value="semua">Semua</option>	
+									<option value="belum">Belum dikonfirm</option>	
+									<option value="sudah">Sudah dikonfirm</option>	
+								</select>
+							</div>
+						</div>
+	                </div>		          
+		          	<div class="row">
+
 						<div class="table-responsive">
 							<table class="table table-hover data-table" cellspacing="0">
 							  <thead class="bg-gradient-info">
 							    <tr>
 							      <th>No</th>
-							      <th>Offer Code</th>
-							      <th>Offer Classification</th>
-							      <th>Information</th>
+							      <th>Date</th>
+							      <th>Code</th>
+							      <th>Employee</th>
+							      <th>Status</th>
+							      <th>Date Confirm</th>
 							      <th>Action</th>
 							    </tr>
 							  </thead>

@@ -46,6 +46,10 @@
 						  </tbody>
 						</table>
 					</div>
+
+					<div class="col-lg-12 text-right mt-3">
+						<a href="{{route('print_payroll')}}" class="btn btn-primary" target="_blank"><i class="fa fa-print"></i> Print</a>
+					</div>
 					
 	        	</div>
 	      	</div>

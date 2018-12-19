@@ -775,4 +775,8 @@ class HRDController extends Controller
       header('Content-Type: application/json');
       return $result;
     }
+
+    public function print_payroll(){
+      return view('hrd.payroll.print_payroll');
+    }
 }

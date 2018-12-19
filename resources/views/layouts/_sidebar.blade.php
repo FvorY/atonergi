@@ -429,9 +429,6 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/data_kpi/data_kpi') ? 'active' : '' || Request::is('hrd/data_kpi/*') ? 'active' : '' }}" href="{{url('hrd/data_kpi/data_kpi')}}">Data KPI<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_scoreboard/manajemen_scoreboard') ? 'active' : '' || Request::is('hrd/manajemen_scoreboard/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_scoreboard/manajemen_scoreboard')}}">Manajemen Scoreboard<span class="d-none">HRD</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi') ? 'active' : '' || Request::is('hrd/manajemen_scoreboard_kpi/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi')}}">Scoreboard & KPI<span class="d-none">HRD</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/recruitment/recruitment') ? 'active' : '' || Request::is('hrd/recruitment/*') ? 'active' : '' }}" href="{{url('hrd/recruitment/recruitment')}}">Recruitment<span class="d-none">HRD</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_surat/manajemen_surat') ? 'active' : '' || Request::is('hrd/manajemen_surat/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_surat/manajemen_surat')}}">Manajemen Surat<span class="d-none">HRD</span></a></li>
-                </ul>
                 </div>
             </li>
             <li class="nav-item {{Request::is('finance') ? 'active' : '' || Request::is('finance/*') ? 'active' : '' }}">
