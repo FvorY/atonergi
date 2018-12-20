@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Carbon\Carbon;
 
-use Yajra\Datatables\DataTables;
+use Yajra\Datatables\Datatables;
 
 use DB;
 
