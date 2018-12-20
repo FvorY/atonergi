@@ -3,6 +3,14 @@
 <head>
 	<title>Payroll</title>
 	<style type="text/css">
+		html{
+			box-sizing: border-box;
+		}
+		*,
+		*:before,
+		*:after {
+		  box-sizing: inherit;
+		}
 		*:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(small):not(label){
 			font-size: 14px;
 		}
@@ -94,7 +102,10 @@
 		table{
 			border-collapse: collapse;
 		}
-		table.border-none ,.border-none td{
+		table.border-none,
+		.border-none td,
+		.border-none th
+		{
 			border:none !important;
 		}
 		.position-top{
@@ -173,6 +184,38 @@
 		.btn-print button, .btn-print a{
 			margin: 10px;
 		}
+		.row{
+			display: flex;
+			flex-wrap: wrap;
+			margin-left: -15px;
+			margin-right: -15px;
+		}
+		.col-6{
+			position: relative;
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+		.col-6{
+			float: left;
+		}
+		.col-6{
+			width: 50%;
+		}
+		.div-page-break{
+			page-break-inside: avoid;
+			padding: 5px;
+			border: 1px solid #a5ffff;
+			background:rgba(0,200,255,.1);
+		}
+		hr{
+			color: black;
+		}
+		hr.dashed{
+			border: 1px dashed gray;
+		}
+		.hidden{
+			display: none;
+		}
 	</style>
 </head>
 <body>
@@ -180,180 +223,197 @@
 	<div class="btn-print">
 		<button onclick="Print()">Print</button>
 	</div>
+
 	<div class="div-width">
-		{{-- <table class="border-none" width="100%" cellspacing="0" cellpadding="0">
-			<tr>
-				<td class="s16 italic bold" width="35%">Atonergi</td>
-				<td class="s16" width="30%"><p class="underline text-center">FAKTUR</p></td>
-				<td class="s16" width="35%">Surabaya, <text class="bold">{{date('d/m/Y')}}</text></td>
-			</tr>
-			<tr>
-				<td>Jl. Raya Randu no.74<br>
-					Sidotopo Wetan - Surabaya 60123<br>
-					Telp. 031-51165528&nbsp;&nbsp;&nbsp;Fax. 081331100028-081234561066
-				</td>
-				<td class="text-center">01180525040-PJ</td>
-				<td>Kepada Yth,<br>
-					Fitrah Kebab<br>
-					Jl. Wonosari km.8 sekarsuli no.23 RT 04 RW Sendangtirto Berbah Sleman Yogyakarta
-				</td>
-			</tr>
-		</table>
-		<table width="100%" cellspacing="0" class="tabel" border="1px">
-			<tr class="text-center">
-				<td>No</td>
-				<td>Kode Barang</td>
-				<td>Nama Barang</td>
-				<td>Unit</td>
-				<td>Harga</td>
-				<td>Total</td>
-				<td>Discount</td>
-			</tr>
-			<tr>
-				<td class="text-center">1</td>
-				<td>005000018</td>
-				<td>Tortilla Catering</td>
-				<td class="text-right">100,00 PAK</td>
-				<td class="text-right">16,000.00</td>
-				<td class="text-right" width="10%">1,600,000.00</td>
-				<td class="text-right" width="10%">0.00</td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td class="text-center empty"></td>
-				<td></td>
-				<td></td>
-				<td class="text-right"></td>
-				<td class="text-right"></td>
-				<td class="text-right" width="10%"></td>
-				<td class="text-right" width="10%"></td>
-			</tr>
-			<tr>
-				<td colspan="2" class="border-none-right">Keterangan :</td>
-				<td colspan="3" class="border-none-left border-none-right"></td>
-				<td class="border-none-right border-none-left">Jumlah</td>
-				<td class="border-none-left text-right">1,600,000.00</td>
-			</tr>
-			<tr>
-				<td colspan="5" class="vertical-baseline border-none-right" style="position: relative;">
-					<div class="top s16">Terbilang : Satu Juta Enam Ratus Ribu Rupiah</div>
-					<div class="float-left" style="width: 40vw;">
-						<ul style="padding-left: -15px;">
-							<li>Barang yang sudah dibeli tidak bisa dikemblikan lagi kecuali ada perjanjian</li>
-							<li>Keterlambatan, kehilangan atau kerusakan barang selama pengiriman tidak menjadi tanggung jawab kami.</li>
-							<li>Klaim dilayani 1x24 jam setelah barang diterima</li>
-						</ul>
-					</div>
-					<div class="float-right text-center" style="margin-top: 15px;height: 60px;width: 40%;position: absolute;right: 0;bottom: 20px;">
-						<div>Hormat Kami</div>
-						<div style="margin:auto;border-bottom: 1px solid black;width: 150px;height: 45px;"></div>
-						<div>Accounting</div>
-					</div>
-				</td>
-				<td colspan="2" class="vertical-baseline border-none-left">
-					<div class="top">
-						<table class="border-none" width="100%" cellspacing="0">
+		<div class="div-page-break">
+			<div class="row">
+				<div class="col-6">
+					<table class="border-none" width="100%" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>Nama Perusahaan</td>
+							<td>:</td>
+							<td>PT REJA ATON ENERGI</td>
+						</tr>
+						<tr>
+							<td>Periode Proses</td>
+							<td>:</td>
+							<td>Desember 2018</td>
+						</tr>
+						<tr>
+							<td>Jabatan</td>
+							<td>:</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>No Rek</td>
+							<td>:</td>
+							<td>42540939399</td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-6">
+					<table class="border-none" width="100%" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>NIP</td>
+							<td>:</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>Nama</td>
+							<td>:</td>
+							<td>Alpha</td>
+						</tr>
+						<tr>
+							<td>Departemen</td>
+							<td>:</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Atas Nama</td>
+							<td>:</td>
+							<td>Bravo</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-6">
+					<table class="border-none" width="100%">
+						<thead>
 							<tr>
-								<td width="50%">Total Diskon</td>
-								<td width="50%" class="text-right">0.00</td>
+								<th colspan="2" class="bold" align="left">Penerimaan (+)</th>
+								<th></th>
+								<th></th>
+								<th></th>
 							</tr>
+						</thead>
+						<tbody>
+							@for($i=0;$i<40;$i++)
 							<tr>
-								<td width="50%">Sub Total</td>
-								<td width="50%" class="text-right">1,600,000.00</td>
+								<td class="underline">1</td>
+								<td>Gaji Pokok</td>
+								<td>1 x 3.400.000</td>
+								<td>=</td>
+								<td align="right">5.500.000</td><!-- ================ Mabok ============== -->
 							</tr>
+							@endfor
+						</tbody>
+						<tfoot>
 							<tr>
-								<td width="50%">PPN</td>
-								<td width="50%" class="text-right">0.00</td>
+								<th colspan="4" align="left">Total Penerimaan :</th>
+								<th align="right">10.000.000</th><!-- =============== Mabok =============== -->
 							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="col-6">
+					<table class="border-none" width="100%">
+						<thead>
 							<tr>
-								<td width="50%">Total</td>
-								<td width="50%" class="text-right">1,600,000.00</td>
+								<th colspan="2" class="bold" align="left">Potongan (-)</th>
+								<th></th>
+								<th></th>
+								<th></th>
 							</tr>
-						</table>
-					</div>
-				</td>
-			</tr>
-		</table> --}}
-		<h1>Atonergi</h1>
-		<h3>Slip Gaji</h3>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</thead>
+						<tbody>
+							<tr>
+								<td class="underline">1</td>
+								<td>Gaji Pokok</td>
+								<td>1 x 3.400.000</td>
+								<td>=</td>
+								<td align="right">5.500.000</td><!-- ============== Mabok ============== -->
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th colspan="4" align="left">Total Potongan :</th>
+								<th align="right"></th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="col-6">
+					<table class="border-none" width="100%">
+						<tr>
+							<td class="italic underline bold">Gaji yang diterima</td>
+							<td class="italic underline bold" align="right">6.793.000</td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-6">
+					<table class="border-none" width="100%">
+						<tr>
+							<td class="italic underline">Tgl. Cetak</td>
+							<td class="italic underline">20-12-2018 23:59:59</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<hr class="dashed">
+			<div class="row">
+				<div class="col-6">
+					<table class="border-none" width="100%">
+						<tr>
+							<td>Nama Perusahaan</td>
+							<td>:</td>
+							<td>PT. REJA ATON ENERGI</td>
+						</tr>
+						<tr>
+							<td>Periode Proses</td>
+							<td>:</td>
+							<td>Desember 2018</td>
+						</tr>
+						<tr>
+							<td>Jabatan</td>
+							<td>:</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>NIP</td>
+							<td>:</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>Nama</td>
+							<td>:</td>
+							<td>Alpha</td>
+						</tr>
+						<tr>
+							<td>Departemen</td>
+							<td>:</td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="col-6">
+					<table class="border-none" width="100%">
+						<tr>
+							<td class="bold italic underline">Gaji yang diterima :</td>
+							<td class="bold italic underline" align="right">6.800.000</td>
+						</tr>
+						<tr>
+							<td align="center">Diserahkan oleh,</td>
+							<td align="center">Diterima oleh,</td>
+						</tr>
+						<tr valign="bottom" align="center">
+							<td height="50px">Administrator</td>
+							<td>Alpha</td>
+						</tr>
+						<tr>
+							<td colspan="2">Tgl. Cetak : 20-12-2018 23:59:59</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
 	</div>
+
+
+	
 
 <script type="text/vbscript" language='VBScript'>
 Sub Print()
