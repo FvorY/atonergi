@@ -284,3 +284,26 @@ textarea{
     text-align: right;
     margin-top: 15px;
 }
+@media(max-width: 576px){
+    .input-daterange input.form-control{
+        -webkit-transition: /*min-width .3s ease, max-width .3s ease*/ width .3s ease-in-out;
+        transition: /*min-width .3s ease, max-width .3s ease*/ width .3s ease-in-out;
+    }
+    .input-daterange input.form-control:focus{
+        max-width: 100%;
+        min-width: 120px;
+        width: 100%;
+    }
+    .form-control.datepicker{
+        -webkit-transition: /*min-width .3s ease, max-width .3s ease*/ width .3s ease-in-out;
+        transition: /*min-width .3s ease, max-width .3s ease*/ width .3s ease-in-out;
+    }
+    .form-control.datepicker:focus{
+        max-width: 100%;
+        min-width: 120px;
+        width: 100%;
+    }
+}
+.btn i.fa {
+    min-width: 12px;
+}

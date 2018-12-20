@@ -27,13 +27,13 @@
 
 		                	
 		                		<div class="form-group">
-		                			<div class="input-group input-group-sm input-daterange">
+		                			<div class="input-group input-daterange">
 		                				<input type="text" class="form-control form-control-sm" name="">
-		                				<span class="input-group-addon">-</span>
+		                				<span class="input-group-addon bg-secondary">-</span>
 		                				<input type="text" class="form-control form-control-sm" name="">
 		                				<div class="input-group-btn">
-											<button class="btn btn-info"><i class="fa fa-search"></i></button>
-											<button class="btn btn-secondary"><i class="fa fa-refresh"></i></button>
+											<button class="btn btn-sm btn-info"><i class="fa fa-search"></i></button>
+											<button class="btn btn-sm btn-secondary"><i class="fa fa-refresh"></i></button>
 										</div>
 		                			</div>
 		                		</div>
