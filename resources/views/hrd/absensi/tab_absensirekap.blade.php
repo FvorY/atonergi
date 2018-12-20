@@ -18,7 +18,7 @@
 									<strong>{{ Session::get('gagal') }}</strong>
 							</div>
 						@endif
-						<a href="javascript:void(0);" onclick="javascipt:window.open('{{url('/public/assets/berkas/absenbulan/absenbulan.xlsx')}}');"><button class="btn btn-success">Download Contoh Excel</button></a>
+						<a href="javascript:void(0);" onclick="javascipt:window.open('{{url('/public/assets/berkas/rekapperiode/rekapperiode.xlsx')}}');"><button class="btn btn-success">Download Contoh Excel</button></a>
 						<br>
 						<br>
 

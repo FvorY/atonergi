@@ -95,6 +95,7 @@ $('#tanggal2').datepicker({
 ksgetTanggal();
 abgetTanggal();
 argetTanggal();
+atgetTanggal();
 
 });
 
@@ -161,13 +162,23 @@ function abrefresh(){
 }
 
 function arsearch(){
-	abgetTanggal();
+	argetTanggal();
 }
 
 function arrefresh(){
 	$("#ardatepicker01").val('');
 	$("#ardatepicker02").val('');
 	argetTanggal();
+}
+
+function atsearch(){
+	atgetTanggal();
+}
+
+function atrefresh(){
+	$("#atdatepicker01").val('');
+	$("#atdatepicker02").val('');
+	atgetTanggal();
 }
 
 function argetTanggal(){
@@ -272,6 +283,86 @@ $('#abtable').DataTable({
 			{"data" : 'a_workcode', name: 'a_workcode'},
 			{"data" : 'a_sn', name: 'a_sn'},
 			{"data" : 'a_mesin', name: 'a_mesin'},
+		],
+		"language": {
+			"searchPlaceholder": "Cari Data",
+			"emptyTable": "Tidak ada data",
+			"sInfo": "Menampilkan _START_ - _END_ Dari _TOTAL_ Data",
+			"sSearch": '<i class="fa fa-search"></i>',
+			"sLengthMenu": "Menampilkan &nbsp; _MENU_ &nbsp; Data",
+			"infoEmpty": "",
+			"paginate": {
+							"previous": "Sebelumnya",
+							"next": "Selanjutnya",
+					 }
+		}
+});
+};
+
+function atgetTanggal(){
+$('#attable').dataTable().fnDestroy();
+var tgl1 = $("#atdatepicker01").val();
+var tgl2 = $("#atdatepicker02").val();
+$('#attable').DataTable({
+		"scrollY": true,
+		"scrollX": true,
+		"paging":  false,
+		"autoWidth": false,
+		"ajax": {
+				url: baseUrl + "/hrd/absensi/attable",
+				type: 'GET',
+				data: {tgl1, tgl2}
+		},
+		"columns": [
+			// {"data" : "DT_Row_Index", orderable: false, searchable: false, "width" : "5%"},
+			{"data" : 'rt_pin', name: 'rt_pin'},
+			{"data" : 'rt_nip', name: 'rt_nip'},
+			{"data" : 'rt_nama', name: 'rt_nama'},
+			{"data" : 'rt_jabatan', name: 'rt_jabatan'},
+			{"data" : 'rt_departement', name: 'rt_departement'},
+			{"data" : 'rt_kantor', name: 'rt_kantor'},
+			{"data" : 'rt_bulan', name: 'rt_bulan'},
+			{"data" : 'rt_1', name: 'rt_1'},
+			{"data" : 'rt_2', name: 'rt_1'},
+			{"data" : 'rt_3', name: 'rt_1'},
+			{"data" : 'rt_4', name: 'rt_1'},
+			{"data" : 'rt_5', name: 'rt_1'},
+			{"data" : 'rt_6', name: 'rt_1'},
+			{"data" : 'rt_7', name: 'rt_1'},
+			{"data" : 'rt_8', name: 'rt_1'},
+			{"data" : 'rt_9', name: 'rt_1'},
+			{"data" : 'rt_10', name: 'rt_1'},
+			{"data" : 'rt_11', name: 'rt_1'},
+			{"data" : 'rt_12', name: 'rt_1'},
+			{"data" : 'rt_13', name: 'rt_1'},
+			{"data" : 'rt_14', name: 'rt_1'},
+			{"data" : 'rt_15', name: 'rt_1'},
+			{"data" : 'rt_16', name: 'rt_1'},
+			{"data" : 'rt_17', name: 'rt_1'},
+			{"data" : 'rt_18', name: 'rt_1'},
+			{"data" : 'rt_19', name: 'rt_1'},
+			{"data" : 'rt_20', name: 'rt_1'},
+			{"data" : 'rt_21', name: 'rt_1'},
+			{"data" : 'rt_22', name: 'rt_1'},
+			{"data" : 'rt_23', name: 'rt_1'},
+			{"data" : 'rt_24', name: 'rt_1'},
+			{"data" : 'rt_25', name: 'rt_1'},
+			{"data" : 'rt_26', name: 'rt_1'},
+			{"data" : 'rt_27', name: 'rt_1'},
+			{"data" : 'rt_28', name: 'rt_1'},
+			{"data" : 'rt_29', name: 'rt_1'},
+			{"data" : 'rt_30', name: 'rt_1'},
+			{"data" : 'rt_31', name: 'rt_1'},
+			{"data" : 'rt_libur', name: 'rt_1'},
+			{"data" : 'rt_cuti', name: 'rt_1'},
+			{"data" : 'rt_izin', name: 'rt_1'},
+			{"data" : 'rt_sakit', name: 'rt_1'},
+			{"data" : 'rt_absen', name: 'rt_1'},
+			{"data" : 'rt_cuti_normatif', name: 'rt_1'},
+			{"data" : 'rt_dinas', name: 'rt_1'},
+			{"data" : 'rt_hari_kerja', name: 'rt_1'},
+			{"data" : 'rt_tidak_hadir', name: 'rt_1'},
+			{"data" : 'rt_kehadiran', name: 'rt_1'},
 		],
 		"language": {
 			"searchPlaceholder": "Cari Data",
