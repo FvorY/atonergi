@@ -42,213 +42,92 @@
 <!-- content-wrapper ends -->
 @endsection
 @section('extra_script')
-
-{{-- @include('hrd/payroll/js/commander')
-@include('hrd/payroll/js/form_commander') --}}
 <script type="text/javascript">
-
-var table;
 $(document).ready(function(){
-   table = $('#gaji1').DataTable({
-          processing: true,
-          responsive:true,
-          serverSide: true,
-          ajax: {
-              url: '{{route('datatable_payroll')}}',
-          },
-          "columns": [
-          { "data": "nm_gaji" },
-          { "data": "sma" },
-          { "data": "d3" },
-					{ "data": "s1" },
-					{ "data": "pangkat" },
-          { "data": "aksi" },
-          ]
-    });
-
+	getTanggalmanagerial();
 });
 
-function simpanm(){
-	$.ajax({
-		type: 'get',
-		data: $('#data_tambahm').serialize(),
-		dataType: 'json',
-		url: '{{route('simpan_payroll')}}',
-		success: function (response){
-			if (response.status == 'berhasil') {
-				iziToast.success({
-			    title: 'OK',
-			    message: 'Successfully!',
-				});
-				table.ajax.reload();
-			} else {
-				iziToast.warning({
-			    title: 'info',
-			    message: 'Failed!',
-			});
-			}
-		}
-	});
+
+function managerialsearch(){
+	getTanggalmanagerial();
 }
 
-	function hapus(id){
-	// function hapus(parm){
-    // var par   = $(parm).parents('tr');
-    // var id    = $(par).find('.d_id').text();
+function managerialrefresh(){
+	$("#atdatepicker01").val('');
+	$("#atdatepicker02").val('');
+	getTanggalmanagerial();
+}
 
-    	iziToast.show({
-            overlay: true,
-            close: false,
-            timeout: 20000,
-            color: 'dark',
-            icon: 'fas fa-question-circle',
-            title: 'Important!',
-            message: 'Apakah Anda Yakin ?',
-            position: 'center',
-            progressBarColor: 'rgb(240, 0, 0)',
-            buttons: [
-              [
-                '<button style="background: rgb(190, 0, 0); color: white;" onclick="success()">Delete</button>',
-                function (instance, toast) {
-
-                  $.ajax({
-                     type: "get",
-                     url: '{{route('hapus_payroll')}}',
-                     data: {id},
-                     success: function(data){
-						if (data.status == 'berhasil') {
-							iziToast.success({
-							    title: 'OK',
-							    message: 'Successfully deleted record!',
-							});
-							table.ajax.reload();
-						}
-						else {
-							iziToast.warning({
-							    title: 'Info',
-							    message: 'Failed deleted record!',
-							});
-						}
-                     },
-                     error: function(){
-	                     iziToast.warning({
-	                        icon: 'fa fa-times',
-	                        message: 'Terjadi Kesalahan!',
-	                     });
-                     },
-                     async: false
-                   });
-
-                }
-              ],
-              [
-                '<button class="btn btn-info">Cancel</button>',
-                function (instance, toast) {
-                  instance.hide({
-                    transitionOut: 'fadeOutUp'
-                  }, toast);
-                }
-              ]
-            ]
-          });
-
-
-  	}
-
-	function edit(id){
-		$.ajax({
-			type: 'get',
-			data: {id:id},
-			dataType: 'json',
-			url: '{{route('edit_payroll')}}',
-			success : function(response){
-				$('#nm_gaji').val(response[0].nm_gaji);
-				$('#c_jabatanedit').val(response[0].c_jabatan);
-				$('#c_jabatanedit').find('option[value="'+response[0].c_jabatan+'"]').attr('selected','selected');
-	      var text = $('#c_jabatanedit').find('option[value="'+response[0].c_jabatan+'"]').text();
-				$('#select2-c_jabatanedit-container').text(text);
-				$('#c_sd').val(accounting.formatMoney(response[0].c_sd,"",2,'.',','));
-				$('#c_smp').val(accounting.formatMoney(response[0].c_smp,"",2,'.',','));
-				$('#c_sma').val(accounting.formatMoney(response[0].c_sma,"",2,'.',','));
-				$('#c_smk').val(accounting.formatMoney(response[0].c_smk,"",2,'.',','));
-				$('#c_d1').val(accounting.formatMoney(response[0].c_d1,"",2,'.',','));
-				$('#c_d2').val(accounting.formatMoney(response[0].c_d2,"",2,'.',','));
-				$('#c_d3').val(accounting.formatMoney(response[0].c_d3,"",2,'.',','));
-				$('#c_s1').val(accounting.formatMoney(response[0].c_s1,"",2,'.',','));
-
-				$('#updatem').attr('onclick', 'updatem('+id+')');
-
-				$('#editmanagement').modal('show');
-			}
-		});
-	}
-
-	function updatem(id){
-		$.ajax({
-			type: 'get',
-			data: $('#data_editm').serialize()+'&id='+id,
-			dataType: 'json',
-			url: '{{route('update_payroll')}}',
-			success : function(response){
-				if (response.status == 'berhasil') {
-					iziToast.success({
-						title: 'OK',
-						message: 'Successfully deleted record!',
-				});
-				table.ajax.reload();
-			} else {
-				iziToast.warning({
-					title: 'Info',
-					message: 'Failed deleted record!',
-			});
-			}
-			}
-		});
-	}
-
-  // function success(){
-	//
-  // 	iziToast.success({
-	//     title: 'OK',
-	//     message: 'Successfully deleted record!',
-	// });
-	//
-  // }
-
+function getTanggalmanagerial(){
+$('#artable').dataTable().fnDestroy();
+var tgl1 = $("#ardatepicker01").val();
+var tgl2 = $("#ardatepicker02").val();
+$('#artable').DataTable({
+		"scrollY": true,
+		"scrollX": true,
+		"paging":  false,
+		"autoWidth": false,
+		"ajax": {
+				url: baseUrl + "/hrd/absensi/artable",
+				type: 'GET',
+				data: {tgl1, tgl2}
+		},
+		"columns": [
+			// {"data" : "DT_Row_Index", orderable: false, searchable: false, "width" : "5%"},
+			{"data" : 'r_pin', name: 'r_pin'},
+			{"data" : 'r_nip', name: 'r_nip'},
+			{"data" : 'r_nama', name: 'r_nama'},
+			{"data" : 'r_jabatan', name: 'r_jabatan'},
+			{"data" : 'r_departement', name: 'r_departement'},
+			{"data" : 'r_kantor', name: 'r_kantor'},
+			{"data" : 'r_izin_libur', name: 'r_izin_libur'},
+			{"data" : 'r_kehadiran_jml', name: 'r_kehadiran_jml'},
+			{"data" : 'r_kehadiran_jammenit', name: 'r_kehadiran_jammenit'},
+			{"data" : 'r_datangterlambat_jml', name: 'r_datangterlambat_jml'},
+			{"data" : 'r_datangterlambat_jammenit', name: 'r_datangterlambat_jammenit'},
+			{"data" : 'r_pulangawal_jml', name: 'r_pulangawal_jml'},
+			{"data" : 'r_pulangawal_jammenit', name: 'r_pulangawal_jammenit'},
+			{"data" : 'r_istirahatlebih_jml', name: 'r_istirahatlebih_jml'},
+			{"data" : 'r_istirahatlebih_jammenit', name: 'r_istirahatlebih_jammenit'},
+			{"data" : 'r_scankerja_masuk', name: 'r_scankerja_masuk'},
+			{"data" : 'r_scankerja_keluar', name: 'r_scankerja_keluar'},
+			{"data" : 'r_lembur_jml', name: 'r_lembur_jml'},
+			{"data" : 'r_lembur_jammenit', name: 'r_lembur_jammenit'},
+			{"data" : 'r_lembur_scan', name: 'r_lembur_scan'},
+			{"data" : 'r_tidakhadir_tanpaizin', name: 'r_tidakhadir_tanpaizin'},
+			{"data" : 'r_libur_rutindanumum', name: 'r_libur_rutindanumum'},
+			{"data" : 'r_perhitunganpengecualianizin_izintidakmasukpribadi', name: 'r_perhitunganpengecualianizin_izintidakmasukpribadi'},
+			{"data" : 'r_perhitunganpengecualianizin_izinpulangawalpribadi', name: 'r_perhitunganpengecualianizin_izinpulangawalpribadi'},
+			{"data" : 'r_perhitunganpengecualianizin_izindatangterlambatpribadi', name: 'r_perhitunganpengecualianizin_izindatangterlambatpribadi'},
+			{"data" : 'r_perhitunganpengecualianizin_sakitdengansuratdokter', name: 'r_perhitunganpengecualianizin_sakitdengansuratdokter'},
+			{"data" : 'r_perhitunganpengecualianizin_sakittanpasuratdokter', name: 'r_perhitunganpengecualianizin_sakittanpasuratdokter'},
+			{"data" : 'r_perhitunganpengecualianizin_izinmeninggalkantempatkerja', name: 'r_perhitunganpengecualianizin_izinmeninggalkantempatkerja'},
+			{"data" : 'r_perhitunganpengecualianizin_izindinaskantor', name: 'r_perhitunganpengecualianizin_izindinaskantor'},
+			{"data" : 'r_perhitunganpengecualianizin_izindatangterlambatkantor', name: 'r_perhitunganpengecualianizin_izindatangterlambatkantor'},
+			{"data" : 'r_perhitunganpengecualianizin_izinpulangawalkantor', name: 'r_perhitunganpengecualianizin_izinpulangawalkantor'},
+			{"data" : 'r_perhitunganpengecualianizin_cutinormatif', name: 'r_perhitunganpengecualianizin_cutinormatif'},
+			{"data" : 'r_perhitunganpengecualianizin_cutipribadi', name: 'r_perhitunganpengecualianizin_cutipribadi'},
+			{"data" : 'r_perhitunganpengecualianizin_tidakscanmasuk', name: 'r_perhitunganpengecualianizin_tidakscanmasuk'},
+			{"data" : 'r_perhitunganpengecualianizin_tidakscanpulang', name: 'r_perhitunganpengecualianizin_tidakscanpulang'},
+			{"data" : 'r_perhitunganpengecualianizin_tidakscanmulaiistirahat', name: 'r_perhitunganpengecualianizin_tidakscanmulaiistirahat'},
+			{"data" : 'r_perhitunganpengecualianizin_tidakscanselesaiistirahat', name: 'r_perhitunganpengecualianizin_tidakscanselesaiistirahat'},
+			{"data" : 'r_perhitunganpengecualianizin_tidakscanmulailembur', name: 'r_perhitunganpengecualianizin_tidakscanmulailembur'},
+			{"data" : 'r_perhitunganpengecualianizin_tidakscanselesailembur', name: 'r_perhitunganpengecualianizin_tidakscanselesailembur'},
+			{"data" : 'r_perhitunganpengecualianizin_izinlainlain', name: 'r_perhitunganpengecualianizin_izinlainlain'},
+		],
+		"language": {
+			"searchPlaceholder": "Cari Data",
+			"emptyTable": "Tidak ada data",
+			"sInfo": "Menampilkan _START_ - _END_ Dari _TOTAL_ Data",
+			"sSearch": '<i class="fa fa-search"></i>',
+			"sLengthMenu": "Menampilkan &nbsp; _MENU_ &nbsp; Data",
+			"infoEmpty": "",
+			"paginate": {
+							"previous": "Sebelumnya",
+							"next": "Selanjutnya",
+					 }
+		}
+});
+};
 </script>
-
-<script type="text/javascript">
-
-	function samakan() {
-	  var jum = $('#jumlah').val();
-	  $('#sd').val(jum);
-	  $('#smp').val(jum);
-	  $('#sma').val(jum);
-	  $('#smk').val(jum);
-	  $('#d1').val(jum);
-	  $('#d2').val(jum);
-	  $('#d3').val(jum);
-	  $('#s1').val(jum);
-	}
-
-
-</script>
-
-<script type="text/javascript">
-
-  $(function() {
-    $('.currency').maskMoney(
-    	{
-    		prefix:'RP. ',
-    		allowZero: true,
-    		allowNegative: true,
-    		thousands:'.',
-    		decimal:',',
-    		affixesStay: false
-    	}
-    );
-  })
-
-</script>
-
 @endsection

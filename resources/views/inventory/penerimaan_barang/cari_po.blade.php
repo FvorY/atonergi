@@ -25,7 +25,7 @@
                   <tr onclick="cari_purchaseorder('{{$value->po_code}}')" style="cursor:pointer;">
                     <td>{{$key + 1}}</td>
                     <td>{{$value->po_code}}</td>
-                    <td>{{$value->s_company}}</td>
+                    <td>{{$value->po_vendor}}</td>
                   </tr>
                 @endforeach
               </tbody>
