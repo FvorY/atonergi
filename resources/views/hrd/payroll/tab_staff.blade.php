@@ -2,7 +2,7 @@
 	<div class="col-lg-12 grid-margin stretch-card alamraya-no-padding">
       	<div class="card">
 	        <div class="card-body">
-	          <h4 class="card-title">Payroll Tunjangan</h4>
+	          <h4 class="card-title">Staff</h4>
 
 		        <div class="row mb-3">
 	          		<div class="col-md-12 ">
@@ -17,7 +17,7 @@
                 	</div>
                 </div>
 	          	<div class="row">
-	          		
+
 					<div class="table-responsive">
 						<table class="table table-hover data-table" cellspacing="0">
 						  <thead class="bg-gradient-info">
@@ -42,7 +42,7 @@
 						    </tr>
 						  </thead>
 						  <tbody class="center">
-						    
+
 						  </tbody>
 						</table>
 					</div>
@@ -50,7 +50,7 @@
 					<div class="col-lg-12 text-right mt-3">
 						<a href="{{route('print_payroll')}}" class="btn btn-primary" target="_blank"><i class="fa fa-print"></i> Print</a>
 					</div>
-					
+
 	        	</div>
 	      	</div>
     	</div>

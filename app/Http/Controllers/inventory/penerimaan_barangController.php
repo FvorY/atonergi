@@ -17,6 +17,14 @@ class penerimaan_barangController extends Controller
 							 ->where('po_status','=','F')
 							 ->get();
 
+		for ($i=0; $i < count($po); $i++) {
+			$tmp = DB::table("m_vendor")
+								->where('s_kode', $po[$i]->po_vendor)
+								->first();
+
+			$po[$i]->po_vendor = $tmp->s_company;
+		}
+
 	 	return view('inventory/penerimaan_barang/penerimaan_barang',compact("po", "vendor"));
 	 }
 	 public function datatable_penerimaan_barang()
