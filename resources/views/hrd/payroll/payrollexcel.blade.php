@@ -30,9 +30,9 @@
 
 			<div class="tab-content tab-content-solid col-lg-12">
 
-				@include('hrd.payroll.tab_managerial')
+				@include('hrd.payroll.tab_managerialexcel')
 
-				@include('hrd.payroll.tab_staff')
+				@include('hrd.payroll.tab_staffexcel')
 
 
 			</div>
@@ -46,7 +46,7 @@
 	function refresh(){
 		window.location.href = baseUrl + '/hrd/payroll/payroll';
 	}
-
+	
 	function cetak(){
 		var pin = [];
 		var selectedVal;
@@ -87,7 +87,7 @@
 
 		for (var i = 0; i < pin.length; i++) {
 				url += 'pin%5B%5D='+pin[i];
-		}		
+		}
 
 		window.open('{{route('print_payroll')}}?'+url , '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
 

@@ -2,7 +2,7 @@
 	<div class="col-lg-12 grid-margin stretch-card alamraya-no-padding">
       	<div class="card">
 	        <div class="card-body">
-	          <h4 class="card-title">Managerial</h4>
+	          <h4 class="card-title">Managerial excel</h4>
 						@if(Session::has('sukses'))
 								<div class="alert alert-fill-primary" role="alert">
 									<i class="mdi mdi-alert-circle"></i>
@@ -50,7 +50,7 @@
 						<table class="table table-striped table-hover data-table" cellspacing="0" id="managerialtable">
 						  <thead class="bg-gradient-info">
 						    <tr>
-									<th>PIN</th>
+						    	<th>PIN</th>
 									<th>NIP</th>
 									<th>Nama</th>
 									<th>Jabatan</th>
@@ -80,31 +80,31 @@
 						  <tbody class="center">
 								@foreach ($data as $key => $value)
 									<tr>
-										<td class="managerialpin">{{$value->pm_pin}}</td>
-										<td class="managerialnip">{{$value->pm_nip}}</td>
-										<td>{{$value->pm_nama}}</td>
-										<td>{{$value->pm_jabatan}}</td>
-										<td>{{$value->pm_kantor}}</td>
-										<td>{{$value->pm_status}}</td>
-										<td>{{$value->pm_norekening}}</td>
-										<td>{{number_format($value->pm_gajipokok,0,',','.')}}</td>
-										<td>{{number_format($value->pm_uangmakan,0,',','.')}}</td>
-										<td>{{number_format($value->pm_uangtransport,0,',','.')}}</td>
-										<td>{{number_format($value->pm_uangoperasional,0,',','.')}}</td>
-										<td>{{number_format($value->pm_tunjanganistri,0,',','.')}}</td>
-										<td>{{number_format($value->pm_tunjangananak,0,',','.')}}</td>
-										<td>{{number_format($value->pm_komisisales,0,',','.')}}</td>
-										<td>{{number_format($value->pm_thr,0,',','.')}}</td>
-										<td>{{number_format($value->pm_insentifpeforma,0,',','.')}}</td>
-										<td>{{number_format($value->pm_bonuskpi,0,',','.')}}</td>
-										<td>{{number_format($value->pm_bonuspeformaperusahaan,0,',','.')}}</td>
-										<td>{{number_format($value->pm_bonusloyalitas,0,',','.')}}</td>
-										<td>{{number_format($value->pm_bpjskes,0,',','.')}}</td>
-										<td>{{number_format($value->pm_bpjstk,0,',','.')}}</td>
-										<td>{{number_format($value->pm_terlambat,0,',','.')}}</td>
-										<td>{{number_format($value->pm_potongandisiplinkerja,0,',','.')}}</td>
-										<td>{{number_format($value->pm_kasbon,0,',','.')}}</td>
-										<td>{{number_format($value->pm_total_gaji_netto,0,',','.')}}</td>
+										<td class="managerialpin">{{$value->pin}}</td>
+										<td class="managerialnip">{{$value->nip}}</td>
+										<td>{{$value->nama}}</td>
+										<td>{{$value->jabatan}}</td>
+										<td>{{$value->kantor}}</td>
+										<td>{{$value->status}}</td>
+										<td>{{$value->no_rekening}}</td>
+										<td>{{number_format($value->gaji_pokok,0,',','.')}}</td>
+										<td>{{number_format($value->uang_makan,0,',','.')}}</td>
+										<td>{{number_format($value->uang_transport,0,',','.')}}</td>
+										<td>{{number_format($value->uang_operasional,0,',','.')}}</td>
+										<td>{{number_format($value->tunjangan_istri,0,',','.')}}</td>
+										<td>{{number_format($value->tunjangan_anak,0,',','.')}}</td>
+										<td>{{number_format($value->komisi_sales,0,',','.')}}</td>
+										<td>{{number_format($value->thr,0,',','.')}}</td>
+										<td>{{number_format($value->insentif_peforma,0,',','.')}}</td>
+										<td>{{number_format($value->bonus_kpi,0,',','.')}}</td>
+										<td>{{number_format($value->bonus_loyalitas,0,',','.')}}</td>
+										<td>{{number_format($value->bonus_peforma_perusahaan,0,',','.')}}</td>
+										<td>{{number_format($value->bpjs_kes,0,',','.')}}</td>
+										<td>{{number_format($value->bpjs_tk,0,',','.')}}</td>
+										<td>{{number_format($value->terlambat,0,',','.')}}</td>
+										<td>{{number_format($value->potongan_disiplin_kerja,0,',','.')}}</td>
+										<td>{{number_format($value->kasbon,0,',','.')}}</td>
+										<td>{{number_format($value->total_gaji_netto,0,',','.')}}</td>
 									</tr>
 								@endforeach
 						  </tbody>

@@ -283,6 +283,7 @@ Route::get('/hrd/recruitment/recruitment', 'HRDController@recruitment');
 
 // Sub-bagian tunjangan
 Route::get('/hrd/payroll/payroll', 'HRDController@payroll');
+Route::get('/hrd/payroll/payroll/excel/{data}', 'HRDController@payrollexcel');
 Route::get('/hrd/payroll/print_payroll', 'HRDController@print_payroll')->name('print_payroll');
 Route::get('/hrd/payroll/find-tunjangan', 'HRDController@findTunjangan');
 Route::post('/hrd/payroll/insert-tunjangan', 'HRDController@insertTunjangan');
@@ -557,5 +558,13 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/hrd/absensi/abtable', 'HRDController@abtable');
     Route::get('/hrd/absensi/artable', 'HRDController@artable');
     Route::get('/hrd/absensi/attable', 'HRDController@attable');
+
+    //Payroll
+    Route::post('/hrd/payroll/managerial', 'HRDController@managerial');
+    Route::get('/hrd/payroll/managerial', 'HRDController@managerial');
+    Route::post('/hrd/payroll/staff', 'HRDController@staff');
+    Route::get('/hrd/payroll/staff', 'HRDController@staff');
+    Route::get('/hrd/payroll/managerialtable', 'HRDController@managerialtable');
+    Route::get('/hrd/absensi/stafftable', 'HRDController@stafftable');
 
 }); // End Route Groub middleware auth

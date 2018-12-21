@@ -173,10 +173,10 @@ class HRDController extends Controller
     // Bagian payroll
     public function payroll()
     {
-        $jabatan = DB::table('m_jabatan')
-                      ->get();
+            $data = DB::table('d_payroll_managerial')
+                          ->get();
 
-        return view('hrd/payroll/payroll', compact('jabatan'));
+        return view('hrd/payroll/payroll', compact('data'));
     }
 
     public function findTunjangan(Request $req) {
@@ -776,8 +776,16 @@ class HRDController extends Controller
       return $result;
     }
 
-    public function print_payroll(){
-      return view('hrd.payroll.print_payroll');
+    public function print_payroll(Request $request){
+      $data = DB::table('d_payroll_managerial')
+                  ->whereIn('pm_pin', $request->pin)
+                  ->whereIn('pm_nip', $request->nip)
+                  ->get();
+
+      response()->json([
+        'status' => 'berhasil'
+      ]);
+      return view('hrd.payroll.print_payroll', compact('data'));
     }
 
     public function rekap(Request $request){
@@ -1032,5 +1040,85 @@ class HRDController extends Controller
           Session::flash('gagal', 'Gagal Disimpan!');
           return redirect('hrd/absensi/absensi');
       }
+    }
+
+    public function managerial(Request $request){
+      // DB::beginTransaction();
+      // try {
+        $path = $request->file('managerial')->getRealPath();
+        $data = Excel::load($path, function($reader){})->get();
+
+          if (!empty($data) && $data->count()) {
+            foreach ($data as $key => $value) {
+              if ($value->pin != null && $value->nip) {
+              $check = DB::table('d_payroll_managerial')
+                          ->where('pm_pin', $value->pin)
+                          ->where('pm_nip', $value->nip)
+                          ->where('pm_nama', $value->nama)
+                          ->where('pm_jabatan', $value->jabatan)
+                          ->where('pm_departement', $value->departement)
+                          ->where('pm_kantor', $value->kantor)
+                          ->where('pm_status', $value->bulan)
+                          ->where('pm_norekening', $value->no_rekening)
+                          ->where('pm_gajipokok', $value->gaji_pokok)
+                          ->where('pm_uangmakan', $value->uang_makan)
+                          ->where('pm_uangtransport', $value->uang_transport)
+                          ->where('pm_uangoperasional', $value->uang_operasional)
+                          ->where('pm_tunjanganistri', $value->tunjangan_istri)
+                          ->where('pm_tunjangananak', $value->tunjangan_anak)
+                          ->where('pm_komisisales', $value->komisi_sales)
+                          ->where('pm_thr', $value->thr)
+                          ->where('pm_insentifpeforma', $value->insentif_peforma)
+                          ->where('pm_bonuskpi', $value->bonus_kpi)
+                          ->where('pm_bonusloyalitas', $value->bonus_loyalitas)
+                          ->where('pm_bonuspeformaperusahaan', $value->bonus_peformaperusahaan)
+                          ->where('pm_bpjskes', $value->bpjs_kes)
+                          ->where('pm_bpjstk', $value->bpjs_tk)
+                          ->where('pm_terlambat', $value->terlambat)
+                          ->where('pm_potongandisiplinkerja', $value->potongan_disiplin_kerja)
+                          ->where('pm_kasbon', $value->kasbon)
+                          ->where('pm_total_gaji_netto', $value->total_gaji_netto)
+                          ->count();
+
+              if ($check == 0) {
+                DB::table('d_payroll_managerial')
+                ->insert([
+                'pm_pin' => $value->pin,
+                'pm_nip' => $value->nip,
+                'pm_nama' => $value->nama,
+                'pm_jabatan' => $value->jabatan,
+                'pm_departement' => $value->departement,
+                'pm_kantor' => $value->kantor,
+                'pm_status' => $value->bulan,
+                'pm_norekening' => $value->no_rekening,
+                'pm_gajipokok' => $value->gaji_pokok,
+                'pm_uangmakan' => $value->uang_makan,
+                'pm_uangtransport' => $value->uang_transport,
+                'pm_uangoperasional' => $value->uang_operasional,
+                'pm_tunjanganistri' => $value->tunjangan_istri,
+                'pm_tunjangananak' => $value->tunjangan_anak,
+                'pm_komisisales' => $value->komisi_sales,
+                'pm_thr' => $value->thr,
+                'pm_insentifpeforma' => $value->insentif_peforma,
+                'pm_bonuskpi' => $value->bonus_kpi,
+                'pm_bonusloyalitas' => $value->bonus_loyalitas,
+                'pm_bonuspeformaperusahaan' => $value->bonus_peformaperusahaan,
+                'pm_bpjskes' => $value->bpjs_kes,
+                'pm_bpjstk' => $value->bpjs_tk,
+                'pm_terlambat' => $value->terlambat,
+                'pm_total_gaji_netto' => $value->total_gaji_netto]);
+                }
+              }
+            }
+          }
+
+      //     DB::commit();
+      //     Session::flash('sukses', 'Berhasil Disimpan!');
+      //     return view('hrd.payroll.payrollexcel', compact('data'));
+      // } catch (\Exception $e) {
+      //     DB::rollback();
+      //     Session::flash('gagal', 'Gagal Disimpan!');
+      //     return redirect('hrd/payroll/payroll');
+      // }
     }
 }

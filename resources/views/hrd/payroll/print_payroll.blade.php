@@ -20,14 +20,14 @@
 		.div-width{
 			width: 900px;
 			padding: 40px 15px 15px 15px;
-			
+
 
 		}
 		.div-width-background{
 			content: "";
 			{{-- background-image: url("{{asset('assets/img/background-tammafood-surat.jpg')}}"); --}}
 			background-repeat: no-repeat;
-			background-position: center; 
+			background-position: center;
 			background-size: 700px 700px;
 			position: absolute;
 			z-index: -1;
@@ -36,7 +36,7 @@
 			left: 0;
 			bottom: 0;
 			right: 0;
-			opacity: 0.1; 
+			opacity: 0.1;
 			width: 95vw;
 		}
 		.underline{
@@ -143,12 +143,12 @@
 				content: "";
 				{{-- background-image: url("{{asset('assets/img/background-tammafood-surat.jpg')}}"); --}}
 				background-repeat: no-repeat;
-				background-position: center; 
+				background-position: center;
 				background-size: 700px 700px;
 				position: absolute;
 				z-index: -1;
 				margin: auto;
-				opacity: 0.1; 
+				opacity: 0.1;
 				width: 95vw;
 			}
 		}
@@ -223,197 +223,342 @@
 	<div class="btn-print">
 		<button onclick="Print()">Print</button>
 	</div>
+		@for ($i=0; $i < count($data); $i++)
+		<div class="div-width">
+			<div class="div-page-break">
+				<div class="row">
+					<div class="col-6">
+						<table class="border-none" width="100%" cellspacing="0" cellpadding="0">
+							<tr>
+								<td>Nama Perusahaan</td>
+								<td>:</td>
+								<td>PT REJA ATON ENERGI</td>
+							</tr>
+							<tr>
+								<td>Periode Proses</td>
+								<td>:</td>
+								<td>{{Carbon\Carbon::now('Asia/Jakarta')->format('F Y')}}</td>
+							</tr>
+							<tr>
+								<td>Jabatan</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_jabatan}}</td>
+							</tr>
+							<tr>
+								<td>No Rek</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_norekening}}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-6">
+						<table class="border-none" width="100%" cellspacing="0" cellpadding="0">
+							<tr>
+								<td>NIP</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_nip}}</td>
+							</tr>
+							<tr>
+								<td>Nama</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_nama}}</td>
+							</tr>
+							<tr>
+								<td>Departemen</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_departement}}</td>
+							</tr>
+							<tr>
+								<td>Atas Nama</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_nama}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-6">
+						<table class="border-none" width="100%">
+							<thead>
+								<tr>
+									<th colspan="2" class="bold" align="left">Penerimaan (+)</th>
+									<th></th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							@php
+								$number = 0;
+							@endphp
+							<tbody>
+									@if ($data[$i]->pm_gajipokok != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Gaji Pokok</td>
+											<td>1 x {{number_format($data[$i]->pm_gajipokok,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_gajipokok,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_uangmakan != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Uang Makan</td>
+											<td>1 x {{number_format($data[$i]->pm_uangmakan,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_uangmakan,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_uangtransport != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Uang Transport</td>
+											<td>1 x {{number_format($data[$i]->pm_uangtransport,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_uangtransport,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_uangoperasional != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Uang Operasional</td>
+											<td>1 x {{number_format($data[$i]->pm_uangoperasional,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_uangoperasional,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_tunjanganistri != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Tunjangan Istri</td>
+											<td>1 x {{number_format($data[$i]->pm_tunjanganistri,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_tunjanganistri,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_tunjangananak != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Tunjangan Anak</td>
+											<td>1 x {{number_format($data[$i]->pm_tunjangananak,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_tunjangananak,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_komisisales != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Komisi Sales</td>
+											<td>1 x {{number_format($data[$i]->pm_komisisales,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_komisisales,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_thr != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Komisi Sales</td>
+											<td>1 x {{number_format($data[$i]->pm_thr,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_thr,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_insentifpeforma != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Komisi Sales</td>
+											<td>1 x {{number_format($data[$i]->pm_insentifpeforma,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_insentifpeforma,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_bonuskpi != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Komisi Sales</td>
+											<td>1 x {{number_format($data[$i]->pm_bonuskpi,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_bonuskpi,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_bonuspeformaperusahaan != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Komisi Sales</td>
+											<td>1 x {{number_format($data[$i]->pm_bonuspeformaperusahaan,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_bonuspeformaperusahaan,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+									@if ($data[$i]->pm_bonusloyalitas != null)
+										<tr>
+											<td class="underline">{{$number += 1}}</td>
+											<td>Komisi Sales</td>
+											<td>1 x {{number_format($data[$i]->pm_bonusloyalitas,0,',','.')}}</td>
+											<td>=</td>
+											<td align="right">{{number_format($data[$i]->pm_bonusloyalitas,0,',','.')}}</td><!-- ================ Mabok ============== -->
+										</tr>
+									@endif
+							</tbody>
+							<tfoot>
+								<tr>
+									<th colspan="4" align="left">Total Penerimaan :</th>
+									<th align="right">
+										{{number_format(($data[$i]->pm_gajipokok + $data[$i]->pm_uangmakan + $data[$i]->pm_uangtransport + $data[$i]->pm_uangoperasional + $data[$i]->pm_tunjanganistri + $data[$i]->pm_tunjangananak + $data[$i]->pm_komisisales + $data[$i]->pm_thr + + $data[$i]->pm_insentifpeforma + $data[$i]->pm_bonuskpi + $data[$i]->pm_bonuspeformaperusahaan + $data[$i]->pm_bonusloyalitas),0,',','.')}}
+									</th><!-- =============== Mabok =============== -->
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div class="col-6">
+						<table class="border-none" width="100%">
+							<thead>
+								<tr>
+									<th colspan="2" class="bold" align="left">Potongan (-)</th>
+									<th></th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							@php
+								$number = 0;
+							@endphp
+							<tbody>
+								@if ($data[$i]->pm_bpjskes != null)
+									<tr>
+										<td class="underline">{{$number += 1}}</td>
+										<td>BPJS Kes</td>
+										<td>1 x {{number_format($data[$i]->pm_bpjskes,0,',','.')}}</td>
+										<td>=</td>
+										<td align="right">{{number_format($data[$i]->pm_bpjskes,0,',','.')}}</td><!-- ============== Mabok ============== -->
+									</tr>
+								@endif
+								@if ($data[$i]->pm_bpjstk != null)
+									<tr>
+										<td class="underline">{{$number += 1}}</td>
+										<td>BPJS TK</td>
+										<td>1 x {{number_format($data[$i]->pm_bpjstk,0,',','.')}}</td>
+										<td>=</td>
+										<td align="right">{{number_format($data[$i]->pm_bpjstk,0,',','.')}}</td><!-- ============== Mabok ============== -->
+									</tr>
+								@endif
+								@if ($data[$i]->pm_terlambat != null)
+									<tr>
+										<td class="underline">{{$number += 1}}</td>
+										<td>BPJS TK</td>
+										<td>1 x {{number_format($data[$i]->pm_terlambat,0,',','.')}}</td>
+										<td>=</td>
+										<td align="right">{{number_format($data[$i]->pm_terlambat,0,',','.')}}</td><!-- ============== Mabok ============== -->
+									</tr>
+								@endif
+								@if ($data[$i]->pm_potongandisiplinkerja != null)
+									<tr>
+										<td class="underline">{{$number += 1}}</td>
+										<td>BPJS TK</td>
+										<td>1 x {{number_format($data[$i]->pm_potongandisiplinkerja,0,',','.')}}</td>
+										<td>=</td>
+										<td align="right">{{number_format($data[$i]->pm_potongandisiplinkerja,0,',','.')}}</td><!-- ============== Mabok ============== -->
+									</tr>
+								@endif
+								@if ($data[$i]->pm_kasbon != null)
+									<tr>
+										<td class="underline">{{$number += 1}}</td>
+										<td>BPJS TK</td>
+										<td>1 x {{number_format($data[$i]->pm_kasbon,0,',','.')}}</td>
+										<td>=</td>
+										<td align="right">{{number_format($data[$i]->pm_kasbon,0,',','.')}}</td><!-- ============== Mabok ============== -->
+									</tr>
+								@endif
+							</tbody>
+							<tfoot>
+								<tr>
+									<th colspan="4" align="left">Total Potongan :</th>
+									<th align="right">{{number_format($data[$i]->pm_terlambat + $data[$i]->pm_bpjstk + $data[$i]->pm_bpjskes + $data[$i]->pm_potongandisiplinkerja + $data[$i]->pm_kasbon,0,',','.')}}</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div class="col-6">
+						<table class="border-none" width="100%">
+							<tr>
+								<td class="italic underline bold">Gaji yang diterima</td>
+								<td class="italic underline bold" align="right">{{number_format($data[$i]->pm_total_gaji_netto,0,',','.')}}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-6">
+						<table class="border-none" width="100%">
+							<tr>
+								<td class="italic underline">Tgl. Cetak</td>
+								<td class="italic underline">{{Carbon\Carbon::now('Asia/Jakarta')->format('d-m-Y G:i:s')}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<hr class="dashed">
+				<div class="row">
+					<div class="col-6">
+						<table class="border-none" width="100%">
+							<tr>
+								<td>Nama Perusahaan</td>
+								<td>:</td>
+								<td>PT. REJA ATON ENERGI</td>
+							</tr>
+							<tr>
+								<td>Periode Proses</td>
+								<td>:</td>
+								<td>{{Carbon\Carbon::now('Asia/Jakarta')->format('F Y')}}</td>
+							</tr>
+							<tr>
+								<td>Jabatan</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_jabatan}}</td>
+							</tr>
+							<tr>
+								<td>NIP</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_nip}}</td>
+							</tr>
+							<tr>
+								<td>Nama</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_nama}}</td>
+							</tr>
+							<tr>
+								<td>Departemen</td>
+								<td>:</td>
+								<td>{{$data[$i]->pm_departement}}</td>
+							</tr>
+						</table>
+					</div>
 
-	<div class="div-width">
-		<div class="div-page-break">
-			<div class="row">
-				<div class="col-6">
-					<table class="border-none" width="100%" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>Nama Perusahaan</td>
-							<td>:</td>
-							<td>PT REJA ATON ENERGI</td>
-						</tr>
-						<tr>
-							<td>Periode Proses</td>
-							<td>:</td>
-							<td>Desember 2018</td>
-						</tr>
-						<tr>
-							<td>Jabatan</td>
-							<td>:</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>No Rek</td>
-							<td>:</td>
-							<td>42540939399</td>
-						</tr>
-					</table>
-				</div>
-				<div class="col-6">
-					<table class="border-none" width="100%" cellspacing="0" cellpadding="0">
-						<tr>
-							<td>NIP</td>
-							<td>:</td>
-							<td>2</td>
-						</tr>
-						<tr>
-							<td>Nama</td>
-							<td>:</td>
-							<td>Alpha</td>
-						</tr>
-						<tr>
-							<td>Departemen</td>
-							<td>:</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Atas Nama</td>
-							<td>:</td>
-							<td>Bravo</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<hr>
-			<div class="row">
-				<div class="col-6">
-					<table class="border-none" width="100%">
-						<thead>
+					<div class="col-6">
+						<table class="border-none" width="100%">
 							<tr>
-								<th colspan="2" class="bold" align="left">Penerimaan (+)</th>
-								<th></th>
-								<th></th>
-								<th></th>
+								<td class="bold italic underline">Gaji yang diterima :</td>
+								<td class="bold italic underline" align="right">{{number_format($data[$i]->pm_total_gaji_netto,0,',','.')}}</td>
 							</tr>
-						</thead>
-						<tbody>
-							@for($i=0;$i<40;$i++)
 							<tr>
-								<td class="underline">1</td>
-								<td>Gaji Pokok</td>
-								<td>1 x 3.400.000</td>
-								<td>=</td>
-								<td align="right">5.500.000</td><!-- ================ Mabok ============== -->
+								<td align="center">Diserahkan oleh,</td>
+								<td align="center">Diterima oleh,</td>
 							</tr>
-							@endfor
-						</tbody>
-						<tfoot>
+							<tr valign="bottom" align="center">
+								<td height="50px">{{Auth::user()->m_name}}</td>
+								<td>{{$data[$i]->pm_nama}}</td>
+							</tr>
 							<tr>
-								<th colspan="4" align="left">Total Penerimaan :</th>
-								<th align="right">10.000.000</th><!-- =============== Mabok =============== -->
+								<td colspan="2">Tgl. Cetak : {{Carbon\Carbon::now('Asia/Jakarta')->format('d-m-Y G:i:s')}}</td>
 							</tr>
-						</tfoot>
-					</table>
-				</div>
-				<div class="col-6">
-					<table class="border-none" width="100%">
-						<thead>
-							<tr>
-								<th colspan="2" class="bold" align="left">Potongan (-)</th>
-								<th></th>
-								<th></th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="underline">1</td>
-								<td>Gaji Pokok</td>
-								<td>1 x 3.400.000</td>
-								<td>=</td>
-								<td align="right">5.500.000</td><!-- ============== Mabok ============== -->
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<th colspan="4" align="left">Total Potongan :</th>
-								<th align="right"></th>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-				<div class="col-6">
-					<table class="border-none" width="100%">
-						<tr>
-							<td class="italic underline bold">Gaji yang diterima</td>
-							<td class="italic underline bold" align="right">6.793.000</td>
-						</tr>
-					</table>
-				</div>
-				<div class="col-6">
-					<table class="border-none" width="100%">
-						<tr>
-							<td class="italic underline">Tgl. Cetak</td>
-							<td class="italic underline">20-12-2018 23:59:59</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<hr class="dashed">
-			<div class="row">
-				<div class="col-6">
-					<table class="border-none" width="100%">
-						<tr>
-							<td>Nama Perusahaan</td>
-							<td>:</td>
-							<td>PT. REJA ATON ENERGI</td>
-						</tr>
-						<tr>
-							<td>Periode Proses</td>
-							<td>:</td>
-							<td>Desember 2018</td>
-						</tr>
-						<tr>
-							<td>Jabatan</td>
-							<td>:</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>NIP</td>
-							<td>:</td>
-							<td>2</td>
-						</tr>
-						<tr>
-							<td>Nama</td>
-							<td>:</td>
-							<td>Alpha</td>
-						</tr>
-						<tr>
-							<td>Departemen</td>
-							<td>:</td>
-							<td></td>
-						</tr>
-					</table>
-				</div>
-
-				<div class="col-6">
-					<table class="border-none" width="100%">
-						<tr>
-							<td class="bold italic underline">Gaji yang diterima :</td>
-							<td class="bold italic underline" align="right">6.800.000</td>
-						</tr>
-						<tr>
-							<td align="center">Diserahkan oleh,</td>
-							<td align="center">Diterima oleh,</td>
-						</tr>
-						<tr valign="bottom" align="center">
-							<td height="50px">Administrator</td>
-							<td>Alpha</td>
-						</tr>
-						<tr>
-							<td colspan="2">Tgl. Cetak : 20-12-2018 23:59:59</td>
-						</tr>
-					</table>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
+		@endfor
 
-	</div>
 
 
-	
 
 <script type="text/vbscript" language='VBScript'>
 Sub Print()
