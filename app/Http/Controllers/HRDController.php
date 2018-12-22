@@ -176,7 +176,10 @@ class HRDController extends Controller
             $data = DB::table('d_payroll_managerial')
                           ->get();
 
-        return view('hrd/payroll/payroll', compact('data'));
+            $staff = DB::table('d_payroll_staff')
+                        ->get();
+
+        return view('hrd/payroll/payroll', compact('data', 'staff'));
     }
 
     public function findTunjangan(Request $req) {
@@ -1043,8 +1046,8 @@ class HRDController extends Controller
     }
 
     public function managerial(Request $request){
-      // DB::beginTransaction();
-      // try {
+      DB::beginTransaction();
+      try {
         $path = $request->file('managerial')->getRealPath();
         $data = Excel::load($path, function($reader){})->get();
 
@@ -1112,13 +1115,97 @@ class HRDController extends Controller
             }
           }
 
-      //     DB::commit();
-      //     Session::flash('sukses', 'Berhasil Disimpan!');
-      //     return view('hrd.payroll.payrollexcel', compact('data'));
-      // } catch (\Exception $e) {
-      //     DB::rollback();
-      //     Session::flash('gagal', 'Gagal Disimpan!');
-      //     return redirect('hrd/payroll/payroll');
-      // }
+          $staff = [];
+
+          DB::commit();
+          Session::flash('sukses', 'Berhasil Disimpan!');
+          return view('hrd.payroll.payrollexcel', compact('data', 'staff'));
+      } catch (\Exception $e) {
+          DB::rollback();
+          Session::flash('gagal', 'Gagal Disimpan!');
+          return redirect('hrd/payroll/payroll');
+      }
+    }
+
+    public function staff(Request $request){
+      DB::beginTransaction();
+      try {
+        $path = $request->file('staff')->getRealPath();
+        $staff = Excel::load($path, function($reader){})->get();
+
+          if (!empty($staff) && $staff->count()) {
+            foreach ($staff as $key => $value) {
+              if ($value->pin != null && $value->nip) {
+              $check = DB::table('d_payroll_staff')
+                          ->where('ps_pin', $value->pin)
+                          ->where('ps_nip', $value->nip)
+                          ->where('ps_nama', $value->nama)
+                          ->where('ps_jabatan', $value->jabatan)
+                          ->where('ps_departement', $value->departement)
+                          ->where('ps_kantor', $value->kantor)
+                          ->where('ps_status', $value->bulan)
+                          ->where('ps_norekening', $value->no_rekening)
+                          ->where('ps_gajipokok', $value->gaji_pokok)
+                          ->where('ps_uangmakan', $value->uang_makan)
+                          ->where('ps_uangtransport', $value->uang_transport)
+                          ->where('ps_uangoperasional', $value->uang_operasional)
+                          ->where('ps_tunjanganistri', $value->tunjangan_istri)
+                          ->where('ps_tunjangananak', $value->tunjangan_anak)
+                          ->where('ps_komisisales', $value->komisi_sales)
+                          ->where('ps_thr', $value->thr)
+                          ->where('ps_insentifpeforma', $value->insentif_peforma)
+                          ->where('ps_bonuskpi', $value->bonus_kpi)
+                          ->where('ps_bonusloyalitas', $value->bonus_loyalitas)
+                          ->where('ps_bonuspeformaperusahaan', $value->bonus_peformaperusahaan)
+                          ->where('ps_bpjskes', $value->bpjs_kes)
+                          ->where('ps_bpjstk', $value->bpjs_tk)
+                          ->where('ps_terlambat', $value->terlambat)
+                          ->where('ps_potongandisiplinkerja', $value->potongan_disiplin_kerja)
+                          ->where('ps_kasbon', $value->kasbon)
+                          ->where('ps_total_gaji_netto', $value->total_gaji_netto)
+                          ->count();
+
+              if ($check == 0) {
+                DB::table('d_payroll_staff')
+                ->insert([
+                'ps_pin' => $value->pin,
+                'ps_nip' => $value->nip,
+                'ps_nama' => $value->nama,
+                'ps_jabatan' => $value->jabatan,
+                'ps_departement' => $value->departement,
+                'ps_kantor' => $value->kantor,
+                'ps_status' => $value->bulan,
+                'ps_norekening' => $value->no_rekening,
+                'ps_gajipokok' => $value->gaji_pokok,
+                'ps_uangmakan' => $value->uang_makan,
+                'ps_uangtransport' => $value->uang_transport,
+                'ps_uangoperasional' => $value->uang_operasional,
+                'ps_tunjanganistri' => $value->tunjangan_istri,
+                'ps_tunjangananak' => $value->tunjangan_anak,
+                'ps_komisisales' => $value->komisi_sales,
+                'ps_thr' => $value->thr,
+                'ps_insentifpeforma' => $value->insentif_peforma,
+                'ps_bonuskpi' => $value->bonus_kpi,
+                'ps_bonusloyalitas' => $value->bonus_loyalitas,
+                'ps_bonuspeformaperusahaan' => $value->bonus_peformaperusahaan,
+                'ps_bpjskes' => $value->bpjs_kes,
+                'ps_bpjstk' => $value->bpjs_tk,
+                'ps_terlambat' => $value->terlambat,
+                'ps_total_gaji_netto' => $value->total_gaji_netto]);
+                }
+              }
+            }
+          }
+
+          $data = [];
+
+          DB::commit();
+          Session::flash('sukses', 'Berhasil Disimpan!');
+          return view('hrd.payroll.payrollexcel', compact('data','staff'));
+      } catch (\Exception $e) {
+          DB::rollback();
+          Session::flash('gagal', 'Gagal Disimpan!');
+          return redirect('hrd/payroll/payroll');
+      }
     }
 }

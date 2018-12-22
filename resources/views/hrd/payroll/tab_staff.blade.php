@@ -38,7 +38,7 @@
 
 							<div class="col-lg-3 col-md-3 col-sm-12 alamraya-no-padding alamraya-opt-btn">
 								<span class="btn-group mt-1">
-																 <button type="button" class="btn btn-info btn-sm icon-btn" onclick="staffrefresh()">
+																 <button type="button" class="btn btn-info btn-sm icon-btn" onclick="refresh()">
 																	<i class="fa fa-refresh"></i>
 																</button>
 														</span>
@@ -77,7 +77,35 @@
 						    </tr>
 						  </thead>
 						  <tbody class="center">
-
+								@foreach ($staff as $key => $value)
+									<tr>
+										<td class="managerialpin">{{$value->ps_pin}}</td>
+										<td class="managerialnip">{{$value->ps_nip}}</td>
+										<td>{{$value->ps_nama}}</td>
+										<td>{{$value->ps_jabatan}}</td>
+										<td>{{$value->ps_kantor}}</td>
+										<td>{{$value->ps_status}}</td>
+										<td>{{$value->ps_norekening}}</td>
+										<td>{{number_format($value->ps_gajipokok,0,',','.')}}</td>
+										<td>{{number_format($value->ps_uangmakan,0,',','.')}}</td>
+										<td>{{number_format($value->ps_uangtransport,0,',','.')}}</td>
+										<td>{{number_format($value->ps_uangoperasional,0,',','.')}}</td>
+										<td>{{number_format($value->ps_tunjanganistri,0,',','.')}}</td>
+										<td>{{number_format($value->ps_tunjangananak,0,',','.')}}</td>
+										<td>{{number_format($value->ps_komisisales,0,',','.')}}</td>
+										<td>{{number_format($value->ps_thr,0,',','.')}}</td>
+										<td>{{number_format($value->ps_insentifpeforma,0,',','.')}}</td>
+										<td>{{number_format($value->ps_bonuskpi,0,',','.')}}</td>
+										<td>{{number_format($value->ps_bonuspeformaperusahaan,0,',','.')}}</td>
+										<td>{{number_format($value->ps_bonusloyalitas,0,',','.')}}</td>
+										<td>{{number_format($value->ps_bpjskes,0,',','.')}}</td>
+										<td>{{number_format($value->ps_bpjstk,0,',','.')}}</td>
+										<td>{{number_format($value->ps_terlambat,0,',','.')}}</td>
+										<td>{{number_format($value->ps_potongandisiplinkerja,0,',','.')}}</td>
+										<td>{{number_format($value->ps_kasbon,0,',','.')}}</td>
+										<td>{{number_format($value->ps_total_gaji_netto,0,',','.')}}</td>
+									</tr>
+								@endforeach
 						  </tbody>
 						</table>
 					</div>
