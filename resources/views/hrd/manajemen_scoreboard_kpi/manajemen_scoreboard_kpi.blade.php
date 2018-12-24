@@ -33,7 +33,7 @@
 	      	<div class="card">
 	      		<div class="tab-content tab-content-solid">
 
-	      			@include('hrd.manajemen_scoreboard_kpi.tab_pki')
+	      			@include('hrd.manajemen_scoreboard_kpi.tab_konfirmasi_pki')
 
 	      			@include('hrd.manajemen_scoreboard_kpi.tab_scoreboard')
 
