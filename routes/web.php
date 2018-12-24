@@ -576,4 +576,10 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::post('/hrd/scoreboard_pegawai/scoreboard_pegawai/update-data', 'DkpiController@updateData');
     Route::post('/hrd/scoreboard_pegawai/scoreboard_pegawai/delete-data', 'DkpiController@deleteData');
 
+    //Management Score Board
+    Route::get('/hrd/manajemen_scoreboard/manajemen_scoreboard/get-kpi-by-tgl/{tgl1}/{tgl2}/{tampil}', 'MankpiController@getKpiByTgl');
+    Route::get('/hrd/manajemen_scoreboard/manajemen_scoreboard/get-edit/{id}', 'MankpiController@getDataEdit');
+    Route::post('/hrd/manajemen_scoreboard/manajemen_scoreboard/update-data', 'MankpiController@updateData');
+    Route::post('/hrd/manajemen_scoreboard/manajemen_scoreboard/ubah-status', 'MankpiController@ubahStatus');
+
 }); // End Route Groub middleware auth
