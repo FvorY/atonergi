@@ -51,6 +51,7 @@ Route::get('/tes', 'SettingController@tes');
         Route::get('/setting/akun', 'SettingController@akun');
         Route::get('/setting/datatable_akun', 'SettingController@datatable_akun')->name('datatable_akun');
         Route::post('/setting/simpan_akun', 'SettingController@simpan_akun');
+        Route::get('/setting/simpan_akun', 'SettingController@simpan_akun');
         Route::get('/setting/hapus_akun', 'SettingController@hapus_akun');
         Route::get('/setting/edit_akun', 'SettingController@edit_akun');
         Route::get('storage/uploads/user/thumbnail')->name('thumbnail');
@@ -566,5 +567,13 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/hrd/payroll/staff', 'HRDController@staff');
     Route::get('/hrd/payroll/managerialtable', 'HRDController@managerialtable');
     Route::get('/hrd/absensi/stafftable', 'HRDController@stafftable');
+
+    //Score Board Pegawai
+    Route::get('/hrd/scoreboard_pegawai/scoreboard_pegawai/datatable/{tgl1}/{tgl2}', 'DkpiController@getKpiByTgl');
+    Route::get('/hrd/scoreboard_pegawai/scoreboard_pegawai/set-field-modal', 'DkpiController@setFieldModal');
+    Route::post('/hrd/scoreboard_pegawai/scoreboard_pegawai/simpan-data', 'DkpiController@simpanData');
+    Route::get('/hrd/scoreboard_pegawai/scoreboard_pegawai/get-edit/{id}', 'DkpiController@getDataEdit');
+    Route::post('/hrd/scoreboard_pegawai/scoreboard_pegawai/update-data', 'DkpiController@updateData');
+    Route::post('/hrd/scoreboard_pegawai/scoreboard_pegawai/delete-data', 'DkpiController@deleteData');
 
 }); // End Route Groub middleware auth

@@ -779,7 +779,7 @@ class HRDController extends Controller
       return $result;
     }
 
-    public function print_payroll(Request $request){
+    public function print_payroll(Request $request){      
       $data = DB::table('d_payroll_managerial')
                   ->whereIn('pm_pin', $request->pin)
                   ->whereIn('pm_nip', $request->nip)

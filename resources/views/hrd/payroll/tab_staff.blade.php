@@ -79,8 +79,8 @@
 						  <tbody class="center">
 								@foreach ($staff as $key => $value)
 									<tr>
-										<td class="managerialpin">{{$value->ps_pin}}</td>
-										<td class="managerialnip">{{$value->ps_nip}}</td>
+										<td class="staffpin">{{$value->ps_pin}}</td>
+										<td class="staffnip">{{$value->ps_nip}}</td>
 										<td>{{$value->ps_nama}}</td>
 										<td>{{$value->ps_jabatan}}</td>
 										<td>{{$value->ps_kantor}}</td>
@@ -111,7 +111,7 @@
 					</div>
 
 					<div class="col-lg-12 text-right mt-3">
-						<a href="{{route('print_payroll')}}" class="btn btn-primary" target="_blank"><i class="fa fa-print"></i> Print</a>
+						<a class="btn btn-primary" onclick="cetakstaff()"><i class="fa fa-print"></i> Print</a>
 					</div>
 
 	        	</div>

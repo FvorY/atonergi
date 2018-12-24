@@ -22,7 +22,7 @@ class SettingController extends Controller
 
   public function tes()
   {
-       
+
       $nama_barang = array('PSDNT 50gr','ayam','nasi','es jeruk');
       $harga       = array('3.000,00','7.000,00','4.000,00','4.000,00');
       $qty         = array('1','1','1','1');
@@ -30,7 +30,7 @@ class SettingController extends Controller
       $printer = new Printer($connector);
       $logo =  EscposImage::load('assets/tux.png');
 
-      
+
       // // $printer -> setJustification(Escpos::JUSTIFY_CENTER);
       // $printer -> setJustification(Printer::JUSTIFY_CENTER);
       // $printer -> bitImageColumnFormat($logo);
@@ -48,23 +48,23 @@ class SettingController extends Controller
       // $temp = $tes1 + $tes2 + $tes3;
       // $count = 32- $temp;
 
-      // $pad1 = 15 - $tes1; 
-      // $pad2 = 4 - $tes3; 
-      // $pad3 = 13 - $tes2; 
+      // $pad1 = 15 - $tes1;
+      // $pad2 = 4 - $tes3;
+      // $pad3 = 13 - $tes2;
       // $spas1_1;
       // $spas2_1;
       // $spas3_1;
-      // for ($i=0; $i < $pad1; $i++) { 
+      // for ($i=0; $i < $pad1; $i++) {
       //   $spas1_1[$i] = ' ';
       // }
 
       // $spas1 = implode("", $spas1_1);
-      // for ($i=0; $i < $pad2; $i++) { 
+      // for ($i=0; $i < $pad2; $i++) {
       //   $spas2_1[$i] = ' ';
       // }
       // $spas2 = implode("", $spas2_1);
 
-      // for ($i=0; $i < $pad3; $i++) { 
+      // for ($i=0; $i < $pad3; $i++) {
       //   $spas3_1[$i] = ' ';
       // }
       // $spas3 = implode("", $spas3_1);
@@ -85,14 +85,14 @@ class SettingController extends Controller
       $printer -> cut();
       $printer -> close();
       // //BODY
-      // for ($i=0; $i < count($nama_barang); $i++) { 
+      // for ($i=0; $i < count($nama_barang); $i++) {
       //   $printer -> setJustification(Printer::JUSTIFY_LEFT);
       //   $printer -> text('x                              x');
       //   $printer -> text("\n");
       // }
 
 
-      // $printer->text("\n"); 
+      // $printer->text("\n");
 
       // $printer -> cut();
       // $printer -> close();
@@ -100,7 +100,11 @@ class SettingController extends Controller
   }
    public function jabatan()
    {
-    return view('setting.jabatan.jabatan');
+     $data = DB::table('d_jabatan')
+               ->orderBy('j_id','ASC')
+               ->get();
+
+    return view('setting.jabatan.jabatan', compact('data'));
    }
 
    public function datatable_jabatan()
@@ -108,8 +112,8 @@ class SettingController extends Controller
         $data = DB::table('d_jabatan')
                   ->orderBy('j_id','ASC')
                   ->get();
-        
-        
+
+
         // return $data;
         $data = collect($data);
         // return $data;
@@ -131,7 +135,7 @@ class SettingController extends Controller
    public function simpan_jabatan(request $req)
    {
       // dd($req->all());
-      return DB::transaction(function() use ($req) {  
+      return DB::transaction(function() use ($req) {
          if ($req->id == null) {
             $valid = DB::table('d_jabatan')
                        ->where('j_nama',$req->nama)
@@ -155,8 +159,8 @@ class SettingController extends Controller
                              ->orderBy('dm_id','ASC')
                              ->get();
 
-              for ($i=0; $i < count($daftar_menu); $i++) { 
-                
+              for ($i=0; $i < count($daftar_menu); $i++) {
+
                 $hak_akses = DB::table('d_hak_akses')
                                ->insert([
                                   'ha_id'   => $daftar_menu[$i]->dm_id,
@@ -177,7 +181,7 @@ class SettingController extends Controller
             }else{
                return response()->json(['status' => 0]);
             }
-         }else{ 
+         }else{
             $update = DB::table('d_jabatan')
                         ->where('j_id',$req->id)
                         ->update(['j_nama'=>strtoupper($req->nama),
@@ -188,7 +192,7 @@ class SettingController extends Controller
                              ->orderBy('dm_id','ASC')
                              ->get();
 
-            for ($i=0; $i < count($daftar_menu); $i++) { 
+            for ($i=0; $i < count($daftar_menu); $i++) {
 
               $hak_akses1 = DB::table('d_hak_akses')
                              ->where('ha_id',$daftar_menu[$i]->dm_id)
@@ -244,7 +248,7 @@ class SettingController extends Controller
          return response()->json(['status' => 1]);
       }
 
-      
+
    }
 
    // END
@@ -253,17 +257,21 @@ class SettingController extends Controller
    {
       $level = DB::table('d_jabatan')
                  ->get();
-      
-      return view('setting.akun.akun',compact('level'));
+
+      $pegawai = DB::table('m_pegawai')
+                  ->get();
+
+      return view('setting.akun.akun',compact('level','pegawai'));
    }
 
    public function datatable_akun()
    {
       $data = DB::table('d_mem')
+                  ->leftjoin('m_pegawai', 'm_pegawai_id', '=', 'mp_id')
                   ->orderBy('m_id','ASC')
                   ->get();
-        
-        
+
+
         $data = collect($data);
         return Datatables::of($data)
                         ->addColumn('aksi', function ($data) {
@@ -287,7 +295,7 @@ class SettingController extends Controller
    public function simpan_akun(request $req)
    {
       // return $user;
-      return DB::transaction(function() use ($req) {  
+      return DB::transaction(function() use ($req) {
         // dd($req->all());
         if ($req->id == null) {
             $valid = DB::table('d_mem')
@@ -317,13 +325,14 @@ class SettingController extends Controller
                                     'm_password'=> $password,
                                     'm_name'    => $req->nama,
                                     'm_jabatan' => $level->j_nama,
+                                    'm_pegawai_id' => $req->pegawai
                                     ]);
 
                $status = 1;
             }else{
                $status = 0;
             }
-            
+
         }else{
             $id = $req->id;
             $password = sha1(md5('passwordAllah').$req->password);
@@ -331,7 +340,7 @@ class SettingController extends Controller
             $level = DB::table('d_jabatan')
                          ->where('j_id',$req->level)
                          ->first();
-                         
+
             $simpan = DB::table('d_mem')
                            ->where('m_id',$id)
                            ->update([
@@ -339,6 +348,7 @@ class SettingController extends Controller
                                     'm_password'=> $password,
                                     'm_name'    => $req->nama,
                                     'm_jabatan' => $level->j_nama,
+                                    'm_pegawai_id' => $req->pegawai
                                     ]);
             $status = 2;
         }
@@ -356,7 +366,7 @@ class SettingController extends Controller
           if (!is_dir(storage_path('uploads/user/original/'))) {
             mkdir(storage_path('uploads/user/original/'), 0777, true);
           }
-          
+
 
           $thumbnail_path = storage_path('uploads/user/thumbnail/');
           $original_path = storage_path('uploads/user/original/');
@@ -371,7 +381,7 @@ class SettingController extends Controller
 
           $user = mMember::where('m_id',$id)->update(['m_image' => $file_name]);
         }
-        
+
 
         return response()->json(['status' => $status]);
 
@@ -398,7 +408,7 @@ class SettingController extends Controller
                     ->first();
       $jabatan = DB::table('d_jabatan')
                    ->get();
-      for ($i=0; $i < count($jabatan); $i++) { 
+      for ($i=0; $i < count($jabatan); $i++) {
         if ($jabatan[$i]->j_nama == $data->m_jabatan) {
           $data->kode_jabatan = $jabatan[$i]->j_id;
         }
@@ -420,8 +430,8 @@ class SettingController extends Controller
                   ->join('d_grup_menu','gm_id','=','dm_group')
                   ->orderBy('dm_id','ASC')
                   ->get();
-        
-        
+
+
       // return $data;
       $data = collect($data);
       // return $data;
@@ -443,7 +453,7 @@ class SettingController extends Controller
 
    public function simpan_daftar_menu(request $req)
    {
-      return DB::transaction(function() use ($req) {  
+      return DB::transaction(function() use ($req) {
          if ($req->id == null) {
             $valid = DB::table('d_daftar_menu')
                        ->where('dm_nama',$req->nama)
@@ -469,7 +479,7 @@ class SettingController extends Controller
                              ->groupBy('ha_level')
                              ->get();
 
-              for ($i=0; $i < count($hak_akses); $i++) { 
+              for ($i=0; $i < count($hak_akses); $i++) {
                 $simpan = DB::table('d_hak_akses')
                             ->insert([
                               'ha_id'=>$id,
@@ -483,7 +493,7 @@ class SettingController extends Controller
             }else{
                return response()->json(['status' => 0]);
             }
-            
+
          }else{
 
 
@@ -506,8 +516,8 @@ class SettingController extends Controller
                                  'dm_group'=>$req->grup_menu,
                                  ]);
 
-            
-            
+
+
 
             return response()->json(['status' => 2]);
         }
@@ -515,7 +525,7 @@ class SettingController extends Controller
    }
    public function hapus_daftar_menu(request $req)
    {
-      
+
       $cari = DB::table('d_daftar_menu')
                         ->where('dm_id',$req->id)
                         ->first();
@@ -532,7 +542,7 @@ class SettingController extends Controller
    }
    // END
    public function hak_akses()
-   {  
+   {
 
       $hak_akses = DB::table('d_hak_akses')
                 ->select('ha_level')
@@ -545,8 +555,8 @@ class SettingController extends Controller
       $grup_menu = DB::table('d_grup_menu')
                 ->get();
 
-      for ($i=0; $i < count($grup_menu); $i++) { 
-         for ($a=0; $a < count($daftar); $a++) { 
+      for ($i=0; $i < count($grup_menu); $i++) {
+         for ($a=0; $a < count($daftar); $a++) {
             if ($grup_menu[$i]->gm_id == $daftar[$a]->dm_group) {
               $data[$i][$a] = $daftar[$a]->dm_nama;
             }
@@ -569,8 +579,8 @@ class SettingController extends Controller
       $grup_menu = DB::table('d_grup_menu')
                 ->get();
 
-      for ($i=0; $i < count($grup_menu); $i++) { 
-         for ($a=0; $a < count($daftar); $a++) { 
+      for ($i=0; $i < count($grup_menu); $i++) {
+         for ($a=0; $a < count($daftar); $a++) {
             if ($grup_menu[$i]->gm_id == $daftar[$a]->dm_group) {
               $data[$i][$a] = $daftar[$a]->dm_nama;
             }
@@ -608,7 +618,7 @@ class SettingController extends Controller
                 ->update([
                   'tambah' =>$tambah
                 ]);
-      }      
+      }
 
       if (isset($req->ubah)) {
         if ($req->ubah == 'true') {
@@ -622,7 +632,7 @@ class SettingController extends Controller
                 ->update([
                   'ubah' =>$ubah
                 ]);
-      }  
+      }
 
       if (isset($req->print)) {
         if ($req->print == 'true') {
@@ -636,7 +646,7 @@ class SettingController extends Controller
                 ->update([
                   'print' =>$print
                 ]);
-      } 
+      }
 
       if (isset($req->hapus)) {
         if ($req->hapus == 'true') {
@@ -650,7 +660,7 @@ class SettingController extends Controller
                 ->update([
                   'hapus' =>$hapus
                 ]);
-      } 
+      }
 
       return response()->json(['status' => 1]);
    }

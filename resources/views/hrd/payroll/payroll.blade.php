@@ -47,7 +47,7 @@
 		window.location.href = baseUrl + '/hrd/payroll/payroll';
 	}
 
-	function cetak(){
+	function cetakmanagerial(){
 		var pin = [];
 		var selectedVal;
 		$(".managerialpin").each(function(i, sel){
@@ -80,14 +80,60 @@
 
 		var url = '';
 		for (var i = 0; i < nip.length; i++) {
-				url += 'nip%5B%5D='+nip[i];
+				url += 'nip%5B%5D='+nip[i]+'&';
+		}
+
+
+
+		for (var i = 0; i < pin.length; i++) {
+				url += 'pin%5B%5D='+pin[i]+'&';
+		}
+
+		window.open('{{route('print_payroll')}}?'+url , '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
+
+	}
+
+	function cetakstaff(){
+		var pin = [];
+		var selectedVal;
+		$(".staffpin").each(function(i, sel){
+				selectedVal = $(sel).text();
+				pin.push(selectedVal);
+		});
+
+		var nip = [];
+		var selectedVal;
+		$(".staffnip").each(function(i, sel){
+				selectedVal = $(sel).text();
+				nip.push(selectedVal);
+		});
+
+		for (var i = 0; i < pin.length; i++) {
+			if (pin[i] == '') {
+				pin[i] = null;
+			} else {
+				pin[i] = parseInt(pin[i]);
+			}
+		}
+
+		for (var i = 0; i < nip.length; i++) {
+			if (nip[i] == '') {
+				nip[i] = null;
+			} else {
+				nip[i] = parseInt(nip[i]);
+			}
+		}
+
+		var url = '';
+		for (var i = 0; i < nip.length; i++) {
+				url += 'nip%5B%5D='+nip[i]+'&';
 		}
 
 		url += '&';
 
 		for (var i = 0; i < pin.length; i++) {
-				url += 'pin%5B%5D='+pin[i];
-		}		
+				url += 'pin%5B%5D='+pin[i]+'&';
+		}
 
 		window.open('{{route('print_payroll')}}?'+url , '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
 
