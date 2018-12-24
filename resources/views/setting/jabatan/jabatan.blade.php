@@ -33,6 +33,20 @@
                               </tr>
                             </thead>
                             <tbody>
+                              @foreach ($data as $key => $value)
+                                <tr>
+                                  <td class="d_id">{{$value->j_id}}</td>
+                                  <td class="d_nama">{{$value->j_nama}}</td>
+                                  <td class="d_keterangan">{{$value->j_keterangan}}</td>
+                                  <td>
+                                    <div class="btn-group">'.
+                                           <button type="button" onclick="edit(this)" class="btn btn-info btn-xs" title="edit">
+                                           <label class="fa fa-pencil-alt"></label></button>
+                                           <button type="button" onclick="hapus(this)" class="btn btn-danger btn-xs" title="hapus">
+                                           <label class="fa fa-trash"></label></button>
+                                    </div></td>
+                                </tr>
+                              @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -48,42 +62,7 @@
 
   $(document).ready(function(){
 
-     $('#table_data').DataTable({
-          processing: true,
-          serverSide: true,
-          ajax: {
-              url:'{{ route('datatable_jabatan') }}',
-          },
-          columnDefs: [
-
-                  {
-                     targets: 0 ,
-                     className: 'center d_id'
-                  },
-                  {
-                     targets: 1 ,
-                     className: 'd_nama'
-                  },
-                  {
-                     targets: 2 ,
-                     className: 'd_keterangan'
-                  },
-                  {
-                     targets: 3 ,
-                     className: 'center'
-                  },
-
-
-                ],
-          columns: [
-            {data: 'j_id', orderable: true, searchable: false, "width" : "5%"},
-            {data: 'j_nama', name: 'j_nama'},
-            {data: 'j_keterangan', name: 'j_keterangan'},
-            {data: 'aksi', name: 'aksi'}
-          ]
-
-    });
-  })
+  });
 
   $('.btn_modal').click(function(){
     $('.nama').focus();
@@ -116,8 +95,7 @@
               });
             }
             $('#tambah-jabatan').modal('hide');
-            var table = $('#table_data').DataTable();
-            table.ajax.reload();
+            window.location.reload();
             $('.tabel_modal input').val('');
         },
         error:function(){
@@ -155,8 +133,6 @@
         dataType:'json',
         success:function(data){
           $('#tambah-jabatan').modal('hide');
-          var table = $('#table_data').DataTable();
-          table.ajax.reload();
           if (data.status == 1) {
             iziToast.success({
                   icon: 'fa fa-trash',
@@ -164,6 +140,7 @@
                   color:'yellow',
                   message: 'Menghapus Data!',
             });
+            window.location.reload();
           }else{
             iziToast.warning({
                   icon: 'fa fa-times',

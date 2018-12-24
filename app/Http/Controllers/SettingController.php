@@ -100,7 +100,11 @@ class SettingController extends Controller
   }
    public function jabatan()
    {
-    return view('setting.jabatan.jabatan');
+     $data = DB::table('d_jabatan')
+               ->orderBy('j_id','ASC')
+               ->get();
+
+    return view('setting.jabatan.jabatan', compact('data'));
    }
 
    public function datatable_jabatan()
