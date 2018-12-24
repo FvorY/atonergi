@@ -112,7 +112,7 @@
 					</div>
 
 					<div class="col-lg-12 text-right mt-3">
-						<a class="btn btn-primary" onclick="cetak()"><i class="fa fa-print"></i> Print</a>
+						<a class="btn btn-primary" onclick="cetakmanagerial()"><i class="fa fa-print"></i> Print</a>
 					</div>
 
 	        	</div>

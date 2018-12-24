@@ -80,8 +80,8 @@
 									@foreach ($staff as $key => $value)
 										@if ($value->pin != null && $value->nip)
 											<tr>
-												<td class="managerialpin">{{$value->pin}}</td>
-												<td class="managerialnip">{{$value->nip}}</td>
+												<td class="staffpin">{{$value->pin}}</td>
+												<td class="staffnip">{{$value->nip}}</td>
 												<td>{{$value->nama}}</td>
 												<td>{{$value->jabatan}}</td>
 												<td>{{$value->kantor}}</td>
@@ -113,7 +113,7 @@
 					</div>
 
 					<div class="col-lg-12 text-right mt-3">
-						<a href="{{route('print_payroll')}}" class="btn btn-primary" target="_blank"><i class="fa fa-print"></i> Print</a>
+						<a class="btn btn-primary" onclick="cetakstaff()"><i class="fa fa-print"></i> Print</a>
 					</div>
 
 	        	</div>
