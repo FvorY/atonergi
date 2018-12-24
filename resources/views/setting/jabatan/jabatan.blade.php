@@ -6,7 +6,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-    <div class="col-lg-12"> 
+    <div class="col-lg-12">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb bg-info">
           <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -34,7 +34,7 @@
                             </thead>
                             <tbody>
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
                   </div>
                 </div>
@@ -72,11 +72,11 @@
                      targets: 3 ,
                      className: 'center'
                   },
-                  
-                  
+
+
                 ],
           columns: [
-            {data: 'j_id', name: 'j_id'},
+            {data: 'j_id', orderable: true, searchable: false, "width" : "5%"},
             {data: 'j_nama', name: 'j_nama'},
             {data: 'j_keterangan', name: 'j_keterangan'},
             {data: 'aksi', name: 'aksi'}
@@ -130,7 +130,7 @@
   });
 
   function edit(a) {
-    
+
     var par   = $(a).parents('tr');
     var id    = $(par).find('.d_id').text();
     var nama  = $(par).find('.d_nama').text();

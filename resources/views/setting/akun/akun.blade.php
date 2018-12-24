@@ -6,7 +6,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-    <div class="col-lg-12"> 
+    <div class="col-lg-12">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb bg-info">
           <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -28,6 +28,7 @@
                               <tr>
                                 <th>No</th>
                                 <th>Username</th>
+                                <th>Pegawai</th>
                                 <th>Nama</th>
                                 <th>Level</th>
                                 <th>Photo</th>
@@ -37,7 +38,7 @@
                             </thead>
                             <tbody>
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
                   </div>
                 </div>
@@ -75,12 +76,13 @@
                      targets: 4 ,
                      className: 'center'
                   },
-                  
-                  
+
+
                 ],
           columns: [
             {data: 'm_id', name: 'm_id'},
             {data: 'm_username', name: 'm_username'},
+            {data: 'mp_name', name: 'mp_name'},
             {data: 'm_name', name: 'm_name'},
             {data: 'm_jabatan', name: 'm_jabatan'},
             {data: 'image', name: 'image'},
@@ -95,7 +97,7 @@
     $('.nama').focus();
     $('.tabel_modal :input:not(input[name="_token"])').val('');
     $('.tabel_modal label').prop('hidden',true);
-          
+
     $('#noFile').text('Choose Image...');
     $(".file-upload").removeClass('active');
     $('.preview_td').html('<img style="width: 100px;height: 100px;border:1px solid pink" id="output" >');
@@ -110,11 +112,11 @@ $('#chooseFile').bind('change', function () {
   }
   if (/^\s*$/.test(filename)) {
     $(".file-upload").removeClass('active');
-    $("#noFile").text("No file chosen..."); 
+    $("#noFile").text("No file chosen...");
   }
   else {
     $(".file-upload").addClass('active');
-    $("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
+    $("#noFile").text(filename.replace("C:\\fakepath\\", ""));
   }
 });
 
@@ -141,7 +143,7 @@ var loadFile = function(event) {
 
 $('.simpan').click(function(){
 
-  var input =  $('.tabel_modal :input').length;
+  var input =  $('.tabel_modal :input').length;  
 
   var validator = [];
   var validator_name = [];
@@ -210,7 +212,7 @@ $('.simpan').click(function(){
     });
 
 
-      var formdata = new FormData();  
+      var formdata = new FormData();
        formdata.append( 'files', $('#chooseFile')[0].files[0]);
        $.ajax({
          type: "POST",
@@ -269,10 +271,12 @@ $('.simpan').click(function(){
           $('.username').val(res.data.m_username);
           $('.nama').val(res.data.m_name);
           $('.level').val(res.data.kode_jabatan);
-          $('.level').trigger('change.select2'); 
+          $('.level').trigger('change.select2');
+          $('.pegawai').val(res.data.m_pegawai_id);
+          $('.pegawai').trigger('change.select2');
           $('#output').attr("src", '{{ route('thumbnail') }}'+'/'+res.data.m_image)
           $('.file-upload').addClass('active');
-          $("#noFile").text(res.data.m_image); 
+          $("#noFile").text(res.data.m_image);
           $('.id').val(id);
           $('.old_name').val(res.data.m_username);
           $('#tambah-akun').modal('show');
@@ -285,7 +289,7 @@ $('.simpan').click(function(){
         }
     });
 
-    
+
 
 
   }
