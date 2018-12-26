@@ -598,8 +598,8 @@ class HRDController extends Controller
     }
 
     public function kartushift(Request $request){
-      DB::beginTransaction();
-      try {
+      // DB::beginTransaction();
+      // try {
         $path = $request->file('kartushift')->getRealPath();
         $data = Excel::load($path, function($reader){})->get();
 
@@ -634,14 +634,14 @@ class HRDController extends Controller
             }
           }
 
-          DB::commit();
-          Session::flash('sukses', 'Berhasil Disimpan!');
-          return redirect('hrd/absensi/absensi');
-      } catch (\Exception $e) {
-          DB::rollback();
-          Session::flash('gagal', 'Gagal Disimpan!');
-          return redirect('hrd/absensi/absensi');
-      }
+      //     DB::commit();
+      //     Session::flash('sukses', 'Berhasil Disimpan!');
+      //     return redirect('hrd/absensi/absensi');
+      // } catch (\Exception $e) {
+      //     DB::rollback();
+      //     Session::flash('gagal', 'Gagal Disimpan!');
+      //     return redirect('hrd/absensi/absensi');
+      // }
     }
 
     public function kstable(Request $request){
@@ -779,7 +779,7 @@ class HRDController extends Controller
       return $result;
     }
 
-    public function print_payroll(Request $request){      
+    public function print_payroll(Request $request){
       $data = DB::table('d_payroll_managerial')
                   ->whereIn('pm_pin', $request->pin)
                   ->whereIn('pm_nip', $request->nip)
