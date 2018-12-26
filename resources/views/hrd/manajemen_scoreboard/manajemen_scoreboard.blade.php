@@ -87,7 +87,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header bg-gradient-primary">
-        <h4 class="modal-title">Tambah Data Scoreboard</h4>
+        <h4 class="modal-title">Detail Manajemen Scoreboard</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
     <form method="post" id="form-detail-kpi" name="formDetailKpi">
@@ -145,7 +145,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header bg-gradient-primary">
-        <h4 class="modal-title">Tambah Data Scoreboard</h4>
+        <h4 class="modal-title">Edit Manajemen Scoreboard</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
     <form method="post" id="form-edit-kpi" name="formEditKpi">

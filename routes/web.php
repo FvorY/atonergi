@@ -582,4 +582,15 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::post('/hrd/manajemen_scoreboard/manajemen_scoreboard/update-data', 'MankpiController@updateData');
     Route::post('/hrd/manajemen_scoreboard/manajemen_scoreboard/ubah-status', 'MankpiController@ubahStatus');
 
+    //Data KPI
+    Route::get('/hrd/data_kpi/data_kpi/tambah-data', 'DkpixController@tambahData');
+    Route::get('/hrd/data_kpi/data_kpi/lookup-data-jabatan', 'DkpixController@lookupJabatan');
+    Route::get('/hrd/data_kpi/data_kpi/lookup-data-pegawai', 'DkpixController@lookupPegawai');
+    Route::get('/hrd/data_kpi/data_kpi/set-field-modal/{id}', 'DkpixController@setFieldModal');
+    Route::post('/hrd/data_kpi/data_kpi/simpan-data', 'DkpixController@simpanData');
+    Route::get('/hrd/data_kpi/data_kpi/get-kpi-by-tgl/{tgl1}/{tgl2}', 'DkpixController@getKpixByTgl');
+    Route::get('/hrd/data_kpi/data_kpi/get-edit/{id}', 'DkpixController@getDataEdit');
+    Route::post('/hrd/data_kpi/data_kpi/update-data', 'DkpixController@updateData');
+    Route::post('/hrd/data_kpi/data_kpi/delete-data', 'DkpixController@deleteData');
+
 }); // End Route Groub middleware auth
