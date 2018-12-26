@@ -552,6 +552,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     //Absensi
     Route::post('/hrd/absensi/importbulan', 'HRDController@importbulan');
     Route::post('/hrd/absensi/kartushift', 'HRDController@kartushift');
+    Route::get('/hrd/absensi/kartushift', 'HRDController@kartushift');
     Route::post('/hrd/absensi/rekap', 'HRDController@rekap');
     Route::get('/hrd/absensi/tahun', 'HRDController@tahun');
     Route::post('/hrd/absensi/tahun', 'HRDController@tahun');
