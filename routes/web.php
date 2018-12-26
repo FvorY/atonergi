@@ -593,4 +593,11 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::post('/hrd/data_kpi/data_kpi/update-data', 'DkpixController@updateData');
     Route::post('/hrd/data_kpi/data_kpi/delete-data', 'DkpixController@deleteData');
 
+    //Scoreboard & KPI
+    Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/get-kpi-by-tgl/{tgl1}/{tgl2}/{tampil}', 'ManscorekpiController@getKpiByTgl');
+    Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/get-edit/{id}', 'ManscorekpiController@getDataEdit');
+    Route::post('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/update-data', 'ManscorekpiController@updateData');
+    Route::post('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/ubah-status', 'ManscorekpiController@ubahStatus');
+    Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/get-score-by-tgl/{tgl1}/{tgl2}/{tampil}', 'ManscorekpiController@getScoreByTgl');
+    Route::get('/hrd/manscorekpi/print_kpi/{id}', 'ManscorekpiController@print_pki');
 }); // End Route Groub middleware auth

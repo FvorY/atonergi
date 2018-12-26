@@ -5,37 +5,44 @@
       		<div class="col-md-2 col-sm-3 col-xs-12">
             	<label>Periode</label>
             </div>
-        	<div class="col-md-7 col-sm-9 col-xs-12">
 
-            	
-            		<div class="form-group">
-            			<div class="input-group input-daterange">
-            				<input type="text" class="form-control form-control-sm" name="">
-            				<span class="input-group-addon bg-secondary">-</span>
-            				<input type="text" class="form-control form-control-sm" name="">
-            				<div class="input-group-btn">
-								<button class="btn btn-sm btn-info"><i class="fa fa-search"></i></button>
-								<button class="btn btn-sm btn-secondary"><i class="fa fa-refresh"></i></button>
+
+						<div class="col-md-4 col-sm-7 col-xs-12">
+							<div class="form-group" style="display: ">
+								<div class="input-daterange input-group">
+									<input id="tanggal3" data-provide="datepicker" class="form-control input-sm datepicker1" name="tanggal3" type="text">
+									<span class="input-group-addon">-</span>
+									<input id="tanggal4" data-provide="datepicker" class="input-sm form-control datepicker2" name="tanggal4" type="text" value="{{ date('d-m-Y') }}">
+								</div>
 							</div>
-            			</div>
-            		</div>
-				
-			</div>
-			<div class="col-md-3 col-sm-12 col-xs-12">
-				<div class="form-group">
-					<select class="form-control form-control-sm">
-						<option value="semua">Semua</option>	
-						<option value="belum">Belum dikonfirm</option>	
-						<option value="sudah">Sudah dikonfirm</option>	
-					</select>
-				</div>
-			</div>
-        </div>		          
+						</div>
+
+						<div class="col-md-3 col-sm-3 col-xs-12" align="center">
+			        <button class="btn btn-primary btn-sm btn-flat" type="button" onclick="lihatScoreByTgl()">
+			          <strong>
+			            <i class="fa fa-search" aria-hidden="true"></i>
+			          </strong>
+			        </button>
+			        <button class="btn btn-info btn-sm btn-flat" type="button" onclick="refreshTabelScore()">
+			          <strong>
+			            <i class="fa fa-undo" aria-hidden="true"></i>
+			          </strong>
+			        </button>
+			      </div>
+
+						<div align="right">
+			          <select class="form-control input-sm" name="s_confirm" id="s_confirm" onchange="lihatScoreByTgl()">
+			             <option selected value="ALL">Semua</option>
+			             <option value="N">Belum Dikonfirmasi</option>
+			             <option value="Y">Sudah Dikonfirmasi</option>
+			           </select>			        
+			      </div>
+        </div>
       	<div class="row">
 
 			<div class="table-responsive">
-				<table class="table table-hover data-table" cellspacing="0">
-				  <thead class="bg-gradient-info">
+				<table class="table tabelan table-hover table-bordered" width="100%" cellspacing="0" id="tbl-score">
+					<thead id="thead-score">
 				    <tr>
 				      <th>No</th>
 				      <th>Date</th>
@@ -47,21 +54,11 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-				    <tr>
-				    	<td>1</td>
-				    	<td>20 Dec 2018</td>
-				    	<td>PKI-2018-001</td>
-				    	<td>Alpha</td>
-				    	<td style="color: blue;">Sudah Dikonfirmasi</td>
-				    	<td>21 Dec 2019</td>
-				    	<td>
-			    			<button data-toggle="modal" data-target="#detail_scoreboard" class="btn btn-success" title="Detail" type="button"><i class="fa fa-info-circle"></i></button>
-				    	</td>
-				    </tr>
+
 				  </tbody>
 				</table>
 			</div>
-			
+
     	</div>
 
   	</div>
