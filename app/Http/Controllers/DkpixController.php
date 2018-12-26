@@ -42,7 +42,8 @@ class DkpixController extends Controller
         }
 
         $data = d_kpix::join('m_pegawai','d_kpix.d_kpix_pid','=','m_pegawai.mp_id')
-                    ->leftjoin('m_jabatan', 'm_jabatan.c_id', '=', 'm_pegawai.mp_id')
+                    ->join('m_jabatan', 'm_pegawai.mp_position', '=', 'm_jabatan.c_id')
+                    ->join('m_divisi', 'c_divisi_id', '=', 'm_divisi.c_id')
                     ->where('c_divisi_id', $div_id)
                     ->whereBetween('d_kpix_date', [$tanggal1, $tanggal2])
                     ->orderBy('d_kpix_created', 'DESC')->get();
