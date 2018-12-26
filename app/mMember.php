@@ -55,29 +55,47 @@ class mMember extends Model implements AuthenticatableContract, CanResetPassword
     // public function company(){
     //     return $this->belongsToMany('App\d_comp', 'd_mem_comp', 'mc_mem', 'mc_comp');
     // }
-    
+
     // public function isAdminPusat(){
     //     dd('d');
     //     $cek = DB::table('d_comp_mem')
     //            ->where('cm_mem', '=', Auth::user()->m_id)
     //            ->where('cm_comp', '=', 'AA00000030')->get();
-        
+
     //     return (bool)count($cek);
     // }
-    
-  
-    
-    
+
+    public static function aksesSidebar()
+    {
+     $m_id = Auth::user()->m_id;
+
+     $cek = DB::table('d_mem')
+              ->join('d_hak_akses', 'm_jabatan', '=', 'ha_level')
+              ->join('d_daftar_menu', 'dm_id', '=', 'ha_id')
+              ->where('m_id', $m_id)
+              ->get();
+             // $cek = DB::select("select ha_id, aktif, ha_menu from d_daftar_menu join d_hak_akses on dm_id = ha_id join d_mem on ha_level = m_jabatan where m_id = '".$m_id."' group by dm_group order by dm_id");
+     // $cek = DB::table('d_daftar_menu')
+     //              ->join('d_hak_akses', 'd_daftar_menu.dm_id', '=', 'd_hak_akses.ha_id')
+     //              ->join('d_mem', 'ha_level', '=', 'm_jabatan')
+     //              ->where('m_id', '=', Auth::user()->m_id)
+     //              ->groupby('dm_group')
+     //              ->orderBy('dm_id')
+     //              ->get();
+     return $cek;
+   }
+
+
     public function akses($fitur,$aksi){
       // select * from  join  on = where ubah =true
 
          $cek = DB::table('d_mem')
                 ->join('d_hak_akses', 'm_jabatan', '=', 'ha_level')
                 ->where('ha_menu', '=', $fitur)
-                ->where($aksi, '=', 1) 
-                ->where('m_id', '=', Auth::user()->m_id)             
-                ->get();        
-        
+                ->where($aksi, '=', 1)
+                ->where('m_id', '=', Auth::user()->m_id)
+                ->get();
+
         if(count($cek) != 0)
             return true;
         else

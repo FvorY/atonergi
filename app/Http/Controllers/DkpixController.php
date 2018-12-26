@@ -27,7 +27,7 @@ class DkpixController extends Controller
         $id_peg = Auth::user()->m_pegawai_id;
         $tanggal1 = date('Y-m-d',strtotime($tgl1));
         $tanggal2 = date('Y-m-d',strtotime($tgl2));
-        $d_pegawai = DB::table('m_pegawai')->join('m_jabatan', 'c_id', '=', 'mp_position')->where('mp_id', $id_peg)->first();
+        $d_pegawai = DB::table('m_pegawai')->leftjoin('m_jabatan', 'c_id', '=', 'mp_position')->where('mp_id', $id_peg)->first();
 
         if ($d_pegawai->c_divisi_id == '1') {
             $div_id = $d_pegawai->c_divisi_id;
@@ -42,7 +42,7 @@ class DkpixController extends Controller
         }
 
         $data = d_kpix::join('m_pegawai','d_kpix.d_kpix_pid','=','m_pegawai.mp_id')
-                    ->join('m_jabatan', 'm_jabatan.c_id', '=', 'm_pegawai.mp_id')
+                    ->leftjoin('m_jabatan', 'm_jabatan.c_id', '=', 'm_pegawai.mp_id')
                     ->where('c_divisi_id', $div_id)
                     ->whereBetween('d_kpix_date', [$tanggal1, $tanggal2])
                     ->orderBy('d_kpix_created', 'DESC')->get();
@@ -180,7 +180,7 @@ class DkpixController extends Controller
     }
 
     public function simpanData(Request $request)
-    {      
+    {
         //dd($request->all());
         DB::beginTransaction();
         try

@@ -181,6 +181,9 @@
         </button>
       </div>
     </nav>
+
+                <?php $sidebar = App\mMember::aksesSidebar() ?>
+
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <div class="row row-offcanvas row-offcanvas-right">
@@ -208,13 +211,18 @@
               </a>
               <div class="collapse {{Request::is('setting') ? 'show' : '' || Request::is('setting/*') ? 'show' : '' }}" id="setting">
                 <ul class="nav flex-column sub-menu">
+                  @if($sidebar[0]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/jabatan') ? 'active' : '' || Request::is('setting/jabatan/*') ? 'active' : '' }}" href="{{url('setting/jabatan')}}">Setting Level Account</a></li>
-
+                  @endif
+                  @if($sidebar[1]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/akun') ? 'active' : '' || Request::is('setting/akun/*') ? 'active' : '' }}" href="{{url('setting/akun')}}">Setting Account </a></li>
-
+                  @endif
+                  @if($sidebar[2]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/hak_akses') ? 'active' : '' || Request::is('setting/hak_akses/*') ? 'active' : '' }}" href="{{url('setting/hak_akses')}}">Setting Hak Akses</a></li>
-
+                  @endif
+                  @if($sidebar[3]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/daftar_menu') ? 'active' : '' || Request::is('setting/daftar_menu/*') ? 'active' : '' }}" href="{{url('setting/daftar_menu')}}">Setting Daftar Menu</a></li>
+                  @endif
                 </ul>
                 </div>
             </li>
