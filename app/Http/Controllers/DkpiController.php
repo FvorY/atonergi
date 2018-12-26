@@ -22,7 +22,7 @@ class DkpiController extends Controller
         $id_peg = Auth::user()->m_pegawai_id;
         $tanggal1 = date('Y-m-d',strtotime($tgl1));
         $tanggal2 = date('Y-m-d',strtotime($tgl2));
-        $data = d_kpi::join('m_pegawai','d_kpi.d_kpi_pid','=','m_pegawai.mp_id')->where('d_kpi.d_kpi_pid', '=', $id_peg)->whereBetween('d_kpi_date', [$tanggal1, $tanggal2])->orderBy('d_kpi_created', 'DESC')->get();
+        $data = d_kpi::leftjoin('m_pegawai','d_kpi.d_kpi_pid','=','m_pegawai.mp_id')->where('d_kpi.d_kpi_pid', '=', $id_peg)->whereBetween('d_kpi_date', [$tanggal1, $tanggal2])->orderBy('d_kpi_created', 'DESC')->get();
 
         return DataTables::of($data)
         ->addIndexColumn()
