@@ -239,12 +239,18 @@ class SettingController extends Controller
       $hapus = DB::table('d_jabatan')
                  ->where('j_id',$req->id)
                  ->first();
+        
       if ($hapus->j_nama == 'SUPERUSER') {
          return response()->json(['status' => 2]);
       }else{
-         $hapus = DB::table('d_jabatan')
+              DB::table('d_jabatan')
                  ->where('j_id',$req->id)
                  ->delete();
+
+                 DB::table('d_hak_akses')
+                    ->where('ha_level', $hapus->j_nama)
+                    ->delete();
+
          return response()->json(['status' => 1]);
       }
 

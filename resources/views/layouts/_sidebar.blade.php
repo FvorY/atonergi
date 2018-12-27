@@ -182,8 +182,7 @@
       </div>
     </nav>
 
-                <?php $sidebar = App\mMember::aksesSidebar() ?>
-
+                <?php $sidebar = App\mMember::aksesSidebar() ?>                
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <div class="row row-offcanvas row-offcanvas-right">
