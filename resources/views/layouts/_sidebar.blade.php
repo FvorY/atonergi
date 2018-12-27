@@ -150,7 +150,7 @@
               <img src="{{route('thumbnail').'/'.Auth::user()->m_image}}" alt="image">
               <span class="d-none d-lg-inline">{{Auth::user()->m_name}}</span>
             </a>
-            <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">              
+            <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
               <a class="dropdown-item" href="#">
                 <i class="mdi mdi-cached mr-2 text-success"></i>
                 Activity Log
@@ -183,6 +183,7 @@
     </nav>
 
                 <?php $sidebar = App\mMember::aksesSidebar() ?>
+                {{dd($sidebar)}}
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <div class="row row-offcanvas row-offcanvas-right">
