@@ -49,10 +49,10 @@
             </div>
             <small class="text-muted my-auto">2018-05-28 14:43:56</small>
           </li>
-          
+
         </ul>
       </div>
-      
+
       <!-- To do section tab ends -->
       <div class="tab-pane fade" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
         <div class="add-items d-flex px-3 mb-0">
