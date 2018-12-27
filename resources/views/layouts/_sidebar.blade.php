@@ -183,7 +183,7 @@
     </nav>
 
                 <?php $sidebar = App\mMember::aksesSidebar() ?>
-                {{dd($sidebar)}}
+
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <div class="row row-offcanvas row-offcanvas-right">
