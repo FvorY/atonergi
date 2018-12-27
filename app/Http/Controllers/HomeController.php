@@ -50,7 +50,6 @@ class HomeController extends Controller
 
     public function logout(){
         Session::flush();
-        Auth::logout();
         mMember::where('m_id', Auth::user()->m_id)->update([
              'm_last_logout' => Carbon::now('Asia/Jakarta')
             ]);
@@ -58,6 +57,8 @@ class HomeController extends Controller
         mMember::where('m_id', Auth::user()->m_id)->update([
              'm_statuslogin' => 'N'
             ]);
+
+        Auth::logout();
 
         Session::forget('key');
         return Redirect('/');
