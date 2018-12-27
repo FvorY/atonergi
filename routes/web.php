@@ -32,12 +32,8 @@ Route::get('/sinkron_bundle', 'master\master_bundleitemController@sinkron_bundle
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('logout',function(){
-	Session::flush();
-    Auth::logout();
-    Session::forget('key');
-    return Redirect('/');
-});
+Route::get('logout', 'loginController@logout')->name('logout');
+
 Route::get('/tes', 'SettingController@tes');
 
 

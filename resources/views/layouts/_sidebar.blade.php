@@ -253,33 +253,66 @@
               </a>
               <div class="collapse {{Request::is('master') ? 'show' : '' || Request::is('master/*') ? 'show' : '' }}" id="master">
                 <ul class="nav flex-column sub-menu">
+                  @if($sidebar[4]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/vendor/vendor') ? 'active' : '' || Request::is('master/vendor/*') ? 'active' : '' }}" href="{{url('master/vendor/vendor')}}">Master Data Vendor</a></li>
+                  @endif
+                  @if($sidebar[5]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/customer/cust') ? 'active' : '' || Request::is('master/customer/*') ? 'active' : '' }}" href="{{url('master/customer/cust')}}">Master Data Customer</a></li>
+                  @endif
+                  @if($sidebar[6]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/pegawai/pegawai') ? 'active' : '' || Request::is('master/pegawai/*') ? 'active' : '' }}" href="{{url('master/pegawai/pegawai')}}">Master Data Pegawai</a></li>
+                  @endif
+                  @if($sidebar[7]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/jabatan/jabatan') ? 'active' : '' || Request::is('master/jabatan/*') ? 'active' : '' }}" href="{{url('master/jabatan/jabatan')}}">Master Data Jabatan</a></li>
+                  @endif
+                  @if($sidebar[8]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/akun/a_keuangan') ? 'active' : '' || Request::is('master/akun/*') ? 'active' : '' }}" href="{{url('master/akun/a_keuangan')}}">Master Data Akun Keuangan</a></li>
+                  @endif
+                  @if($sidebar[9]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/transaksi/t_keuangan') ? 'active' : '' || Request::is('master/transaksi/*') ? 'active' : '' }}" href="{{url('master/transaksi/t_keuangan')}}">Master Data Transaksi<br> Keuangan</a></li>
+                  @endif
+                  @if($sidebar[10]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/barang/barang') ? 'active' : '' || Request::is('master/barang/*') ? 'active' : '' }}" href="{{url('master/barang/barang')}}">Master Data Barang</a></li>
-
+                  @endif
+                  @if($sidebar[11]->aktif == 1)
                     <li class="nav-item">
                       <a class="{{Request::is('master/jasa/*') ? 'active' : ''}} nav-link" href="{{route('master_jasa')}}">
                         Master Data Jasa
                       </a>
                     </li>
+                  @endif
 
+                  @if($sidebar[12]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/type/type') ? 'active' : '' || Request::is('master/type/*') ? 'active' : '' }}" href="{{url('master/type/type')}}">Master Data Tipe Barang</a></li>
+                  @endif
+                  @if($sidebar[13]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/bundle/bundle') ? 'active' : '' || Request::is('master/bundle/*') ? 'active' : '' }}" href="{{url('master/bundle/bundle')}}">Master Data Bundle Item</a></li>
+                  @endif
+                  @if($sidebar[14]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/status/*') ? 'active' : '' }}" href="{{url('master/status/status')}}">Master Data Status Q.O.#</a></li>
+                  @endif
+                  @if($sidebar[15]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/ttd/*') ? 'active' : '' }}" href="{{url('master/ttd/ttd')}}">Master Data TTD</a></li>
+                  @endif
+                  @if($sidebar[16]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/currency/*') ? 'active' : '' }}" href="{{url('master/currency/index')}}">Master Currency</a></li>
+                  @endif
+                  @if($sidebar[17]->aktif == 1)
                   <li class="nav-item">
                     <a class="{{Request::is('master/bank/*') ? 'active' : ''}} nav-link" href="{{route('master_bank')}}">
                       Master Data Bank
                     </a>
                   </li>
+                  @endif
+                  @if($sidebar[18]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/percent/*') ? 'active' : '' }}" href="{{url('master/percent/index')}}">Master Percent</a></li>
+                  @endif
+                  @if($sidebar[19]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/kpi/*') ? 'active' : '' }}" href="{{url('master/kpi/index')}}">Master KPI</a></li>
+                  @endif
+                  @if($sidebar[20]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/scoreboard/*') ? 'active' : '' }}" href="{{url('master/scoreboard/index')}}">Master Scoreboard</a></li>
+                  @endif
                 </ul>
                 </div>
             </li>
@@ -297,8 +330,12 @@
               </a>
               <div class="collapse {{Request::is('quotation') ? 'show' : '' || Request::is('quotation/*') ? 'show' : '' }}" id="m_pembelian">
                 <ul class="nav flex-column sub-menu">
+                  @if($sidebar[21]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('quotation/q_quotation/q_quotation') ? 'active' : '' || Request::is('quotation/q_quotation/*') ? 'active' : '' }}" href="{{url('quotation/q_quotation/q_quotation')}}">Quotation</a></li>
+                  @endif
+                  @if($sidebar[22]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('quotation/marketing/marketing') ? 'active' : '' || Request::is('quotation/marketing/*') ? 'active' : '' }}" href="{{url('quotation/marketing/marketing')}}">Tim Marketing<span class="d-none">Quotation</span></a></li>
+                  @endif
                {{--    <li class="nav-item"> <a class="nav-link {{Request::is('quotation/n_penawaran/n_penawaran') ? 'active' : '' || Request::is('quotation/n_penawaran/*') ? 'active' : '' }}" href="{{url('quotation/n_penawaran/n_penawaran')}}">Nilai Penawaran<span class="d-none">Quotation</span></a></li> --}}
                   {{-- <li class="nav-item"> <a class="nav-link {{Request::is('quotation/k_penawaran/k_penawaran') ? 'active' : '' || Request::is('quotation/k_penawaran/*') ? 'active' : '' }}" href="{{url('quotation/k_penawaran/k_penawaran')}}">Klasifikasi Penawaran<span class="d-none">Quotation</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('quotation/pdf_penawaran/pdf_penawaran') ? 'active' : '' || Request::is('quotation/pdf_penawaran/*') ? 'active' : '' }}" href="{{url('quotation/pdf_penawaran/pdf_penawaran')}}">Penawaran : PDF<span class="d-none">Quotation</span></a></li> --}}
@@ -322,13 +359,27 @@
               </a>
               <div class="collapse {{Request::is('order') ? 'show' : '' || Request::is('order/*') ? 'show' : '' }}" id="m_stock">
                 <ul class="nav flex-column sub-menu">
+                  @if($sidebar[23]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/proforma_invoice') ? 'active' : '' || Request::is('order/proforma_invoice/*') ? 'active' : '' }}" href="{{url('order/proforma_invoice')}}">Proforma Invoice<span class="d-none">Order</span></a></li>
+                  @endif
+                  @if($sidebar[24]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/pembayarandeposit/pembayarandeposit') ? 'active' : '' || Request::is('order/pembayarandeposit/*') ? 'active' : '' }}" href="{{url('order/pembayarandeposit/pembayarandeposit')}}">Pembayaran Deposit<span class="d-none">Order</span></a></li>
+                  @endif
+                  @if($sidebar[25]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/salesorder/s_order') ? 'active' : '' || Request::is('order/salesorder/*') ? 'active' : '' }}" href="{{url('order/salesorder/s_order')}}"> Sales Order<span class="d-none">Order</span></a></li>
+                  @endif
+                  @if($sidebar[26]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/cekbarang/cekbarang') ? 'active' : '' || Request::is('order/cekbarang/*') ? 'active' : '' }}" href="{{url('order/cekbarang/cekbarang')}}">Check Stock<span class="d-none">Order</span></a></li>
+                  @endif
+                  @if($sidebar[27]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/workorder/w_order') ? 'active' : '' || Request::is('order/workorder/*') ? 'active' : '' }}" href="{{url('order/workorder/w_order')}}">Work Order<span class="d-none">Order</span></a></li>
+                  @endif
+                  @if($sidebar[28]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/s_invoice/s_invoice') ? 'active' : '' || Request::is('order/s_invoice/*') ? 'active' : '' }}" href="{{url('order/s_invoice/s_invoice')}}">Sales Invoice<span class="d-none">Order</span></a></li>
+                  @endif
+                  @if($sidebar[29]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/payment_order') ? 'active' : '' || Request::is('order/payment_order/*') ? 'active' : '' }}" href="{{url('order/payment_order')}}">Payment Order<span class="d-none">Order</span></a></li>
+                  @endif
                 </ul>
                 </div>
             </li>

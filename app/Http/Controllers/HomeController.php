@@ -31,8 +31,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $counton = mMember::where('m_statuslogin', 'Y')->count();
+        $countoff = mMember::where('m_statuslogin', 'N')->count();
         // return Auth::user()->m_id;
         // return 'asd';
-        return view('home');
+        return view('home', compact('counton', 'countoff'));
     }
 }

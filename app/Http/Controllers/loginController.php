@@ -14,7 +14,7 @@ use Session;
 use DB;
 
 class loginController extends Controller
-{   
+{
 
     public function __construct(){
         $this->middleware('guest');
@@ -52,7 +52,7 @@ class loginController extends Controller
             $password  = $req->password;
            	$pass_benar=sha1(md5('passwordAllah').$password);
             // $username = str_replace('\'', '', $username);
-            
+
             $user = mMember::where("m_username", $username)->first();
 
             $user_valid = [];
@@ -66,7 +66,12 @@ class loginController extends Controller
             	if ($user_pass != null) {
            			mMember::where('m_username',$username)->update([
                      'm_last_login'=>Carbon::now(),
-                 	  ]); 
+                 	  ]);
+
+                    mMember::where('m_username',$username)->update([
+                         'm_statuslogin'=>'Y',
+                     	  ]);
+
                 Auth::login($user);
                 return Redirect('/home');
             	}else{
@@ -77,10 +82,25 @@ class loginController extends Controller
            		Session::flash('username','Username Tidak Ada');
            		return back()->with('password','username');
            	}
-            
+
 
         }
     }
 
-    
+    public function logout(){
+        Session::flush();
+        Auth::logout();
+        mMember::where('m_username',$username)->update([
+             'm_last_logout' => Carbon::now('Asia/Jakarta')
+            ]);
+
+        mMember::where('m_username',$username)->update([
+             'm_statuslogin' => 'N'
+            ]);
+            
+        Session::forget('key');
+        return Redirect('/');
+    }
+
+
 }
