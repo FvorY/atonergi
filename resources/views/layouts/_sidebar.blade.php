@@ -182,7 +182,7 @@
       </div>
     </nav>
 
-                <?php $sidebar = App\mMember::aksesSidebar() ?>                
+                <?php $sidebar = App\mMember::aksesSidebar() ?>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <div class="row row-offcanvas row-offcanvas-right">
@@ -210,16 +210,16 @@
               </a>
               <div class="collapse {{Request::is('setting') ? 'show' : '' || Request::is('setting/*') ? 'show' : '' }}" id="setting">
                 <ul class="nav flex-column sub-menu">
-                  @if((int)$sidebar[0]->aktif == 1)
+                  @if((int)$sidebar[0]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/jabatan') ? 'active' : '' || Request::is('setting/jabatan/*') ? 'active' : '' }}" href="{{url('setting/jabatan')}}">Setting Level Account</a></li>
                   @endif
-                  @if((int)$sidebar[1]->aktif == 1)
+                  @if((int)$sidebar[1]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/akun') ? 'active' : '' || Request::is('setting/akun/*') ? 'active' : '' }}" href="{{url('setting/akun')}}">Setting Account </a></li>
                   @endif
-                  @if((int)$sidebar[2]->aktif == 1)
+                  @if((int)$sidebar[2]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/hak_akses') ? 'active' : '' || Request::is('setting/hak_akses/*') ? 'active' : '' }}" href="{{url('setting/hak_akses')}}">Setting Hak Akses</a></li>
                   @endif
-                  @if((int)$sidebar[3]->aktif == 1)
+                  @if((int)$sidebar[3]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/daftar_menu') ? 'active' : '' || Request::is('setting/daftar_menu/*') ? 'active' : '' }}" href="{{url('setting/daftar_menu')}}">Setting Daftar Menu</a></li>
                   @endif
                 </ul>
@@ -252,28 +252,28 @@
               </a>
               <div class="collapse {{Request::is('master') ? 'show' : '' || Request::is('master/*') ? 'show' : '' }}" id="master">
                 <ul class="nav flex-column sub-menu">
-                  @if((int)$sidebar[4]->aktif == 1)
+                  @if((int)$sidebar[4]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/vendor/vendor') ? 'active' : '' || Request::is('master/vendor/*') ? 'active' : '' }}" href="{{url('master/vendor/vendor')}}">Master Data Vendor</a></li>
                   @endif
-                  @if((int)$sidebar[5]->aktif == 1)
+                  @if((int)$sidebar[5]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/customer/cust') ? 'active' : '' || Request::is('master/customer/*') ? 'active' : '' }}" href="{{url('master/customer/cust')}}">Master Data Customer</a></li>
                   @endif
-                  @if((int)$sidebar[6]->aktif == 1)
+                  @if((int)$sidebar[6]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/pegawai/pegawai') ? 'active' : '' || Request::is('master/pegawai/*') ? 'active' : '' }}" href="{{url('master/pegawai/pegawai')}}">Master Data Pegawai</a></li>
                   @endif
-                  @if((int)$sidebar[7]->aktif == 1)
+                  @if((int)$sidebar[7]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/jabatan/jabatan') ? 'active' : '' || Request::is('master/jabatan/*') ? 'active' : '' }}" href="{{url('master/jabatan/jabatan')}}">Master Data Jabatan</a></li>
                   @endif
-                  @if((int)$sidebar[8]->aktif == 1)
+                  @if((int)$sidebar[8]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/akun/a_keuangan') ? 'active' : '' || Request::is('master/akun/*') ? 'active' : '' }}" href="{{url('master/akun/a_keuangan')}}">Master Data Akun Keuangan</a></li>
                   @endif
-                  @if((int)$sidebar[9]->aktif == 1)
+                  @if((int)$sidebar[9]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/transaksi/t_keuangan') ? 'active' : '' || Request::is('master/transaksi/*') ? 'active' : '' }}" href="{{url('master/transaksi/t_keuangan')}}">Master Data Transaksi<br> Keuangan</a></li>
                   @endif
-                  @if((int)$sidebar[10]->aktif == 1)
+                  @if((int)$sidebar[10]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/barang/barang') ? 'active' : '' || Request::is('master/barang/*') ? 'active' : '' }}" href="{{url('master/barang/barang')}}">Master Data Barang</a></li>
                   @endif
-                  @if((int)$sidebar[11]->aktif == 1)
+                  @if((int)$sidebar[11]->aktif == \x01)
                     <li class="nav-item">
                       <a class="{{Request::is('master/jasa/*') ? 'active' : ''}} nav-link" href="{{route('master_jasa')}}">
                         Master Data Jasa
@@ -281,35 +281,35 @@
                     </li>
                   @endif
 
-                  @if((int)$sidebar[12]->aktif == 1)
+                  @if((int)$sidebar[12]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/type/type') ? 'active' : '' || Request::is('master/type/*') ? 'active' : '' }}" href="{{url('master/type/type')}}">Master Data Tipe Barang</a></li>
                   @endif
-                  @if((int)$sidebar[13]->aktif == 1)
+                  @if((int)$sidebar[13]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/bundle/bundle') ? 'active' : '' || Request::is('master/bundle/*') ? 'active' : '' }}" href="{{url('master/bundle/bundle')}}">Master Data Bundle Item</a></li>
                   @endif
-                  @if((int)$sidebar[14]->aktif == 1)
+                  @if((int)$sidebar[14]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/status/*') ? 'active' : '' }}" href="{{url('master/status/status')}}">Master Data Status Q.O.#</a></li>
                   @endif
-                  @if((int)$sidebar[15]->aktif == 1)
+                  @if((int)$sidebar[15]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/ttd/*') ? 'active' : '' }}" href="{{url('master/ttd/ttd')}}">Master Data TTD</a></li>
                   @endif
-                  @if((int)$sidebar[16]->aktif == 1)
+                  @if((int)$sidebar[16]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/currency/*') ? 'active' : '' }}" href="{{url('master/currency/index')}}">Master Currency</a></li>
                   @endif
-                  @if((int)$sidebar[17]->aktif == 1)
+                  @if((int)$sidebar[17]->aktif == \x01)
                   <li class="nav-item">
                     <a class="{{Request::is('master/bank/*') ? 'active' : ''}} nav-link" href="{{route('master_bank')}}">
                       Master Data Bank
                     </a>
                   </li>
                   @endif
-                  @if((int)$sidebar[18]->aktif == 1)
+                  @if((int)$sidebar[18]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/percent/*') ? 'active' : '' }}" href="{{url('master/percent/index')}}">Master Percent</a></li>
                   @endif
-                  @if((int)$sidebar[19]->aktif == 1)
+                  @if((int)$sidebar[19]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/kpi/*') ? 'active' : '' }}" href="{{url('master/kpi/index')}}">Master KPI</a></li>
                   @endif
-                  @if((int)$sidebar[20]->aktif == 1)
+                  @if((int)$sidebar[20]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/scoreboard/*') ? 'active' : '' }}" href="{{url('master/scoreboard/index')}}">Master Scoreboard</a></li>
                   @endif
                 </ul>
@@ -329,10 +329,10 @@
               </a>
               <div class="collapse {{Request::is('quotation') ? 'show' : '' || Request::is('quotation/*') ? 'show' : '' }}" id="m_pembelian">
                 <ul class="nav flex-column sub-menu">
-                  @if((int)$sidebar[21]->aktif == 1)
+                  @if((int)$sidebar[21]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('quotation/q_quotation/q_quotation') ? 'active' : '' || Request::is('quotation/q_quotation/*') ? 'active' : '' }}" href="{{url('quotation/q_quotation/q_quotation')}}">Quotation</a></li>
                   @endif
-                  @if((int)$sidebar[22]->aktif == 1)
+                  @if((int)$sidebar[22]->aktif == \x01)
                   <li class="nav-item"> <a class="nav-link {{Request::is('quotation/marketing/marketing') ? 'active' : '' || Request::is('quotation/marketing/*') ? 'active' : '' }}" href="{{url('quotation/marketing/marketing')}}">Tim Marketing<span class="d-none">Quotation</span></a></li>
                   @endif
                {{--    <li class="nav-item"> <a class="nav-link {{Request::is('quotation/n_penawaran/n_penawaran') ? 'active' : '' || Request::is('quotation/n_penawaran/*') ? 'active' : '' }}" href="{{url('quotation/n_penawaran/n_penawaran')}}">Nilai Penawaran<span class="d-none">Quotation</span></a></li> --}}
