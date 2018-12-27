@@ -12,6 +12,8 @@ use App\Authentication;
 
 use Auth;
 
+use Session;
+
 class HomeController extends Controller
 {
     /**
@@ -44,5 +46,20 @@ class HomeController extends Controller
         'countoff' => $countoff,
         'counton' => $counton
       ]);
+    }
+
+    public function logout(){
+        Session::flush();
+        Auth::logout();
+        mMember::where('m_id', Auth::user()->m_id)->update([
+             'm_last_logout' => Carbon::now('Asia/Jakarta')
+            ]);
+
+        mMember::where('m_id', Auth::user()->m_id)->update([
+             'm_statuslogin' => 'N'
+            ]);
+
+        Session::forget('key');
+        return Redirect('/');
     }
 }

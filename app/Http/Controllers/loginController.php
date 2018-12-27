@@ -87,20 +87,4 @@ class loginController extends Controller
         }
     }
 
-    public function logout(){
-        Session::flush();
-        Auth::logout();
-        mMember::where('m_username',$username)->update([
-             'm_last_logout' => Carbon::now('Asia/Jakarta')
-            ]);
-
-        mMember::where('m_username',$username)->update([
-             'm_statuslogin' => 'N'
-            ]);
-            
-        Session::forget('key');
-        return Redirect('/');
-    }
-
-
 }
