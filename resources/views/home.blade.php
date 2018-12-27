@@ -36,11 +36,11 @@
 <script type="text/javascript">
 
   $(document).ready(function(){
-    realtime();
 
     setInterval(function () {
       realtime();
     }, 1000);
+    
   });
 
   function realtime(){
