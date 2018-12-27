@@ -12,6 +12,8 @@ use App\Authentication;
 
 use Auth;
 
+use Carbon\Carbon;
+
 use Session;
 
 class HomeController extends Controller
