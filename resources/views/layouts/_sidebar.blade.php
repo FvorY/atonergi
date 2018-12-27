@@ -466,11 +466,21 @@
               </a>
               <div class="collapse {{Request::is('inventory') ? 'show' : '' || Request::is('inventory/*') ? 'show' : '' }}" id="inven">
                 <ul class="nav flex-column sub-menu">
+                  @if($sidebar[37]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('inventory/penerimaan_barang/penerimaan_barang') ? 'active' : '' || Request::is('inventory/penerimaan_barang/*') ? 'active' : '' }}" href="{{url('inventory/penerimaan_barang/penerimaan_barang')}}">Penerimaan Barang<span class="d-none">Inventory</span></a></li>
+                  @endif
+                  @if($sidebar[38]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('inventory/barangkeluar/barangkeluar') ? 'active' : '' || Request::is('inventory/barangkeluar/*') ? 'active' : '' }}" href="{{url('inventory/barangkeluar/barangkeluar')}}">Pengeluaran Barang<span class="d-none">Inventory</span></a></li>
+                  @endif
+                  @if($sidebar[39]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('inventory/stockbarang/stockbarang') ? 'active' : '' || Request::is('inventory/stockbarang/*') ? 'active' : '' }}" href="{{url('inventory/stockbarang/stockbarang')}}">Input Stock Barang<span class="d-none">Inventory</span></a></li>
+                  @endif
+                  @if($sidebar[40]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('inventory/stockgudang/stockgudang') ? 'active' : '' || Request::is('inventory/stockgudang/*') ? 'active' : '' }}" href="{{url('inventory/stockgudang/stockgudang')}}">Stock Gudang<span class="d-none">Inventory</span></a></li>
+                  @endif
+                  @if($sidebar[41]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('inventory/opname/opname') ? 'active' : '' || Request::is('inventory/opname/*') ? 'active' : '' }}" href="{{url('inventory/opname/opname')}}">Stock Opname<span class="d-none">Inventory</span></a></li>
+                  @endif
                 </ul>
                 </div>
             </li>
@@ -489,13 +499,25 @@
               </a>
               <div class="collapse {{Request::is('hrd') ? 'show' : '' || Request::is('hrd/*') ? 'show' : '' }}" id="hrd">
                 <ul class="nav flex-column sub-menu">
+                  @if($sidebar[42]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/absensi/absensi') ? 'active' : '' || Request::is('hrd/absensi/*') ? 'active' : '' }}" href="{{url('hrd/absensi/absensi')}}">Absensi<span class="d-none">HRD</span></a></li>
+                  @endif
+                  @if($sidebar[43]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll/payroll') ? 'active' : '' || Request::is('hrd/payroll/*') ? 'active' : '' }}" href="{{url('hrd/payroll/payroll')}}">Payroll<span class="d-none">HRD</span></a></li>
+                  @endif
                   {{-- <li class="nav-item"> <a class="nav-link {{Request::is('hrd/payroll_manajemen/payroll_manajemen') ? 'active' : '' || Request::is('hrd/payroll_manajemen/*') ? 'active' : '' }}" href="{{url('hrd/payroll_manajemen/payroll_manajemen')}}">Payroll Pegawai Manajemen<span class="d-none">HRD</span></a></li> --}}
+                  @if($sidebar[44]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/scoreboard_pegawai/scoreboard_pegawai') ? 'active' : '' || Request::is('hrd/scoreboard_pegawai/*') ? 'active' : '' }}" href="{{url('hrd/scoreboard_pegawai/scoreboard_pegawai')}}">Scoreboard Pegawai<span class="d-none">HRD</span></a></li>
+                  @endif
+                  @if($sidebar[45]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/data_kpi/data_kpi') ? 'active' : '' || Request::is('hrd/data_kpi/*') ? 'active' : '' }}" href="{{url('hrd/data_kpi/data_kpi')}}">Data KPI<span class="d-none">HRD</span></a></li>
+                  @endif
+                  @if($sidebar[46]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_scoreboard/manajemen_scoreboard') ? 'active' : '' || Request::is('hrd/manajemen_scoreboard/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_scoreboard/manajemen_scoreboard')}}">Manajemen Scoreboard<span class="d-none">HRD</span></a></li>
+                  @endif
+                  @if($sidebar[47]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi') ? 'active' : '' || Request::is('hrd/manajemen_scoreboard_kpi/*') ? 'active' : '' }}" href="{{url('hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi')}}">Scoreboard & KPI<span class="d-none">HRD</span></a></li>
+                  @endif
                 </div>
             </li>
             <li class="nav-item {{Request::is('finance') ? 'active' : '' || Request::is('finance/*') ? 'active' : '' }}">
@@ -512,10 +534,18 @@
               </a>
               <div class="collapse {{Request::is('finance') ? 'show' : '' || Request::is('finance/*') ? 'show' : '' }}" id="finance">
                 <ul class="nav flex-column sub-menu">
+                  @if($sidebar[48]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/costmanajemen/costmanajemen') ? 'active' : '' || Request::is('finance/costmanajemen/*') ? 'active' : '' }}" href="{{url('finance/costmanajemen/costmanajemen')}}">Cost Manajemen<span class="d-none">Finance</span></a></li>
+                  @endif
+                  @if($sidebar[49]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/bookkeeping/bookkeeping') ? 'active' : '' || Request::is('finance/bookkeeping/*') ? 'active' : '' }}" href="{{url('finance/bookkeeping/bookkeeping')}}">Bookkeeping<span class="d-none">Finance</span></a></li>
+                  @endif
+                  @if($sidebar[50]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/reporting/reporting') ? 'active' : '' || Request::is('finance/reporting/*') ? 'active' : '' }}" href="{{url('finance/reporting/reporting')}}">Reporting<span class="d-none">Finance</span></a></li>
+                  @endif
+                  @if($sidebar[51]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/evaluating/evaluating') ? 'active' : '' || Request::is('finance/evaluating/*') ? 'active' : '' }}" href="{{url('finance/evaluating/evaluating')}}">Evaluating<span class="d-none">Finance</span></a></li>
+                  @endif
                 </ul>
                 </div>
             </li>
@@ -532,9 +562,15 @@
               </a>
               <div class="collapse {{Request::is('manajemenaset') ? 'show' : '' || Request::is('manajemenaset/*') ? 'show' : '' }}" id="aset">
                 <ul class="nav flex-column sub-menu">
+                  @if($sidebar[52]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('manajemenaset/irventarisasi/irventarisasi') ? 'active' : '' || Request::is('manajemenaset/irventarisasi/*') ? 'active' : '' }}" href="{{url('manajemenaset/irventarisasi/irventarisasi')}}">Irventarisasi<span class="d-none">Manajemen Aset</span></a></li>
+                  @endif
+                  @if($sidebar[53]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('manajemenaset/history/history') ? 'active' : '' || Request::is('manajemenaset/history/*') ? 'active' : '' }}" href="{{url('manajemenaset/history/history')}}">History<span class="d-none">Manajemen Aset</span></a></li>
+                  @endif
+                  @if($sidebar[54]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('manajemenaset/penyusutan/penyusutan') ? 'active' : '' || Request::is('manajemenaset/penyusutan/*') ? 'active' : '' }}" href="{{url('manajemenaset/penyusutan/penyusutan')}}">Penyusutan<span class="d-none">Manajemen Aset</span></a></li>
+                  @endif
                 </ul>
                 </div>
             </li>
