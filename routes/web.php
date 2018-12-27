@@ -32,6 +32,8 @@ Route::get('/sinkron_bundle', 'master\master_bundleitemController@sinkron_bundle
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/realtime', 'HomeController@realtime')->name('realtime');
+
 Route::get('logout', 'loginController@logout')->name('logout');
 
 Route::get('/tes', 'SettingController@tes');
