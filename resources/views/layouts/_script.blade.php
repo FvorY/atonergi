@@ -44,7 +44,7 @@
   <script src="{{asset('assets/js/off-canvas.js')}}"></script>
   <script src="{{asset('assets/js/accounting.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.maskMoney.js')}}"></script>
-  
+
   <script src="{{asset('assets/js/hoverable-collapse.js')}}"></script>
   <script src="{{asset('assets/js/settings.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/js/settings.js"></script>
   <script src="{{asset('assets/js/todolist.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/js/todolist.js"></script>
@@ -386,6 +386,28 @@
 
 
       });
+
+      function openlog(){
+        var html = '';
+        $.ajax({
+          type: 'get',
+          dataType: 'json',
+          url: baseUrl + '/getlog',
+          success : function(response){
+            for (var i = 0; i < response.length; i++) {
+              html += '<li class="list">'+
+                '<div class="info">'+
+                  '<p style="font-weight: bold;">'+response[i].l_user+'</p>'+
+                  '<p>'+response[i].l_log+'</p>'+
+                  '<p>'+response[i].l_action+' : '+response[i].l_parameter+'</p>'+
+                '</div>'+
+                '<small class="text-muted my-auto">'+response[i].l_insert+'</small>'+
+              '</li>';
+            }
+            $('#showlog').html(html);
+          }
+        });
+      }
 
     </script>
     {{-- end filter menu --}}

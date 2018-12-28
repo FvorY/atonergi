@@ -155,10 +155,6 @@
                 <i class="mdi mdi-lock mr-2 text-success"></i>
                 Lock Screen
               </a>
-              <a class="dropdown-item" href="#">
-                <i class="mdi mdi-cached mr-2 text-success"></i>
-                Activity Log
-              </a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{{ url('logout') }}">
                 <i class="mdi mdi-logout mr-2 text-primary"></i>
@@ -174,7 +170,7 @@
           <form id="logout-form" action="{{ url('logout') }}" method="post" style="display: none;">
               {{ csrf_field() }}
           </form>
-          <li class="nav-item nav-settings d-none d-lg-block">
+          <li class="nav-item nav-settings d-none d-lg-block" onclick="openlog()">
             <a class="nav-link" href="#">
               <i class="mdi mdi-format-line-spacing"></i>
             </a>

@@ -33,4 +33,16 @@ class logController extends Controller
             ]);
     }
 
+    public function getlog(){
+      Carbon::setlocale('id');
+      $data = DB::table('d_log')
+                ->get();
+
+      for ($i=0; $i < count($data); $i++) {
+        $data[$i]->l_insert = Carbon::parse($data[$i]->l_insert)->diffForHumans();
+      }
+
+      return response()->json($data);
+    }
+
 }
