@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
-
+use App\mMember;
 class purchase_orderController extends Controller
 {
   	public function purchaseorder()

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\mMember;
 class PurchaseController extends Controller
 {
-    
+
     public function print_purchaseorder()
     {
         return view('purchase/purchaseorder/print_purchaseorder');

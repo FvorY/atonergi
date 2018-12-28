@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use URL;
 use App\Model\m_kpi;
+use App\mMember;
 
 // use App\mmember
 
@@ -17,6 +18,9 @@ class ScoreController extends Controller
 {
     public function index()
     {
+      if (!mMember::akses('MASTER SCOREBOARD', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('master.scoreboard.index');
     }
 

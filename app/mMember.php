@@ -86,7 +86,7 @@ class mMember extends Model implements AuthenticatableContract, CanResetPassword
    }
 
 
-    public function akses($fitur,$aksi){
+    public static function akses($fitur,$aksi){
       // select * from  join  on = where ubah =true
 
          $cek = DB::table('d_mem')
@@ -100,5 +100,6 @@ class mMember extends Model implements AuthenticatableContract, CanResetPassword
             return true;
         else
             return false;
+
     }
 }

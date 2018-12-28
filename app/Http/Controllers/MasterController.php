@@ -14,6 +14,7 @@ use carbon\carbon;
 use Session;
 use App\mMember;
 use Illuminate\Support\Facades\Crypt;
+
 class MasterController extends Controller
 {
     public function suplier()
@@ -36,6 +37,9 @@ class MasterController extends Controller
     //KEUANGAN AKUN
     public function a_keuangan()
     {
+      if (!mMember::akses('MASTER DATA BUNDLE ITEM', 'aktif')) {
+        return redirect('error-404');
+      }
 
         $general = DB::table('d_akun')->where('type_akun','GENERAL')->whereNotNull("kelompok_akun")->where("kelompok_akun", "!=", "-")->get();
         $detail = DB::table('d_akun')->where('type_akun','DETAIL')->get();
@@ -84,7 +88,7 @@ class MasterController extends Controller
             // }
 
             // $cek = DB::table("d_akun")->where("group_laba_rugi", $request->group_laba_rugi_general)->where("type_akun", "GENERAL")->first();
-            
+
             // // return json_encode($cek);
 
             // if($cek && !is_null($cek->group_laba_rugi)){

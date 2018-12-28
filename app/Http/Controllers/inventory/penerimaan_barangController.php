@@ -7,6 +7,7 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\Carbon;
+use App\mMember;
 class penerimaan_barangController extends Controller
 {
 

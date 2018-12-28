@@ -11,7 +11,7 @@ use App\M_tunjangan_man;
 use Yajra\Datatables\Facades\Datatables;
 use Carbon\Carbon;
 // ===================================
-
+use App\mMember;
 // Menarik plugin
 use Excel;
 use DB;

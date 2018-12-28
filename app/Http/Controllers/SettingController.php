@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Crypt;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
+
 // require __DIR__ . '/vendor/autoload.php';
 class SettingController extends Controller
 {
@@ -239,7 +240,7 @@ class SettingController extends Controller
       $hapus = DB::table('d_jabatan')
                  ->where('j_id',$req->id)
                  ->first();
-        
+
       if ($hapus->j_nama == 'SUPERUSER') {
          return response()->json(['status' => 2]);
       }else{

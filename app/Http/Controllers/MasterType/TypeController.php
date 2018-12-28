@@ -8,14 +8,14 @@ use App\Http\Controllers\Controller;
 use App\TypeItem;
 use DB;
 use Yajra\Datatables\Datatables;
-
+use App\mMember;
 class TypeController extends Controller
 {
     public function typeproses(Request $request)
     {
 
         $m1 = DB::table('m_item_type')->max('it_id');
-    	
+
         $index = $m1+=1;
 
         $get_code = $request->get('t_code');
@@ -23,7 +23,7 @@ class TypeController extends Controller
         $filter_code = str_replace(' ','',$get_code);
 
         $upper_code = strtoupper($filter_code);
-        
+
         $data = DB::table('m_item_type')
           			->insert([
           		    'it_name' => strtoupper($request->get('t_name')),
@@ -44,8 +44,8 @@ class TypeController extends Controller
     public function datatable_type()
     {
     	$data= DB::table('m_item_type')->get();
-        
-        
+
+
         // return $data;
         $xyzab = collect($data);
         // return $xyzab;
@@ -88,6 +88,6 @@ class TypeController extends Controller
 
 
       return response()->json(['data'=>1]);
-      
+
     }
 }

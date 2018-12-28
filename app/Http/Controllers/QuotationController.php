@@ -14,6 +14,7 @@ use App\mMember;
 use Illuminate\Support\Facades\Crypt;
 use Response;
 use PDF;
+use App\mMember;
 class QuotationController extends Controller
 {
  	public function q_quotation()
@@ -54,8 +55,8 @@ class QuotationController extends Controller
  		$data = DB::table('d_quotation')
                   ->orderBy('q_id','DESC')
                   ->get();
-        
-        
+
+
         // return $data;
         $data = collect($data);
         // return $data;
@@ -70,7 +71,7 @@ class QuotationController extends Controller
                             }
 
                             if(Auth::user()->akses('QUOTATION','print')){
-                             $c = 
+                             $c =
                              '<button type="button" onclick="printing(\''.$data->q_id.'\')" class="btn btn-info btn-lg" title="Print Detail">'.'<label class="fa fa-print"></label></button>'.
                              '<button type="button" onclick="printing_global(\''.$data->q_id.'\')" class="btn btn-success btn-lg" title="Print Global">'.'<label class="fa fa-print"></label></button>';
                             }else{
@@ -78,7 +79,7 @@ class QuotationController extends Controller
                             }
 
                             if(Auth::user()->akses('QUOTATION','hapus')){
-                             $d = 
+                             $d =
                                  '<button type="button" onclick="hapus(\''.$data->q_nota.'\')" class="btn btn-danger btn-lg" title="hapus">'.
                                  '<label class="fa fa-trash"></label></button>';
                             }else{
@@ -86,18 +87,18 @@ class QuotationController extends Controller
                             }
 
                             if(Auth::user()->akses('QUOTATION','tambah')){
-                             $e = 
+                             $e =
                                  '<button type="button" onclick="status(\''.$data->q_id.'\')" class="btn btn-warning btn-lg" title="update status">'.
                                  '<label class="fa fa-cog"></label></button>'. '</div>';
-                                 
+
                             }else{
                               $e = '</div>';
                             }
 
                         return $a . $b .$c . $d .$e ;
-                            
 
-                                   
+
+
                         })
                         ->addColumn('none', function ($data) {
                             return '-';
@@ -166,7 +167,7 @@ class QuotationController extends Controller
   public function nota_quote(request $req)
   {
     // dd($req->all());
-      
+
       if ($req->type_q != '0' and $req->type_p != '0' and $req->date != '1') {
 
         $bulan = Carbon::parse($req->date)->format('m');
@@ -186,11 +187,11 @@ class QuotationController extends Controller
 
         return response()->json(['nota'=>$nota]);
       }
-        
+
   }
 
   public function append_item(request $req)
-  { 
+  {
 
 
       $item = DB::table('m_item')
@@ -204,14 +205,14 @@ class QuotationController extends Controller
                 ->where('i_code',$req->item)
                 ->first();
 
-      for ($i=0; $i < count($currency); $i++) { 
+      for ($i=0; $i < count($currency); $i++) {
         if ($data->i_currency_id == $currency[$i]->cu_code) {
           $data->i_sell_price = $data->i_sell_price * $currency[$i]->cu_value;
           $data->i_lower_price = $data->i_lower_price * $currency[$i]->cu_value;
         }
       }
       return response()->json(['data'=>$data,'item'=>$item]);
-              
+
   }
 
   public function edit_item(request $req)
@@ -225,7 +226,7 @@ class QuotationController extends Controller
       $currency = DB::table('m_currency')
                   ->get();
 
-      for ($i=0; $i < count($currency); $i++) { 
+      for ($i=0; $i < count($currency); $i++) {
         if ($data->i_currency_id == $currency[$i]->cu_code) {
           $data->i_sell_price = $data->i_sell_price * $currency[$i]->cu_value;
           $data->i_lower_price = $data->i_lower_price * $currency[$i]->cu_value;
@@ -237,7 +238,7 @@ class QuotationController extends Controller
 
   public function save_quote(request $req)
   {
-    return DB::transaction(function() use ($req) {  
+    return DB::transaction(function() use ($req) {
       // dd($req->all());
 
       $id = DB::table('d_quotation')
@@ -302,7 +303,7 @@ class QuotationController extends Controller
                   'qh_status'          => 2,
                 ]);
 
-      for ($i=0; $i < count($req->item_name); $i++) { 
+      for ($i=0; $i < count($req->item_name); $i++) {
 
 
         $save = DB::table('d_quotation_dt')
@@ -315,7 +316,7 @@ class QuotationController extends Controller
                   'qd_price'       => filter_var($req->unit_price[$i],FILTER_SANITIZE_NUMBER_INT),
                   'qd_total'       => filter_var($req->line_total[$i],FILTER_SANITIZE_NUMBER_INT),
                   'qd_update_by'   => Auth::user()->m_name,
-             
+
                 ]);
       }
 
@@ -328,7 +329,7 @@ class QuotationController extends Controller
   public function hapus_quote(request $req)
   {
       // dd($req->all());
-      $delete = DB::table('d_quotation')  
+      $delete = DB::table('d_quotation')
                   ->where('q_nota',$req->nota)
                   ->delete();
       return response()->json(['status' => 1]);
@@ -341,7 +342,7 @@ class QuotationController extends Controller
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
                ->first();
-               
+
       $data = DB::table('d_quotation_dt')
               ->join('m_item','i_code','=','qd_item')
               ->where('i_jenis','!=','JASA')
@@ -358,16 +359,16 @@ class QuotationController extends Controller
                 ->join('d_unit','u_id','=','i_unit')
                 ->get();
 
-      for ($i=0; $i < count($data); $i++) { 
-        for ($a=0; $a < count($item); $a++) { 
+      for ($i=0; $i < count($data); $i++) {
+        for ($a=0; $a < count($item); $a++) {
           if ($item[$a]->i_code == $data[$i]->qd_item) {
             $data[$i]->u_unit = $item[$a]->u_unit;
           }
         }
       }
 
-      for ($i=0; $i < count($jasa); $i++) { 
-        for ($a=0; $a < count($item); $a++) { 
+      for ($i=0; $i < count($jasa); $i++) {
+        for ($a=0; $a < count($item); $a++) {
           if ($item[$a]->i_code == $jasa[$i]->qd_item) {
             $jasa[$i]->u_unit = $item[$a]->u_unit;
           }
@@ -379,12 +380,12 @@ class QuotationController extends Controller
       $array = [];
 
       if ($tes > 0) {
-        for ($i=0; $i < $tes; $i++) { 
+        for ($i=0; $i < $tes; $i++) {
           array_push($array, 'a');
         }
       }
-      
-     
+
+
      // $pdf = PDF::loadView('quotation/q_quotation/print_quotation', $data);
      // return $pdf->stream("test.pdf");
       $print = 'global';
@@ -401,7 +402,7 @@ class QuotationController extends Controller
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
                ->first();
-               
+
       $data = DB::table('d_quotation_dt')
               ->join('m_item','i_code','=','qd_item')
               ->where('i_jenis','!=','JASA')
@@ -418,16 +419,16 @@ class QuotationController extends Controller
                 ->join('d_unit','u_id','=','i_unit')
                 ->get();
 
-      for ($i=0; $i < count($data); $i++) { 
-        for ($a=0; $a < count($item); $a++) { 
+      for ($i=0; $i < count($data); $i++) {
+        for ($a=0; $a < count($item); $a++) {
           if ($item[$a]->i_code == $data[$i]->qd_item) {
             $data[$i]->u_unit = $item[$a]->u_unit;
           }
         }
       }
 
-      for ($i=0; $i < count($jasa); $i++) { 
-        for ($a=0; $a < count($item); $a++) { 
+      for ($i=0; $i < count($jasa); $i++) {
+        for ($a=0; $a < count($item); $a++) {
           if ($item[$a]->i_code == $jasa[$i]->qd_item) {
             $jasa[$i]->u_unit = $item[$a]->u_unit;
           }
@@ -439,13 +440,13 @@ class QuotationController extends Controller
       $array = [];
 
       if ($tes > 0) {
-        for ($i=0; $i < $tes; $i++) { 
+        for ($i=0; $i < $tes; $i++) {
           array_push($array, 'a');
         }
       }
-      
+
       // return $item;
-     
+
      // $pdf = PDF::loadView('quotation/q_quotation/print_quotation', $data);
      // return $pdf->stream("test.pdf");
       $print = 'detail';
@@ -464,7 +465,7 @@ class QuotationController extends Controller
 
       $marketing = DB::table('d_marketing')
                     ->get();
-      
+
       $data = DB::table('d_quotation')
                 ->where('q_id',$id)
                 ->first();
@@ -480,8 +481,8 @@ class QuotationController extends Controller
 
       $type_product = DB::table('m_item_type')
                   ->get();
-      for ($i=0; $i < count($data_dt); $i++) { 
-        for ($a=0; $a < count($item); $a++) { 
+      for ($i=0; $i < count($data_dt); $i++) {
+        for ($a=0; $a < count($item); $a++) {
           if ($item[$a]->i_code == $data_dt[$i]->qd_item) {
             $data_dt[$i]->u_unit = $item[$a]->u_unit;
           }
@@ -496,7 +497,7 @@ class QuotationController extends Controller
 
   public function update_quote(request $req)
   {
-    return DB::transaction(function() use ($req) {  
+    return DB::transaction(function() use ($req) {
       // dd($req->all());
 
       $save = DB::table('d_quotation')
@@ -525,7 +526,7 @@ class QuotationController extends Controller
                   ->where('qd_id',$req->id)
                   ->delete();
 
-      for ($i=0; $i < count($req->item_name); $i++) { 
+      for ($i=0; $i < count($req->item_name); $i++) {
 
         $save = DB::table('d_quotation_dt')
                 ->insert([
@@ -537,7 +538,7 @@ class QuotationController extends Controller
                   'qd_price'       => filter_var($req->unit_price[$i],FILTER_SANITIZE_NUMBER_INT),
                   'qd_total'       => filter_var($req->line_total[$i],FILTER_SANITIZE_NUMBER_INT),
                   'qd_update_by'   => Auth::user()->m_name,
-             
+
                 ]);
       }
 
@@ -567,7 +568,7 @@ class QuotationController extends Controller
 
   public function update_status(request $req)
   {
-    return DB::transaction(function() use ($req) {  
+    return DB::transaction(function() use ($req) {
       $cari = DB::table('d_quotation_history')
                 ->where('qh_id',$req->q_id_status)
                 ->where('qh_status',$req->status)
@@ -639,5 +640,5 @@ class QuotationController extends Controller
  	{
  		return view('quotation/q_quotation/print_quotation');
  	}
- 		
+
 }

@@ -151,6 +151,10 @@
               <span class="d-none d-lg-inline">{{Auth::user()->m_name}}</span>
             </a>
             <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="{{url('/lockscreen')}}">
+                <i class="mdi mdi-lock mr-2 text-success"></i>
+                Lock Screen
+              </a>
               <a class="dropdown-item" href="#">
                 <i class="mdi mdi-cached mr-2 text-success"></i>
                 Activity Log

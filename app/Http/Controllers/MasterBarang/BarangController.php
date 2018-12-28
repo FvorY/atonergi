@@ -14,6 +14,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Response;
+use App\mMember;
 class BarangController extends Controller
 {
     public function barangproses(Request $request)

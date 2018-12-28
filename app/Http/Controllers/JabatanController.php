@@ -9,10 +9,14 @@ use DB;
 
 use Carbon\Carbon;
 
-
+use App\mMember;
 class JabatanController extends Controller
 {
     public function index(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'aktif')) {
+        return redirect('error-404');
+      }
+
       $divisi = DB::table('m_divisi')
                   ->get();
 

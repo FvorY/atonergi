@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
+use App\mMember;
 class stock_gudangController extends Controller
 {
 

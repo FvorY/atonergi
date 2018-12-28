@@ -13,7 +13,7 @@ use App\mMember;
 use Illuminate\Support\Facades\Crypt;
 use Response;
 use PDF;
-
+use App\mMember;
 class OrderController extends Controller
 {
     public function s_invoice()

@@ -11,11 +11,15 @@ use Response;
 use DB;
 use Yajra\Datatables\Datatables;
 use Auth;
+use App\mMember;
 
 class KpiController extends Controller
 {
     public function index()
     {
+      if (!mMember::akses('MASTER KPI', 'aktif')) {
+        return redirect('error-404');
+      }
         //update deadline jika hari ini sudah melebihi deadline
         DB::statement("UPDATE m_kpix SET kpix_deadline = NULL WHERE kpix_deadline < DATE_FORMAT(CURRENT_DATE(), '%Y-%m-%d')");
         return view('master/kpi/index');

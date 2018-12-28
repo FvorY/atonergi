@@ -9,7 +9,7 @@ use DB;
 use Carbon\Carbon;
 use Validator;
 use File;
-
+use App\mMember;
 class ProjectController extends Controller
 {
     public function dokumentasi()
@@ -145,7 +145,7 @@ class ProjectController extends Controller
                   'si_insert' => Carbon::now('Asia/Jakarta')
                 ]);
             }
-            
+
             }
 
           $si_id = DB::table('d_schedule_install')

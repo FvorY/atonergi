@@ -599,5 +599,11 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::post('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/ubah-status', 'ManscorekpiController@ubahStatus');
     Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/get-score-by-tgl/{tgl1}/{tgl2}/{tampil}', 'ManscorekpiController@getScoreByTgl');
     Route::get('/hrd/manscorekpi/print_kpi/{id}', 'ManscorekpiController@print_pki');
-    
+
+
+    //Lock Screen
+    Route::get('/error-404', 'lockscreenController@error404');
+    Route::get('/lockscreen', 'lockscreenController@lockscreen');
+    Route::get('/lockscreen/unlock', 'lockscreenController@unlock');
+    Route::post('/lockscreen/unlock', 'lockscreenController@unlock');
 }); // End Route Groub middleware auth

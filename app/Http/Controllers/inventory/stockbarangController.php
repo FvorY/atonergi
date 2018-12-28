@@ -8,6 +8,7 @@ use Yajra\Datatables\Datatables;
 use DB;
 use Validator;
 use Carbon\Carbon;
+use App\mMember;
 class stockbarangController extends Controller
 {
   public function index()

@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
-
+use App\mMember;
 class master_pegawaiController extends Controller
 {
 
     public function pegawai()
     {
+      if (!mMember::akses('MASTER DATA PEGAWAI', 'aktif')) {
+        return redirect('error-404');
+      }
         $kode = DB::table('m_pegawai')->max('mp_id');
 
             if ($kode == null) {

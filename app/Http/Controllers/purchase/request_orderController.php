@@ -7,7 +7,7 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\Carbon;
-
+use App\mMember;
 class request_orderController extends Controller
 {
    public function rencanapembelian()

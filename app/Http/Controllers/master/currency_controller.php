@@ -9,10 +9,14 @@ use DB;
 use Response;
 use Carbon\carbon;
 use Auth;
+use App\mMember;
 class currency_controller extends Controller
 {
     public function index()
     {
+      if (!mMember::akses('MASTER CURRENCY', 'aktif')) {
+        return redirect('error-404');
+      }
     	$currency = DB::table('m_currency')
     				  ->select('cu_code')
     				  ->get();
@@ -24,8 +28,8 @@ class currency_controller extends Controller
     	$data = DB::table('m_currency')
     			  ->where('cu_value','!=',null)
                   ->get();
-        
-        
+
+
         // return $data;
         $data = collect($data);
         // return $data;
@@ -40,9 +44,9 @@ class currency_controller extends Controller
                             }
 
                         	return $a . $b ;
-                            
 
-                                   
+
+
                         })
                         ->addColumn('total', function ($data) {
                             return 'Rp. '. number_format($data->cu_value, 2, ",", ".");

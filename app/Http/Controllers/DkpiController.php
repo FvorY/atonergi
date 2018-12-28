@@ -13,7 +13,7 @@ use DB;
 use Yajra\Datatables\Facades\Datatables;
 use Auth;
 use Response;
-
+use App\mMember;
 class DkpiController extends Controller
 {
 

@@ -16,7 +16,7 @@ use Response;
 use DB;
 use Yajra\Datatables\Facades\Datatables;
 use Auth;
-
+use App\mMember;
 class ManscorekpiController extends Controller
 {
     public function index()

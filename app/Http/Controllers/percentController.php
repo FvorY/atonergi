@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Yajra\Datatables\Datatables;
 
 use DB;
-
+use App\mMember;
 class percentController extends Controller
 {
     public function index(){

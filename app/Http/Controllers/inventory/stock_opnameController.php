@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\carbon;
+use App\mMember;
 class stock_opnameController extends Controller
 {
 

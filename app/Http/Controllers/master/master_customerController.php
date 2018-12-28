@@ -7,13 +7,20 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 
+use App\mMember;
+
 class master_customerController extends Controller
 {
-   
+
     public function customer()
     {
+
+      if (!mMember::akses('MASTER CUSTOMER', 'aktif')) {
+        return redirect('error-404');
+      }
+
         $kode = DB::table('m_customer')->max('c_id');
-    
+
             if ($kode == null) {
                 $kode = 1;
             }else{
@@ -29,7 +36,7 @@ class master_customerController extends Controller
         return view('master/customer/cust',compact('kota','nota'));
     }
     public function datatalble_customer(Request $request)
-    { 
+    {
     	$list = DB::select("SELECT * from m_customer");
         // return $data;
         $data = collect($list);
@@ -52,7 +59,7 @@ class master_customerController extends Controller
     public function simpan_customer(Request $request)
     {
     	$kode = DB::table('m_customer')->max('c_id');
-    
+
     		if ($kode == null) {
     	 		$kode = 1;
 	    	}else{
@@ -123,7 +130,7 @@ class master_customerController extends Controller
     			]);
 
     	return response()->json(['status'=>1]);
-    	
+
     }
     public function hapus_customer(Request $request)
     {
@@ -132,5 +139,5 @@ class master_customerController extends Controller
     	return response()->json($data);
     }
 
-       
+
 }

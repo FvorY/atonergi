@@ -9,14 +9,21 @@ use DB;
 use Response;
 use Carbon\carbon;
 use Auth;
+
+use App\mMember;
 set_time_limit(60000);
 class master_bundleitemController extends Controller
 {
- 	
- 
- 
+
+
+
  	public function bundleitem()
  	{
+
+    if (!mMember::akses('MASTER DATA BUNDLE ITEM', 'aktif')) {
+      return redirect('error-404');
+    }
+
     $item = DB::table('m_item')->where('i_jenis','=','ITEM')->get();
  		$currency = DB::table('m_currency')->where('cu_value','!=',null)->get();
 
@@ -30,7 +37,7 @@ class master_bundleitemController extends Controller
         $data = collect($list);
         // return $data;
         return Datatables::of($data)
-        	
+
                 ->addColumn('aksi', function ($data) {
                           $a =  '<div class="btn-group">';
 
@@ -42,21 +49,21 @@ class master_bundleitemController extends Controller
 
 
                             // if(Auth::user()->akses('MASTER DATA BUNDLE ITEM','print')){
-                            //  $c = 
+                            //  $c =
                             //  '<button type="button" onclick="printing(\''.$data->i_id.'\')" class="btn btn-info btn-lg" title="print">'.'<label class="fa fa-print"></label></button>';
                             // }else{
                             //   $c = '';
                             // }
 
                             if(Auth::user()->akses('MASTER DATA BUNDLE ITEM','hapus')){
-                             $d = 
+                             $d =
                                  '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-lg" title="hapus">'.
                                  '<label class="fa fa-trash"></label></button>';
                             }else{
                               $d = '';
                             }
 
-                            
+
                             $e = '</div>';
 
                         return $a . $b  . $d .$e ;
@@ -65,7 +72,7 @@ class master_bundleitemController extends Controller
                     return '-';
                 })
                 ->addColumn('convert', function ($data) {
-                    
+
                     $harga = 0;
                     if ($data->i_currency_id == 'IDR') {
                       return $total = $data->i_price * 1;
@@ -76,7 +83,7 @@ class master_bundleitemController extends Controller
                       return $total = $data->i_price * $currenncy->cu_value;
                     }
 
-                    
+
                     return $harga;
                 })
                 ->addIndexColumn()
@@ -84,7 +91,7 @@ class master_bundleitemController extends Controller
         		    ->make(true);
  	}
  	public function edit_bundle($id)
- 	{		 
+ 	{
 
  		$data = DB::table("m_item")
               ->where('i_id',$id)
@@ -115,12 +122,12 @@ class master_bundleitemController extends Controller
  	}
  	public function simpan_bundleitem(request $req)
  	{
-    	return DB::transaction(function() use ($req) {  
+    	return DB::transaction(function() use ($req) {
         $nama = Auth::user()->m_name;
         $m1 = DB::table('m_item')->where('i_jenis','BUNDLE')->max('i_id');
         $index = DB::table('m_item')->max('i_id')+1;
-            
-        // dd($req->all());                               
+
+        // dd($req->all());
 
         if($index<=9)
         {
@@ -160,7 +167,7 @@ class master_bundleitemController extends Controller
                   'i_update_by'   =>  $nama,
               ]);
 
-        for ($i=0; $i < count($req->ib_kode_dt); $i++) { 
+        for ($i=0; $i < count($req->ib_kode_dt); $i++) {
           $dt = DB::table('m_item_dt')->max('id_id')+1;
 
           $save = DB::table('m_item_dt')->insert([
@@ -183,7 +190,7 @@ class master_bundleitemController extends Controller
  	}
  	public function update_bundleitem(request $req)
  	{
- 		return DB::transaction(function() use ($req) {  
+ 		return DB::transaction(function() use ($req) {
     		// dd($req->all());
 
         $nama = Auth::user()->m_name;
@@ -207,7 +214,7 @@ class master_bundleitemController extends Controller
 
         $dt = DB::table('m_item_dt')->where('id_id',$req->id)->delete();
         // dd($dt);
-        for ($i=0; $i < count($req->ib_kode_dt); $i++) { 
+        for ($i=0; $i < count($req->ib_kode_dt); $i++) {
 
           $save = DB::table('m_item_dt')->insert([
                   'id_id'           =>  $req->id,
@@ -240,7 +247,7 @@ class master_bundleitemController extends Controller
     	return response()->json($data);
  	}
  	public function hapus_bundleitem(request $req)
- 	{	
+ 	{
  		// dd($req->all());
  		$data_head = DB::table('m_item')->where('i_code','=',$req->id)->delete();
     	return response()->json(['status'=>1]);
@@ -258,9 +265,9 @@ class master_bundleitemController extends Controller
     //           ->where('i_jenis','BUNDLE')
     //           ->get();
 
-    // for ($i=0; $i < count($data); $i++) { 
+    // for ($i=0; $i < count($data); $i++) {
     //   $harga = 0;
-    //   for ($a=0; $a < count($dt); $a++) { 
+    //   for ($a=0; $a < count($dt); $a++) {
     //     if ($dt[$a]->i_id == $data[$i]->i_id) {
     //       $harga += $dt[$a]->id_total_price;
     //     }
