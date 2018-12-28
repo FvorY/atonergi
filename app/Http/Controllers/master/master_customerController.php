@@ -15,7 +15,7 @@ class master_customerController extends Controller
     public function customer()
     {
 
-      if (!mMember::akses('MASTER CUSTOMER', 'aktif')) {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'aktif')) {
         return redirect('error-404');
       }
 

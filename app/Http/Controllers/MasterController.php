@@ -23,10 +23,16 @@ class MasterController extends Controller
     }
     public function customer()
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('master/customer/cust');
     }
     public function pegawai()
     {
+      if (!mMember::akses('MASTER DATA PEGAWAI', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('master/pegawai/pegawai');
     }
     public function keuangan()
@@ -37,7 +43,7 @@ class MasterController extends Controller
     //KEUANGAN AKUN
     public function a_keuangan()
     {
-      if (!mMember::akses('MASTER DATA BUNDLE ITEM', 'aktif')) {
+      if (!mMember::akses('MASTER DATA AKUN KEUANGAN', 'aktif')) {
         return redirect('error-404');
       }
 
@@ -184,10 +190,16 @@ class MasterController extends Controller
     //END OF
     public function t_keuangan()
     {
+      if (!mMember::akses('MASTER DATA TRANSAKSI KEUANGAN', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('master/transaksi/keuangan');
     }
     public function barang()
     {
+      if (!mMember::akses('MASTER DATA BARANG', 'aktif')) {
+        return redirect('error-404');
+      }
         $type_barang = TypeItem::all();
 
         $unit        = DB::table('d_unit')
@@ -328,6 +340,10 @@ class MasterController extends Controller
     }
     public function ttd()
     {
+      if (!mMember::akses('MASTER DATA TTD', 'aktif')) {
+        return redirect('error-404');
+      }
+
         $data = DB::table('m_signature')
                 ->get();
 
@@ -453,6 +469,9 @@ class MasterController extends Controller
   }
     public function bank()
     {
+      if (!mMember::akses('MASTER DATA BANK', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('master.bank.bank');
     }
     public function datatable_bank(request $req)
@@ -548,6 +567,9 @@ public function edit_bank(request $req)
     }
         public function jasa()
         {
+          if (!mMember::akses('MASTER DATA JASA', 'aktif')) {
+            return redirect('error-404');
+          }
             return view('master.jasa.jasa');
         }
         public function datatable_jasa(request $req)

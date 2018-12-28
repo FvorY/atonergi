@@ -19,7 +19,9 @@ class BarangController extends Controller
 {
     public function barangproses(Request $request)
     {
-
+      if (!mMember::akses('MASTER DATA BARANG', 'aktif')) {
+        return redirect('error-404');
+      }
 
         return DB::transaction(function() use ($request) {
             $nama = Auth::user()->m_name;

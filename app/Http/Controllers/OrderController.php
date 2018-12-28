@@ -13,11 +13,14 @@ use App\mMember;
 use Illuminate\Support\Facades\Crypt;
 use Response;
 use PDF;
-use App\mMember;
+
 class OrderController extends Controller
 {
     public function s_invoice()
     {
+      if (!mMember::akses('SALES INVOICE', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('order/s_invoice/s_invoice');
     }
     public function detail_s_invoice()
@@ -90,7 +93,9 @@ class OrderController extends Controller
     // SALES ORDER
     public function s_order()
     {
-
+      if (!mMember::akses('SALES ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
 
     	return view('order/salesorder/s_order');
     }
@@ -227,7 +232,9 @@ class OrderController extends Controller
     // work ORDER
     public function w_order()
     {
-
+      if (!mMember::akses('WORK ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
 
       return view('order/workorder/w_order');
     }
@@ -306,6 +313,9 @@ class OrderController extends Controller
     }
     public function cekbarang()
     {
+      if (!mMember::akses('CHECK STOCK', 'aktif')) {
+        return redirect('error-404');
+      }
       $data = DB::table('i_stock_gudang')
                 ->leftjoin('m_item', 'i_code', '=', 'sg_iditem')
                 ->select('sg_iditem', 'i_name', 'sg_qty', DB::raw('sg_qty as sum'), DB::raw('sg_qty as deficieny'))
@@ -414,6 +424,9 @@ class OrderController extends Controller
     }
     public function pembayarandeposit()
     {
+      if (!mMember::akses('PEMBAYARAN DEPOSIT', 'aktif')) {
+        return redirect('error-404');
+      }
 
     	return view('order/pembayarandeposit/pembayarandeposit');
     }
@@ -626,6 +639,9 @@ class OrderController extends Controller
     // =====================PAYMENT ORDER=====================================================
     public function payment_order()
     {
+      if (!mMember::akses('PAYMENT ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('order.payment_order.payment_order');
     }
 
@@ -822,6 +838,9 @@ class OrderController extends Controller
 
     public function proforma_invoice()
     {
+      if (!mMember::akses('PROFORMA INVOICE', 'aktif')) {
+        return redirect('error-404');
+      }
       return view('order.proforma_invoice.proforma_invoice');
     }
 
@@ -849,6 +868,8 @@ class OrderController extends Controller
 
                           if (Auth::user()->akses('PROFORMA INVOICE','print')) {
                             $c = '<button type="button" onclick="printing(\''.$data->po_id.'\')" class="btn btn-warning btn-lg" title="edit">'.'<label class="fa fa-print"></label></button>';
+                          } else {
+                            $c = '';
                           }
 
                           if(Auth::user()->akses('PROFORMA INVOICE','hapus')){

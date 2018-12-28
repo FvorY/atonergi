@@ -14,11 +14,15 @@ use App\mMember;
 use Illuminate\Support\Facades\Crypt;
 use Response;
 use PDF;
-use App\mMember;
+
 class QuotationController extends Controller
 {
  	public function q_quotation()
  	{
+
+    if (!mMember::akses('QUOTATION', 'aktif')) {
+      return redirect('error-404');
+    }
 
 
     $kota_0 = DB::table('provinces')->get()->toArray();
@@ -633,6 +637,9 @@ class QuotationController extends Controller
  	}
  	public function marketing()
  	{
+    if (!mMember::akses('TIM MARKETING', 'aktif')) {
+      return redirect('error-404');
+    }
  		return view('quotation/marketing/marketing');
  	}
 
