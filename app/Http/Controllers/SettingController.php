@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Crypt;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
+use App\Http\Controllers\logController;
 
 // require __DIR__ . '/vendor/autoload.php';
 class SettingController extends Controller
@@ -156,6 +157,8 @@ class SettingController extends Controller
                                     'j_keterangan'=>strtoupper($req->keterangan),
                                     ]);
 
+             logController::inputlog('Setting Level Account', 'Insert', $req->nama);
+
               $daftar_menu = DB::table('d_daftar_menu')
                              ->orderBy('dm_id','ASC')
                              ->get();
@@ -188,6 +191,7 @@ class SettingController extends Controller
                         ->update(['j_nama'=>strtoupper($req->nama),
                                  'j_keterangan'=>strtoupper($req->keterangan),
                                  ]);
+             logController::inputlog('Setting Level Account', 'Update', strtoupper($req->nama));
 
             $daftar_menu = DB::table('d_daftar_menu')
                              ->orderBy('dm_id','ASC')
@@ -244,6 +248,8 @@ class SettingController extends Controller
       if ($hapus->j_nama == 'SUPERUSER') {
          return response()->json(['status' => 2]);
       }else{
+             logController::inputlog('Setting Level Account', 'Delete', $hapus->j_nama);
+
               DB::table('d_jabatan')
                  ->where('j_id',$req->id)
                  ->delete();
@@ -335,6 +341,8 @@ class SettingController extends Controller
                                     'm_pegawai_id' => $req->pegawai
                                     ]);
 
+             logController::inputlog('Setting Account', 'Insert', $req->nama);
+
                $status = 1;
             }else{
                $status = 0;
@@ -357,6 +365,7 @@ class SettingController extends Controller
                                     'm_jabatan' => $level->j_nama,
                                     'm_pegawai_id' => $req->pegawai
                                     ]);
+             logController::inputlog('Setting Account', 'Update', $req->nama);
             $status = 2;
         }
 
@@ -403,6 +412,7 @@ class SettingController extends Controller
       if ($hapus->m_jabatan == 'SUPERUSER') {
          return response()->json(['status' => 2]);
       }else{
+         logController::inputlog('Setting Account', 'Delete', $hapus->m_name);
          $hapus = DB::table('d_mem')
                  ->where('m_id',$req->id)
                  ->delete();
