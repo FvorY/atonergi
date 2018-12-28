@@ -606,4 +606,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/lockscreen', 'lockscreenController@lockscreen');
     Route::get('/lockscreen/unlock', 'lockscreenController@unlock');
     Route::post('/lockscreen/unlock', 'lockscreenController@unlock');
+
+    //Log
+    Route::get('/getlog', 'logController@getlog');
 }); // End Route Groub middleware auth

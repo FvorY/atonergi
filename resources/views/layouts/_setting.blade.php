@@ -16,40 +16,8 @@
         <div class="d-flex align-items-center justify-content-between border-bottom">
           <p class="settings-heading border-top-0 mb-3 pl-3 pt-0 border-bottom-0 pb-0">Log Activity</p>
         </div>
-        <ul class="chat-list">
-          <li class="list">
-            <div class="info">
-              <p style="font-weight: bold;">admin</p>
-              <p>Master Data Barang</p>
-              <P>Delete Data : Pompa Air</P>
-            </div>
-            <small class="text-muted my-auto">2018-05-28 14:54:56</small>
-          </li>
-          <li class="list">
-            <div class="info">
-              <p style="font-weight: bold;">admin</p>
-              <p>Master Data Barang</p>
-              <P>Add Data : Pompa Air</P>
-            </div>
-            <small class="text-muted my-auto">2018-05-28 14:49:56</small>
-          </li>
-          <li class="list">
-            <div class="info">
-              <p style="font-weight: bold;">admin</p>
-              <p>Master Data Barang</p>
-              <P>Edit Data : Controller to Kontroler</P>
-            </div>
-            <small class="text-muted my-auto">2018-05-28 14:45:56</small>
-          </li>
-          <li class="list">
-            <div class="info">
-              <p style="font-weight: bold;">admin</p>
-              <p>Master Data Barang</p>
-              <P>Add Data : Controller</P>
-            </div>
-            <small class="text-muted my-auto">2018-05-28 14:43:56</small>
-          </li>
-
+        <ul class="chat-list" id="showlog">
+          
         </ul>
       </div>
 
