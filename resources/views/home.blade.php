@@ -40,7 +40,7 @@
     setInterval(function () {
       realtime();
     }, 1000);
-    
+
   });
 
   function realtime(){
