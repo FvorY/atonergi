@@ -11,7 +11,7 @@
 
 <!-- partial -->
 <div class="content-wrapper">
-	<div class="col-lg-12">	
+	<div class="col-lg-12">
 		<nav aria-label="breadcrumb" role="navigation">
 			<ol class="breadcrumb bg-info">
 				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -93,7 +93,7 @@
                    <option value="0">--Select Type--</option>
                    @foreach ($type_product as $val)
                     <option @if ($val->it_code == $data->q_type_product)
-                     selected="" 
+                     selected=""
                     @endif value="{{$val->it_code}}">{{$val->it_code}}</option>
                    @endforeach
                   </select>
@@ -228,7 +228,7 @@
                 </tr>
               </thead>
               <tbody>
-                
+
               </tbody>
             </table>
           </div>
@@ -239,7 +239,7 @@
                   <label>Subtotal</label>
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
-                  <div class="form-group">  
+                  <div class="form-group">
                     <input style="text-align: right;" value="{{ number_format($data->q_subtotal, 0, ",", ".") }}" type="text" class="form-control form-control-sm" readonly="" name="subtotal" id="subtotal">
                   </div>
                 </div>
@@ -247,7 +247,7 @@
                   <label>Sales Tax</label>
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
-                  <div class="form-group">  
+                  <div class="form-group">
                     <input style="text-align: right;" type="text" class="form-control form-control-sm" value="{{ number_format($data->q_tax, 0, ",", ".") }}" name="tax" id="tax">
                   </div>
                 </div>
@@ -255,18 +255,18 @@
                   <label>Total</label>
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
-                  <div class="form-group">  
+                  <div class="form-group">
                     <input style="text-align: right;" type="text" class="form-control form-control-sm" readonly="" name="total" value="{{ number_format($data->q_total, 0, ",", ".") }}" id="total">
                   </div>
                   <label style="color: red" hidden  class="valid valid_10"><b>Total Tidak Boleh 0</b></label>
                 </div>
-                
+
               </form>
               <div class="pull-right ">
                 	<button class="btn btn-primary save" type="button">Update</button>
         			<a type="button back" href="../q_quotation" class="btn btn-warning" data-dismiss="modal">Back</a>
                </div>
-		        </div><!-- End div row -->	         
+		        </div><!-- End div row -->
     		</div>
 		</div>
 	</div>
@@ -293,6 +293,13 @@ var m_table = $('#apfsds').DataTable({
 $(document).ready(function(){
   $('#tax').maskMoney({
       precision : 0,
+      thousands:'.',
+      allowZero:true,
+      defaultZero: true
+  });
+
+  $('.unit_price').maskMoney({
+      precision : 3,
       thousands:'.',
       allowZero:true,
       defaultZero: true
@@ -365,6 +372,16 @@ function qty(p) {
     hitung_dpp();
 }
 
+function unit_price(p){
+  var par     = $(p).parents('tr');
+  var qty  = $(par).find('.jumlah').val();
+  var unit_price       = $(par).find('.unit_price').val();
+  unit_price      = unit_price.replace(/[^0-9\-]+/g,"")*1;
+
+    $(par).find('.line_total').val(accounting.formatMoney(unit_price * qty, "", 0, ".",','));
+    hitung_dpp();
+}
+
 function edit_item(p) {
   var par    = $(p).parents('tr');
   var qty    = $(par).find('.jumlah').val();
@@ -411,7 +428,7 @@ $(document).on('blur','.unit_price',function(){
     var qty = par.find('.jumlah').val()*1;
     var harga = ini.val().replace(/[^0-9\-]+/g,"")*1;
 
-    if (harga < low) {
+    if (parseInt(harga) < parseInt(low)) {
       ini.val('');
       iziToast.warning({
               icon: 'fa fa-info',
@@ -421,7 +438,7 @@ $(document).on('blur','.unit_price',function(){
       ini.val(accounting.formatMoney(harga, "", 0, ".",','))
       par.find('.line_total').val(accounting.formatMoney(harga*qty, "", 0, ".",','))
     }
-    
+
   @endif
   hitung_dpp();
 })
@@ -448,6 +465,7 @@ q_qty.keypress(function(e) {
       data:{item,market},
       dataType:'json',
       success:function(data){
+        console.log(data);
         var temp;
 
         for (var i = 0; i < data.item.length; i++) {
@@ -456,40 +474,40 @@ q_qty.keypress(function(e) {
         }
         var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
 
-         m_table.row.add( [
-            dropdown,
-            '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ q_qty.val() +'">',
+            m_table.row.add( [
+               dropdown,
+               '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ q_qty.val() +'">',
 
-            '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
-            '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
+               '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
+               '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
 
-            '<input type="text" name="unit_price[]"  value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
-            '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
+               '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
+               '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
 
-            '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
-            '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
-        ] ).draw( false );
+               '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
+               '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
+           ] ).draw( false );
 
-        m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
-        m_table.$('.item_name').select2();
+         {{-- m_table.$('.item_name').last().val(data.data.i_code).trigger('change'); --}}
+         m_table.$('.item_name').select2();
         x++;
         q_qty.val('');
         $('.item').val('0');
       $('.item').select2();
 
-      $('.jumlah').keyup(function(){
+      {{-- $('.jumlah').keyup(function(){
       var qty = $(this).val();
       qty = qty.replace(/[A-Za-z$. ,-]/g, "");
       $(this).val(qty);
-    })
+    }) --}}
       hitung_dpp();
       }
     });
-   
+
   }
 });
 
-  
+
 
 $('#apfsds tbody').on( 'click', '.delete', function () {
   var m_table       = $("#apfsds").DataTable();
@@ -690,7 +708,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 		iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Update Data!',
@@ -746,7 +764,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
               ]
             ]
           });
-		
+
 	})
 
 @foreach($data_dt as $val)
@@ -772,7 +790,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
         '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ u_unit +'">',
         '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+deskripsi+'">',
 
-        '<input type="text" name="unit_price[]"  value="'+accounting.formatMoney(unit_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
+        '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(unit_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
         '<input type="hidden" readonly value="'+low_price+'" class="lower_price form-control input-sm min-width">',
 
         '<input type="text" value="'+accounting.formatMoney(unit_price*jumlah, "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
@@ -794,7 +812,6 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 	// hitung_dpp();
 
 @endforeach
-
 
 </script>
 @endsection

@@ -342,6 +342,11 @@ class QuotationController extends Controller
   public function print_quote($id)
   {
     if (Auth::user()->akses('QUOTATION','print')) {
+
+      DB::table('d_quotation')
+               ->where('q_id',$id)
+               ->update(['q_status' => 3]);
+
       $head = DB::table('d_quotation')
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
@@ -388,12 +393,16 @@ class QuotationController extends Controller
           array_push($array, 'a');
         }
       }
-
+      // return $jasa;
+      $count_data = count($data) + count($array) + count($jasa);
+      if(count($jasa) != 0){
+        $count_jasa = count($jasa) + count($array);
+      }
 
      // $pdf = PDF::loadView('quotation/q_quotation/print_quotation', $data);
      // return $pdf->stream("test.pdf");
       $print = 'global';
-      return view('quotation/q_quotation/print_quotation',compact('head','data','array','print','jasa'));
+      return view('quotation/q_quotation/print_quotation',compact('head','data','array','print','jasa','count_data','count_jasa'));
     }else{
       return redirect()->back();
     }
@@ -402,6 +411,11 @@ class QuotationController extends Controller
   public function print_quote_detail($id)
   {
     if (Auth::user()->akses('QUOTATION','print')) {
+
+      DB::table('d_quotation')
+               ->where('q_id',$id)
+               ->update(['q_status' => 3]);
+
       $head = DB::table('d_quotation')
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)

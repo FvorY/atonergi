@@ -18,6 +18,9 @@ class ProjectController extends Controller
     }
     public function jadwalujicoba()
     {
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'aktif')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_schedule')
                 ->get();
 

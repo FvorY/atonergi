@@ -19,7 +19,7 @@
 <!-- partial -->
 <div class="content-wrapper">
 	<div class="row">
-		<div class="col-lg-12">	
+		<div class="col-lg-12">
 			<nav aria-label="breadcrumb" role="navigation">
 				<ol class="breadcrumb bg-info">
 					<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -33,13 +33,13 @@
 		        <div class="card-body">
 		          <h4 class="card-title">Quotation</h4>
 		          	<div class="row">
-		          		
+
 						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
 							@if(Auth::user()->akses('QUOTATION','tambah'))
 							<button class="btn btn-info open_modal" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Quotation</button>
 							@endif
 						</div>
-						
+
 						<div class="table-responsive">
 							<table class="table table-hover" id="table_quote" cellspacing="0" width="100%">
 							  <thead class="bg-gradient-info">
@@ -56,11 +56,11 @@
 							    </tr>
 							  </thead>
 							  <tbody>
-							    
+
 							  </tbody>
 							</table>
 						</div>
-						
+
 		        	</div>
 		      	</div>
 	    	</div>
@@ -76,6 +76,7 @@ $(document).ready(function(){
 		$('#table_quote').DataTable({
           processing: true,
           serverSide: true,
+					pagging: true,
           ajax: {
               url:'{{ route('quote_datatable') }}',
           },
@@ -173,6 +174,16 @@ function qty(p) {
     hitung_dpp();
 }
 
+function unit_price(p){  
+  var par     = $(p).parents('tr');
+  var qty  = $(par).find('.jumlah').val();
+  var unit_price       = $(par).find('.unit_price').val();
+  unit_price      = unit_price.replace(/[^0-9\-]+/g,"")*1;
+
+    $(par).find('.line_total').val(accounting.formatMoney(unit_price * qty, "", 0, ".",','));
+    hitung_dpp();
+}
+
 function edit_item(p) {
 	var par    = $(p).parents('tr');
 	var qty    = $(par).find('.jumlah').val();
@@ -229,7 +240,7 @@ $(document).on('blur','.unit_price',function(){
 			ini.val(accounting.formatMoney(harga, "", 0, ".",','))
 			par.find('.line_total').val(accounting.formatMoney(harga*qty, "", 0, ".",','))
 		}
-		
+
 	@endif
 	hitung_dpp();
 })
@@ -271,15 +282,15 @@ q_qty.keypress(function(e) {
             '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
             '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
 
-            '<input type="text" name="unit_price[]"  value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
+            '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
             '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
 
             '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
             '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
         ] ).draw( false );
 
-        m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
-  		m_table.$('.item_name').select2();
+        // m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
+  			m_table.$('.item_name').select2();
         x++;
         q_qty.val('');
         $('.item').val('0');
@@ -293,11 +304,11 @@ q_qty.keypress(function(e) {
   		hitung_dpp();
       }
     });
-   
+
   }
 });
 
-	
+
 
 $('#apfsds tbody').on( 'click', '.delete', function () {
 	var m_table       = $("#apfsds").DataTable();
@@ -364,7 +375,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 	})
 
 	$('.save').click(function(){
-		console.log('asd');
+
 		var array_valid = [];
 		var customer = $('.customer').val();
 		var address = $('.address').text();
@@ -491,7 +502,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 	iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Simpan Data!',
@@ -565,16 +576,16 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
               ]
             ]
           });
-		
+
 	})
-	
+
 
 	function hapus(nota) {
 
 		iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Hapus Data!',
@@ -624,14 +635,17 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 
 	function printing(id) {
 		window.open("{{ url('quotation/q_quotation/print_quote') }}"+'/'+id+'/detail');
+		window.location.reload();
 	}
 
 	function printing_global(id){
 		window.open("{{ url('quotation/q_quotation/print_quote') }}"+'/'+id + '/global');
+		window.location.reload();
 	}
 
 	function edit(id) {
 		window.open("{{ url('quotation/q_quotation/edit_quotation') }}"+'/'+id);
+		window.location.reload();
 	}
 
 	function detail(p) {

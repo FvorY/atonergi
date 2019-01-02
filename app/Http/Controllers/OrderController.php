@@ -360,6 +360,14 @@ class OrderController extends Controller
                   ->orderBy('q_id','DESC')
                   ->get();
 
+                  for ($i=0; $i < count($data); $i++) {
+                    DB::table('d_quotation')
+                          ->where('q_id', $data[$i]->q_id)
+                          ->update([
+                            'q_remain' => $data[$i]->q_total - $data[$i]->q_dp
+                          ]);
+                  }
+
 
         // return $data;
         $data = collect($data);
@@ -384,7 +392,7 @@ class OrderController extends Controller
                             return 'Rp. '. number_format($data->q_dp, 2, ",", ".");
                         })
                         ->addColumn('remain', function ($data) {
-                            return 'Rp. '. number_format($data->q_remain, 2, ",", ".");
+                            return 'Rp. '. number_format(($data->q_total - $data->q_dp), 2, ",", ".");
                         })
                         ->addColumn('status_so', function ($data) {
                             $so = DB::table('d_quotation')
@@ -447,7 +455,7 @@ class OrderController extends Controller
                   ->first();
 
         $so_dt = DB::table("d_quotation_dt")
-                   ->join('m_item','qd_item','=','i_code')
+                   ->leftjoin('m_item','qd_item','=','i_code')
                    ->where('qd_id',$id)
                    ->where('i_jenis','!=','JASA')
                    ->first();
@@ -458,7 +466,7 @@ class OrderController extends Controller
                   ->first();
 
         $wo_dt = DB::table("d_quotation_dt")
-                   ->join('m_item','qd_item','=','i_code')
+                   ->leftjoin('m_item','qd_item','=','i_code')
                    ->where('qd_id',$id)
                    ->where('i_jenis','JASA')
                    ->first();
@@ -503,7 +511,7 @@ class OrderController extends Controller
         }
 
         $data_dt = DB::table('d_quotation_dt')
-                       ->join('m_item','i_code','=','qd_item')
+                       ->leftjoin('m_item','i_code','=','qd_item')
                        ->where('qd_id',$id)
                        ->get();
 
@@ -511,7 +519,13 @@ class OrderController extends Controller
                     ->where('p_status', 'Y')
                     ->first();
 
-        return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent'));
+
+        if ($percent == null) {
+          Session::flash('gagal', 'Percent tidak ada yang aktif, aktifkan percent di master percent terlebih dahulu!');
+          return view('order/pembayarandeposit/pembayarandeposit');
+        } else {
+          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent'));
+        }
     }
 
     public function save_deposit(request $req)
@@ -778,13 +792,18 @@ class OrderController extends Controller
                        ->join('m_item','i_code','=','qd_item')
                        ->where('qd_id',$id)
                        ->get();
+
+        $percent = DB::table('m_percent')
+                    ->where('p_status', 'Y')
+                    ->first();
+
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
           array_push($validation, 1);
         }
         if (in_array(1, $validation)) {
           if ($so->so_status == 'Printed' or $wo->wo_status == 'Printed') {
-            return view('order/payment_order/detail_payment_order',compact('item','data','data_dt','id','nota_po','market','nama_item','so','wo'));
+            return view('order/payment_order/detail_payment_order',compact('percent','item','data','data_dt','id','nota_po','market','nama_item','so','wo'));
           }else{
             return redirect()->back();
           }

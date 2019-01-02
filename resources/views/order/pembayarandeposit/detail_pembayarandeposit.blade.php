@@ -18,7 +18,7 @@
 	<div class="col-lg-12 grid-margin stretch-card">
       	<div class="card">
 	        <div class="card-body">
-	          	<h4 class="card-title">Pembayaran Deposit</h4>
+	          	<h4 class="card-title">Pembayaran Deposit</h4>							
 					<div class="row">
 						<div class="col-md-3 col-sm-6 col-xs-12">
 							<label>S.O.#</label>
@@ -173,7 +173,11 @@
 				              	@if($data->q_dp != null)
 				                <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{'Rp. '. number_format($data->q_dp, 2, ",", ".")}}">
 				                @else
-				                <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format(($percent->p_percent / 100) * $data->q_total , 2, ",", ".") }}">
+													@if ($percent == null)
+														<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format((0 / 100) * $data->q_total , 2, ",", ".") }}">
+													@else
+														<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format(($percent->p_percent / 100) * $data->q_total , 2, ",", ".") }}">
+													@endif
 				                @endif
 				              </div>
 				            </div>

@@ -283,7 +283,7 @@ table, td, th {
 						</td>
 						@elseif($print === 'global')
 							@if($i===0)
-							<td rowspan="15" class="top">
+							<td rowspan="{{$count_data}}" class="top">
 								<div class="float-left">
 									Rp.
 								</div>
@@ -307,7 +307,7 @@ table, td, th {
 						</td>
 						@elseif($print === 'global')
 							@if($i===0)
-							<td rowspan="15" class="top">
+							<td rowspan="{{$count_data}}" class="top">
 								<div class="float-left">
 									Rp.
 								</div>
@@ -329,7 +329,7 @@ table, td, th {
 						<td class="blue">{{ $b->qd_qty }}</td>
 						<td class="blue">{{ $b->u_unit }}</td>
 						<td class="blue">{{ $b->qd_description }}</td>
-						@if($print === 'detail')
+						{{-- @if($print === 'detail')
 						<td  class="blue">
 							<div class="float-left">
 								Rp.
@@ -340,7 +340,7 @@ table, td, th {
 						</td>
 						@elseif($print === 'global')
 							@if($i===0)
-							<td rowspan="15" class="top blue" >
+							<td rowspan="{{$count_jasa}}" class="top blue" >
 								<div class="float-left">
 									Rp.
 								</div>
@@ -364,7 +364,7 @@ table, td, th {
 						</td>
 						@elseif($print === 'global')
 							@if($i===0)
-							<td rowspan="15" class="top blue">
+							<td rowspan="{{$count_jasa}}" class="top blue">
 								<div class="float-left">
 									Rp.
 								</div>
@@ -375,7 +375,7 @@ table, td, th {
 							@endif
 						@else
 							<td></td>
-						@endif
+						@endif --}}
 						
 					</tr>
 					@endforeach
