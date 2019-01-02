@@ -263,6 +263,8 @@ Route::get('/finance/bookkeeping/transaksi_kas', 'FinanceController@transaksi_ka
 Route::get('/finance/bookkeeping/transaksi_bank', 'FinanceController@transaksi_bank');
 Route::get('/finance/bookkeeping/transaksi_memorial', 'FinanceController@transaksi_memorial');
 Route::get('/finance/costmanajemen/costmanajemen', 'FinanceController@costmanajemen');
+// Log-page
+Route::get('/log','logPageController@index')->name('log.index');
 
 
 
