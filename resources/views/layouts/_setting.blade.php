@@ -17,8 +17,12 @@
           <p class="settings-heading border-top-0 mb-3 pl-3 pt-0 border-bottom-0 pb-0">Log Activity</p>
         </div>
         <ul class="chat-list" id="showlog">
-          
+
         </ul>
+
+        <div class="col-md-12">
+          <button type="button" class="btn btn-primary" onclick="clearlog()" name="button" style="width:100%; position:absolute;">Clear All</button>
+        </div>
       </div>
 
       <!-- To do section tab ends -->

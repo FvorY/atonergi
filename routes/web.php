@@ -609,4 +609,5 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
 
     //Log
     Route::get('/getlog', 'logController@getlog');
+    Route::get('/clearlog', 'logController@clearlog');
 }); // End Route Groub middleware auth

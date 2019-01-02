@@ -630,6 +630,21 @@ class HRDController extends Controller
                             'k_kehadiran' => (int)$value->kehadiran,
                             'k_in' => $value->in,
                             'k_out' => $value->out]);
+              } else {
+                DB::table('d_kartushift')
+                            ->where('k_pin', (int)$value->pin)
+                            ->where('k_nip', (int)$value->nip)
+                            ->where('k_nama', $value->nama)
+                            ->where('k_jabatan', $value->jabatan)
+                            ->where('k_departement', $value->departement)
+                            ->where('k_kantor', $value->kantor)
+                            ->where('k_tanggal', Carbon::parse($value->tanggal)->format('Y-m-d'))
+                            ->where('k_kehadiran', (int)$value->kehadiran)
+                            ->where('k_in', $value->in)
+                            ->where('k_out', $value->out)
+                            ->update([
+                              'k_insert' => Carbon::now('Asia/Jakarta')
+                            ]);
               }
             }
           }
@@ -741,6 +756,25 @@ class HRDController extends Controller
                         'a_workcode' => (int)$value->workcode,
                         'a_sn' => $value->serial_number,
                         'a_mesin' => $value->mesin]);
+              } else {
+                  DB::table('d_absensibulan')
+                            ->where('a_tanggalscan', Carbon::parse($value->tanggal_scan)->format('Y-m-d'))
+                            ->where('a_tanggal', Carbon::parse($value->tanggal)->format('Y-m-d'))
+                            ->where('a_jam', $value->jam)
+                            ->where('a_pin', (int)$value->pin)
+                            ->where('a_nip', (int)$value->nip)
+                            ->where('a_nama', $value->nama)
+                            ->where('a_jabatan', $value->jabatan)
+                            ->where('a_departement', $value->departement)
+                            ->where('a_kantor', $value->kantor)
+                            ->where('a_verifikasi', (int)$value->verifikasi)
+                            ->where('a_io', (int)$value->input_output)
+                            ->where('a_workcode', (int)$value->workcode)
+                            ->where('a_sn', (string)$value->serial_number)
+                            ->where('a_mesin', $value->mesin)
+                            ->update([
+                              'a_inseert' => Carbon::now('Asia/Jakarta')
+                            ]);
               }
             }
           }
@@ -884,6 +918,51 @@ class HRDController extends Controller
                 'r_perhitunganpengecualianizin_tidakscanmulailembur' => $value->tidak_scan_mulai_lembur,
                 'r_perhitunganpengecualianizin_tidakscanselesailembur' => $value->tidak_scan_selesai_lembur,
                 'r_perhitunganpengecualianizin_izinlainlain' => $value->izin_lain_lain]);
+              } else {
+                DB::table('d_rekapperiode')
+                            ->where('r_pin', $value->pin)
+                            ->where('r_nip', $value->nip)
+                            ->where('r_nama', $value->nama)
+                            ->where('r_jabatan',  $value->jabatan)
+                            ->where('r_departement', $value->departement)
+                            ->where('r_kantor', $value->kantor)
+                            ->where('r_izin_libur', $value->izin_lembur)
+                            ->where('r_kehadiran_jml', $value->jumlah_kehadiran)
+                            ->where('r_kehadiran_jammenit', $value->jam_menit_kehadiran)
+                            ->where('r_datangterlambat_jammenit', $value->jam_menit_datang_terlambat)
+                            ->where('r_datangterlambat_jml', $value->jam_menit_datang_jml)
+                            ->where('r_pulangawal_jammenit', $value->jam_menit_pulang_awal)
+                            ->where('r_pulangawal_jml', $value->jumlah_pulang_awal)
+                            ->where('r_istirahatlebih_jammenit', $value->jam_menit_istirahat_lebih)
+                            ->where('r_istirahatlebih_jml', $value->jumlah_istirahat_lebih)
+                            ->where('r_scankerja_masuk', $value->scan_kerja_masuk)
+                            ->where('r_scankerja_keluar', $value->scan_kerja_keluar)
+                            ->where('r_lembur_jml', $value->jumlah_lembur)
+                            ->where('r_lembur_jammenit', $value->jam_menit_lembur)
+                            ->where('r_lembur_scan', $value->scan_lembur)
+                            ->where('r_tidakhadir_tanpaizin', $value->tidak_hadir_tanpa_izin)
+                            ->where('r_libur_rutindanumum', $value->libur_rutin_dan_umum)
+                            ->where('r_perhitunganpengecualianizin_izintidakmasukpribadi', $value->izin_tidak_masuk_pribadi)
+                            ->where('r_perhitunganpengecualianizin_izinpulangawalpribadi', $value->izin_pulang_awal_pribadi)
+                            ->where('r_perhitunganpengecualianizin_izindatangterlambatpribadi', $value->izin_datang_terlambat_pribadi)
+                            ->where('r_perhitunganpengecualianizin_sakitdengansuratdokter', $value->sakit_dengan_surat_dokter)
+                            ->where('r_perhitunganpengecualianizin_sakittanpasuratdokter', $value->sakit_tanpa_surat_dokter)
+                            ->where('r_perhitunganpengecualianizin_izinmeninggalkantempatkerja', $value->izin_meninggalkan_tempat_kerja)
+                            ->where('r_perhitunganpengecualianizin_izindinaskantor', $value->izin_dinas_kantor)
+                            ->where('r_perhitunganpengecualianizin_izindatangterlambatkantor', $value->izin_datang_terlambat_kantor)
+                            ->where('r_perhitunganpengecualianizin_izinpulangawalkantor', $value->izin_pulang_awal_kantor)
+                            ->where('r_perhitunganpengecualianizin_cutinormatif', $value->cuti_normatif)
+                            ->where('r_perhitunganpengecualianizin_cutipribadi', $value->cuti_pribadi)
+                            ->where('r_perhitunganpengecualianizin_tidakscanmasuk', $value->tidak_scan_masuk)
+                            ->where('r_perhitunganpengecualianizin_tidakscanpulang', $value->tidak_scan_pulang)
+                            ->where('r_perhitunganpengecualianizin_tidakscanmulaiistirahat', $value->tidak_scan_mulai_istirahat)
+                            ->where('r_perhitunganpengecualianizin_tidakscanselesaiistirahat', $value->tidak_scan_selesai_istirahat)
+                            ->where('r_perhitunganpengecualianizin_tidakscanmulailembur', $value->tidak_scan_mulai_lembur)
+                            ->where('r_perhitunganpengecualianizin_tidakscanselesailembur', $value->tidak_scan_selesai_lembur)
+                            ->where('r_perhitunganpengecualianizin_izinlainlain', $value->izin_lain_lain)
+                            ->update([
+                              'r_insert' => Carbon::now('Asia/Jakarta')
+                            ]);
               }
             }
           }
@@ -1031,6 +1110,59 @@ class HRDController extends Controller
                 'rt_hari_kerja' => $value->hari_kerja,
                 'rt_tidak_hadir' => $value->tidak_hadir,
                 'rt_kehadiran' => $value->kehadiran]);
+              } else {
+                DB::table('d_rincian_tahunan')
+                            ->where('rt_pin', $value->pin)
+                            ->where('rt_nip', $value->nip)
+                            ->where('rt_nama', $value->nama)
+                            ->where('rt_jabatan', $value->jabatan)
+                            ->where('rt_departement', $value->departement)
+                            ->where('rt_kantor', $value->kantor)
+                            ->where('rt_bulan', $value->bulan)
+                            ->where('rt_1', $value->tanggal_1)
+                            ->where('rt_2', $value->tanggal_2)
+                            ->where('rt_3', $value->tanggal_3)
+                            ->where('rt_4', $value->tanggal_4)
+                            ->where('rt_5', $value->tanggal_5)
+                            ->where('rt_6', $value->tanggal_6)
+                            ->where('rt_7', $value->tanggal_7)
+                            ->where('rt_8', $value->tanggal_8)
+                            ->where('rt_9', $value->tanggal_9)
+                            ->where('rt_10', $value->tanggal_10)
+                            ->where('rt_11', $value->tanggal_11)
+                            ->where('rt_12', $value->tanggal_12)
+                            ->where('rt_13', $value->tanggal_13)
+                            ->where('rt_14', $value->tanggal_14)
+                            ->where('rt_15', $value->tanggal_15)
+                            ->where('rt_16', $value->tanggal_16)
+                            ->where('rt_17', $value->tanggal_17)
+                            ->where('rt_18', $value->tanggal_18)
+                            ->where('rt_19', $value->tanggal_19)
+                            ->where('rt_20', $value->tanggal_20)
+                            ->where('rt_21', $value->tanggal_21)
+                            ->where('rt_22', $value->tanggal_22)
+                            ->where('rt_23', $value->tanggal_23)
+                            ->where('rt_24', $value->tanggal_24)
+                            ->where('rt_25', $value->tanggal_25)
+                            ->where('rt_26', $value->tanggal_26)
+                            ->where('rt_27', $value->tanggal_27)
+                            ->where('rt_28', $value->tanggal_28)
+                            ->where('rt_29', $value->tanggal_29)
+                            ->where('rt_30', $value->tanggal_30)
+                            ->where('rt_31', $value->tanggal_31)
+                            ->where('rt_libur', $value->libur)
+                            ->where('rt_cuti', $value->cuti)
+                            ->where('rt_izin', $value->izin)
+                            ->where('rt_sakit', $value->sakit)
+                            ->where('rt_absen', $value->absen)
+                            ->where('rt_cuti_normatif', $value->cuti_normatif)
+                            ->where('rt_dinas', $value->dinas)
+                            ->where('rt_hari_kerja', $value->hari_kerja)
+                            ->where('rt_tidak_hadir', $value->tidak_hadir)
+                            ->where('rt_kehadiran', $value->kehadiran)
+                            ->update([
+                              'rt_insert' => Carbon::now('Asia/Jakarta')
+                            ]);
               }
             }
           }
@@ -1110,7 +1242,60 @@ class HRDController extends Controller
                 'pm_bpjstk' => $value->bpjs_tk,
                 'pm_terlambat' => $value->terlambat,
                 'pm_total_gaji_netto' => $value->total_gaji_netto]);
-                }
+              } else {
+                DB::table('d_rincian_tahunan')
+                            ->where('rt_pin', $value->pin)
+                            ->where('rt_nip', $value->nip)
+                            ->where('rt_nama', $value->nama)
+                            ->where('rt_jabatan', $value->jabatan)
+                            ->where('rt_departement', $value->departement)
+                            ->where('rt_kantor', $value->kantor)
+                            ->where('rt_bulan', $value->bulan)
+                            ->where('rt_1', $value->tanggal_1)
+                            ->where('rt_2', $value->tanggal_2)
+                            ->where('rt_3', $value->tanggal_3)
+                            ->where('rt_4', $value->tanggal_4)
+                            ->where('rt_5', $value->tanggal_5)
+                            ->where('rt_6', $value->tanggal_6)
+                            ->where('rt_7', $value->tanggal_7)
+                            ->where('rt_8', $value->tanggal_8)
+                            ->where('rt_9', $value->tanggal_9)
+                            ->where('rt_10', $value->tanggal_10)
+                            ->where('rt_11', $value->tanggal_11)
+                            ->where('rt_12', $value->tanggal_12)
+                            ->where('rt_13', $value->tanggal_13)
+                            ->where('rt_14', $value->tanggal_14)
+                            ->where('rt_15', $value->tanggal_15)
+                            ->where('rt_16', $value->tanggal_16)
+                            ->where('rt_17', $value->tanggal_17)
+                            ->where('rt_18', $value->tanggal_18)
+                            ->where('rt_19', $value->tanggal_19)
+                            ->where('rt_20', $value->tanggal_20)
+                            ->where('rt_21', $value->tanggal_21)
+                            ->where('rt_22', $value->tanggal_22)
+                            ->where('rt_23', $value->tanggal_23)
+                            ->where('rt_24', $value->tanggal_24)
+                            ->where('rt_25', $value->tanggal_25)
+                            ->where('rt_26', $value->tanggal_26)
+                            ->where('rt_27', $value->tanggal_27)
+                            ->where('rt_28', $value->tanggal_28)
+                            ->where('rt_29', $value->tanggal_29)
+                            ->where('rt_30', $value->tanggal_30)
+                            ->where('rt_31', $value->tanggal_31)
+                            ->where('rt_libur', $value->libur)
+                            ->where('rt_cuti', $value->cuti)
+                            ->where('rt_izin', $value->izin)
+                            ->where('rt_sakit', $value->sakit)
+                            ->where('rt_absen', $value->absen)
+                            ->where('rt_cuti_normatif', $value->cuti_normatif)
+                            ->where('rt_dinas', $value->dinas)
+                            ->where('rt_hari_kerja', $value->hari_kerja)
+                            ->where('rt_tidak_hadir', $value->tidak_hadir)
+                            ->where('rt_kehadiran', $value->kehadiran)
+                            ->update([
+                              'rt_insert' => Carbon::now('Asia/Jakarta')
+                            ]);
+              }
               }
             }
           }
@@ -1192,7 +1377,38 @@ class HRDController extends Controller
                 'ps_bpjstk' => $value->bpjs_tk,
                 'ps_terlambat' => $value->terlambat,
                 'ps_total_gaji_netto' => $value->total_gaji_netto]);
-                }
+              } else {
+                DB::table('d_payroll_staff')
+                            ->where('ps_pin', $value->pin)
+                            ->where('ps_nip', $value->nip)
+                            ->where('ps_nama', $value->nama)
+                            ->where('ps_jabatan', $value->jabatan)
+                            ->where('ps_departement', $value->departement)
+                            ->where('ps_kantor', $value->kantor)
+                            ->where('ps_status', $value->bulan)
+                            ->where('ps_norekening', $value->no_rekening)
+                            ->where('ps_gajipokok', $value->gaji_pokok)
+                            ->where('ps_uangmakan', $value->uang_makan)
+                            ->where('ps_uangtransport', $value->uang_transport)
+                            ->where('ps_uangoperasional', $value->uang_operasional)
+                            ->where('ps_tunjanganistri', $value->tunjangan_istri)
+                            ->where('ps_tunjangananak', $value->tunjangan_anak)
+                            ->where('ps_komisisales', $value->komisi_sales)
+                            ->where('ps_thr', $value->thr)
+                            ->where('ps_insentifpeforma', $value->insentif_peforma)
+                            ->where('ps_bonuskpi', $value->bonus_kpi)
+                            ->where('ps_bonusloyalitas', $value->bonus_loyalitas)
+                            ->where('ps_bonuspeformaperusahaan', $value->bonus_peformaperusahaan)
+                            ->where('ps_bpjskes', $value->bpjs_kes)
+                            ->where('ps_bpjstk', $value->bpjs_tk)
+                            ->where('ps_terlambat', $value->terlambat)
+                            ->where('ps_potongandisiplinkerja', $value->potongan_disiplin_kerja)
+                            ->where('ps_kasbon', $value->kasbon)
+                            ->where('ps_total_gaji_netto', $value->total_gaji_netto)
+                            ->update([
+                              'ps_insert' => Carbon::now('Asia/Jakarta')
+                            ]);
+              }
               }
             }
           }

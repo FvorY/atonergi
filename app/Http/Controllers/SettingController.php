@@ -621,6 +621,9 @@ class SettingController extends Controller
                 ->update([
                   'aktif' =>$aksi
                 ]);
+
+                logController::inputlog('Setting Hak Akses', 'Akses Aksi', $req->tanda);
+
       }
 
       if (isset($req->tambah)) {
@@ -635,6 +638,9 @@ class SettingController extends Controller
                 ->update([
                   'tambah' =>$tambah
                 ]);
+
+                logController::inputlog('Setting Hak Akses', 'Akses Tambah', $req->tanda);
+
       }
 
       if (isset($req->ubah)) {
@@ -649,6 +655,9 @@ class SettingController extends Controller
                 ->update([
                   'ubah' =>$ubah
                 ]);
+
+                logController::inputlog('Setting Hak Akses', 'Akses Ubah', $req->tanda);
+
       }
 
       if (isset($req->print)) {
@@ -663,6 +672,9 @@ class SettingController extends Controller
                 ->update([
                   'print' =>$print
                 ]);
+
+                logController::inputlog('Setting Hak Akses', 'Akses Print', $req->tanda);
+
       }
 
       if (isset($req->hapus)) {
@@ -677,6 +689,9 @@ class SettingController extends Controller
                 ->update([
                   'hapus' =>$hapus
                 ]);
+
+                logController::inputlog('Setting Hak Akses', 'Akses Hapus', $req->tanda);
+
       }
 
       return response()->json(['status' => 1]);

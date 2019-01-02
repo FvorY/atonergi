@@ -409,6 +409,19 @@
         });
       }
 
+      function clearlog(){
+        $.ajax({
+          type: 'get',
+          dataType: 'json',
+          url: baseUrl + '/clearlog',
+          success : function(response) {
+            if (response.status == 'berhasil') {
+              $('#showlog').html('');
+            }
+          }
+        })
+      }
+
     </script>
     {{-- end filter menu --}}
 {{-- <script type="text/javascript">

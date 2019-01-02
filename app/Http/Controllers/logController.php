@@ -45,4 +45,13 @@ class logController extends Controller
       return response()->json($data);
     }
 
+    public function clearlog(){
+      DB::table('d_log')
+            ->truncate();
+
+      return response()->json([
+        'status' => 'berhasil'
+      ]);
+    }
+
 }
