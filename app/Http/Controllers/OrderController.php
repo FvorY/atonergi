@@ -778,13 +778,18 @@ class OrderController extends Controller
                        ->join('m_item','i_code','=','qd_item')
                        ->where('qd_id',$id)
                        ->get();
+
+        $percent = DB::table('m_percent')
+                    ->where('p_status', 'Y')
+                    ->first();
+
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
           array_push($validation, 1);
         }
         if (in_array(1, $validation)) {
           if ($so->so_status == 'Printed' or $wo->wo_status == 'Printed') {
-            return view('order/payment_order/detail_payment_order',compact('item','data','data_dt','id','nota_po','market','nama_item','so','wo'));
+            return view('order/payment_order/detail_payment_order',compact('percent','item','data','data_dt','id','nota_po','market','nama_item','so','wo'));
           }else{
             return redirect()->back();
           }
