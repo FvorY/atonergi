@@ -388,12 +388,16 @@ class QuotationController extends Controller
           array_push($array, 'a');
         }
       }
-
+      // return $jasa;
+      $count_data = count($data) + count($array) + count($jasa);
+      if(count($jasa) != 0){
+        $count_jasa = count($jasa) + count($array);
+      }
 
      // $pdf = PDF::loadView('quotation/q_quotation/print_quotation', $data);
      // return $pdf->stream("test.pdf");
       $print = 'global';
-      return view('quotation/q_quotation/print_quotation',compact('head','data','array','print','jasa'));
+      return view('quotation/q_quotation/print_quotation',compact('head','data','array','print','jasa','count_data','count_jasa'));
     }else{
       return redirect()->back();
     }
