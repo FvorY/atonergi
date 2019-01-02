@@ -342,6 +342,11 @@ class QuotationController extends Controller
   public function print_quote($id)
   {
     if (Auth::user()->akses('QUOTATION','print')) {
+
+      DB::table('d_quotation')
+               ->where('q_id',$id)
+               ->update(['q_status' => 3]);
+
       $head = DB::table('d_quotation')
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
@@ -402,6 +407,11 @@ class QuotationController extends Controller
   public function print_quote_detail($id)
   {
     if (Auth::user()->akses('QUOTATION','print')) {
+
+      DB::table('d_quotation')
+               ->where('q_id',$id)
+               ->update(['q_status' => 3]);
+
       $head = DB::table('d_quotation')
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)

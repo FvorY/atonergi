@@ -447,7 +447,7 @@ class OrderController extends Controller
                   ->first();
 
         $so_dt = DB::table("d_quotation_dt")
-                   ->join('m_item','qd_item','=','i_code')
+                   ->leftjoin('m_item','qd_item','=','i_code')
                    ->where('qd_id',$id)
                    ->where('i_jenis','!=','JASA')
                    ->first();
@@ -458,7 +458,7 @@ class OrderController extends Controller
                   ->first();
 
         $wo_dt = DB::table("d_quotation_dt")
-                   ->join('m_item','qd_item','=','i_code')
+                   ->leftjoin('m_item','qd_item','=','i_code')
                    ->where('qd_id',$id)
                    ->where('i_jenis','JASA')
                    ->first();
@@ -503,7 +503,7 @@ class OrderController extends Controller
         }
 
         $data_dt = DB::table('d_quotation_dt')
-                       ->join('m_item','i_code','=','qd_item')
+                       ->leftjoin('m_item','i_code','=','qd_item')
                        ->where('qd_id',$id)
                        ->get();
 
