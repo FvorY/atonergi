@@ -17,7 +17,21 @@
         	<div class="card">
   	        <div class="card-body">
   	          <h4 class="card-title">Pembayaran Deposit</h4>
-
+              @if(Session::has('sukses'))
+									<div class="alert alert-fill-primary" role="alert">
+										<i class="mdi mdi-alert-circle"></i>
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+																	aria-hidden="true">&times;</span></button>
+											<strong>{{ Session::get('sukses') }}</strong>
+									</div>
+							@elseif(Session::has('gagal'))
+								<div class="alert alert-fill-danger" role="alert">
+									<i class="mdi mdi-alert-circle"></i>
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+																aria-hidden="true">&times;</span></button>
+										<strong>{{ Session::get('gagal') }}</strong>
+								</div>
+							@endif
   	          	<div class="table-responsive" style="margin-bottom: 15px;">
   		            <table id="table_quote" class="table table-hover " cellspacing="0">
   			              <thead class="bg-gradient-info">

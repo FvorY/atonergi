@@ -53,15 +53,20 @@
             </div>
           </div>
 
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <label>Percent</label>
-          </div>
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="form-group">
-              <input class="form-control form-control-sm" value="{{$percent->p_percent}} %" readonly="" name="percent">
-              </select>
+          @if ($percent == null)
+
+          @else
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <label>Percent</label>
             </div>
-          </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <input class="form-control form-control-sm" value="{{$percent->p_percent}} %" readonly="" name="percent">
+                </select>
+              </div>
+            </div>
+          @endif
+
 
           <div class="col-md-3 col-sm-6 col-xs-12">
             <label>Amount</label>

@@ -373,7 +373,6 @@ function qty(p) {
 }
 
 function unit_price(p){
-  alert('hai');
   var par     = $(p).parents('tr');
   var qty  = $(par).find('.jumlah').val();
   var unit_price       = $(par).find('.unit_price').val();
@@ -791,7 +790,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
         '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ u_unit +'">',
         '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+deskripsi+'">',
 
-        '<input type="text" name="unit_price[]"  value="'+accounting.formatMoney(unit_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
+        '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(unit_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
         '<input type="hidden" readonly value="'+low_price+'" class="lower_price form-control input-sm min-width">',
 
         '<input type="text" value="'+accounting.formatMoney(unit_price*jumlah, "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',

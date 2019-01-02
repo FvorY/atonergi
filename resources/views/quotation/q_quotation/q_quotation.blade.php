@@ -174,6 +174,16 @@ function qty(p) {
     hitung_dpp();
 }
 
+function unit_price(p){  
+  var par     = $(p).parents('tr');
+  var qty  = $(par).find('.jumlah').val();
+  var unit_price       = $(par).find('.unit_price').val();
+  unit_price      = unit_price.replace(/[^0-9\-]+/g,"")*1;
+
+    $(par).find('.line_total').val(accounting.formatMoney(unit_price * qty, "", 0, ".",','));
+    hitung_dpp();
+}
+
 function edit_item(p) {
 	var par    = $(p).parents('tr');
 	var qty    = $(par).find('.jumlah').val();
@@ -272,7 +282,7 @@ q_qty.keypress(function(e) {
             '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
             '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
 
-            '<input type="text" name="unit_price[]"  value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
+            '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
             '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
 
             '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
@@ -624,7 +634,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 
 
 	function printing(id) {
-		window.open("{{ url('quotation/q_quotation/print_quote') }}"+'/'+id+'/detail');		
+		window.open("{{ url('quotation/q_quotation/print_quote') }}"+'/'+id+'/detail');
 		window.location.reload();
 	}
 

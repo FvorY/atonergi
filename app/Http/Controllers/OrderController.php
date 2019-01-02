@@ -360,6 +360,14 @@ class OrderController extends Controller
                   ->orderBy('q_id','DESC')
                   ->get();
 
+                  for ($i=0; $i < count($data); $i++) {
+                    DB::table('d_quotation')
+                          ->where('q_id', $data[$i]->q_id)
+                          ->update([
+                            'q_remain' => $data[$i]->q_total - $data[$i]->q_dp
+                          ]);
+                  }
+
 
         // return $data;
         $data = collect($data);
@@ -384,7 +392,7 @@ class OrderController extends Controller
                             return 'Rp. '. number_format($data->q_dp, 2, ",", ".");
                         })
                         ->addColumn('remain', function ($data) {
-                            return 'Rp. '. number_format($data->q_remain, 2, ",", ".");
+                            return 'Rp. '. number_format(($data->q_total - $data->q_dp), 2, ",", ".");
                         })
                         ->addColumn('status_so', function ($data) {
                             $so = DB::table('d_quotation')
@@ -511,7 +519,13 @@ class OrderController extends Controller
                     ->where('p_status', 'Y')
                     ->first();
 
-        return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent'));
+
+        if ($percent == null) {
+          Session::flash('gagal', 'Percent tidak ada yang aktif, aktifkan percent di master percent terlebih dahulu!');
+          return view('order/pembayarandeposit/pembayarandeposit');
+        } else {
+          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent'));
+        }
     }
 
     public function save_deposit(request $req)
