@@ -582,7 +582,7 @@ public function edit_bank(request $req)
                         ->get();
 
             for ($i=0; $i < count($data); $i++) {
-              $data[$i]->i_price = "Rp " . number_format($data[$i]->i_price,0,',','.');
+              $data[$i]->i_price = "Rp. " . number_format($data[$i]->i_price,0,',','.');
 
             }
 
