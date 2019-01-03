@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 
 use DB;
 
+use App\mMember;
+
 class logPageController extends Controller
 {
     public function index() {
+      if (!mMember::akses('LOG ACTIVITY', 'aktif')) {
+        return redirect('error-404');
+      }
+
       $data = DB::table('d_log')
                 ->get();
 

@@ -24,9 +24,11 @@
                     <h4 class="card-title">Purchase Order</h4>
 
                     <div class="row">
+                      @if (App\mMember::akses('PURCHASE ORDER', 'tambah'))
                       <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#cari" id="cari"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
                       </div>
+                      @endif
                     </div>
 
                     <div class="row">

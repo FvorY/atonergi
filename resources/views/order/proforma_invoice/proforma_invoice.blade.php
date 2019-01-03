@@ -19,9 +19,11 @@
 		          <h4 class="card-title">Proforma Invoice</h4>
 		          	<div class="row">
 
+						@if (App\mMember::akses('PROFORMA INVOICE', 'tambah'))
 						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
 							<button class="btn btn-info" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Invoice</button>
 						</div>
+						@endif
 						<div class="table-responsive">
 							<table class="table table-hover table_quote" id="table_quote" cellspacing="">
 							  <thead class="bg-gradient-info">

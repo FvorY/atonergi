@@ -42,9 +42,11 @@
 									<strong>{{ Session::get('gagal') }}</strong>
 							</div>
 						@endif
+						@if (App\mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'tambah'))
 						<div class="text-right mb-3">
 							<a href="{{url('project/jadwalujicoba/tambah_jadwal')}}" class="btn btn-info" ><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</a>
 						</div>
+						@endif
 
 					<div class="table-responsive">
 						<table class="table table-bordered table-hover table-striped data-table">
