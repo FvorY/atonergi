@@ -27,6 +27,9 @@ class KpiController extends Controller
 
     public function tambahKpi()
     {
+      if (!mMember::akses('MASTER KPI', 'tambah')) {
+        return redirect('error-404');
+      }
         return view('master/kpi/tambah');
     }
 
@@ -62,6 +65,9 @@ class KpiController extends Controller
 
     public function simpanKpi(Request $request)
     {
+      if (!mMember::akses('MASTER KPI', 'tambah')) {
+        return redirect('error-404');
+      }
         //dd($request->all());
         DB::beginTransaction();
         try
@@ -99,6 +105,9 @@ class KpiController extends Controller
 
     public function editKpi(Request $request)
     {
+      if (!mMember::akses('MASTER KPI', 'ubah')) {
+        return redirect('error-404');
+      }
         $data = m_kpix::leftjoin('m_pegawai', 'm_kpix.kpix_p_id', '=', 'm_pegawai.mp_id')
                     ->leftjoin('m_divisi', 'm_kpix.kpix_div_id', '=', 'm_divisi.c_id')
                     ->leftjoin('m_jabatan', 'm_kpix.kpix_jabatan_id', '=', 'm_jabatan.c_id')
@@ -109,6 +118,9 @@ class KpiController extends Controller
 
     public function updateKpi(Request $request)
     {
+      if (!mMember::akses('MASTER KPI', 'ubah')) {
+        return redirect('error-404');
+      }
         //dd($request->all());
         DB::beginTransaction();
         try
@@ -141,6 +153,9 @@ class KpiController extends Controller
 
     public function deleteKpi(Request $request)
     {
+      if (!mMember::akses('MASTER KPI', 'hapus')) {
+        return redirect('error-404');
+      }
         DB::beginTransaction();
         try
         {

@@ -92,7 +92,9 @@ class master_bundleitemController extends Controller
  	}
  	public function edit_bundle($id)
  	{
-
+    if (!mMember::akses('MASTER DATA BUNDLE ITEM', 'ubah')) {
+      return redirect('error-404');
+    }
  		$data = DB::table("m_item")
               ->where('i_id',$id)
               ->first();
@@ -122,6 +124,9 @@ class master_bundleitemController extends Controller
  	}
  	public function simpan_bundleitem(request $req)
  	{
+    if (!mMember::akses('MASTER DATA BUNDLE ITEM', 'tambah')) {
+      return redirect('error-404');
+    }
     	return DB::transaction(function() use ($req) {
         $nama = Auth::user()->m_name;
         $m1 = DB::table('m_item')->where('i_jenis','BUNDLE')->max('i_id');
@@ -190,6 +195,9 @@ class master_bundleitemController extends Controller
  	}
  	public function update_bundleitem(request $req)
  	{
+    if (!mMember::akses('MASTER DATA BUNDLE ITEM', 'ubah')) {
+      return redirect('error-404');
+    }
  		return DB::transaction(function() use ($req) {
     		// dd($req->all());
 

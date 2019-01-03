@@ -27,6 +27,9 @@ class belanjalangsungController extends Controller
     }
     public function tambah_belanjalangsung(Request $request)
     {
+      if (!mMember::akses('BELANJA LANGSUNG', 'tambah')) {
+        return redirect('error-404');
+      }
         $vendor = DB::table('m_vendor')->get();
 
         $item = DB::table('m_item')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
@@ -36,6 +39,9 @@ class belanjalangsungController extends Controller
 
     public function edit(Request $request)
     {
+      if (!mMember::akses('BELANJA LANGSUNG', 'ubah')) {
+        return redirect('error-404');
+      }
         $id = $request->id;
 
         $vendor = DB::table('m_vendor')->get();
@@ -64,6 +70,9 @@ class belanjalangsungController extends Controller
     }
 
     public function simpan(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $id = DB::table('d_belanja_langsung')
@@ -343,6 +352,9 @@ class belanjalangsungController extends Controller
     }
 
     public function hapus(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -412,6 +424,9 @@ class belanjalangsungController extends Controller
     }
 
     public function update(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -649,6 +664,9 @@ class belanjalangsungController extends Controller
     }
 
     public function customsimpan(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -757,6 +775,9 @@ class belanjalangsungController extends Controller
     }
 
     public function customhapus(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -786,6 +807,9 @@ class belanjalangsungController extends Controller
     }
 
     public function customedit(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'ubah')) {
+        return redirect('error-404');
+      }
       $id = $request->id;
 
       $custom = DB::table('d_belanja_langsung_custom')
@@ -800,6 +824,9 @@ class belanjalangsungController extends Controller
     }
 
     public function customupdate(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 

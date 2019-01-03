@@ -58,6 +58,9 @@ class master_vendorController extends Controller
 
     public function simpan_vendor(Request $request)
     {
+      if (!mMember::akses('MASTER DATA VENDOR', 'tambah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$kode = DB::table('m_vendor')->max('s_id');
 
@@ -110,12 +113,18 @@ class master_vendorController extends Controller
     }
     public function dataedit_vendor(Request $request)
     {
+      if (!mMember::akses('MASTER DATA VENDOR', 'ubah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$data = DB::table('m_vendor')->where('s_kode','=',$request->id)->get();
     	return response()->json($data);
     }
     public function update_vendor(Request $request)
     {
+      if (!mMember::akses('MASTER DATA VENDOR', 'ubah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$tanggal = date("Y-m-d h:i:s");
 	    $date = date_create($request->v_tgl);
@@ -157,6 +166,9 @@ class master_vendorController extends Controller
     }
     public function hapus_vendor(Request $request)
     {
+      if (!mMember::akses('MASTER DATA VENDOR', 'hapus')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$data = DB::table('m_vendor')->where('s_kode','=',$request->id)->delete();
     	return response()->json($data);

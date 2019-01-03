@@ -7,7 +7,7 @@
 <div class="content-wrapper">
 
   <div class="row">
-    <div class="col-lg-12"> 
+    <div class="col-lg-12">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb bg-info">
           <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -35,7 +35,7 @@
              </tr>
             </table>
             <div class="content_hak_akses">
-             
+
             </div>
           </div>
         </div>
@@ -47,6 +47,7 @@
 @endsection
 @section('extra_script')
 <script>
+@if (App\mMember::akses('SETTING HAK AKSES', 'tambah'))
   $('.level').change(function(){
     var level = $(this).val();
 
@@ -59,8 +60,9 @@
     });
 
   })
+@endif
 
 
- 
+
 </script>
 @endsection

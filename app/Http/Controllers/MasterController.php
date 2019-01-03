@@ -350,6 +350,9 @@ class MasterController extends Controller
         return view('master.ttd.ttd', compact('data'));
     }
     public function simpanttd(Request $request){
+      if (!mMember::akses('MASTER DATA TTD', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -401,6 +404,9 @@ class MasterController extends Controller
         }
     }
     public function hapusttd(Request $request){
+      if (!mMember::akses('MASTER DATA TTD', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -423,6 +429,9 @@ class MasterController extends Controller
       }
     }
     public function updatettd(Request $request){
+      if (!mMember::akses('MASTER DATA TTD', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -516,6 +525,9 @@ class MasterController extends Controller
     }
 public function edit_bank(request $req)
     {
+      if (!mMember::akses('MASTER DATA BANK', 'ubah')) {
+        return redirect('error-404');
+      }
         $data = DB::table('m_bank')
                   ->where('id',$req->id)
                   ->first();
@@ -525,6 +537,9 @@ public function edit_bank(request $req)
 
     public function simpan_bank(request $req)
     {
+      if (!mMember::akses('MASTER DATA BANK', 'tambah')) {
+        return redirect('error-404');
+      }
         $id = DB::table('m_bank')->max('id')+1;
 
         $cari = DB::table('m_bank')
@@ -559,6 +574,9 @@ public function edit_bank(request $req)
 
     public function hapus_bank(request $req)
     {
+      if (!mMember::akses('MASTER DATA BANK', 'hapus')) {
+        return redirect('error-404');
+      }
         $delete = DB::table('m_bank')
                     ->where('id',$req->id)
                     ->delete();
@@ -621,6 +639,9 @@ public function edit_bank(request $req)
         }
         public function edit_jasa(request $req)
         {
+          if (!mMember::akses('MASTER DATA JASA', 'ubah')) {
+            return redirect('error-404');
+          }
             $data = DB::table('m_item')
                       ->select('i_name', 'i_price', 'i_description', 'i_id', 'u_unit')
                       ->join('d_unit', 'u_id' ,'=', 'i_unit')
@@ -632,6 +653,9 @@ public function edit_bank(request $req)
 
         public function simpan_jasa(request $req)
         {
+          if (!mMember::akses('MASTER DATA JASA', 'tambah')) {
+            return redirect('error-404');
+          }
             $i_id = DB::table('m_item')->max('i_id')+1;
 
             if($i_id<=9)
@@ -722,6 +746,9 @@ public function edit_bank(request $req)
 
         public function hapus_jasa(request $req)
         {
+          if (!mMember::akses('MASTER DATA JASA', 'hapus')) {
+            return redirect('error-404');
+          }
             $delete = DB::table('m_item')
                         ->where('i_id',$req->i_id)
                         ->delete();

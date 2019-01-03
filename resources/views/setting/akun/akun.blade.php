@@ -19,9 +19,11 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Setting Account</h4>
+                    @if (App\mMember::akses('SETTING ACCOUNT', 'tambah'))
                     <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                     	<button type="button" class="btn btn-info btn_modal" data-toggle="modal" data-target="#tambah-akun"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
                     </div>
+                    @endif
                     <div class="table-responsive">
         				        <table id="table_data" class="table table-striped table-hover" cellspacing="0">
                             <thead class="bg-gradient-info">
@@ -143,7 +145,7 @@ var loadFile = function(event) {
 
 $('.simpan').click(function(){
 
-  var input =  $('.tabel_modal :input').length;  
+  var input =  $('.tabel_modal :input').length;
 
   var validator = [];
   var validator_name = [];

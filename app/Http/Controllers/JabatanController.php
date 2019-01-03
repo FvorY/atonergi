@@ -48,6 +48,9 @@ class JabatanController extends Controller
     }
 
     public function simpan(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -82,6 +85,9 @@ class JabatanController extends Controller
     }
 
     public function edit(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'ubah')) {
+        return redirect('error-404');
+      }
       $data = DB::table('m_jabatan')
                 ->where('c_id', $request->id)
                 ->get();
@@ -90,6 +96,9 @@ class JabatanController extends Controller
     }
 
     public function update(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -113,6 +122,9 @@ class JabatanController extends Controller
     }
 
     public function hapus(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 

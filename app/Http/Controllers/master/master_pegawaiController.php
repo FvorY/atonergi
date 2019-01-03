@@ -67,6 +67,9 @@ class master_pegawaiController extends Controller
 
     public function simpan_pegawai(Request $request)
     {
+      if (!mMember::akses('MASTER DATA PEGAWAI', 'tambah')) {
+        return redirect('error-404');
+      }
         // dd($request->all());
         $kode = DB::table('m_pegawai')->max('mp_id');
 
@@ -95,12 +98,18 @@ class master_pegawaiController extends Controller
     }
     public function dataedit_pegawai(Request $request)
     {
+      if (!mMember::akses('MASTER DATA PEGAWAI', 'ubah')) {
+        return redirect('error-404');
+      }
         // dd($request->all());
         $data = DB::table('m_pegawai')->where('mp_kode','=',$request->id)->get();
         return response()->json($data);
     }
     public function update_pegawai(Request $request)
     {
+      if (!mMember::akses('MASTER DATA PEGAWAI', 'ubah')) {
+        return redirect('error-404');
+      }
         // dd($request->all());
         $tanggal = date("Y-m-d h:i:s");
         $data = DB::table('m_pegawai')
@@ -121,6 +130,9 @@ class master_pegawaiController extends Controller
     }
     public function hapus_pegawai(Request $request)
     {
+      if (!mMember::akses('MASTER DATA PEGAWAI', 'hapus')) {
+        return redirect('error-404');
+      }
         // dd($request->all());
         $data = DB::table('m_pegawai')->where('mp_kode','=',$request->id)->delete();
         return response()->json($data);

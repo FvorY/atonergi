@@ -124,6 +124,9 @@ class purchase_orderController extends Controller
     }
     public function edit_purchaseorder(Request $request)
     {
+      if (!mMember::akses('PURCHASE ORDER', 'ubah')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_purchaseorder')
                 ->join('d_requestorder', 'ro_code', '=', 'po_nomor_ro')
                 ->join('m_vendor', 's_kode', '=', 'ro_vendor')
@@ -141,6 +144,9 @@ class purchase_orderController extends Controller
     }
     public function save_purchaseorder(Request $request)
     {
+      if (!mMember::akses('PURCHASE ORDER', 'tambah')) {
+        return redirect('error-404');
+      }
       // dd($request->all());
       $tanggal = date("Y-m-d h:i:s");
       $kode = DB::table('d_purchaseorder')->max('po_id');
@@ -209,6 +215,9 @@ class purchase_orderController extends Controller
     }
     public function hapus_purchaseorder(Request $request)
     {
+      if (!mMember::akses('PURCHASE ORDER', 'hapus')) {
+        return redirect('error-404');
+      }
       $hapus_header = DB::table('d_purchaseorder')->where('po_code','=',$request->id)->delete();
       $hapus_seq = DB::table('d_purchaseorder_dt')->where('podt_code','=',$request->id)->delete();
 
@@ -216,6 +225,9 @@ class purchase_orderController extends Controller
     }
     public function print_purchaseorder(Request $request)
     {
+      if (!mMember::akses('PURCHASE ORDER', 'print')) {
+        return redirect('error-404');
+      }
       // dd($request->all());
 
       DB::table('d_purchaseorder')->where('po_code','=',$request->id)->update(['po_print'=>'T']);
@@ -276,6 +288,9 @@ class purchase_orderController extends Controller
     }
 
     public function update(Request $request){
+      if (!mMember::akses('PURCHASE ORDER', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::table('d_purchaseorder')
             ->where('po_code', $request->po_nopo)
             ->delete();

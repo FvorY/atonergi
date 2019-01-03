@@ -133,6 +133,9 @@ class OrderController extends Controller
 
     public function print_salesorder($id)
     {
+      if (!mMember::akses('SALES ORDER', 'print')) {
+        return redirect('error-404');
+      }
         if (Auth::user()->akses('SALES ORDER','print')) {
 
             $head = DB::table('d_sales_order')
@@ -272,6 +275,9 @@ class OrderController extends Controller
 
     public function print_workorder(request $req)
     {
+      if (!mMember::akses('WORK ORDER', 'print')) {
+        return redirect('error-404');
+      }
         if (Auth::user()->akses('work ORDER','print')) {
 
             $head = DB::table('d_work_order')
@@ -530,6 +536,9 @@ class OrderController extends Controller
 
     public function save_deposit(request $req)
     {
+      if (!mMember::akses('PEMBAYARAN DEPOSIT', 'tambah')) {
+        return redirect('error-404');
+      }
         return DB::transaction(function() use ($req) {
 
             $data = DB::table('d_quotation')
@@ -812,6 +821,9 @@ class OrderController extends Controller
 
     public function save_payment_order(request $req)
     {
+      if (!mMember::akses('PAYMENT ORDER', 'tambah')) {
+        return redirect('error-404');
+      }
         return DB::transaction(function() use ($req) {
           // dd($req->all());
           $id = DB::table('d_payment_order')
@@ -956,6 +968,9 @@ class OrderController extends Controller
 
     public function save_proforma_invoice(request $req)
     {
+      if (!mMember::akses('PROFORMA INVOICE', 'tambah')) {
+        return redirect('error-404');
+      }
         return DB::transaction(function() use ($req) {
 
           // PENGEMBALIAN NILAI QUOTATION
@@ -1003,6 +1018,9 @@ class OrderController extends Controller
 
     public function hapus_proforma_invoice(request $req)
     {
+      if (!mMember::akses('PROFORMA INVOICE', 'hapus')) {
+        return redirect('error-404');
+      }
         return DB::transaction(function() use ($req) {
           $data = DB::table('d_payment_order')
                     ->join('d_quotation','q_nota','=','po_ref')

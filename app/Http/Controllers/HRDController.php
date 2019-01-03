@@ -90,6 +90,9 @@ class HRDController extends Controller
     }
     // Import data absensi
     public function importDataManajemen(Request $request){
+      if (!mMember::akses('ABSENSI', 'tambah')) {
+        return redirect('error-404');
+      }
       if ($request->hasFile('file-manajemen')) {
         $path = $request->file('file-manajemen')->getRealPath();
         $data = Excel::load($path, function($reader){})->get();
@@ -616,6 +619,9 @@ class HRDController extends Controller
     }
 
     public function kartushift(Request $request){
+      if (!mMember::akses('ABSENSI', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $path = $request->file('kartushift')->getRealPath();
@@ -734,6 +740,9 @@ class HRDController extends Controller
     }
 
     public function importbulan(Request $request){
+      if (!mMember::akses('ABSENSI', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $path = $request->file('importbulan')->getRealPath();
@@ -844,6 +853,9 @@ class HRDController extends Controller
     }
 
     public function rekap(Request $request){
+      if (!mMember::akses('ABSENSI', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $path = $request->file('absensirekap')->getRealPath();
@@ -1020,6 +1032,9 @@ class HRDController extends Controller
     }
 
     public function tahun(Request $request){
+      if (!mMember::akses('ABSENSI', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $path = $request->file('rinciantahunan')->getRealPath();
@@ -1196,6 +1211,9 @@ class HRDController extends Controller
     }
 
     public function managerial(Request $request){
+      if (!mMember::akses('PAYROLL', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $path = $request->file('managerial')->getRealPath();
@@ -1331,6 +1349,9 @@ class HRDController extends Controller
     }
 
     public function staff(Request $request){
+      if (!mMember::akses('PAYROLL', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $path = $request->file('staff')->getRealPath();

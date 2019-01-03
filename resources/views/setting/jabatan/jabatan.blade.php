@@ -19,9 +19,11 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Setting Level Account</h4>
+                    @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'tambah'))
                     <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                     	<button type="button" class="btn btn-info btn_modal" data-toggle="modal" data-target="#tambah-jabatan"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
                     </div>
+                    @endif
                     <div class="table-responsive">
         				        <table id="table_data" class="table table-striped table-hover" cellspacing="0">
                             <thead class="bg-gradient-info">
@@ -40,10 +42,14 @@
                                   <td class="d_keterangan">{{$value->j_keterangan}}</td>
                                   <td>
                                     <div class="btn-group">'.
+                                      @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'ubah'))
                                            <button type="button" onclick="edit(this)" class="btn btn-info btn-xs" title="edit">
                                            <label class="fa fa-pencil-alt"></label></button>
+                                      @endif
+                                      @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'hapus'))
                                            <button type="button" onclick="hapus(this)" class="btn btn-danger btn-xs" title="hapus">
                                            <label class="fa fa-trash"></label></button>
+                                      @endif
                                     </div></td>
                                 </tr>
                               @endforeach

@@ -242,6 +242,9 @@ class QuotationController extends Controller
 
   public function save_quote(request $req)
   {
+    if (!mMember::akses('QUOTATION', 'tambah')) {
+      return redirect('error-404');
+    }
     return DB::transaction(function() use ($req) {
       // dd($req->all());
 
@@ -332,6 +335,9 @@ class QuotationController extends Controller
 
   public function hapus_quote(request $req)
   {
+    if (!mMember::akses('QUOTATION', 'hapus')) {
+      return redirect('error-404');
+    }
       // dd($req->all());
       $delete = DB::table('d_quotation')
                   ->where('q_nota',$req->nota)
@@ -515,6 +521,9 @@ class QuotationController extends Controller
 
   public function update_quote(request $req)
   {
+    if (!mMember::akses('QUOTATION', 'ubah')) {
+      return redirect('error-404');
+    }
     return DB::transaction(function() use ($req) {
       // dd($req->all());
 

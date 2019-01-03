@@ -26,6 +26,9 @@ class ScoreController extends Controller
 
     public function tambah_score()
     {
+      if (!mMember::akses('MASTER SCOREBOARD', 'tambah')) {
+        return redirect('error-404');
+      }
         return view('master.scoreboard.tambah');
     }
 
@@ -103,6 +106,9 @@ class ScoreController extends Controller
 
     public function simpan_score(Request $request)
     {
+      if (!mMember::akses('MASTER SCOREBOARD', 'tambah')) {
+        return redirect('error-404');
+      }
         DB::beginTransaction();
         try
         {
@@ -137,6 +143,9 @@ class ScoreController extends Controller
 
     public function edit_score(Request $request)
     {
+      if (!mMember::akses('MASTER SCOREBOARD', 'ubah')) {
+        return redirect('error-404');
+      }
         $data = m_kpi::leftjoin('m_pegawai', 'm_kpi.kpi_p_id', '=', 'm_pegawai.mp_id')
                     ->leftjoin('m_divisi', 'm_kpi.kpi_div_id', '=', 'm_divisi.c_id')
                     ->leftjoin('m_jabatan', 'm_kpi.kpi_jabatan_id', '=', 'm_jabatan.c_id')
@@ -148,6 +157,9 @@ class ScoreController extends Controller
 
     public function update_score(Request $request)
     {
+      if (!mMember::akses('MASTER SCOREBOARD', 'ubah')) {
+        return redirect('error-404');
+      }
         //dd($request->all());
         DB::beginTransaction();
         try
@@ -180,6 +192,9 @@ class ScoreController extends Controller
 
     public function delete_score(Request $request)
     {
+      if (!mMember::akses('MASTER SCOREBOARD', 'hapus')) {
+        return redirect('error-404');
+      }
         DB::beginTransaction();
         try
         {

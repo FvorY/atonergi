@@ -66,6 +66,9 @@ class InventoryController extends Controller
         return view('inventory/barangkeluar/kartu_stok', compact('finalkode', 'item', 'mutasi'));
     }
     public function simpankartu(Request $request){
+      if (!mMember::akses('PENGELUARAN BARANG', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -212,6 +215,9 @@ class InventoryController extends Controller
     }
     public function print_kartu_stok(Request $request)
     {
+      if (!mMember::akses('PENGELUARAN BARANG', 'print')) {
+        return redirect('error-404');
+      }
         $request->id = decrypt($request->id);
         $data = DB::table('m_item')
                   ->leftjoin('d_unit', 'u_id', '=', 'i_unit')

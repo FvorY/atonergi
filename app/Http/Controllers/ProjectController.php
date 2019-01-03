@@ -27,6 +27,9 @@ class ProjectController extends Controller
     	return view('project/jadwalujicoba/jadwalujicoba', compact('data'));
     }
     public function hapus_jadwal(Request $request){
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -61,6 +64,9 @@ class ProjectController extends Controller
     }
     public function tambah_jadwalujicoba()
     {
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'tambah')) {
+        return redirect('error-404');
+      }
         $provinces = DB::table('provinces')
                         ->get();
 
@@ -91,6 +97,9 @@ class ProjectController extends Controller
       return response()->json($data);
     }
     public function simpan_jadwal(Request $request){
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $idschdule = DB::table('d_schedule')
@@ -274,6 +283,9 @@ class ProjectController extends Controller
     }
     public function pdf_jadwal(Request $request)
     {
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'print')) {
+        return redirect('error-404');
+      }
       $request->id = decrypt($request->id);
       $data = DB::table('d_schedule')
                 ->where('s_id', $request->id)
@@ -293,6 +305,9 @@ class ProjectController extends Controller
     }
     public function pdf_install(Request $request)
     {
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'print')) {
+        return redirect('error-404');
+      }
         $request->id = decrypt($request->id);
 
         $data = DB::table('d_schedule_install')
@@ -338,6 +353,9 @@ class ProjectController extends Controller
     	return view('project/pemasangan/pemasangan', compact('data','countd','countp','countpd'));
     }
     public function prosespemasangan($id){
+      if (!mMember::akses('PEMASANGAN', 'tambah')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_work_order')
           ->leftjoin('d_quotation', 'q_nota', '=', 'wo_ref')
           ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
@@ -359,6 +377,9 @@ class ProjectController extends Controller
     	return view('project/pemasangan/prosespemasangan', compact('data', 'barang'));
     }
     public function simpanpemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -419,6 +440,9 @@ class ProjectController extends Controller
 
     }
     public function editpemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'ubah')) {
+        return redirect('error-404');
+      }
       $wo = DB::table('d_work_order')
               ->select('wo_nota')
               ->Where('wo_id', $request->id)
@@ -432,6 +456,9 @@ class ProjectController extends Controller
       return response()->json($data);
     }
     public function ubahpemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'ubah')) {
+        return redirect('error-404');
+      }
       $id = $request->id;
 
       $data = DB::table('d_work_order')
@@ -460,6 +487,9 @@ class ProjectController extends Controller
       return view('project.pemasangan.editprosespemasangan', compact('data','barang','install'));
     }
     public function perbaruipemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -484,6 +514,9 @@ class ProjectController extends Controller
       }
     }
     public function settingpemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $validation = Validator::make($request->all(), [
@@ -525,6 +558,9 @@ class ProjectController extends Controller
       }
     }
     public function hapuspemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -606,6 +642,9 @@ class ProjectController extends Controller
     }
     public function prosespengirimanbarang($id)
     {
+      if (!mMember::akses('PENGIRIMAN BARANG', 'tambah')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_sales_order')
           ->leftjoin('d_quotation', 'q_nota', '=', 'so_ref')
           ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
@@ -627,6 +666,9 @@ class ProjectController extends Controller
     	return view('project/pengirimanbarang/prosespengirimanbarang', compact('data', 'barang'));
     }
     public function edit(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
       $so = DB::table('d_sales_order')
               ->select('so_nota')
               ->Where('so_id', $request->id)
@@ -642,6 +684,9 @@ class ProjectController extends Controller
       return response()->json($data);
     }
     public function proses(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -705,6 +750,9 @@ class ProjectController extends Controller
 
     }
     public function ubah(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
       $id = $request->id;
 
       $data = DB::table('d_sales_order')
@@ -733,6 +781,9 @@ class ProjectController extends Controller
       return view('project.pengirimanbarang.editprosespengiriman', compact('data','barang','delivery'));
     }
     public function setting(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $validation = Validator::make($request->all(), [
@@ -777,6 +828,9 @@ class ProjectController extends Controller
 
     }
     public function hapus(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'hapus')) {
+        return redirect('error-404');
+      }
     DB::beginTransaction();
     try {
 
@@ -816,6 +870,9 @@ class ProjectController extends Controller
 
     }
     public function perbarui(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $request->d_shipping_charges = str_replace('Rp. ','',$request->d_shipping_charges);

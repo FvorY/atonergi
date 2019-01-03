@@ -58,6 +58,9 @@ class master_customerController extends Controller
 
     public function simpan_customer(Request $request)
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'tambah')) {
+        return redirect('error-404');
+      }
     	$kode = DB::table('m_customer')->max('c_id');
 
     		if ($kode == null) {
@@ -97,12 +100,18 @@ class master_customerController extends Controller
     }
     public function dataedit_customer(Request $request)
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'ubah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$data = DB::table('m_customer')->where('c_code','=',$request->id)->get();
     	return response()->json($data);
     }
     public function update_customer(Request $request)
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'ubah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
         $tanggal = date("Y-m-d h:i:s");
     	$date = date_create($request->c_tgl);
@@ -134,6 +143,9 @@ class master_customerController extends Controller
     }
     public function hapus_customer(Request $request)
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'hapus')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$data = DB::table('m_customer')->where('c_code','=',$request->id)->delete();
     	return response()->json($data);

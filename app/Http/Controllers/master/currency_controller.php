@@ -65,6 +65,9 @@ class currency_controller extends Controller
 
     public function save(request $req)
     {
+      if (!mMember::akses('MASTER CURRENCY', 'tambah')) {
+        return redirect('error-404');
+      }
     	$update = DB::table('m_currency')
     				->where('cu_code',$req->id)
     				->update([
@@ -75,6 +78,9 @@ class currency_controller extends Controller
     }
     public function edit_detail(request $req)
     {
+      if (!mMember::akses('MASTER CURRENCY', 'ubah')) {
+        return redirect('error-404');
+      }
         $data = DB::table('m_currency')
                       ->where('cu_code',$req->id)
                       ->first();

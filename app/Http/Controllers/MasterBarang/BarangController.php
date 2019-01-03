@@ -99,6 +99,9 @@ class BarangController extends Controller
     }
     public function baranghapus(Request $request)
     {
+      if (!mMember::akses('MASTER DATA BARANG', 'hapus')) {
+        return redirect('error-404');
+      }
         $gambar = DB::table('m_item')->select('i_image')->where('i_code','=',$request->id)->first();
 
             // dd(base_path('assets\barang\\'.$gambar[0]->i_image));
@@ -189,12 +192,18 @@ class BarangController extends Controller
     }
     public function barang_edit(Request $request)
     {
+      if (!mMember::akses('MASTER DATA BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
     	$data = DB::table('m_item')->where('i_code','=',$request->id)->get();
     	return response()->json($data);
     }
 
     public function barang_update(Request $request)
     {
+      if (!mMember::akses('MASTER DATA BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
         // dd($request->all());
 
         return DB::transaction(function() use ($request) {
