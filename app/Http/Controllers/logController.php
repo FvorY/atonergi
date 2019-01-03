@@ -39,6 +39,7 @@ class logController extends Controller
       Carbon::setlocale('id');
       $data = DB::table('d_log')
                 ->orderBy('l_insert', 'DESC')
+                ->Limit(5)
                 ->get();
 
       for ($i=0; $i < count($data); $i++) {
