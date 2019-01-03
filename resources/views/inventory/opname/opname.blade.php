@@ -19,9 +19,11 @@
 		          <h4 class="card-title">Stock Opname</h4>
 		          	<div class="row">
 
+						@if (App\mMember::akses('STOCK OPNAME', 'tambah'))
 						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
 							<button class="btn btn-info" onclick="create()"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
 						</div>
+						@endif
 						<div class="table-responsive">
 							<table class="table table-hover data-table" cellspacing="0">
 							  <thead class="bg-gradient-info">

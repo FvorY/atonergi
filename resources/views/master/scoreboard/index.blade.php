@@ -34,6 +34,7 @@
                                 </button>
                               </div>
 
+                              @if (App\mMember::akses('MASTER SCOREBOARD', 'tambah'))
                               <div align="right" class="col-md-6 col-sm-6 col-xs-6" style="margin-bottom:10px;">
                                 <a href="{{ url('/master/scoreboard/tambah-score') }}">
                                   <button type="button" class="btn btn-box-tool" title="Tambahkan Data Item">
@@ -43,6 +44,7 @@
                                   </button>
                                 </a>
                               </div>
+                              @endif
 
                               <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="table-responsive">

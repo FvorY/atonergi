@@ -308,6 +308,11 @@ class ProjectController extends Controller
     }
     public function pemasangan()
     {
+
+      if (!mMember::akses('PEMASANGAN', 'aktif')) {
+        return redirect('error-404');
+      }
+
       $data = DB::table('d_work_order')
               ->leftjoin('d_quotation', 'q_nota', '=', 'wo_ref')
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
@@ -571,6 +576,10 @@ class ProjectController extends Controller
     }
     public function pengirimanbarang()
     {
+      if (!mMember::akses('PENGIRIMAN BARANG', 'aktif')) {
+        return redirect('error-404');
+      }
+
       $data = DB::table('d_sales_order')
               ->leftjoin('d_quotation', 'q_nota', '=', 'so_ref')
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
@@ -838,6 +847,10 @@ class ProjectController extends Controller
     }
     public function technicianfee()
     {
+      if (!mMember::akses('TECHNICIAN FEE', 'aktif')) {
+        return redirect('error-404');
+      }
+
     	return view('project/technicianfee/technicianfee');
     }
     public function deleteDir($dirPath)

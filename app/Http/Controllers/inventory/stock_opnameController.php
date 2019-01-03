@@ -12,6 +12,9 @@ class stock_opnameController extends Controller
 
 	 public function stockopname()
 	 {
+		 if (!mMember::akses('STOCK OPNAME', 'aktif')) {
+			 return redirect('error-404');
+		 }
 	 	 	$data = DB::table('i_stock_opname')
 								->get();
 

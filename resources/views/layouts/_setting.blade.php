@@ -19,8 +19,7 @@
         <ul class="chat-list" id="showlog">
 
         </ul>
-
-        <div class="col-md-12">
+        <div class="col-md-11">
           <button type="button" class="btn btn-primary" onclick="clearlog()" name="button" style="width:100%; position:absolute;">Clear All</button>
         </div>
       </div>

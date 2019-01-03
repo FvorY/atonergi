@@ -13,6 +13,9 @@ class penerimaan_barangController extends Controller
 
 	 public function penerimaan_barang()
 	 {
+		 if (!mMember::akses('PENERIMAAN BARANG', 'aktif')) {
+			 return redirect('error-404');
+		 }
 		 $po = DB::table('d_purchaseorder')
 							 ->leftjoin('d_requestorder', 'ro_code', '=', 'po_nomor_ro')
 							 ->where('po_status','=','F')

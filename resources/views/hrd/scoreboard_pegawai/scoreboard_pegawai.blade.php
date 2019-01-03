@@ -47,13 +47,15 @@
 									</button>
 								</div>
 
-								<div align="right">
-									<button type="button" class="btn btn-box-tool" title="Tambahkan Data Item" data-toggle="modal" data-target="#modal_tambah_data" onclick="setFieldBySesion()">
-										<i class="fa fa-plus" aria-hidden="true">
-											 &nbsp;
-										</i>Tambah Data
-									</button>
-								</div>
+								@if (App\mMember::akses('SCOREBOARD PEGAWAI', 'tambah')) 
+									<div align="right">
+										<button type="button" class="btn btn-box-tool" title="Tambahkan Data Item" data-toggle="modal" data-target="#modal_tambah_data" onclick="setFieldBySesion()">
+											<i class="fa fa-plus" aria-hidden="true">
+												 &nbsp;
+											</i>Tambah Data
+										</button>
+									</div>
+								@endif
 
 
 								<div class="col-md-12 col-sm-12 col-xs-12">

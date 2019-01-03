@@ -107,7 +107,7 @@ class DkpixController extends Controller
     }
 
     public function tambahData()
-    {
+    {      
         $id_peg = Auth::user()->m_pegawai_id;
         $data = DB::table('m_pegawai')
             ->join('m_jabatan', 'm_pegawai.mp_position', '=', 'm_jabatan.c_id')

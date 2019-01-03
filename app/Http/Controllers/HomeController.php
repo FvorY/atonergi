@@ -35,6 +35,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+      if (!mMember::akses('DASHBOARD', 'aktif')) {
+        return redirect('error-404');
+      }
         // return Auth::user()->m_id;
         // return 'asd';
         return view('home', compact('counton', 'countoff'));

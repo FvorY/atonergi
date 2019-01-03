@@ -23,6 +23,9 @@ class HRDController extends Controller
 {
     public function absensi()
     {
+      if (!mMember::akses('ABSENSI', 'aktif')) {
+        return redirect('error-404');
+      }
 
         $divisi = new Divisi();
         $l_divisi = $divisi::all();
@@ -151,6 +154,9 @@ class HRDController extends Controller
     }
     public function data_kpi()
     {
+      if (!mMember::akses('DATA KPI', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('hrd/data_kpi/data_kpi');
     }
     public function kesejahteraan()
@@ -159,10 +165,16 @@ class HRDController extends Controller
     }
     public function manajemen_scoreboard()
     {
+      if (!mMember::akses('MANAJEMEN SCOREBOARD', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('hrd/manajemen_scoreboard/manajemen_scoreboard');
     }
     public function manajemen_scoreboard_kpi()
     {
+      if (!mMember::akses('SCOREBOARD & KPI', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi');
     }
     public function manajemen_surat()
@@ -173,6 +185,9 @@ class HRDController extends Controller
     // Bagian payroll
     public function payroll()
     {
+      if (!mMember::akses('PAYROLL', 'aktif')) {
+        return redirect('error-404');
+      }
             $data = DB::table('d_payroll_managerial')
                           ->get();
 
@@ -586,6 +601,9 @@ class HRDController extends Controller
     }
     public function scoreboard_pegawai()
     {
+      if (!mMember::akses('SCOREBOARD PEGAWAI', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('hrd/scoreboard_pegawai/scoreboard_pegawai');
     }
     public function training_pegawai()

@@ -8,6 +8,8 @@ use DB;
 
 use Carbon\Carbon;
 
+use App\mMember;
+
 class InventoryController extends Controller
 {
     public function barangmasuk()
@@ -20,6 +22,9 @@ class InventoryController extends Controller
     }
     public function barangkeluar()
     {
+      if (!mMember::akses('PENGELUARAN BARANG', 'aktif')) {
+        return redirect('error-404');
+      }
       $data = DB::table('m_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
                 ->get();

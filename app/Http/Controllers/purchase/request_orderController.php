@@ -12,6 +12,9 @@ class request_orderController extends Controller
 {
    public function rencanapembelian()
     {
+      if (!mMember::akses('REQUEST ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
         // return 'a';
         $kode = DB::table('d_requestorder')->max('ro_id');
             if ($kode == null) {

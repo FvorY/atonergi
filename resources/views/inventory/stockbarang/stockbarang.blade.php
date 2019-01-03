@@ -19,10 +19,12 @@
   	        <div class="card-body">
   	          <h4 class="card-title">Stock Barang</h4>
   	          	<div class="row">
+                  @if (App\mMember::akses('INPUT STOCK BARANG', 'tambah'))
   	          		<div class="col-md-12 col-sm-12 col-xs-12" align="right">
                     <button type="button" class="btn btn-info" id="tombol_modal_tambah" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
   	          			{{-- <button class="btn btn-info btn-sm" type="button" data-target="#cari_po" id="button_add" data-toggle="modal"><i class="fa fa-plus"></i>&nbsp;Add Data</button> --}}
   	          		</div>
+                  @endif
                   <input type="hidden" name="id">
         					<div class="table-responsive" style="margin-top: 15px;">
         						<table class="table table-hover" id="datatable" cellspacing="0">

@@ -138,7 +138,9 @@
 							</table>
 						</div>
 						<div class="content-footer">
+							@if (App\mMember::akses('PENGELUARAN BARANG', 'tambah')) 
 							<button class="btn btn-primary btn-simpan" onclick="simpan()" type="button">Save</button>
+							@endif
 							<a href="{{route('barangkeluar')}}" class="btn btn-secondary">Back</a>
 						</div>
 		        	</div>

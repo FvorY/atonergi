@@ -13,6 +13,9 @@ class PurchaseController extends Controller
     }
     public function belanjalangsung()
     {
+      if (!mMember::akses('BELANJA LANGSUNG', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('purchase/belanjalangsung/belanjalangsung');
     }
     public function tambah_belanjalangsung()
@@ -21,6 +24,9 @@ class PurchaseController extends Controller
     }
     public function rencanapembelian()
     {
+      if (!mMember::akses('RENCANA PEMBELIAN', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('purchase/rencanapembelian/rencanapembelian');
     }
     public function hub_suplier()

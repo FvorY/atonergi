@@ -2,7 +2,7 @@
 
 @section('extra_style')
 <style type="text/css">
-  
+
   .float-left{
     float:left;
   }
@@ -21,7 +21,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-  	<div class="col-lg-12">	
+  	<div class="col-lg-12">
   		<nav aria-label="breadcrumb" role="navigation">
   			<ol class="breadcrumb bg-info">
   				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -35,6 +35,7 @@
       <div class="card">
           <div class="card-body">
             <h4 class="card-title">Master Currency</h4>
+            @if (App\mMember::akses('MASTER CURRENCY', 'tambah')) 
               <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                 	<button type="button" class="btn btn-info" id="tombol_modal_tambah" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
               </div>
@@ -52,7 +53,7 @@
                   </thead>
                   <tbody>
                   </tbody>
-              </table> 
+              </table>
             </div>
           </div>
       </div>
@@ -85,11 +86,11 @@ $(document).ready(function(){
           {
              targets: 0 ,
              className: 'd_id center'
-          }, 
+          },
           {
              targets: 1 ,
              className: 'i_code center'
-          }, 
+          },
           {
              targets: 5 ,
              className: 'center '
@@ -130,7 +131,7 @@ $('.currency').change(function(){
         $('.symbol').val(data.data.cu_symbol);
         $('.country').val(data.data.cu_name);
       }catch(err){
-        
+
       }
     },
     error:function(){
@@ -154,7 +155,7 @@ function edit(id) {
       $('.currency').change();
       $('.value').val(accounting.formatMoney(data.data.cu_value, "", 0, ".",','));
       $('#tambah').modal('show');
-      
+
     },
     error:function(){
       iziToast.warning({

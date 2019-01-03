@@ -12,6 +12,9 @@ class belanjalangsungController extends Controller
 {
    public function belanjalangsung()
     {
+      if (!mMember::akses('BELANJA LANGSUNG', 'aktif')) {
+        return redirect('error-404');
+      }
         $data = DB::table('d_belanja_langsung')
                 ->join('m_vendor', 's_kode', '=', 'dbl_vendor')
                 ->select('dbl_id', 'dbl_code', 's_company', 's_name', 'dbl_total_net')

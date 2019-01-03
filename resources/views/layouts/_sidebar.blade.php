@@ -92,59 +92,7 @@
               <h6 class="p-3 mb-0 text-center">4 new messages</h6>
             </div>
           </li> -->
-          <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="mdi mdi-bell-outline"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <h6 class="p-3 mb-0">Notifications</h6>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="mdi mdi-calendar"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="preview-subject font-weight-normal mb-1">Event today</h6>
-                  <p class="text-gray ellipsis mb-0">
-                    Just a reminder that you have an event today
-                  </p>
-                </div>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="mdi mdi-settings"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="preview-subject font-weight-normal mb-1">Settings</h6>
-                  <p class="text-gray ellipsis mb-0">
-                    Update dashboard
-                  </p>
-                </div>
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="mdi mdi-link-variant"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                  <h6 class="preview-subject font-weight-normal mb-1">Launch Admin</h6>
-                  <p class="text-gray ellipsis mb-0">
-                    New admin wow!
-                  </p>
-                </div>
-              </a>
-              <div class="dropdown-divider"></div>
-              <h6 class="p-3 mb-0 text-center">See all notifications</h6>
-            </div>
-          </li>
+        
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle nav-profile" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <img src="{{route('thumbnail').'/'.Auth::user()->m_image}}" alt="image">
@@ -162,7 +110,7 @@
               </a>
             </div>
           </li>
-          <li class="nav-item nav-logout d-none d-lg-block">
+          <li class="nav-item nav-logout d-none d-lg-block" title="Logout">
             <a class="nav-link" href="{{ url('logout') }}">
               <i class="mdi mdi-power"></i>
             </a>
@@ -170,11 +118,13 @@
           <form id="logout-form" action="{{ url('logout') }}" method="post" style="display: none;">
               {{ csrf_field() }}
           </form>
-          <li class="nav-item nav-settings d-none d-lg-block" onclick="openlog()">
+          @if (App\mMember::akses('LOG ACTIVITY', 'aktif'))
+          <li class="nav-item nav-settings d-none d-lg-block" title="Log Activity" onclick="openlog()">
             <a class="nav-link" href="#">
               <i class="mdi mdi-format-line-spacing"></i>
             </a>
           </li>
+        @endif
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
         <span class="mdi mdi-menu"></span>
@@ -197,35 +147,39 @@
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item {{Request::is('setting') ? 'active' : '' || Request::is('setting/*') ? 'active' : '' }}">
-              <a class="nav-link" data-toggle="collapse" href="#setting" aria-expanded="false" aria-controls="ui-basic">
-                <span class="menu-title">Setting</span>
-                <span class="d-none">
-                  Setting Level Account
-                  Setting Account
-                  Setting Hak Akses
-                  Setting Daftar Menu
-                </span>
-                <i class="menu-arrow"></i>
-                <i class="mdi mdi-settings menu-icon mdi-spin"></i>
-              </a>
-              <div class="collapse {{Request::is('setting') ? 'show' : '' || Request::is('setting/*') ? 'show' : '' }}" id="setting">
-                <ul class="nav flex-column sub-menu">
-                  @if((int)$sidebar[0]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('setting/jabatan') ? 'active' : '' || Request::is('setting/jabatan/*') ? 'active' : '' }}" href="{{url('setting/jabatan')}}">Setting Level Account</a></li>
-                  @endif
-                  @if((int)$sidebar[1]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('setting/akun') ? 'active' : '' || Request::is('setting/akun/*') ? 'active' : '' }}" href="{{url('setting/akun')}}">Setting Account </a></li>
-                  @endif
-                  @if((int)$sidebar[2]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('setting/hak_akses') ? 'active' : '' || Request::is('setting/hak_akses/*') ? 'active' : '' }}" href="{{url('setting/hak_akses')}}">Setting Hak Akses</a></li>
-                  @endif
-                  @if((int)$sidebar[3]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('setting/daftar_menu') ? 'active' : '' || Request::is('setting/daftar_menu/*') ? 'active' : '' }}" href="{{url('setting/daftar_menu')}}">Setting Daftar Menu</a></li>
-                  @endif
-                </ul>
-                </div>
-            </li>
+            @if ((int)$sidebar[0]->aktif == 1 || (int)$sidebar[1]->aktif == 1 || (int)$sidebar[2]->aktif == 1 || (int)$sidebar[3]->aktif == 1)
+              <li class="nav-item {{Request::is('setting') ? 'active' : '' || Request::is('setting/*') ? 'active' : '' }}">
+                <a class="nav-link" data-toggle="collapse" href="#setting" aria-expanded="false" aria-controls="ui-basic">
+                  <span class="menu-title">Setting</span>
+                  <span class="d-none">
+                    Setting Level Account
+                    Setting Account
+                    Setting Hak Akses
+                    Setting Daftar Menu
+                  </span>
+                  <i class="menu-arrow"></i>
+                  <i class="mdi mdi-settings menu-icon mdi-spin"></i>
+                </a>
+                <div class="collapse {{Request::is('setting') ? 'show' : '' || Request::is('setting/*') ? 'show' : '' }}" id="setting">
+                  <ul class="nav flex-column sub-menu">
+                    @if((int)$sidebar[0]->aktif == 1)
+                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/jabatan') ? 'active' : '' || Request::is('setting/jabatan/*') ? 'active' : '' }}" href="{{url('setting/jabatan')}}">Setting Level Account</a></li>
+                    @endif
+                    @if((int)$sidebar[1]->aktif == 1)
+                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/akun') ? 'active' : '' || Request::is('setting/akun/*') ? 'active' : '' }}" href="{{url('setting/akun')}}">Setting Account </a></li>
+                    @endif
+                    @if((int)$sidebar[2]->aktif == 1)
+                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/hak_akses') ? 'active' : '' || Request::is('setting/hak_akses/*') ? 'active' : '' }}" href="{{url('setting/hak_akses')}}">Setting Hak Akses</a></li>
+                    @endif
+                    @if((int)$sidebar[3]->aktif == 1)
+                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/daftar_menu') ? 'active' : '' || Request::is('setting/daftar_menu/*') ? 'active' : '' }}" href="{{url('setting/daftar_menu')}}">Setting Daftar Menu</a></li>
+                    @endif
+                  </ul>
+                  </div>
+              </li>
+            @endif
+            @if ((int)$sidebar[4]->aktif == 1 || (int)$sidebar[5]->aktif == 1 || (int)$sidebar[6]->aktif == 1 || (int)$sidebar[7]->aktif == 1 || (int)$sidebar[8]->aktif == 1 || (int)$sidebar[9]->aktif == 1 || (int)$sidebar[10]->aktif == 1 || (int)$sidebar[11]->aktif == 1 || (int)$sidebar[12]->aktif == 1 || (int)$sidebar[13]->aktif == 1 || (int)$sidebar[14]->aktif == 1 || (int)$sidebar[15]->aktif == 1 || (int)$sidebar[16]->aktif == 1 || (int)$sidebar[17]->aktif == 1
+              || (int)$sidebar[18]->aktif == 1 || (int)$sidebar[19]->aktif == 1 || (int)$sidebar[20]->aktif == 1)
             <li class="nav-item {{Request::is('master') ? 'active' : '' || Request::is('master/*') ? 'active' : '' }}">
               <a class="nav-link" data-toggle="collapse" href="#master" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Master</span>
@@ -316,6 +270,8 @@
                 </ul>
                 </div>
             </li>
+          @endif
+          @if ((int)$sidebar[21]->aktif == 1 || (int)$sidebar[22]->aktif == 1)
             <li class="nav-item {{Request::is('quotation') ? 'active' : '' || Request::is('quotation/*') ? 'active' : '' }}">
               <a class="nav-link" data-toggle="collapse" href="#m_pembelian" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Quotation</span>
@@ -342,6 +298,8 @@
                 </ul>
                 </div>
             </li>
+          @endif
+          @if ((int)$sidebar[23]->aktif == 1 || (int)$sidebar[24]->aktif == 1 || (int)$sidebar[25]->aktif == 1 || (int)$sidebar[26]->aktif == 1 || (int)$sidebar[27]->aktif == 1 || (int)$sidebar[28]->aktif == 1 || (int)$sidebar[29]->aktif == 1)
             <li class="nav-item {{Request::is('order') ? 'active' : '' || Request::is('order/*') ? 'active' : '' }}">
               <a class="nav-link" data-toggle="collapse" href="#m_stock" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Order</span>
@@ -383,6 +341,8 @@
                 </ul>
                 </div>
             </li>
+          @endif
+          @if ((int)$sidebar[30]->aktif == 1 || (int)$sidebar[31]->aktif == 1 || (int)$sidebar[32]->aktif == 1 || (int)$sidebar[33]->aktif == 1)
             <li class="nav-item {{Request::is('project/*') ? 'active' : ''}}">
               <a class="nav-link" data-toggle="collapse" href="#pompa" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">After Order</span>
@@ -422,6 +382,8 @@
 
                 </div>
             </li>
+          @endif
+          @if ((int)$sidebar[34]->aktif == 1 || (int)$sidebar[35]->aktif == 1 || (int)$sidebar[36]->aktif == 1 || (int)$sidebar[33]->aktif == 1)
             <li class="nav-item {{Request::is('purchase') ? 'active' : '' || Request::is('purchase/*') ? 'active' : '' }}">
               <a class="nav-link" data-toggle="collapse" href="#m_penjualan" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Purchase</span>
@@ -484,6 +446,8 @@
                 </ul>
                 </div>
             </li>
+          @endif
+            @if ((int)$sidebar[42]->aktif == 1 || (int)$sidebar[43]->aktif == 1 || (int)$sidebar[44]->aktif == 1 || (int)$sidebar[45]->aktif == 1 || (int)$sidebar[46]->aktif == 1 || (int)$sidebar[47]->aktif == 1)
             <li class="nav-item {{Request::is('hrd') ? 'active' : '' || Request::is('hrd/*') ? 'active' : '' }}">
               <a class="nav-link" data-toggle="collapse" href="#hrd" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">HRD</span>
@@ -520,6 +484,8 @@
                   @endif
                 </div>
             </li>
+          @endif
+          @if ((int)$sidebar[48]->aktif == 1 || (int)$sidebar[49]->aktif == 1 || (int)$sidebar[50]->aktif == 1 || (int)$sidebar[51]->aktif == 1)
             <li class="nav-item {{Request::is('finance') ? 'active' : '' || Request::is('finance/*') ? 'active' : '' }}">
               <a class="nav-link" data-toggle="collapse" href="#finance" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Finance</span>
@@ -549,6 +515,8 @@
                 </ul>
                 </div>
             </li>
+          @endif
+          @if ((int)$sidebar[52]->aktif == 1 || (int)$sidebar[53]->aktif == 1 || (int)$sidebar[54]->aktif == 1)
             <li class="nav-item {{Request::is('manajemenaset') ? 'active' : '' || Request::is('manajemenaset/*') ? 'active' : '' }}">
               <a class="nav-link" data-toggle="collapse" href="#aset" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Manajemen Aset</span>
@@ -574,6 +542,7 @@
                 </ul>
                 </div>
             </li>
+          @endif
           </ul>
 
         </nav>

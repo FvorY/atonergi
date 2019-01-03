@@ -12,6 +12,9 @@ class stock_gudangController extends Controller
 
 	 public function stockgudang()
 	 {
+		 if (!mMember::akses('STOCK GUDANG', 'aktif')) {
+			 return redirect('error-404');
+		 }
 	 	$po = DB::table('d_purchaseorder')->where('po_status','=','F')->get();
 	 	return view('inventory/stock_gudang/stockgudang',compact("po"));
 	 }

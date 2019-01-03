@@ -19,9 +19,11 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Master Data Pegawai</h4>
+                    @if (App\mMember::akses('MASTER DATA PEGAWAI', 'tambah'))
                     <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                     	<button type="button" class="btn btn-info" data-toggle="modal" id="button_add" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
                     </div>
+                    @endif
                     <div class="table-responsive">
   				            <table class="table table-hover table-bordered" id="table-pegawai" cellspacing="0">
   				                          <thead class="bg-gradient-info">

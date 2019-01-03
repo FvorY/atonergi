@@ -386,41 +386,42 @@
 
 
       });
-
-      function openlog(){
-        var html = '';
-        $.ajax({
-          type: 'get',
-          dataType: 'json',
-          url: baseUrl + '/getlog',
-          success : function(response){
-            for (var i = 0; i < response.length; i++) {
-              html += '<li class="list">'+
-                '<div class="info">'+
-                  '<p style="font-weight: bold;">'+response[i].l_user+'</p>'+
-                  '<p>'+response[i].l_log+'</p>'+
-                  '<p>'+response[i].l_action+' : '+response[i].l_parameter+'</p>'+
-                '</div>'+
-                '<small class="text-muted my-auto">'+response[i].l_insert+'</small>'+
-              '</li>';
+      @if (App\mMember::akses('LOG ACTIVITY', 'aktif'))
+        function openlog(){
+          var html = '';
+          $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: baseUrl + '/getlog',
+            success : function(response){
+              for (var i = 0; i < response.length; i++) {
+                html += '<li class="list">'+
+                  '<div class="info">'+
+                    '<p style="font-weight: bold;">'+response[i].l_user+'</p>'+
+                    '<p>'+response[i].l_log+'</p>'+
+                    '<p>'+response[i].l_action+' : '+response[i].l_parameter+'</p>'+
+                  '</div>'+
+                  '<small class="text-muted my-auto">'+response[i].l_insert+'</small>'+
+                '</li>';
+              }
+              $('#showlog').html(html);
             }
-            $('#showlog').html(html);
-          }
-        });
-      }
+          });
+        }
 
-      function clearlog(){
-        $.ajax({
-          type: 'get',
-          dataType: 'json',
-          url: baseUrl + '/clearlog',
-          success : function(response) {
-            if (response.status == 'berhasil') {
-              $('#showlog').html('');
+        function clearlog(){
+          $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: baseUrl + '/clearlog',
+            success : function(response) {
+              if (response.status == 'berhasil') {
+                $('#showlog').html('');
+              }
             }
-          }
-        })
-      }
+          })
+        }
+      @endif
 
     </script>
     {{-- end filter menu --}}

@@ -35,9 +35,11 @@
 													<strong>{{ Session::get('gagal') }}</strong>
 											</div>
                     @endif
+										@if (App\mMember::akses('MASTER DATA TTD', 'tambah'))
 	                  <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
 	                  	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#tambah_ttd"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
 	                  </div>
+										@endif
 	                  <div class="table-responsive">
 		                  <table class="table data-table table-hover" cellspacing="0">
 		                  	<thead class="bg-gradient-info">

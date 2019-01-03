@@ -11,6 +11,9 @@ class purchase_orderController extends Controller
 {
   	public function purchaseorder()
     {
+      if (!mMember::akses('PURCHASE ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
     	$vendor = DB::table('m_vendor')->get();
       $item = DB::table('m_item')->get();
       $ro = DB::table('d_requestorder')->join('m_vendor', 's_kode', '=', 'ro_vendor')->where('ro_status_po','=','F')->where('ro_status','=','T')->get();

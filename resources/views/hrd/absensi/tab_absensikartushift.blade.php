@@ -30,9 +30,11 @@
 		          	</div>
                 </div>
                 <div class="row mt-3 mb-3">
+									@if (App\mMember::akses('ABSENSI', 'tambah'))
 	          		<div class="col-lg-12 text-right">
 		          		<button type="submit" id="simpanshift" class="btn btn-info">Simpan Data</button>
 		          	</div>
+									@endif
 	          	</div>
 							</form>
                 <div class="row form-group">

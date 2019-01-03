@@ -13,6 +13,9 @@ class stockbarangController extends Controller
 {
   public function index()
  {
+   if (!mMember::akses('INPUT STOCK BARANG', 'aktif')) {
+     return redirect('error-404');
+   }
   $po = DB::table('d_purchaseorder')->where('po_status','=','F')->get();
   $item = DB::table('m_item')
           ->join('d_unit', 'u_id', '=', 'i_unit')

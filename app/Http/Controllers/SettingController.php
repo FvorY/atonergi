@@ -102,6 +102,9 @@ class SettingController extends Controller
   }
    public function jabatan()
    {
+     if (!mMember::akses('SETTING LEVEL ACCOUNT', 'aktif')) {
+        return redirect('error-404');
+      }
      $data = DB::table('d_jabatan')
                ->orderBy('j_id','ASC')
                ->get();
@@ -268,6 +271,9 @@ class SettingController extends Controller
    // AKUN
    public function akun()
    {
+     if (!mMember::akses('SETTING ACCOUNT', 'aktif')) {
+        return redirect('error-404');
+      }
       $level = DB::table('d_jabatan')
                  ->get();
 
@@ -436,6 +442,9 @@ class SettingController extends Controller
    // DAFTAR MENU
    public function daftar_menu()
    {
+     if (!mMember::akses('SETTING DAFTAR MENU', 'aktif')) {
+        return redirect('error-404');
+      }
       $grup_menu = DB::table('d_grup_menu')
                      ->get();
       return view('setting.daftar_menu.daftar_menu',compact('grup_menu'));
@@ -560,6 +569,9 @@ class SettingController extends Controller
    // END
    public function hak_akses()
    {
+     if (!mMember::akses('SETTING HAK AKSES', 'aktif')) {
+        return redirect('error-404');
+      }
 
       $hak_akses = DB::table('d_hak_akses')
                 ->select('ha_level')
