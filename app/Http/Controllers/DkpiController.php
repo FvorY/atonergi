@@ -139,6 +139,9 @@ class DkpiController extends Controller
 
     public function simpanData(Request $request)
     {
+      if (!mMember::akses('SCOREBOARD PEGAWAI', 'tambah')) {
+        return redirect('error-404');
+      }
         //dd($request->all());
         DB::beginTransaction();
         try
@@ -205,6 +208,9 @@ class DkpiController extends Controller
 
     public function getDataEdit($id)
     {
+      if (!mMember::akses('SCOREBOARD PEGAWAI', 'ubah')) {
+        return redirect('error-404');
+      }
         $id_peg = Auth::user()->m_pegawai_id;
         $pegawai = d_kpi::join('m_pegawai', 'd_kpi.d_kpi_pid', '=', 'm_pegawai.mp_id')
             ->join('m_jabatan', 'm_pegawai.mp_position', '=', 'm_jabatan.c_id')
@@ -231,6 +237,9 @@ class DkpiController extends Controller
 
     public function updateData(Request $request)
     {
+      if (!mMember::akses('SCOREBOARD PEGAWAI', 'ubah')) {
+        return redirect('error-404');
+      }
         //dd($request->all());
         DB::beginTransaction();
         try
@@ -269,6 +278,9 @@ class DkpiController extends Controller
 
     public function deleteData(Request $request)
     {
+      if (!mMember::akses('SCOREBOARD PEGAWAI', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         d_kpi_dt::where('d_kpidt_dkpi_id', $request->id)->delete();

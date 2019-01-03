@@ -18,6 +18,9 @@ class DkpixController extends Controller
 {
     public function index()
     {
+      if (!mMember::akses('DATA KPI', 'aktif')) {
+        return redirect('error-404');
+      }
         //dd(Auth::user());
         return view('hrd/datainputkpix/index');
     }
@@ -107,7 +110,10 @@ class DkpixController extends Controller
     }
 
     public function tambahData()
-    {      
+    {
+      if (!mMember::akses('DATA KPI', 'tambah')) {
+        return redirect('error-404');
+      }
         $id_peg = Auth::user()->m_pegawai_id;
         $data = DB::table('m_pegawai')
             ->join('m_jabatan', 'm_pegawai.mp_position', '=', 'm_jabatan.c_id')
@@ -182,6 +188,9 @@ class DkpixController extends Controller
 
     public function simpanData(Request $request)
     {
+      if (!mMember::akses('DATA KPI', 'tambah')) {
+        return redirect('error-404');
+      }
         //dd($request->all());
         DB::beginTransaction();
         try
@@ -248,6 +257,9 @@ class DkpixController extends Controller
 
     public function getDataEdit($id)
     {
+      if (!mMember::akses('DATA KPI', 'ubah')) {
+        return redirect('error-404');
+      }
 
         $id_peg = d_kpix::select('d_kpix_pid')->where('d_kpix.d_kpix_id', $id)->first();
 
@@ -275,6 +287,9 @@ class DkpixController extends Controller
 
     public function updateData(Request $request)
     {
+      if (!mMember::akses('DATA KPI', 'ubah')) {
+        return redirect('error-404');
+      }
         //dd($request->all());
         DB::beginTransaction();
         try
@@ -312,6 +327,9 @@ class DkpixController extends Controller
 
     public function deleteData(Request $request)
     {
+      if (!mMember::akses('DATA KPI', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         d_kpix_dt::where('d_kpixdt_dkpix_id', $request->id)->delete();

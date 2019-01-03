@@ -13,6 +13,9 @@ use App\mMember;
 class percentController extends Controller
 {
     public function index(){
+      if (!mMember::akses('MASTER PERCENT', 'aktif')) {
+        return redirect('error-404');
+      }
       return view('master.percent.index');
     }
 
@@ -45,6 +48,9 @@ class percentController extends Controller
     }
 
     public function aktif(Request $request){
+      if (!mMember::akses('MASTER PERCENT', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -78,6 +84,9 @@ class percentController extends Controller
     }
 
     public function nonaktif(Request $request){
+      if (!mMember::akses('MASTER PERCENT', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -101,6 +110,9 @@ class percentController extends Controller
     }
 
     public function simpan(Request $request){
+      if (!mMember::akses('MASTER PERCENT', 'aktif')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 

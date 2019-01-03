@@ -21,6 +21,9 @@ class ManscorekpiController extends Controller
 {
     public function index()
     {
+      if (!mMember::akses('SCOREBOARD & KPI', 'aktif')) {
+        return redirect('error-404');
+      }
         //dd(Auth::user());
         return view('hrd/manajemenkpix/index');
     }
@@ -164,6 +167,9 @@ class ManscorekpiController extends Controller
 
     public function getDataEdit($id)
     {
+      if (!mMember::akses('SCOREBOARD & KPI', 'ubah')) {
+        return redirect('error-404');
+      }
         $id_peg = d_kpix::select('d_kpix_pid')->where('d_kpix.d_kpix_id', $id)->first();
 
         $data = d_kpix::join('d_kpix_dt', 'd_kpix.d_kpix_id', '=', 'd_kpix_dt.d_kpixdt_dkpix_id')
@@ -194,6 +200,9 @@ class ManscorekpiController extends Controller
 
     public function updateData(Request $request)
     {
+      if (!mMember::akses('SCOREBOARD & KPI', 'ubah')) {
+        return redirect('error-404');
+      }
         //dd($request->all());
         DB::beginTransaction();
         try
@@ -240,6 +249,9 @@ class ManscorekpiController extends Controller
 
     public function ubahStatus(Request $request)
     {
+      if (!mMember::akses('SCOREBOARD & KPI', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try
       {
