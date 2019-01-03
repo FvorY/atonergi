@@ -19,8 +19,9 @@
         <ul class="chat-list" id="showlog">
 
         </ul>
-        <div class="col-md-11">
-          <button type="button" class="btn btn-primary" onclick="clearlog()" name="button" style="width:100%; position:absolute;">Clear All</button>
+        <div class="col-12">
+          <button type="button" class="btn btn-primary" onclick="clearlog()" name="button" style="width:100%; margin-top:-40px; background-color:red; border:none; color:white;">Clear All</button>
+          <button type="button" class="btn btn-primary" onclick="window.location.href='{{route('log.index')}}'" name="button" style="width:100%; margin-bottom:70px;border:none;">See Details</button>
         </div>
       </div>
 
