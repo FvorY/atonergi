@@ -488,7 +488,7 @@ q_qty.keypress(function(e) {
                '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
            ] ).draw( false );
 
-         {{-- m_table.$('.item_name').last().val(data.data.i_code).trigger('change'); --}}
+         m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
          m_table.$('.item_name').select2();
         x++;
         q_qty.val('');

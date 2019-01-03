@@ -16,7 +16,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use App\Http\Controllers\logController;
-use App\Http\Controllers\logController;
+
 
 // require __DIR__ . '/vendor/autoload.php';
 class SettingController extends Controller
