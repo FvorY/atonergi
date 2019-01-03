@@ -24,10 +24,6 @@
                                 <th>Username</th>
                                 <th>Aksi</th>
                                 <th>Time</th>
-                                <th>Level</th>
-                                <th>Photo</th>
-                                <th>Last Login</th>
-                                <th>Aksi</th>
                               </tr>
                             </thead>
                             <tbody>
