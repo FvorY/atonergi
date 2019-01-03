@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Yajra\Datatables\Datatables;
+
 use DB;
 
 use Carbon\Carbon;
 
 use App\mMember;
+
+use App\Http\Controllers\logController;
 class JabatanController extends Controller
 {
     public function index(Request $request){

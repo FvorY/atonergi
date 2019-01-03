@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\mMember;
+use App\Http\Controllers\logController;
 class AsetController extends Controller
 {
     public function penyusutan()

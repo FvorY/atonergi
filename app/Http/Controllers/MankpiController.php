@@ -14,6 +14,7 @@ use DB;
 use Yajra\Datatables\Facades\Datatables;
 use Auth;
 use App\mMember;
+use App\Http\Controllers\logController;
 class MankpiController extends Controller
 {
     public function index()

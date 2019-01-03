@@ -11,6 +11,7 @@ use Validator;
 use DB;
 use Session;
 use Carbon\Carbon;
+use App\Http\Controllers\logController;
 
 class mMemberController extends Controller
 {

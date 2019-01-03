@@ -9,7 +9,7 @@ use DB;
 use Response;
 use Carbon\carbon;
 use Auth;
-
+use App\Http\Controllers\logController;
 use App\mMember;
 set_time_limit(60000);
 class master_bundleitemController extends Controller
@@ -189,6 +189,8 @@ class master_bundleitemController extends Controller
                   'id_update_by'    =>  $nama,
                 ]);
         }
+
+        logController::inputlog('Master Bundle Item', 'Insert', $req->ib_name);
         // dd($save);
         return Response::json(['status'=>1]);
     	});
@@ -219,6 +221,8 @@ class master_bundleitemController extends Controller
                   'i_update_at'   =>  Carbon::now(),
                   'i_update_by'   =>  $nama,
               ]);
+
+              logController::inputlog('Master Bundle Item', 'Update', $req->ib_name);
 
         $dt = DB::table('m_item_dt')->where('id_id',$req->id)->delete();
         // dd($dt);
@@ -257,7 +261,9 @@ class master_bundleitemController extends Controller
  	public function hapus_bundleitem(request $req)
  	{
  		// dd($req->all());
- 		$data_head = DB::table('m_item')->where('i_code','=',$req->id)->delete();
+    $data_head = DB::table('m_item')->where('i_code','=',$req->id)->first();
+ 		DB::table('m_item')->where('i_code','=',$req->id)->delete();
+    logController::inputlog('Master Bundle Item', 'Insert', $data_head->i_name);
     	return response()->json(['status'=>1]);
  	}
 

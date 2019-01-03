@@ -9,6 +9,7 @@ use App\TypeItem;
 use DB;
 use Yajra\Datatables\Datatables;
 use App\mMember;
+use App\Http\Controllers\logController;
 class TypeController extends Controller
 {
     public function typeproses(Request $request)

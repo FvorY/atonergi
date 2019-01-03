@@ -17,6 +17,7 @@ use Excel;
 use DB;
 
 use Session;
+use App\Http\Controllers\logController;
 // =====================================
 
 class HRDController extends Controller

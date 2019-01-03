@@ -16,6 +16,8 @@ use Carbon\Carbon;
 
 use Session;
 
+use App\Http\Controllers\logController;
+
 class HomeController extends Controller
 {
     /**
@@ -63,6 +65,7 @@ class HomeController extends Controller
              'm_statuslogin' => 'N'
             ]);
 
+        logController::inputlog('Logout', 'Logout', Auth::user()->m_username);
         Auth::logout();
 
         Session::forget('key');

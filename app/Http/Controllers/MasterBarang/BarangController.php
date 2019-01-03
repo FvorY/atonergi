@@ -15,6 +15,7 @@ use carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Response;
 use App\mMember;
+use App\Http\Controllers\logController;
 class BarangController extends Controller
 {
     public function barangproses(Request $request)

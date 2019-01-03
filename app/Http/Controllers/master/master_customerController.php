@@ -8,7 +8,7 @@ use Yajra\Datatables\Datatables;
 use DB;
 
 use App\mMember;
-
+use App\Http\Controllers\logController;
 class master_customerController extends Controller
 {
 
@@ -95,6 +95,7 @@ class master_customerController extends Controller
                 'c_information'=>$request->c_information,
                 'c_insert'=>$tanggal,
     			]);
+          logController::inputlog('Master Data Customer', 'Insert', $request->c_name);
 
     	return response()->json(['status'=>1]);
     }
@@ -138,6 +139,8 @@ class master_customerController extends Controller
                 'c_update'=>$tanggal,
     			]);
 
+          logController::inputlog('Master Data Customer', 'Update', $request->c_name);
+
     	return response()->json(['status'=>1]);
 
     }
@@ -147,7 +150,9 @@ class master_customerController extends Controller
         return redirect('error-404');
       }
     	// dd($request->all());
-    	$data = DB::table('m_customer')->where('c_code','=',$request->id)->delete();
+      $data = DB::table('m_customer')->where('c_code','=',$request->id)->first();
+    	DB::table('m_customer')->where('c_code','=',$request->id)->delete();
+      logController::inputlog('Master Data Customer', 'Insert', $data->c_name);
     	return response()->json($data);
     }
 

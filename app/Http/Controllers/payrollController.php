@@ -10,6 +10,7 @@ use DB;
 
 use Carbon\Carbon;
 use App\mMember;
+use App\Http\Controllers\logController;
 class payrollController extends Controller
 {
     public function datatable_payroll(){

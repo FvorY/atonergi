@@ -10,6 +10,8 @@ use Carbon\Carbon;
 
 use App\mMember;
 
+use App\Http\Controllers\logController;
+
 class InventoryController extends Controller
 {
     public function barangmasuk()

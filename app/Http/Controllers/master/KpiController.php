@@ -12,7 +12,7 @@ use DB;
 use Yajra\Datatables\Datatables;
 use Auth;
 use App\mMember;
-
+use App\Http\Controllers\logController;
 class KpiController extends Controller
 {
     public function index()
@@ -87,6 +87,8 @@ class KpiController extends Controller
             $kpix->kpix_created = Carbon::now('Asia/Jakarta');
             $kpix->save();
 
+            logController::inputlog('Master KPI', 'Insert', $request->indikator);
+
             DB::commit();
             return response()->json([
               'status' => 'sukses',
@@ -135,6 +137,8 @@ class KpiController extends Controller
             $kpix->kpix_updated = Carbon::now('Asia/Jakarta');
             $kpix->save();
 
+            logController::inputlog('Master KPI', 'Update', $request->e_nama);
+
             DB::commit();
             return response()->json([
               'status' => 'sukses',
@@ -153,13 +157,18 @@ class KpiController extends Controller
 
     public function deleteKpi(Request $request)
     {
-      if (!mMember::akses('MASTER KPI', 'hapus')) {
+      if (!mMember::akses('Master KPI', 'hapus')) {
         return redirect('error-404');
       }
         DB::beginTransaction();
         try
         {
+
+            $data = m_kpix::where('kpix_id', (int)$request->id)->first();
+
             m_kpix::where('kpix_id', (int)$request->id)->delete();
+
+            logController::inputlog('Master KPI', 'Delete', $data->kpix_name);
 
             DB::commit();
             return response()->json([

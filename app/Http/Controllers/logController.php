@@ -10,6 +10,8 @@ use DB;
 
 use Carbon\Carbon;
 
+use App\Http\Controllers\logController;
+
 class logController extends Controller
 {
     public static function inputlog($log,$action,$parameter){
@@ -36,6 +38,7 @@ class logController extends Controller
     public function getlog(){
       Carbon::setlocale('id');
       $data = DB::table('d_log')
+                ->orderBy('l_insert', 'DESC')
                 ->get();
 
       for ($i=0; $i < count($data); $i++) {

@@ -7,7 +7,6 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 use App\Http\Controllers\logController;
-
 use App\mMember;
 
 class master_vendorController extends Controller
@@ -161,6 +160,8 @@ class master_vendorController extends Controller
     			's_hometown'=>$request->v_hometown,
     			]);
 
+          logController::inputlog('Master Data Vendor', 'Update', $request->v_company);
+
     	return response()->json(['status'=>1]);
 
     }
@@ -170,7 +171,9 @@ class master_vendorController extends Controller
         return redirect('error-404');
       }
     	// dd($request->all());
-    	$data = DB::table('m_vendor')->where('s_kode','=',$request->id)->delete();
+      $data = DB::table('m_vendor')->where('s_kode','=',$request->id)->first();
+    	DB::table('m_vendor')->where('s_kode','=',$request->id)->delete();
+      logController::inputlog('Master Data Vendor', 'Delete', $data->v_company);
     	return response()->json($data);
     }
 

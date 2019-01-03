@@ -14,6 +14,7 @@ use App\mMember;
 use Illuminate\Support\Facades\Crypt;
 use Response;
 use PDF;
+use App\Http\Controllers\logController;
 
 class QuotationController extends Controller
 {

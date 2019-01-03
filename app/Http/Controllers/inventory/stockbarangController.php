@@ -9,6 +9,7 @@ use DB;
 use Validator;
 use Carbon\Carbon;
 use App\mMember;
+use App\Http\Controllers\logController;
 class stockbarangController extends Controller
 {
   public function index()

@@ -7,6 +7,7 @@ use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\carbon;
 use App\mMember;
+use App\Http\Controllers\logController;
 class stock_opnameController extends Controller
 {
 

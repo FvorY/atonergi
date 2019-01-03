@@ -10,6 +10,7 @@ use Yajra\Datatables\Datatables;
 
 use DB;
 use App\mMember;
+use App\Http\Controllers\logController;
 class percentController extends Controller
 {
     public function index(){

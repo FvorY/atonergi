@@ -8,6 +8,7 @@ use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\Carbon;
 use App\mMember;
+use App\Http\Controllers\logController;
 class belanjalangsungController extends Controller
 {
    public function belanjalangsung()

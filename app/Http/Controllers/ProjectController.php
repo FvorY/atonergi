@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Validator;
 use File;
 use App\mMember;
+use App\Http\Controllers\logController;
 class ProjectController extends Controller
 {
     public function dokumentasi()

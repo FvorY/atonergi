@@ -10,6 +10,7 @@ use Response;
 use Carbon\carbon;
 use Auth;
 use App\mMember;
+use App\Http\Controllers\logController;
 class currency_controller extends Controller
 {
     public function index()
@@ -65,7 +66,7 @@ class currency_controller extends Controller
 
     public function save(request $req)
     {
-      if (!mMember::akses('MASTER CURRENCY', 'tambah')) {
+      if (!mMember::akses('MASTER CURRENCY', 'ubah')) {
         return redirect('error-404');
       }
     	$update = DB::table('m_currency')
@@ -73,6 +74,8 @@ class currency_controller extends Controller
     				->update([
     					'cu_value'=>filter_var($req->value,FILTER_SANITIZE_NUMBER_INT)
     				]);
+
+            logController::inputlog('MASTER CURRENCY', 'Update', filter_var($req->value,FILTER_SANITIZE_NUMBER_INT));
 
     	return Response::json(['status'=>1]);
     }

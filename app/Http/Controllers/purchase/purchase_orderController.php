@@ -7,6 +7,7 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 use App\mMember;
+use App\Http\Controllers\logController;
 class purchase_orderController extends Controller
 {
   	public function purchaseorder()

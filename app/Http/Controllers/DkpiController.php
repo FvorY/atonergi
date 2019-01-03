@@ -14,6 +14,7 @@ use Yajra\Datatables\Facades\Datatables;
 use Auth;
 use Response;
 use App\mMember;
+use App\Http\Controllers\logController;
 class DkpiController extends Controller
 {
 

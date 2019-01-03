@@ -7,6 +7,7 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 use App\mMember;
+use App\Http\Controllers\logController;
 class master_pegawaiController extends Controller
 {
 
@@ -94,6 +95,8 @@ class master_pegawaiController extends Controller
                 'mp_insert'=>$tanggal,
                 ]);
 
+                logController::inputlog('Master Data Pegawai', 'Insert', $request->mp_name);
+
         return response()->json(['status'=>1]);
     }
     public function dataedit_pegawai(Request $request)
@@ -125,6 +128,8 @@ class master_pegawaiController extends Controller
                 'mp_update'=>$tanggal,
                 ]);
 
+                logController::inputlog('Master Data Pegawai', 'Update', $request->mp_name);
+
         return response()->json(['status'=>1]);
 
     }
@@ -134,7 +139,9 @@ class master_pegawaiController extends Controller
         return redirect('error-404');
       }
         // dd($request->all());
-        $data = DB::table('m_pegawai')->where('mp_kode','=',$request->id)->delete();
+        $data = DB::table('m_pegawai')->where('mp_kode','=',$request->id)->first();
+        DB::table('m_pegawai')->where('mp_kode','=',$request->id)->delete();
+        logController::inputlog('Master Data Pegawai', 'Delete', $request->mp_name);
         return response()->json($data);
     }
 

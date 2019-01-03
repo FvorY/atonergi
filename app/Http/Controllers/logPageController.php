@@ -8,6 +8,8 @@ use DB;
 
 use App\mMember;
 
+use App\Http\Controllers\logController;
+
 class logPageController extends Controller
 {
     public function index() {

@@ -11,6 +11,7 @@ use Yajra\Datatables\Datatables;
 use URL;
 use App\Model\m_kpi;
 use App\mMember;
+use App\Http\Controllers\logController;
 
 // use App\mmember
 
@@ -125,6 +126,8 @@ class ScoreController extends Controller
             $kpi->kpi_created = $tanggal;
             $kpi->save();
 
+            logController::inputlog('Master Scoreboard', 'Insert', $request->nama_kpi);
+
             DB::commit();
             return response()->json([
               'status' => 'sukses',
@@ -174,6 +177,8 @@ class ScoreController extends Controller
             $kpi->kpi_updated = $tanggal;
             $kpi->save();
 
+            logController::inputlog('Master Scoreboard', 'Update', $request->nama_kpi);
+
             DB::commit();
             return response()->json([
               'status' => 'sukses',
@@ -200,6 +205,8 @@ class ScoreController extends Controller
         {
             $kpi = m_kpi::find($request->id);
             $kpi->delete();
+
+            logController::inputlog('Master Scoreboard', 'Update', $kpi->kpi_name);
 
             DB::commit();
             return response()->json([

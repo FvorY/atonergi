@@ -12,6 +12,7 @@ use Validator;
 use Carbon\Carbon;
 use Session;
 use DB;
+use App\Http\Controllers\logController;
 
 class loginController extends Controller
 {
@@ -73,6 +74,7 @@ class loginController extends Controller
                      	  ]);
 
                 Auth::login($user);
+                logController::inputlog('Login', 'Login', $username);
                 return Redirect('/home');
             	}else{
                 Session::flash('password','Password Yang Anda Masukan Salah!');
