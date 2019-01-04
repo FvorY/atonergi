@@ -338,7 +338,7 @@ class belanjalangsungController extends Controller
 
           }
 
-
+          logController::inputlog('Belanja Langsung', 'Insert', $nota);
 
         DB::commit();
         return response()->json([
@@ -399,6 +399,7 @@ class belanjalangsungController extends Controller
           }
         }
 
+        logController::inputlog('Belanja Langsung', 'Hapus', $data[0]->dbl_code);
 
         DB::commit();
         return response()->json([
@@ -648,6 +649,8 @@ class belanjalangsungController extends Controller
             }
           }
 
+          logController::inputlog('Belanja Langsung', 'Update', $nota);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -741,6 +744,8 @@ class belanjalangsungController extends Controller
               }
         }
 
+        logController::inputlog('Belanja Langsung Custom', 'Insert', $nota);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -793,6 +798,8 @@ class belanjalangsungController extends Controller
         DB::table('d_belanja_langsung_custom_dt')
               ->where('blcd_ref', $data[0]->blc_code)
               ->delete();
+
+              logController::inputlog('Belanja Langsung Custom', 'Hapus', $data[0]->dbl_code);
 
         DB::commit();
         return response()->json([
@@ -905,6 +912,8 @@ class belanjalangsungController extends Controller
                   ]);
               }
         }
+
+        logController::inputlog('Belanja Langsung Custom', 'Update', $nota);
 
         DB::commit();
         return response()->json([

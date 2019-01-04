@@ -328,7 +328,7 @@ class QuotationController extends Controller
                 ]);
       }
 
-
+      logController::inputlog('Quotation', 'Insert', $quote);
       return response()->json(['status' => 1,'id'=>$id]);
 
     });
@@ -343,6 +343,9 @@ class QuotationController extends Controller
       $delete = DB::table('d_quotation')
                   ->where('q_nota',$req->nota)
                   ->delete();
+
+      logController::inputlog('Quotation', 'Hapus', $req->nota);
+
       return response()->json(['status' => 1]);
   }
 
@@ -406,6 +409,7 @@ class QuotationController extends Controller
         $count_jasa = count($jasa) + count($array);
       }
 
+      logController::inputlog('Quotation', 'Print', $head->q_nota);
      // $pdf = PDF::loadView('quotation/q_quotation/print_quotation', $data);
      // return $pdf->stream("test.pdf");
       $print = 'global';
@@ -475,6 +479,7 @@ class QuotationController extends Controller
      // $pdf = PDF::loadView('quotation/q_quotation/print_quotation', $data);
      // return $pdf->stream("test.pdf");
       $print = 'detail';
+      logController::inputlog('Quotation', 'Print', $head->q_nota);
       return view('quotation/q_quotation/print_quotation',compact('head','data','array','print','jasa'));
     }else{
       return redirect()->back();
@@ -570,7 +575,7 @@ class QuotationController extends Controller
                 ]);
       }
 
-
+      logController::inputlog('Quotation', 'Update', $req->quote);
       return response()->json(['status' => 1]);
     });
   }

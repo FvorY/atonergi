@@ -135,7 +135,7 @@
 				url += 'pin%5B%5D='+pin[i]+'&';
 		}
 
-		window.open('{{route('print_payroll')}}?'+url , '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
+		window.open('{{route('print_payrolls')}}?'+url , '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
 
 	}
 </script>

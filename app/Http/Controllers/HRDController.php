@@ -674,6 +674,8 @@ class HRDController extends Controller
             }
           }
 
+          logController::inputlog('Absensi', 'Insert Kartu Shift', $path);
+
           DB::commit();
           Session::flash('sukses', 'Berhasil Disimpan!');
           return redirect('hrd/absensi/absensi');
@@ -807,6 +809,8 @@ class HRDController extends Controller
             }
           }
 
+          logController::inputlog('Absensi', 'Insert Bulan', $path);
+
           DB::commit();
           Session::flash('sukses', 'Berhasil Disimpan!');
           return redirect('hrd/absensi/absensi');
@@ -842,15 +846,43 @@ class HRDController extends Controller
     }
 
     public function print_payroll(Request $request){
+      if (!mMember::akses('PAYROLL', 'print')) {
+        return redirect('error-404');
+      }
+
       $data = DB::table('d_payroll_managerial')
                   ->whereIn('pm_pin', $request->pin)
                   ->whereIn('pm_nip', $request->nip)
                   ->get();
 
+      for ($i=0; $i < count($data); $i++) {
+        logController::inputlog('Payroll', 'Print Managerial', $data[$i]->pm_nama);
+      }
+
       response()->json([
         'status' => 'berhasil'
       ]);
       return view('hrd.payroll.print_payroll', compact('data'));
+    }
+
+    public function print_payrolls(Request $request){
+      if (!mMember::akses('PAYROLL', 'print')) {
+        return redirect('error-404');
+      }
+
+      $data = DB::table('d_payroll_staff')
+                  ->whereIn('ps_pin', $request->pin)
+                  ->whereIn('ps_nip', $request->nip)
+                  ->get();
+
+      for ($i=0; $i < count($data); $i++) {
+        logController::inputlog('Payroll', 'Print Staff', $data[$i]->ps_nama);
+      }
+
+      response()->json([
+        'status' => 'berhasil'
+      ]);
+      return view('hrd.payroll.print_payrolls', compact('data'));
     }
 
     public function rekap(Request $request){
@@ -997,6 +1029,8 @@ class HRDController extends Controller
               }
             }
           }
+
+          logController::inputlog('Absensi', 'Insert Rekap Periode', $path);
 
           DB::commit();
           Session::flash('sukses', 'Berhasil Disimpan!');
@@ -1201,6 +1235,8 @@ class HRDController extends Controller
             }
           }
 
+          logController::inputlog('Absensi', 'Insert Rincian Tahunan', $path);
+
           DB::commit();
           Session::flash('sukses', 'Berhasil Disimpan!');
           return redirect('hrd/absensi/absensi');
@@ -1339,6 +1375,8 @@ class HRDController extends Controller
 
           $staff = [];
 
+          logController::inputlog('Payroll', 'Insert Managerial', $path);
+
           DB::commit();
           Session::flash('sukses', 'Berhasil Disimpan!');
           return view('hrd.payroll.payrollexcel', compact('data', 'staff'));
@@ -1454,6 +1492,8 @@ class HRDController extends Controller
           }
 
           $data = [];
+
+          logController::inputlog('Payroll', 'Insert Staff', $path);
 
           DB::commit();
           Session::flash('sukses', 'Berhasil Disimpan!');

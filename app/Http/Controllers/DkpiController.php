@@ -170,6 +170,8 @@ class DkpiController extends Controller
                         ]);
             }
 
+            logController::inputlog('Scoreboard Pegawai', 'Insert', $kode);
+
             DB::commit();
             return response()->json([
                 'status' => 'sukses',
@@ -261,6 +263,8 @@ class DkpiController extends Controller
                         ]);
             }
 
+            logController::inputlog('Scoreboard Pegawai', 'Update', $request->e_old);
+
             DB::commit();
             return response()->json([
               'status' => 'sukses',
@@ -284,8 +288,11 @@ class DkpiController extends Controller
       }
       DB::beginTransaction();
       try {
+        $data = d_kpi::where('d_kpi_id', $request->id)->first();
         d_kpi_dt::where('d_kpidt_dkpi_id', $request->id)->delete();
         d_kpi::where('d_kpi_id', $request->id)->delete();
+
+        logController::inputlog('Scoreboard Pegawai', 'Hapus', $data->d_kpi_code);
 
         DB::commit();
         return response()->json([

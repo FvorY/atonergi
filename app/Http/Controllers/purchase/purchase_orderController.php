@@ -212,6 +212,8 @@ class purchase_orderController extends Controller
                           'ro_status_po'=>'T',
                         ]);
 
+                        logController::inputlog('Purchase Order', 'Insert', $request->po_nopo);
+
       return response()->json(['status'=>1]);
     }
     public function hapus_purchaseorder(Request $request)
@@ -219,8 +221,11 @@ class purchase_orderController extends Controller
       if (!mMember::akses('PURCHASE ORDER', 'hapus')) {
         return redirect('error-404');
       }
+
       $hapus_header = DB::table('d_purchaseorder')->where('po_code','=',$request->id)->delete();
       $hapus_seq = DB::table('d_purchaseorder_dt')->where('podt_code','=',$request->id)->delete();
+
+      logController::inputlog('Purchase Order', 'Hapus', $request->id);
 
       return response()->json(['status'=>1]);
     }
@@ -237,7 +242,7 @@ class purchase_orderController extends Controller
       json_encode($print_header);
       $print_seq = DB::table('d_purchaseorder_dt')->where('podt_code','=',$request->id)->join('m_item','m_item.i_code','=','d_purchaseorder_dt.podt_item')->get();
 
-
+      logController::inputlog('Purchase Order', 'Print', $request->id);
 
       return view('purchase/purchaseorder/print_purchaseorder',compact('print_header','print_seq'));
     }
@@ -362,6 +367,8 @@ class purchase_orderController extends Controller
                         ->update([
                           'ro_status_po'=>'T',
                         ]);
+
+                        logController::inputlog('Purchase Order', 'Update', $request->po_nopo);
 
       return response()->json(['status'=>1]);
     }

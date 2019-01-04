@@ -74,6 +74,8 @@ class JabatanController extends Controller
               'created_at' => Carbon::now('Asia/Jakarta')
             ]);
 
+            logController::inputlog('Master Data Jabatan', 'Insert', $request->namajabatan);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -111,6 +113,8 @@ class JabatanController extends Controller
                 'c_posisi' => $request->data
               ]);
 
+              logController::inputlog('Master Data Jabatan', 'Update', $request->data);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -131,9 +135,14 @@ class JabatanController extends Controller
       DB::beginTransaction();
       try {
 
+        $data = DB::table('m_jabatan')
+              ->where('c_id', $request->id)->first();
+
         DB::table('m_jabatan')
               ->where('c_id', $request->id)
               ->delete();
+
+              logController::inputlog('Master Data Jabatan', 'Hapus', $data->c_posisi);
 
         DB::commit();
         return response()->json([

@@ -236,6 +236,8 @@ class MankpiController extends Controller
                         ]);
             }
 
+            logController::inputlog('Manajemen Scoreboard', 'Update', $data->e_old);
+
             DB::commit();
             return response()->json([
               'status' => 'sukses',
@@ -275,6 +277,8 @@ class MankpiController extends Controller
             $pesan = 'Konfirmasi data Scoreboard berhasil';
         }
         $d_kpi->save();
+
+        logController::inputlog('Manajemen Scoreboard', 'Update Status', '');
 
         DB::commit();
         return response()->json([

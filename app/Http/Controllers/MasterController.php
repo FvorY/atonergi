@@ -395,6 +395,8 @@ class MasterController extends Controller
                   's_insert' => Carbon::now('Asia/Jakarta')
                 ]);
 
+                logController::inputlog('Master TTD', 'Insert', $imgPath);
+
             DB::commit();
             Session::flash('sukses', 'Berhasil Disimpan!');
             return redirect('master/ttd/ttd');
@@ -417,6 +419,8 @@ class MasterController extends Controller
         DB::table('m_signature')
             ->where('s_id', $request->id)
             ->delete();
+
+        logController::inputlog('Master TTD', 'Insert', $dir);
 
         DB::commit();
         return response()->json([
@@ -467,6 +471,8 @@ class MasterController extends Controller
               's_image' => $imgPath,
               's_update' => Carbon::now('Asia/Jakarta')
             ]);
+
+            logController::inputlog('Master TTD', 'Update', $imgPath);
 
         DB::commit();
         Session::flash('sukses', 'Berhasil Disimpan!');
@@ -558,6 +564,7 @@ public function edit_bank(request $req)
                       ->update([
                         'name' => strtoupper($req->name)
                       ]);
+                      logController::inputlog('Master BANK', 'Update', $req->name);
                 return response()->json(['bank'=>3]);
             }else{
                 return response()->json(['bank'=>3]);
@@ -568,6 +575,7 @@ public function edit_bank(request $req)
                         'id'   => $id,
                         'name' => strtoupper($req->name)
                       ]);
+                      logController::inputlog('Master BANK', 'Insert', $req->name);
             return response()->json(['bank'=>1]);
         }
 
@@ -578,9 +586,16 @@ public function edit_bank(request $req)
       if (!mMember::akses('MASTER DATA BANK', 'hapus')) {
         return redirect('error-404');
       }
-        $delete = DB::table('m_bank')
+      $delete = DB::table('m_bank')
+                  ->where('id',$req->id)
+                  ->first();
+
+         DB::table('m_bank')
                     ->where('id',$req->id)
                     ->delete();
+
+                    logController::inputlog('Master BANK', 'Hapus', $detele->name);
+
         return response()->json(['bank'=>1]);
 
     }
@@ -709,6 +724,7 @@ public function edit_bank(request $req)
                             'i_unit' => $id_satuan,
                             'i_description' => $req->i_description
                           ]);
+                          logController::inputlog('Master Data Jasa', 'Update', strtoupper($req->i_name));
                     return response()->json(['jasa'=>3]);
                 }else{
                     return response()->json(['jasa'=>3]);
@@ -740,6 +756,7 @@ public function edit_bank(request $req)
                             'i_description' => $req->i_description,
                             'i_jenis' => 'JASA'
                           ]);
+                          logController::inputlog('Master Data Jasa', 'Insert', strtoupper($req->i_name));
                 return response()->json(['jasa'=>1]);
             }
 
@@ -750,9 +767,17 @@ public function edit_bank(request $req)
           if (!mMember::akses('MASTER DATA JASA', 'hapus')) {
             return redirect('error-404');
           }
-            $delete = DB::table('m_item')
+
+          $delete = DB::table('m_item')
+                      ->where('i_id',$req->i_id)
+                      ->first();
+
+             DB::table('m_item')
                         ->where('i_id',$req->i_id)
                         ->delete();
+
+                        logController::inputlog('Master Data Jasa', 'Hapus', $delete->i_name);
+
             return response()->json(['jasa'=>1]);
 
         }

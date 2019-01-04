@@ -219,6 +219,8 @@ class DkpixController extends Controller
                         ]);
             }
 
+            logController::inputlog('Data KPI', 'Insert', $kode);
+
             DB::commit();
             return response()->json([
                 'status' => 'sukses',
@@ -310,6 +312,8 @@ class DkpixController extends Controller
                         ]);
             }
 
+            logController::inputlog('Data KPI', 'Update', $request->e_old);
+
             DB::commit();
             return response()->json([
               'status' => 'sukses',
@@ -333,9 +337,11 @@ class DkpixController extends Controller
       }
       DB::beginTransaction();
       try {
+        $data = d_kpix::where('d_kpix_id', $request->id)->first();
         d_kpix_dt::where('d_kpixdt_dkpix_id', $request->id)->delete();
         d_kpix::where('d_kpix_id', $request->id)->delete();
 
+        logController::inputlog('Data KPI', 'Hapus', $data->d_kpix_code);
         DB::commit();
         return response()->json([
             'status' => 'sukses',

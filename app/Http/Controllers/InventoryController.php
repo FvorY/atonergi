@@ -203,6 +203,8 @@ class InventoryController extends Controller
         }
       }
 
+      logController::inputlog('Pengeluaran Barang', 'Insert', $request->pb_code);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -232,6 +234,8 @@ class InventoryController extends Controller
                     ->where('pbd_item', $request->id)
                     ->select('pbd_code')
                     ->first();
+
+                    logController::inputlog('Pengeluaran Barang', 'Print', $request->id);
 
         return view('inventory/barangkeluar/print_kartu_stok', compact('data', 'cardno'));
     }

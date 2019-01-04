@@ -211,7 +211,7 @@ class penerimaan_barangController extends Controller
 								}
 
 	 	}
-
+		logController::inputlog('Penerimaan Barang', 'Insert', $nota);
 	 	return response()->json(['status'=>1]);
 	 });
 	 }
@@ -391,7 +391,7 @@ class penerimaan_barangController extends Controller
  						 }
 
   }
-
+		logController::inputlog('Penerimaan Barang', 'Update', $nota);
 	 	return response()->json(['status'=>1]);
 	 });
 	 }
@@ -406,8 +406,8 @@ class penerimaan_barangController extends Controller
 	 }
 	 public function hapus_penerimaan_barang(Request $request)
 	 {
-	 	dd($request->all());
 	 	$header_penerimaan = DB::table('d_penerimaan_barang')->where('pb_code','=',$request->id)->delete();
 	 	$seq_penerimaan = DB::table('d_penerimaan_barang_dt')->where('pbdt_code','=',$request->id)->delete();
+		logController::inputlog('Penerimaan Barang', 'Delete', $request->id);
 	 }
 }

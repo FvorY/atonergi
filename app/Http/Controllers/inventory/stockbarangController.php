@@ -120,6 +120,7 @@ class stockbarangController extends Controller
               'sm_insert' => Carbon::now('Asia/Jakarta'),
             ]);
 
+        logController::inputlog('Input Stock Barang', 'Insert', $request->item . ' ' . $request->qty);
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -150,6 +151,8 @@ class stockbarangController extends Controller
         ->where('sm_qty', $data[0]->sg_qty)
         ->where('sm_description', 'INPUT STOCK MANUAL')
         ->delete();
+
+        logController::inputlog('Input Stock Barang', 'Hapus', $data->sg_iditem);
 
      DB::commit();
      return response()->json([
@@ -238,6 +241,8 @@ class stockbarangController extends Controller
                'sm_description' => 'INPUT STOCK MANUAL',
                'sm_insert' => Carbon::now('Asia/Jakarta'),
              ]);
+
+             logController::inputlog('Input Stock Barang', 'Update', $request->itemedit);
 
       DB::commit();
       return response()->json([

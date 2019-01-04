@@ -34,6 +34,10 @@ class ProjectController extends Controller
       DB::beginTransaction();
       try {
 
+        $data = DB::table('d_schedule')
+            ->where('s_id', $request->id)
+            ->first();
+
         DB::table('d_schedule')
             ->where('s_id', $request->id)
             ->delete();
@@ -51,6 +55,8 @@ class ProjectController extends Controller
             ->delete();
 
         $this->deleteDir('image/uploads/dokumentasi/'.$request->id);
+
+        logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Hapus', $data->s_title . ' ' . $data->s_description);
 
         DB::commit();
         return response()->json([
@@ -272,6 +278,8 @@ class ProjectController extends Controller
                   }
               }
 
+              logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Insert', nl2br($request->judul_laporan) . ' ' . nl2br($request->deskripsi_laporan));
+
         DB::commit();
         Session::flash('sukses', 'Berhasil Disimpan!');
         return redirect('project/jadwalujicoba/jadwalujicoba');
@@ -302,6 +310,8 @@ class ProjectController extends Controller
                 ->distinct('si_judul')
                 ->get();
 
+                logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description));
+
       return view('project/jadwalujicoba/pdf_jadwal', compact('data', 'image', 'judul'));
     }
     public function pdf_install(Request $request)
@@ -310,6 +320,9 @@ class ProjectController extends Controller
         return redirect('error-404');
       }
         $request->id = decrypt($request->id);
+        $data = DB::table('d_schedule')
+                  ->where('s_id', $request->id)
+                  ->get();
 
         $data = DB::table('d_schedule_install')
                   ->where('si_schedule', $request->id)
@@ -319,6 +332,8 @@ class ProjectController extends Controller
         $quotation = DB::table('d_schedule_checklist')
                       ->where('sc_schedule', $request->id)
                       ->get();
+
+                      logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description));
 
         return view('project/jadwalujicoba/pdf_install', compact('data', 'quotation'));
     }
@@ -375,6 +390,8 @@ class ProjectController extends Controller
         }
       }
 
+      logController::inputlog('Pemasangan', 'Insert', '');
+
     	return view('project/pemasangan/prosespemasangan', compact('data', 'barang'));
     }
     public function simpanpemasangan(Request $request){
@@ -427,6 +444,8 @@ class ProjectController extends Controller
               'wo_status_install' => 'PD',
               'wo_active' => 'Y'
             ]);
+
+            logController::inputlog('Pemasangan', 'Insert', $request->d_wo . ' ' . $finalkode);
 
         DB::commit();
         return response()->json([
@@ -485,6 +504,8 @@ class ProjectController extends Controller
                   ->where('i_active', 'Y')
                   ->get();
 
+                  logController::inputlog('Pemasangan', 'Update', '');
+
       return view('project.pemasangan.editprosespemasangan', compact('data','barang','install'));
     }
     public function perbaruipemasangan(Request $request){
@@ -503,6 +524,7 @@ class ProjectController extends Controller
             'i_installer' => $request->i_installer
           ]);
 
+          logController::inputlog('Pemasangan', 'Update', $request->i_io);
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -547,6 +569,7 @@ class ProjectController extends Controller
               'wo_status_install' => 'D'
             ]);
         }
+        logController::inputlog('Pemasangan', 'Update', $request->i_wo);
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -587,6 +610,8 @@ class ProjectController extends Controller
                 'i_update' => Carbon::now('Asia/Jakarta')
               ]);
         }
+
+        logController::inputlog('Pemasangan', 'Hapus', $wo[0]->wo_nota);
 
         DB::commit();
         return response()->json([
@@ -738,6 +763,8 @@ class ProjectController extends Controller
               'so_active' => 'Y'
             ]);
 
+            logController::inputlog('Pengiriman Barang', 'Insert', $finalkode);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -816,6 +843,7 @@ class ProjectController extends Controller
               'so_status_delivery' => 'D'
             ]);
         }
+        logController::inputlog('Pengiriman Barang', 'Update', '');
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -856,6 +884,8 @@ class ProjectController extends Controller
               'd_active' => 'N',
               'd_update' => Carbon::now('Asia/Jakarta')
             ]);
+
+            logController::inputlog('Pengiriman Barang', 'Hapus', '');
       }
 
       DB::commit();
@@ -887,6 +917,8 @@ class ProjectController extends Controller
             'd_weight' => $request->d_weight,
             'd_shipping_charges' => $request->d_shipping_charges
           ]);
+
+          logController::inputlog('Pengiriman Barang', 'Update', $request->nota);
 
         DB::commit();
         return response()->json([

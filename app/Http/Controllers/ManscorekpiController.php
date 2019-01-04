@@ -232,6 +232,8 @@ class ManscorekpiController extends Controller
             $d_kpix->d_kpix_scoretotal = $totalSkor;
             $d_kpix->save();
 
+            logController::inputlog('Scoreboard & KPI', 'Update', '');
+
             DB::commit();
             return response()->json([
               'status' => 'sukses',
@@ -271,6 +273,8 @@ class ManscorekpiController extends Controller
             $pesan = 'Konfirmasi data KPI berhasil';
         }
         $d_kpix->save();
+
+        logController::inputlog('Scoreboard & KPI', 'Update Status', '');
 
         DB::commit();
         return response()->json([
@@ -355,6 +359,9 @@ class ManscorekpiController extends Controller
 
       public function print_pki($id)
     {
+      if (!mMember::akses('SCOREBOARD & KPI', 'print')) {
+        return redirect('error-404');
+      }
         $id_peg = d_kpix::select('d_kpix_pid')->where('d_kpix.d_kpix_id', $id)->first();
 
         $data = d_kpix::join('d_kpix_dt', 'd_kpix.d_kpix_id', '=', 'd_kpix_dt.d_kpixdt_dkpix_id')
@@ -392,6 +399,8 @@ class ManscorekpiController extends Controller
         // return $total;
         // return $score;
         // return $pegawai;
+
+        logController::inputlog('Scoreboard & KPI', 'Print', '');
         return view('hrd.manajemen_scoreboard_kpi.print_pki', compact('pegawai', 'data', 'score', 'total'));
     }
 }

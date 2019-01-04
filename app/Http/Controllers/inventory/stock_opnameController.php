@@ -253,6 +253,7 @@ class stock_opnameController extends Controller
 
           }
        }
+			 logController::inputlog('Stock Opname', 'Insert', $request->so_code);
        DB::commit();
        return response()->json([
          'status' => 'berhasil'

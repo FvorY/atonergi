@@ -183,6 +183,7 @@ class request_orderController extends Controller
                     'rodt_status' =>$status[$i],
                 ]);
 
+                logController::inputlog('Request Order', 'Approve', $request->kode[$i]);
             }
             return $sequence;
 
@@ -241,6 +242,7 @@ class request_orderController extends Controller
                         'rodt_insert' =>$tanggal,
                 ]);
             }
+            logController::inputlog('Request Order', 'Insert', $request->ro_code_header);
 
         return response()->json(['status'=>1]);
     }
@@ -253,6 +255,7 @@ class request_orderController extends Controller
         $hapus_header = DB::table('d_requestorder')->where('ro_code','=',$request->id)->where('ro_status_po','!=','T')->delete();
         $hapus_seq = DB::table('d_requestorder_dt')->where('rodt_code','=',$request->id)->where('rodt_status_po','!=','T')->delete();
 
+        logController::inputlog('Request Order', 'Insert', $request->id);
         return response()->json(['status'=>1]);
     }
 

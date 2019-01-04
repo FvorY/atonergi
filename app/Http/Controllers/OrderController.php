@@ -169,6 +169,7 @@ class OrderController extends Controller
                 array_push($array, 'a');
               }
             }
+            logController::inputlog('Sales Order', 'Print', $head->so_nota);
             return view('order/salesorder/print_salesorder',compact('array','data','head'));
         }
     }
@@ -311,6 +312,7 @@ class OrderController extends Controller
                 array_push($array, 'a');
               }
             }
+            logController::inputlog('Work Order', 'Print', $head->wo_ref);
             return view('order/workorder/print_workorder',compact('array','data','head'));
         }
     }
@@ -655,7 +657,7 @@ class OrderController extends Controller
                             'q_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
                         ]);
 
-
+            logController::inputlog('Pembayaran Deposit', 'Insert', '');
             return response()->json(['status' => 1]);
         });
     }
@@ -863,6 +865,7 @@ class OrderController extends Controller
                           'q_remain' => $hasil
                       ]);
 
+                      logController::inputlog('Payment Order', 'Insert', $req->po_nota);
 
           return response()->json(['status' => 1]);
         });
@@ -1013,6 +1016,9 @@ class OrderController extends Controller
                       ->update([
                           'q_remain' => $fix
                       ]);
+
+                      logController::inputlog('Proforma Invoice', 'Insert', '');
+
         return response()->json(['status' => 1]);
         });
     }
@@ -1038,6 +1044,9 @@ class OrderController extends Controller
           $hapus = DB::table('d_payment_order')
                     ->where('po_id',$req->id)
                     ->delete();
+
+                    logController::inputlog('Proforma Invoice', 'Hapus', '');
+
           return response()->json(['status' => 1]);
         });
     }
