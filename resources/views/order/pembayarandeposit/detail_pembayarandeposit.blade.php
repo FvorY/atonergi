@@ -18,7 +18,7 @@
 	<div class="col-lg-12 grid-margin stretch-card">
       	<div class="card">
 	        <div class="card-body">
-	          	<h4 class="card-title">Pembayaran Deposit</h4>							
+	          	<h4 class="card-title">Pembayaran Deposit</h4>
 					<div class="row">
 						<div class="col-md-3 col-sm-6 col-xs-12">
 							<label>S.O.#</label>
@@ -275,13 +275,13 @@
 	        return false;
 		}
 
-		if (status_so == 'Printed' || status_wo == 'Printed') {
-			iziToast.warning({
-	            icon: 'fa fa-info',
-	            message: 'Data Telah Di Print',
-	        });
-	        return false;
-		}
+		// if (status_so == 'Printed' || status_wo == 'Printed') {
+		// 	iziToast.warning({
+	  //           icon: 'fa fa-info',
+	  //           message: 'Data Telah Di Print',
+	  //       });
+	  //       return false;
+		// }
 		iziToast.show({
             overlay: true,
             close: false,
