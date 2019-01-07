@@ -118,7 +118,7 @@ class OrderController extends Controller
                 if ($marketing[$i]->mk_id == $data->q_marketing) {
                     $market = $marketing[$i]->mk_code. ' - ' .$marketing[$i]->mk_name;
                 }
-            }
+            }            
 
             $item = DB::table('m_item')
                       ->get();

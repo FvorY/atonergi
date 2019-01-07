@@ -22,7 +22,7 @@
 						</div>
 						<div class="col-md-3 col-sm-6 col-xs-12">
 							<div class="form-group">
-								<input type="text" readonly="" class="form-control-sm form-control so_nota" value="{{ $data->so_nota }}" name="so_nota">
+								<input type="text" readonly="" class="form-control-sm form-control so_nota" value="{{ $data->wo_nota }}" name="so_nota">
 							</div>
 						</div>
 						<div class="col-md-3 col-sm-6 col-xs-12">
