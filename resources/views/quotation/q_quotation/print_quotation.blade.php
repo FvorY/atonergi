@@ -6,7 +6,7 @@
 *{
 	font-family: arial;
 	text-align: center;
-	
+
 }
 table {
     border-collapse: collapse;
@@ -57,14 +57,14 @@ table, td, th {
 	content: "";
 	background-image: url("{{asset('assets/atonergi.png')}}");
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
 	position: absolute;
 	z-index: -1;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	opacity: 0.1; 
+	opacity: 0.1;
 	width: 90vw;
 }
 .top
@@ -170,11 +170,11 @@ table, td, th {
 		<button onclick="javascript:window.print();">Print</button>
 	</div>
 <div class="div-width-background">
-	
+
 </div>
 	<div class="div-width">
 		<div class="page-break">
-			
+
 			<div class="header-left">
 				<img width="300px" height="80px" src="{{asset('assets/atonergi.png')}}">
 			</div>
@@ -197,9 +197,9 @@ table, td, th {
 						</tr>
 					</tbody>
 				</table>
-				
+
 			</div>
-			
+
 			<div class="header-right" style="margin-top: 15px;">
 				<table class="border-none" width="100%">
 					<tbody>
@@ -230,7 +230,7 @@ table, td, th {
 				</table>
 			</div>
 			<table class="border-none" width="100%" style="margin-bottom: 15px;">
-				
+
 				<thead>
 					<tr class="border-none">
 						<th class="border-none" width="30%">Shipping Method</th>
@@ -246,7 +246,7 @@ table, td, th {
 						<td>{{ carbon\carbon::parse($head->q_delivery)->format('d-m-Y') }}</td>
 					</tr>
 				</tbody>
-				
+
 			</table>
 
 			<table class="border-none" id="print_quotation" width="100%">
@@ -271,7 +271,11 @@ table, td, th {
 						<td>{{ $b->i_name }}</td>
 						<td>{{ $b->qd_qty }}</td>
 						<td>{{ $b->u_unit }}</td>
-						<td>{{ $b->qd_description }}</td>
+						@if ($b->qd_description == null)
+							<td> </td>
+						@else
+							<td>{{ $b->qd_description }}</td>
+						@endif
 						@if($print === 'detail')
 						<td>
 							<div class="float-left">
@@ -295,7 +299,7 @@ table, td, th {
 						@else
 							<td></td>
 						@endif
-						
+
 						@if($print === 'detail')
 						<td>
 							<div class="float-left">
@@ -319,7 +323,7 @@ table, td, th {
 						@else
 							<td></td>
 						@endif
-						
+
 					</tr>
 					@endforeach
 					@foreach($jasa as $i=> $b)
@@ -352,7 +356,7 @@ table, td, th {
 						@else
 							<td></td>
 						@endif
-						
+
 						@if($print === 'detail')
 						<td class="blue">
 							<div class="float-left">
@@ -376,7 +380,7 @@ table, td, th {
 						@else
 							<td></td>
 						@endif --}}
-						
+
 					</tr>
 					@endforeach
 					@foreach($array as $a)
@@ -389,18 +393,18 @@ table, td, th {
 						@if($print==='detail')
 						<td>
 							<div class="float-left">
-								
+
 							</div>
 							<div class="float-right">
-								
+
 							</div>
 						</td>
 						<td>
 							<div class="float-left">
-								
+
 							</div>
 							<div class="float-right">
-								
+
 							</div>
 						</td>
 
@@ -428,7 +432,7 @@ table, td, th {
 							</div>
 							<div class="float-right">
 								{{ number_format($head->q_tax, 2, ",", ".") }}
-								
+
 							</div>
 						</td>
 					</tr>
