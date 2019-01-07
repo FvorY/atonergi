@@ -126,8 +126,9 @@ class OrderController extends Controller
             $data_dt = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
                        ->join('d_unit', 'u_id', '=', 'i_unit')
-                       ->where('qd_id',$id)
+                       ->where('qd_id',$data->q_id)
                        ->get();
+
 
             return view('order/salesorder/detail_salesorder',compact('data_dt','data','market','id'));
         }
@@ -270,7 +271,7 @@ class OrderController extends Controller
             $data_dt = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
                        ->join('d_unit', 'u_id', '=', 'i_unit')
-                       ->where('qd_id',$id)
+                       ->where('qd_id',$data->q_id)
                        ->get();
 
             return view('order/workorder/detail_workorder',compact('data_dt','data','market','id'));
