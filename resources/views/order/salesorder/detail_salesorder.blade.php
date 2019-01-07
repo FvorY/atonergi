@@ -110,7 +110,7 @@
 			              <tbody>
 			                @foreach($data_dt as $i=>$val)
 			                <tr>
-			                	<td>{{ $val->i_name }} {{$val->i_code}}</td>
+			                	<td>{{ $val->i_name }}</td>
 			                	<td>{{ $val->qd_qty }}</td>
 			                	<td>{{ $val->u_unit }}</td>
 												@if ($val->qd_description == "null")

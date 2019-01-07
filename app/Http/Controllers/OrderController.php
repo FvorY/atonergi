@@ -127,6 +127,7 @@ class OrderController extends Controller
                        ->join('m_item','i_code','=','qd_item')
                        ->join('d_unit', 'u_id', '=', 'i_unit')
                        ->where('qd_id',$data->q_id)
+                       ->orderby('qd_dt')
                        ->get();
 
 
@@ -272,6 +273,7 @@ class OrderController extends Controller
                        ->join('m_item','i_code','=','qd_item')
                        ->join('d_unit', 'u_id', '=', 'i_unit')
                        ->where('qd_id',$data->q_id)
+                       ->orderby('qd_dt')
                        ->get();
 
             return view('order/workorder/detail_workorder',compact('data_dt','data','market','id'));
