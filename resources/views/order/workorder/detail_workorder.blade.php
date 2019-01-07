@@ -18,7 +18,7 @@
 	          	<h4 class="card-title">Sales Order</h4>
 					<div class="row">
 						<div class="col-md-3 col-sm-6 col-xs-12">
-							<label>S.O.#</label>
+							<label>W.O.#</label>
 						</div>
 						<div class="col-md-3 col-sm-6 col-xs-12">
 							<div class="form-group">

@@ -158,6 +158,7 @@ Route::get('/order/s_invoice/detail_s_invoice', 'OrderController@detail_s_invoic
 Route::get('/order/s_invoice/print_salesinvoice', 'OrderController@print_salesinvoice');
 Route::get('/order/workorder/w_order', 'OrderController@w_order');
 Route::get('/order/workorder/w_order/detail_workorder', 'OrderController@detail_workorder');
+Route::get('/order/workorder/print_workorder/{id}', 'OrderController@print_workorder');
 Route::get('/order/checklistform/checklistform', 'OrderController@checklist');
 Route::get('/order/pelunasanorder/pelunasanorder', 'OrderController@pelunasanorder');
 Route::get('/order/f_penjualan/f_penjualan', 'OrderController@f_penjualan');
