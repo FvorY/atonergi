@@ -125,6 +125,7 @@ class OrderController extends Controller
 
             $data_dt = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
+                       ->join('d_unit', 'u_id', '=', 'i_unit')
                        ->where('qd_id',$id)
                        ->get();
 
@@ -268,6 +269,7 @@ class OrderController extends Controller
 
             $data_dt = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
+                       ->join('d_unit', 'u_id', '=', 'i_unit')
                        ->where('qd_id',$id)
                        ->get();
 

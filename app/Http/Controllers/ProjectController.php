@@ -310,7 +310,7 @@ class ProjectController extends Controller
                 ->distinct('si_judul')
                 ->get();
 
-                logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description));
+                logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description);
 
       return view('project/jadwalujicoba/pdf_jadwal', compact('data', 'image', 'judul'));
     }
@@ -333,7 +333,7 @@ class ProjectController extends Controller
                       ->where('sc_schedule', $request->id)
                       ->get();
 
-                      logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description));
+                      logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description);
 
         return view('project/jadwalujicoba/pdf_install', compact('data', 'quotation'));
     }

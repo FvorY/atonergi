@@ -2,7 +2,7 @@
 @section('content')
 <!-- partial -->
 <div class="content-wrapper">
-	<div class="col-lg-12">	
+	<div class="col-lg-12">
 		<nav aria-label="breadcrumb" role="navigation">
 			<ol class="breadcrumb bg-info">
 				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -94,7 +94,7 @@
 							</div>
 						</div>
 					</div>
-			          
+
 			          <div class="table-responsive" style="margin-bottom: 15px;">
 			            <table class="table table-hover data-table" cellspacing="0">
 			              <thead class="bg-gradient-info">
@@ -110,10 +110,14 @@
 			              <tbody>
 			                @foreach($data_dt as $i=>$val)
 			                <tr>
-			                	<td>{{ $val->i_name }}</td>
+			                	<td>{{ $val->i_name }} {{$val->i_code}}</td>
 			                	<td>{{ $val->qd_qty }}</td>
-			                	<td>{{ $val->i_unit }}</td>
-			                	<td>{{ $val->qd_description }}</td>
+			                	<td>{{ $val->u_unit }}</td>
+												@if ($val->qd_description == "null")
+													<td></td>
+												@else
+													<td>{{ $val->qd_description }}</td>
+												@endif
 			                	<td>{{ 'Rp. '. number_format($val->qd_price, 2, ",", ".") }}</td>
 			                	<td>{{ 'Rp. '. number_format($val->qd_total, 2, ",", ".") }}</td>
 			                </tr>
@@ -128,7 +132,7 @@
 				              <label>Subtotal</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				                <input value="{{ 'Rp. '. number_format($data->q_subtotal, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="" value="600000" readonly="">
 				              </div>
 				            </div>
@@ -136,7 +140,7 @@
 				              <label>Sales Tax</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				                <input value="{{ 'Rp. '. number_format($data->q_tax, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="" value="100000" readonly="">
 				              </div>
 				            </div>
@@ -144,7 +148,7 @@
 				              <label>Total</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				                <input value="{{ 'Rp. '. number_format($data->q_total, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="" value="700000" readonly="">
 				              </div>
 				            </div>
@@ -152,7 +156,7 @@
 				              <label>DP</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				                <input value="{{ 'Rp. '. number_format($data->q_dp, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="" value="700000" readonly="">
 				              </div>
 				            </div>
@@ -160,19 +164,19 @@
 				              <label>Select Payment</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				                <select class="form-control" disabled="">
 				                  <option @if($data->so_method == 'tunai') selected="" @endif value="tunai">Tunai</option>
 				                  <option @if($data->so_method == 'transfer') selected="" @endif value="transfer">Transfer</option>
 				                </select>
 				              </div>
 				            </div>
-				            
+
 				            <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
 				              <label>Remaining Balance</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				                <input value="{{ 'Rp. '. number_format($data->q_remain, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="" readonly="" value="0">
 				              </div>
 				            </div>
@@ -196,7 +200,7 @@ function printing(id) {
 	iziToast.show({
         overlay: true,
         close: false,
-        timeout: 20000, 
+        timeout: 20000,
         color: 'dark',
         icon: 'fas fa-question-circle',
         title: 'Print Data!',
