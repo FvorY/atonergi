@@ -166,8 +166,8 @@
 				            <div class="col-md-2 col-sm-6 col-xs-12">
 				              <div class="form-group">
 				                <select class="form-control" disabled="">
-				                  <option @if($data->so_method == 'tunai') selected="" @endif value="tunai">Tunai</option>
-				                  <option @if($data->so_method == 'transfer') selected="" @endif value="transfer">Transfer</option>
+				                  <option @if($data->wo_method == 'tunai') selected="" @endif value="tunai">Tunai</option>
+				                  <option @if($data->wo_method == 'transfer') selected="" @endif value="transfer">Transfer</option>
 				                </select>
 				              </div>
 				            </div>
