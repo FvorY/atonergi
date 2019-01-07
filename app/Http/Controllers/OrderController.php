@@ -118,18 +118,25 @@ class OrderController extends Controller
                 if ($marketing[$i]->mk_id == $data->q_marketing) {
                     $market = $marketing[$i]->mk_code. ' - ' .$marketing[$i]->mk_name;
                 }
-            }            
+            }
 
             $item = DB::table('m_item')
                       ->get();
 
-            $data_dt = DB::table('d_quotation_dt')
+            $tmp = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
                        ->join('d_unit', 'u_id', '=', 'i_unit')
                        ->where('qd_id',$data->q_id)
                        ->orderby('qd_dt')
                        ->get();
 
+            $data_dt = [];
+
+            for ($i=0; $i < count($tmp); $i++) {
+              if (stristr($tmp[$i]->i_code, 'BRG')) {
+                $data_dt[$i] = $tmp[$i];
+              }
+            }
 
             return view('order/salesorder/detail_salesorder',compact('data_dt','data','market','id'));
         }
@@ -269,12 +276,20 @@ class OrderController extends Controller
             $item = DB::table('m_item')
                       ->get();
 
-            $data_dt = DB::table('d_quotation_dt')
+            $tmp = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
                        ->join('d_unit', 'u_id', '=', 'i_unit')
                        ->where('qd_id',$data->q_id)
                        ->orderby('qd_dt')
                        ->get();
+
+             $data_dt = [];
+
+             for ($i=0; $i < count($tmp); $i++) {
+               if (stristr($tmp[$i]->i_code, 'BJS')) {
+                 $data_dt[$i] = $tmp[$i];
+               }
+             }
 
             return view('order/workorder/detail_workorder',compact('data_dt','data','market','id'));
         }
