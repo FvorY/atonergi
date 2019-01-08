@@ -5,14 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Yajra\Datatables\Datatables;
+
 use DB;
 
 use Carbon\Carbon;
 
+use App\mMember;
 
+use App\Http\Controllers\logController;
 class JabatanController extends Controller
 {
     public function index(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'aktif')) {
+        return redirect('error-404');
+      }
+
       $divisi = DB::table('m_divisi')
                   ->get();
 
@@ -44,6 +51,9 @@ class JabatanController extends Controller
     }
 
     public function simpan(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -64,6 +74,8 @@ class JabatanController extends Controller
               'created_at' => Carbon::now('Asia/Jakarta')
             ]);
 
+            logController::inputlog('Master Data Jabatan', 'Insert', $request->namajabatan);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -78,6 +90,9 @@ class JabatanController extends Controller
     }
 
     public function edit(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'ubah')) {
+        return redirect('error-404');
+      }
       $data = DB::table('m_jabatan')
                 ->where('c_id', $request->id)
                 ->get();
@@ -86,6 +101,9 @@ class JabatanController extends Controller
     }
 
     public function update(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -94,6 +112,8 @@ class JabatanController extends Controller
               ->update([
                 'c_posisi' => $request->data
               ]);
+
+              logController::inputlog('Master Data Jabatan', 'Update', $request->data);
 
         DB::commit();
         return response()->json([
@@ -109,12 +129,20 @@ class JabatanController extends Controller
     }
 
     public function hapus(Request $request){
+      if (!mMember::akses('MASTER DATA JABATAN', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
+
+        $data = DB::table('m_jabatan')
+              ->where('c_id', $request->id)->first();
 
         DB::table('m_jabatan')
               ->where('c_id', $request->id)
               ->delete();
+
+              logController::inputlog('Master Data Jabatan', 'Hapus', $data->c_posisi);
 
         DB::commit();
         return response()->json([

@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
+use App\mMember;
+use App\Http\Controllers\logController;
 class master_NpenawaranController extends Controller
 {
- 	
+
  	public function n_penawaran()
  	{
  		// return 'a';
@@ -23,7 +25,7 @@ class master_NpenawaranController extends Controller
  		$list = DB::select("SELECT * from d_npenawaran left join m_item on m_item.i_code = d_npenawaran.np_kodeitem left join d_marketing on d_marketing.mk_code = d_npenawaran.np_marketing ");
         // return $list;
         $data = collect($list);
-        
+
         // return $data;
 
         return Datatables::of($data)
@@ -50,7 +52,7 @@ class master_NpenawaranController extends Controller
  		$kode = DB::table('d_npenawaran')->max('np_id');
 	    $tanggal = date("Y-m-d h:i:s");
 
- 		for ($i=0; $i <count($request->item_kode) ; $i++) { 
+ 		for ($i=0; $i <count($request->item_kode) ; $i++) {
  			if ($kode == null) {
     	 		$kode = 1;
 	    	}else{
@@ -81,7 +83,7 @@ class master_NpenawaranController extends Controller
  		$kode = DB::table('d_npenawaran')->max('np_id');
 	    $tanggal = date("Y-m-d h:i:s");
 
- 		
+
  			if ($kode == null) {
     	 		$kode = 1;
 	    	}else{
@@ -101,7 +103,7 @@ class master_NpenawaranController extends Controller
 						'np_lowerlimit' =>$low_price,
 						'np_update' =>$tanggal,
 					]);
- 		
+
  		return response()->json($data);
  	}
  	public function dataedit_Npenawaran(Request $request)
@@ -110,7 +112,7 @@ class master_NpenawaranController extends Controller
     	return response()->json($data);
  	}
  	public function hapus_Npenawaran(Request $request)
- 	{	
+ 	{
  		// dd($request->all());
  		$data = DB::table('d_npenawaran')->where('np_kode','=',$request->id)->delete();
     	return response()->json($data);

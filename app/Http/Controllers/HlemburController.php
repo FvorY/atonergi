@@ -11,7 +11,8 @@ use Response;
 use DB;
 use DataTables;
 use Auth;
-
+use App\mMember;
+use App\Http\Controllers\logController;
 class HlemburController extends Controller
 {
     public function lookup_divisi(Request $request)

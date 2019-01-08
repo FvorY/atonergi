@@ -6,7 +6,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-    <div class="col-lg-12"> 
+    <div class="col-lg-12">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb bg-info">
           <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -19,9 +19,11 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Master Data Customer</h4>
+                    @if (App\mMember::akses('MASTER DATA CUSTOMER', 'tambah'))
                     <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                     	<button type="button" class="btn btn-info" data-toggle="modal" id="button_add" data-target="#tambah-customer"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
                     </div>
+                    @endif
                     <div class="table-responsive">
         				        <table class="table table-hover " id="table-cust" cellspacing="0">
                             <thead class="bg-gradient-info">
@@ -34,13 +36,13 @@
                                 <th>Action</th>
                               </tr>
                             </thead>
-                           
+
                             <tbody>
 
                             </tbody>
 
-                            
-                        </table> 
+
+                        </table>
                     </div>
                   </div>
                 </div>
@@ -53,7 +55,7 @@
 
   <script type="text/javascript">
 
-    
+
 
     $('#table-cust').DataTable({
             processing: true,
@@ -67,7 +69,7 @@
                   {
                      targets: 1 ,
                      className: 'center d_id'
-                  }, 
+                  },
                 ],
             "columns": [
             { "data": "c_birthday" },
@@ -81,11 +83,11 @@
 
   $('#button_add').click(function(){
     var c_name      = $("input[name='c_name']").val('');
-    var c_tlp       = $("input[name='c_phone']").val(''); 
-    var c_email     = $("input[name='c_email']").val(''); 
-    var c_alamat    = $("textarea#c_address").val(''); 
-    var c_tipe      = $("select[name='c_type']").val('').trigger('change'); 
-    var c_hometown  = $("select[name='c_hometown']").val('').trigger('change'); 
+    var c_tlp       = $("input[name='c_phone']").val('');
+    var c_email     = $("input[name='c_email']").val('');
+    var c_alamat    = $("textarea#c_address").val('');
+    var c_tipe      = $("select[name='c_type']").val('').trigger('change');
+    var c_hometown  = $("select[name='c_hometown']").val('').trigger('change');
     var c_informasi = $("textarea#c_information").val('');
     var c_npwp      = $("input[name='c_npwp']").val('');
     var c_creditterms     = $("input[name='c_creditterms']").val('');
@@ -147,7 +149,7 @@
            async: false
          });
    }
-    
+
 
   function edit(parm){
     var par   = $(parm).parents('tr');
@@ -160,11 +162,11 @@
          success: function(data){
           // console.log(data);
             var c_name      = $("input[name='c_name']").val(data[0].c_name);
-            var c_tlp       = $("input[name='c_phone']").val(data[0].c_phone); 
-            var c_email     = $("input[name='c_email']").val(data[0].c_email); 
-            var c_alamat    = $("textarea#c_address").val(data[0].c_address); 
-            var c_tipe      = $("select[name='c_type']").val(data[0].c_type).trigger('change'); 
-            var c_hometown  = $("select[name='c_hometown']").val(data[0].c_hometown).trigger('change'); 
+            var c_tlp       = $("input[name='c_phone']").val(data[0].c_phone);
+            var c_email     = $("input[name='c_email']").val(data[0].c_email);
+            var c_alamat    = $("textarea#c_address").val(data[0].c_address);
+            var c_tipe      = $("select[name='c_type']").val(data[0].c_type).trigger('change');
+            var c_hometown  = $("select[name='c_hometown']").val(data[0].c_hometown).trigger('change');
             var c_informasi = $("textarea#c_information").val(data[0].c_information);
             var c_npwp      = $("input[name='c_npwp']").val(data[0].c_npwp);
             var c_creditterms     = $("input[name='c_creditterms']").val(data[0].c_creditterms);
@@ -194,7 +196,7 @@
     iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Important!',
@@ -214,8 +216,8 @@
                       console.log(data);
                       var table = $('#table-cust').DataTable();
                       table.ajax.reload();
-                      
-                     
+
+
                      },
                      error: function(){
                       iziToast.warning({
@@ -225,7 +227,7 @@
                      },
                      async: false
                    });
-                 
+
                 }
               ],
               [

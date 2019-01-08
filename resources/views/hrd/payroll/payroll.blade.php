@@ -1,10 +1,10 @@
 @extends('main')
 @section('content')
 
-@include('hrd/payroll/tambah_payroll_manajemen')
+{{-- @include('hrd/payroll/tambah_payroll_manajemen')
 @include('hrd/payroll/edit_payroll_manajemen')
 @include('hrd/payroll/tambah_payroll_tunjangan')
-@include('hrd/payroll/edit_payroll_tunjangan')
+@include('hrd/payroll/edit_payroll_tunjangan') --}}
 <!-- partial -->
 <div class="content-wrapper">
 	<div class="row">
@@ -18,56 +18,22 @@
 			</nav>
 		</div>
 
-		<div class="col-lg-12 alamraya-row-nav">
-			<ul class="nav nav-tabs tab-solid tab-solid-primary alamraya-navtab" role="tablist">
+		<div class="col-lg-12 ">
+			<ul class="nav nav-tabs tab-solid tab-solid-primary mb-0" role="tablist">
 		        <li class="nav-item">
-		          <a class="nav-link active" id="tab-6-1" data-toggle="tab" href="#absmanajemen" role="tab" aria-controls="absmanajemen" aria-selected="true"><i class="mdi mdi-folder-account"></i>Manajemen</a>
+		          <a class="nav-link active" id="tab-6-1" data-toggle="tab" href="#pmanagerial" role="tab" aria-controls="pmanagerial" aria-selected="true"><i class="mdi mdi-folder-account"></i>Managerial</a>
 		        </li>
 		        <li class="nav-item">
-		          <a class="nav-link " id="tab-6-2" data-toggle="tab" href="#abstunjangan" role="tab" aria-controls="abstunjangan" aria-selected="true"><i class="mdi mdi-coin"></i>Tunjangan</a>
+		          <a class="nav-link " id="tab-6-2" data-toggle="tab" href="#pstaff" role="tab" aria-controls="pstaff" aria-selected="true"><i class="mdi mdi-coin"></i>Staff</a>
 		        </li>
 		    </ul>
 
 			<div class="tab-content tab-content-solid col-lg-12">
 
-	            <div class="tab-pane fade show active" id="absmanajemen" role="tabpanel" aria-labelledby="tab-6-1">
-					<div class="col-lg-12 grid-margin stretch-card alamraya-no-padding">
-				      	<div class="card">
-					        <div class="card-body">
-					          <h4 class="card-title">Manajemen Payroll</h4>
-					          	<div class="row">
-									<div class="col-md-12 col-sm-12 col-xs-12 alamraya-btn-add-row" align="right">
-										<button class="btn btn-info" data-toggle="modal" data-target="#tambahmanajemen"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
-									</div>
-									<div class="table-responsive">
-										<table class="table table-hover" cellspacing="0" id="gaji1">
-										  <thead class="bg-gradient-info">
-										    <tr>
-										      <th>Nama</th>
-										      <th>SMA</th>
-										      <th>D3</th>
-										      <th>S1</th>
-										      <th>Pangkat</th>
-										      <th>Aksi</th>
-										    </tr>
-										  </thead>
-										  <tbody class="center">
+				@include('hrd.payroll.tab_managerial')
 
-										  </tbody>
-										</table>
-									</div>
+				@include('hrd.payroll.tab_staff')
 
-					        	</div>
-					      	</div>
-				    	</div>
-					</div>
-				</div>
-
-				<div class="tab-pane fade " id="abstunjangan" role="tabpanel" aria-labelledby="tab-6-2">
-
-				@include('hrd/payroll/include/tunjangan')
-
-				</div>
 
 			</div>
 		</div>
@@ -76,213 +42,101 @@
 <!-- content-wrapper ends -->
 @endsection
 @section('extra_script')
-
-@include('hrd/payroll/js/commander')
-@include('hrd/payroll/js/form_commander')
 <script type="text/javascript">
+	function refresh(){
+		window.location.href = baseUrl + '/hrd/payroll/payroll';
+	}
 
-var table;
-$(document).ready(function(){
-   table = $('#gaji1').DataTable({
-          processing: true,
-          responsive:true,
-          serverSide: true,
-          ajax: {
-              url: '{{route('datatable_payroll')}}',
-          },
-          "columns": [
-          { "data": "nm_gaji" },
-          { "data": "sma" },
-          { "data": "d3" },
-					{ "data": "s1" },
-					{ "data": "pangkat" },
-          { "data": "aksi" },
-          ]
-    });
+	function cetakmanagerial(){
+		var pin = [];
+		var selectedVal;
+		$(".managerialpin").each(function(i, sel){
+				selectedVal = $(sel).text();
+				pin.push(selectedVal);
+		});
 
-});
+		var nip = [];
+		var selectedVal;
+		$(".managerialnip").each(function(i, sel){
+				selectedVal = $(sel).text();
+				nip.push(selectedVal);
+		});
 
-function simpanm(){
-	$.ajax({
-		type: 'get',
-		data: $('#data_tambahm').serialize(),
-		dataType: 'json',
-		url: '{{route('simpan_payroll')}}',
-		success: function (response){
-			if (response.status == 'berhasil') {
-				iziToast.success({
-			    title: 'OK',
-			    message: 'Successfully!',
-				});
-				table.ajax.reload();
+		for (var i = 0; i < pin.length; i++) {
+			if (pin[i] == '') {
+				pin[i] = null;
 			} else {
-				iziToast.warning({
-			    title: 'info',
-			    message: 'Failed!',
-			});
+				pin[i] = parseInt(pin[i]);
 			}
 		}
-	});
-}
 
-	function hapus(id){
-	// function hapus(parm){
-    // var par   = $(parm).parents('tr');
-    // var id    = $(par).find('.d_id').text();
-
-    	iziToast.show({
-            overlay: true,
-            close: false,
-            timeout: 20000,
-            color: 'dark',
-            icon: 'fas fa-question-circle',
-            title: 'Important!',
-            message: 'Apakah Anda Yakin ?',
-            position: 'center',
-            progressBarColor: 'rgb(240, 0, 0)',
-            buttons: [
-              [
-                '<button style="background: rgb(190, 0, 0); color: white;" onclick="success()">Delete</button>',
-                function (instance, toast) {
-
-                  $.ajax({
-                     type: "get",
-                     url: '{{route('hapus_payroll')}}',
-                     data: {id},
-                     success: function(data){
-						if (data.status == 'berhasil') {
-							iziToast.success({
-							    title: 'OK',
-							    message: 'Successfully deleted record!',
-							});
-							table.ajax.reload();
-						}
-						else {
-							iziToast.warning({
-							    title: 'Info',
-							    message: 'Failed deleted record!',
-							});
-						}
-                     },
-                     error: function(){
-	                     iziToast.warning({
-	                        icon: 'fa fa-times',
-	                        message: 'Terjadi Kesalahan!',
-	                     });
-                     },
-                     async: false
-                   });
-
-                }
-              ],
-              [
-                '<button class="btn btn-info">Cancel</button>',
-                function (instance, toast) {
-                  instance.hide({
-                    transitionOut: 'fadeOutUp'
-                  }, toast);
-                }
-              ]
-            ]
-          });
-
-
-  	}
-
-	function edit(id){
-		$.ajax({
-			type: 'get',
-			data: {id:id},
-			dataType: 'json',
-			url: '{{route('edit_payroll')}}',
-			success : function(response){
-				$('#nm_gaji').val(response[0].nm_gaji);
-				$('#c_jabatanedit').val(response[0].c_jabatan);
-				$('#c_jabatanedit').find('option[value="'+response[0].c_jabatan+'"]').attr('selected','selected');
-	      var text = $('#c_jabatanedit').find('option[value="'+response[0].c_jabatan+'"]').text();
-				$('#select2-c_jabatanedit-container').text(text);
-				$('#c_sd').val(accounting.formatMoney(response[0].c_sd,"",2,'.',','));
-				$('#c_smp').val(accounting.formatMoney(response[0].c_smp,"",2,'.',','));
-				$('#c_sma').val(accounting.formatMoney(response[0].c_sma,"",2,'.',','));
-				$('#c_smk').val(accounting.formatMoney(response[0].c_smk,"",2,'.',','));
-				$('#c_d1').val(accounting.formatMoney(response[0].c_d1,"",2,'.',','));
-				$('#c_d2').val(accounting.formatMoney(response[0].c_d2,"",2,'.',','));
-				$('#c_d3').val(accounting.formatMoney(response[0].c_d3,"",2,'.',','));
-				$('#c_s1').val(accounting.formatMoney(response[0].c_s1,"",2,'.',','));
-
-				$('#updatem').attr('onclick', 'updatem('+id+')');
-
-				$('#editmanagement').modal('show');
-			}
-		});
-	}
-
-	function updatem(id){
-		$.ajax({
-			type: 'get',
-			data: $('#data_editm').serialize()+'&id='+id,
-			dataType: 'json',
-			url: '{{route('update_payroll')}}',
-			success : function(response){
-				if (response.status == 'berhasil') {
-					iziToast.success({
-						title: 'OK',
-						message: 'Successfully deleted record!',
-				});
-				table.ajax.reload();
+		for (var i = 0; i < nip.length; i++) {
+			if (nip[i] == '') {
+				nip[i] = null;
 			} else {
-				iziToast.warning({
-					title: 'Info',
-					message: 'Failed deleted record!',
-			});
+				nip[i] = parseInt(nip[i]);
 			}
-			}
+		}
+
+		var url = '';
+		for (var i = 0; i < nip.length; i++) {
+				url += 'nip%5B%5D='+nip[i]+'&';
+		}
+
+
+
+		for (var i = 0; i < pin.length; i++) {
+				url += 'pin%5B%5D='+pin[i]+'&';
+		}
+
+		window.open('{{route('print_payroll')}}?'+url , '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
+
+	}
+
+	function cetakstaff(){
+		var pin = [];
+		var selectedVal;
+		$(".staffpin").each(function(i, sel){
+				selectedVal = $(sel).text();
+				pin.push(selectedVal);
 		});
+
+		var nip = [];
+		var selectedVal;
+		$(".staffnip").each(function(i, sel){
+				selectedVal = $(sel).text();
+				nip.push(selectedVal);
+		});
+
+		for (var i = 0; i < pin.length; i++) {
+			if (pin[i] == '') {
+				pin[i] = null;
+			} else {
+				pin[i] = parseInt(pin[i]);
+			}
+		}
+
+		for (var i = 0; i < nip.length; i++) {
+			if (nip[i] == '') {
+				nip[i] = null;
+			} else {
+				nip[i] = parseInt(nip[i]);
+			}
+		}
+
+		var url = '';
+		for (var i = 0; i < nip.length; i++) {
+				url += 'nip%5B%5D='+nip[i]+'&';
+		}
+
+		url += '&';
+
+		for (var i = 0; i < pin.length; i++) {
+				url += 'pin%5B%5D='+pin[i]+'&';
+		}
+
+		window.open('{{route('print_payrolls')}}?'+url , '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
+
 	}
-
-  // function success(){
-	//
-  // 	iziToast.success({
-	//     title: 'OK',
-	//     message: 'Successfully deleted record!',
-	// });
-	//
-  // }
-
 </script>
-
-<script type="text/javascript">
-
-	function samakan() {
-	  var jum = $('#jumlah').val();
-	  $('#sd').val(jum);
-	  $('#smp').val(jum);
-	  $('#sma').val(jum);
-	  $('#smk').val(jum);
-	  $('#d1').val(jum);
-	  $('#d2').val(jum);
-	  $('#d3').val(jum);
-	  $('#s1').val(jum);
-	}
-
-
-</script>
-
-<script type="text/javascript">
-
-  $(function() {
-    $('.currency').maskMoney(
-    	{
-    		prefix:'RP. ',
-    		allowZero: true,
-    		allowNegative: true,
-    		thousands:'.',
-    		decimal:',',
-    		affixesStay: false
-    	}
-    );
-  })
-
-</script>
-
 @endsection

@@ -7,11 +7,15 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\Carbon;
-
+use App\mMember;
+use App\Http\Controllers\logController;
 class belanjalangsungController extends Controller
 {
    public function belanjalangsung()
     {
+      if (!mMember::akses('BELANJA LANGSUNG', 'aktif')) {
+        return redirect('error-404');
+      }
         $data = DB::table('d_belanja_langsung')
                 ->join('m_vendor', 's_kode', '=', 'dbl_vendor')
                 ->select('dbl_id', 'dbl_code', 's_company', 's_name', 'dbl_total_net')
@@ -24,6 +28,9 @@ class belanjalangsungController extends Controller
     }
     public function tambah_belanjalangsung(Request $request)
     {
+      if (!mMember::akses('BELANJA LANGSUNG', 'tambah')) {
+        return redirect('error-404');
+      }
         $vendor = DB::table('m_vendor')->get();
 
         $item = DB::table('m_item')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
@@ -33,6 +40,9 @@ class belanjalangsungController extends Controller
 
     public function edit(Request $request)
     {
+      if (!mMember::akses('BELANJA LANGSUNG', 'ubah')) {
+        return redirect('error-404');
+      }
         $id = $request->id;
 
         $vendor = DB::table('m_vendor')->get();
@@ -61,6 +71,9 @@ class belanjalangsungController extends Controller
     }
 
     public function simpan(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $id = DB::table('d_belanja_langsung')
@@ -325,7 +338,7 @@ class belanjalangsungController extends Controller
 
           }
 
-
+          logController::inputlog('Belanja Langsung', 'Insert', $nota);
 
         DB::commit();
         return response()->json([
@@ -340,6 +353,9 @@ class belanjalangsungController extends Controller
     }
 
     public function hapus(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -383,6 +399,7 @@ class belanjalangsungController extends Controller
           }
         }
 
+        logController::inputlog('Belanja Langsung', 'Hapus', $data[0]->dbl_code);
 
         DB::commit();
         return response()->json([
@@ -409,6 +426,9 @@ class belanjalangsungController extends Controller
     }
 
     public function update(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -629,6 +649,8 @@ class belanjalangsungController extends Controller
             }
           }
 
+          logController::inputlog('Belanja Langsung', 'Update', $nota);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -646,6 +668,9 @@ class belanjalangsungController extends Controller
     }
 
     public function customsimpan(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -719,6 +744,8 @@ class belanjalangsungController extends Controller
               }
         }
 
+        logController::inputlog('Belanja Langsung Custom', 'Insert', $nota);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -754,6 +781,9 @@ class belanjalangsungController extends Controller
     }
 
     public function customhapus(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -769,6 +799,8 @@ class belanjalangsungController extends Controller
               ->where('blcd_ref', $data[0]->blc_code)
               ->delete();
 
+              logController::inputlog('Belanja Langsung Custom', 'Hapus', $data[0]->dbl_code);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -783,6 +815,9 @@ class belanjalangsungController extends Controller
     }
 
     public function customedit(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'ubah')) {
+        return redirect('error-404');
+      }
       $id = $request->id;
 
       $custom = DB::table('d_belanja_langsung_custom')
@@ -797,6 +832,9 @@ class belanjalangsungController extends Controller
     }
 
     public function customupdate(Request $request){
+      if (!mMember::akses('BELANJA LANGSUNG', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -874,6 +912,8 @@ class belanjalangsungController extends Controller
                   ]);
               }
         }
+
+        logController::inputlog('Belanja Langsung Custom', 'Update', $nota);
 
         DB::commit();
         return response()->json([

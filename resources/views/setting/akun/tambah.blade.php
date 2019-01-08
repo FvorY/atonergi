@@ -37,6 +37,18 @@
                 </td>
               </tr>
               <tr>
+                <td>Mewakili Pegawai</td>
+                <td>
+                  <select class="pegawai form-control" name="pegawai">
+                    <option selected="" value="0"> - Pilih Pegawai - </option>
+                    @foreach ($pegawai as $key => $value)
+                      <option value="{{$value->mp_id}}">{{$value->mp_name}}</option>
+                    @endforeach
+                  </select>
+                  <label style="color: red" hidden="" class="valid_5"><b>Pegawai Harus Diisi</b></label>
+                </td>
+              </tr>
+              <tr>
                 <td>Account Level</td>
                 <td class="level_td">
                   <select class="level form-control" name="level">
@@ -45,7 +57,7 @@
                       <option value="{{$val->j_id}}">{{$val->j_nama}}</option>
                     @endforeach
                   </select>
-                  <label style="color: red" hidden="" class="valid_5"><b>Level Harus Dipilih</b></label>
+                  <label style="color: red" hidden="" class="valid_6"><b>Level Harus Dipilih</b></label>
                 </td>
               </tr>
               <tr>
@@ -54,7 +66,7 @@
                   <div class="file-upload">
                     <div class="file-select">
                       <div class="file-select-button" id="fileName">Image</div>
-                      <div class="file-select-name" id="noFile">Choose Image...</div> 
+                      <div class="file-select-name" id="noFile">Choose Image...</div>
                       <input type="file" name="image" onchange="loadFile(event)" id="chooseFile">
                     </div>
                   </div>

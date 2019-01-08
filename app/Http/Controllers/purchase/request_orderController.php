@@ -7,11 +7,15 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\Carbon;
-
+use App\mMember;
+use App\Http\Controllers\logController;
 class request_orderController extends Controller
 {
    public function rencanapembelian()
     {
+      if (!mMember::akses('REQUEST ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
         // return 'a';
         $kode = DB::table('d_requestorder')->max('ro_id');
             if ($kode == null) {
@@ -137,6 +141,9 @@ class request_orderController extends Controller
     }
     public function approve_rencanapembelian(Request $request)
     {
+      if (!mMember::akses('REQUEST ORDER', 'tambah')) {
+        return redirect('error-404');
+      }
              // dd($request->all());
 
              $tanggal = date("Y-m-d h:i:s");
@@ -176,12 +183,16 @@ class request_orderController extends Controller
                     'rodt_status' =>$status[$i],
                 ]);
 
+                logController::inputlog('Request Order', 'Approve', $request->kode[$i]);
             }
             return $sequence;
 
     }
     public function simpan_rencanapembelian(Request $request)
     {
+      if (!mMember::akses('REQUEST ORDER', 'tambah')) {
+        return redirect('error-404');
+      }
             // dd($request->all());
             $kode = DB::table('d_requestorder')->max('ro_id');
                 if ($kode == null) {
@@ -231,15 +242,20 @@ class request_orderController extends Controller
                         'rodt_insert' =>$tanggal,
                 ]);
             }
+            logController::inputlog('Request Order', 'Insert', $request->ro_code_header);
 
         return response()->json(['status'=>1]);
     }
 
     public function hapus_rencanapembelian(Request $request)
     {
+      if (!mMember::akses('REQUEST ORDER', 'hapus')) {
+        return redirect('error-404');
+      }
         $hapus_header = DB::table('d_requestorder')->where('ro_code','=',$request->id)->where('ro_status_po','!=','T')->delete();
         $hapus_seq = DB::table('d_requestorder_dt')->where('rodt_code','=',$request->id)->where('rodt_status_po','!=','T')->delete();
 
+        logController::inputlog('Request Order', 'Insert', $request->id);
         return response()->json(['status'=>1]);
     }
 

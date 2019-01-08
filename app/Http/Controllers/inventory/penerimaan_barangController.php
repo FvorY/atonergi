@@ -7,15 +7,28 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\Carbon;
+use App\mMember;
+use App\Http\Controllers\logController;
 class penerimaan_barangController extends Controller
 {
 
 	 public function penerimaan_barang()
 	 {
+		 if (!mMember::akses('PENERIMAAN BARANG', 'aktif')) {
+			 return redirect('error-404');
+		 }
 		 $po = DB::table('d_purchaseorder')
 							 ->leftjoin('d_requestorder', 'ro_code', '=', 'po_nomor_ro')
 							 ->where('po_status','=','F')
 							 ->get();
+
+		for ($i=0; $i < count($po); $i++) {
+			$tmp = DB::table("m_vendor")
+								->where('s_kode', $po[$i]->po_vendor)
+								->first();
+
+			$po[$i]->po_vendor = $tmp->s_company;
+		}
 
 	 	return view('inventory/penerimaan_barang/penerimaan_barang',compact("po", "vendor"));
 	 }
@@ -198,7 +211,7 @@ class penerimaan_barangController extends Controller
 								}
 
 	 	}
-
+		logController::inputlog('Penerimaan Barang', 'Insert', $nota);
 	 	return response()->json(['status'=>1]);
 	 });
 	 }
@@ -378,7 +391,7 @@ class penerimaan_barangController extends Controller
  						 }
 
   }
-
+		logController::inputlog('Penerimaan Barang', 'Update', $nota);
 	 	return response()->json(['status'=>1]);
 	 });
 	 }
@@ -393,8 +406,8 @@ class penerimaan_barangController extends Controller
 	 }
 	 public function hapus_penerimaan_barang(Request $request)
 	 {
-	 	dd($request->all());
 	 	$header_penerimaan = DB::table('d_penerimaan_barang')->where('pb_code','=',$request->id)->delete();
 	 	$seq_penerimaan = DB::table('d_penerimaan_barang_dt')->where('pbdt_code','=',$request->id)->delete();
+		logController::inputlog('Penerimaan Barang', 'Delete', $request->id);
 	 }
 }

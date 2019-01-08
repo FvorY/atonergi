@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
-
+use App\mMember;
+use App\Http\Controllers\logController;
 class master_marketingController extends Controller
 {
-   
+
     public function marketing()
     {
         return view('quotation/marketing/marketing');
@@ -17,7 +18,7 @@ class master_marketingController extends Controller
     public function kode_marketing(Request $request)
     {
         $kode = DB::table('d_marketing')->max('mk_id');
-    
+
             if ($kode == null) {
                 $kode = 1;
             }else{
@@ -28,7 +29,7 @@ class master_marketingController extends Controller
         return response()->json($nota);
     }
     public function datatalble_marketing(Request $request)
-    { 
+    {
     	$list = DB::select("SELECT * from d_marketing");
         // return $data;
         $data = collect($list);
@@ -52,7 +53,7 @@ class master_marketingController extends Controller
     {
     	// dd($request->all());
     	$kode = DB::table('d_marketing')->max('mk_id');
-    
+
             if ($kode == null) {
                 $kode = 1;
             }else{
@@ -83,7 +84,7 @@ class master_marketingController extends Controller
     public function update_marketing(Request $request)
     {
     	// dd($request->all());
-    	
+
     	$data = DB::table('d_marketing')
     			->where('mk_code','=',$request->kode_old)
     			->update([
@@ -96,7 +97,7 @@ class master_marketingController extends Controller
     			]);
 
     	return response()->json(['status'=>1]);
-    	
+
     }
     public function hapus_marketing(Request $request)
     {
@@ -105,5 +106,5 @@ class master_marketingController extends Controller
     	return response()->json($data);
     }
 
-       
+
 }

@@ -14,7 +14,7 @@
   <script src="{{asset('assets/js/jquery-clockpicker.min.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/bower_components/clockpicker/dist/jquery-clockpicker.min.js"></script>
   <script src="{{asset('assets/node_modules/popper.js/dist/umd/popper.min.js')}}"></script>
   <script src="{{asset('assets/node_modules/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-  <script src="{{asset('assets/node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js')}}"></script>
+  {{-- <script src="{{asset('assets/node_modules/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js')}}"></script> --}}
   <script src="{{asset('assets/node_modules/select2/dist/js/select2.min.js')}}"></script>
   <script src="{{asset('assets/node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
   <script src="{{asset('assets/node_modules/jquery-toast-plugin/dist/jquery.toast.min.js')}}"></script>
@@ -44,7 +44,7 @@
   <script src="{{asset('assets/js/off-canvas.js')}}"></script>
   <script src="{{asset('assets/js/accounting.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.maskMoney.js')}}"></script>
-  <script src="{{asset('assets/js/misc.js')}}"></script>
+
   <script src="{{asset('assets/js/hoverable-collapse.js')}}"></script>
   <script src="{{asset('assets/js/settings.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/js/settings.js"></script>
   <script src="{{asset('assets/js/todolist.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/js/todolist.js"></script>
@@ -112,6 +112,12 @@
     })
   </script>
   
+  <script type="text/javascript">
+    $('.input-daterange').datepicker({
+        format:'dd-mm-yyyy'
+    });
+  </script>
+
   <script type="text/javascript">
   iziToast.settings({
     timeout: 3000,
@@ -321,8 +327,131 @@
         $('.navbar').addClass('navbar-light');
         Cookies.set('navbar', 'navbar-light', {expires : 365});
     });
+</script>
 
-  // Filter Search Menu Submenu Sidebar
+  {{-- Filter Menu --}}
+    <script type="text/javascript">
+
+      $(document).ready(function(){
+        // custom function .ignore()
+        $.fn.ignore = function(sel){
+          return this.clone().find(sel||">*").remove().end();
+        };
+        // end custom function
+
+        $cancel_search = $('#btn-reset');
+        $btn_search_menu = $('#btn-search-menu');
+        $search_fld = $('#filterInput');
+        $filter = $search_fld.val().toUpperCase();
+        $ul = $('#ayaysir');
+        $li = $ul.children('li');
+
+        // $('#wid-id-0 .widget-body').html($('#sidebar ul > li').parents('li').text() + '<br>')
+        $('#sidebar ul > li > a').each(function(){
+          $(this).prepend('<span class="d-none"> '+ $(this).parents('li').find('.menu-title').text() +'</span>');
+        });
+        $('#sidebar ul > li:has(ul) > a').each(function(){
+          $(this).prepend('<span class="d-none d-sm-none"> '+ $(this).parent('li').children().ignore('span').text() +'</span>');
+        });
+        $('#sidebar ul > li > ul > li > a').each(function(){
+          $(this).prepend('<span class="d-none d-xs-none"> '+ $(this).parent().parent().parent().ignore('span').ignore('ul').text() +'</span>');
+        });
+
+        $search_fld.on('keyup focus blur resize', function(){
+
+          if($(this).val().length != 0){
+            // alert('a');
+            $('#btn-reset').removeClass('d-none');
+          } else {
+            $('#btn-reset').addClass('d-none');
+          }
+
+          var input, filter, ul, li, a, i;
+              input = document.getElementById("filterInput");
+              filter = input.value.toUpperCase();
+              ul = document.getElementById("ayaysir");
+              li = ul.getElementsByTagName("li");
+              for (i = 0; i < li.length; i++) {
+                  a = li[i].getElementsByTagName("a")[0];
+                  if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                      li[i].style.display = "";
+                  } else {
+                      li[i].style.display = "none";
+
+                  }
+              if($(this).val() != 0){
+                $('#sidebar ul > li > a').find('.menu-title').parents('li').find('div').addClass('show');
+                // $('#sidebar ul > li > a').find('.menu-title').parents('li').find('ul').css('display', 'block');
+
+              } else {
+
+                $('#sidebar ul > li > a').find('.menu-title').parents('li').find('div').removeClass('show');
+                // $('#sidebar ul > li > a').find('.menu-title').parents('li').find('ul').css('display', 'none');
+
+
+                if ($('#sidebar ul > li > a').parents('li').hasClass('active') === true ) {
+
+                  $('#sidebar ul > li > a').parents('ul').find('.active').find('div').addClass('show');
+                  // $('#sidebar ul > li > a').parents('ul').find('.active').children('ul').css('display', 'block');
+                }
+              }
+              }
+        });
+
+        $cancel_search.on('click', function(){
+          $search_fld.val(null);
+          $search_fld.focus();
+        });
+
+
+        $btn_search_menu.on('click', function(){
+          $search_fld.focus();
+        });
+
+
+
+
+      });
+      @if (App\mMember::akses('LOG ACTIVITY', 'aktif'))
+        function openlog(){
+          var html = '';
+          $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: baseUrl + '/getlog',
+            success : function(response){
+              for (var i = 0; i < response.length; i++) {
+                html += '<li class="list">'+
+                  '<div class="info">'+
+                    '<p style="font-weight: bold;">'+response[i].l_user+'</p>'+
+                    '<p>'+response[i].l_log+'</p>'+
+                    '<p>'+response[i].l_action+' : '+response[i].l_parameter+'</p>'+
+                  '</div>'+
+                  '<small class="text-muted my-auto">'+response[i].l_insert+'</small>'+
+                '</li>';
+              }
+              $('#showlog').html(html);
+            }
+          });
+        }
+
+        function clearlog(){
+          $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: baseUrl + '/clearlog',
+            success : function(response) {
+              if (response.status == 'berhasil') {
+                $('#showlog').html('');
+              }
+            }
+          })
+        }
+      @endif
+
+    </script>
+    {{-- end filter menu --}}
+{{-- <script type="text/javascript">
   function myFunction() {
     var input, filter, ul, li, a, i;
     input = document.getElementById("filterInput");
@@ -355,7 +484,7 @@
   }
 
 
-</script>
+</script> --}}
 
 <script type="text/javascript">
 
@@ -380,4 +509,13 @@
     );
   })
 
+</script>
+
+{{-- Close THeme Setting --}}
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.container-scroller').click(function(){
+      $('#theme-settings').removeClass('open');
+    })
+  });
 </script>

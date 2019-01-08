@@ -6,13 +6,17 @@ use Illuminate\Http\Request;
 
 use Carbon\Carbon;
 
-use Yajra\Datatables\DataTables;
+use Yajra\Datatables\Datatables;
 
 use DB;
-
+use App\mMember;
+use App\Http\Controllers\logController;
 class percentController extends Controller
 {
     public function index(){
+      if (!mMember::akses('MASTER PERCENT', 'aktif')) {
+        return redirect('error-404');
+      }
       return view('master.percent.index');
     }
 
@@ -45,6 +49,9 @@ class percentController extends Controller
     }
 
     public function aktif(Request $request){
+      if (!mMember::akses('MASTER PERCENT', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -53,11 +60,18 @@ class percentController extends Controller
                     ->count();
 
         if ($check < 1) {
+          $data = DB::table('m_percent')
+                ->where('p_id', $request->id)
+                ->first();
+
           DB::table('m_percent')
                 ->where('p_id', $request->id)
                 ->update([
                   'p_status' => 'Y'
                 ]);
+
+                logController::inputlog('Master Percent', 'Update', $data->p_percent . ' ' . 'Y');
+
         } else {
           return response()->json([
             'status' => 'lebih'
@@ -78,14 +92,23 @@ class percentController extends Controller
     }
 
     public function nonaktif(Request $request){
+      if (!mMember::akses('MASTER PERCENT', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
+
+        $data = DB::table('m_percent')
+              ->where('p_id', $request->id)
+              ->first();
 
           DB::table('m_percent')
                 ->where('p_id', $request->id)
                 ->update([
                   'p_status' => 'N'
                 ]);
+
+                logController::inputlog('Master Percent', 'Update', $data->p_percent . ' ' . 'N');
 
         DB::commit();
         return response()->json([
@@ -101,6 +124,9 @@ class percentController extends Controller
     }
 
     public function simpan(Request $request){
+      if (!mMember::akses('MASTER PERCENT', 'aktif')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -125,6 +151,8 @@ class percentController extends Controller
                 'p_insert' => Carbon::now('Asia/Jakarta')
               ]);
         }
+
+        logController::inputlog('Master Percent', 'Insert', $request->percent);
 
         DB::commit();
         return response()->json([

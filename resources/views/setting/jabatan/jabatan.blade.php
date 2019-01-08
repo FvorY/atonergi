@@ -6,7 +6,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-    <div class="col-lg-12"> 
+    <div class="col-lg-12">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb bg-info">
           <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -19,9 +19,11 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Setting Level Account</h4>
+                    @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'tambah'))
                     <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                     	<button type="button" class="btn btn-info btn_modal" data-toggle="modal" data-target="#tambah-jabatan"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
                     </div>
+                    @endif
                     <div class="table-responsive">
         				        <table id="table_data" class="table table-striped table-hover" cellspacing="0">
                             <thead class="bg-gradient-info">
@@ -33,8 +35,26 @@
                               </tr>
                             </thead>
                             <tbody>
+                              @foreach ($data as $key => $value)
+                                <tr>
+                                  <td class="d_id">{{$value->j_id}}</td>
+                                  <td class="d_nama">{{$value->j_nama}}</td>
+                                  <td class="d_keterangan">{{$value->j_keterangan}}</td>
+                                  <td>
+                                    <div class="btn-group">'.
+                                      @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'ubah'))
+                                           <button type="button" onclick="edit(this)" class="btn btn-info btn-xs" title="edit">
+                                           <label class="fa fa-pencil-alt"></label></button>
+                                      @endif
+                                      @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'hapus'))
+                                           <button type="button" onclick="hapus(this)" class="btn btn-danger btn-xs" title="hapus">
+                                           <label class="fa fa-trash"></label></button>
+                                      @endif
+                                    </div></td>
+                                </tr>
+                              @endforeach
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
                   </div>
                 </div>
@@ -48,42 +68,7 @@
 
   $(document).ready(function(){
 
-     $('#table_data').DataTable({
-          processing: true,
-          serverSide: true,
-          ajax: {
-              url:'{{ route('datatable_jabatan') }}',
-          },
-          columnDefs: [
-
-                  {
-                     targets: 0 ,
-                     className: 'center d_id'
-                  },
-                  {
-                     targets: 1 ,
-                     className: 'd_nama'
-                  },
-                  {
-                     targets: 2 ,
-                     className: 'd_keterangan'
-                  },
-                  {
-                     targets: 3 ,
-                     className: 'center'
-                  },
-                  
-                  
-                ],
-          columns: [
-            {data: 'j_id', name: 'j_id'},
-            {data: 'j_nama', name: 'j_nama'},
-            {data: 'j_keterangan', name: 'j_keterangan'},
-            {data: 'aksi', name: 'aksi'}
-          ]
-
-    });
-  })
+  });
 
   $('.btn_modal').click(function(){
     $('.nama').focus();
@@ -116,8 +101,7 @@
               });
             }
             $('#tambah-jabatan').modal('hide');
-            var table = $('#table_data').DataTable();
-            table.ajax.reload();
+            window.location.reload();
             $('.tabel_modal input').val('');
         },
         error:function(){
@@ -130,7 +114,7 @@
   });
 
   function edit(a) {
-    
+
     var par   = $(a).parents('tr');
     var id    = $(par).find('.d_id').text();
     var nama  = $(par).find('.d_nama').text();
@@ -155,8 +139,6 @@
         dataType:'json',
         success:function(data){
           $('#tambah-jabatan').modal('hide');
-          var table = $('#table_data').DataTable();
-          table.ajax.reload();
           if (data.status == 1) {
             iziToast.success({
                   icon: 'fa fa-trash',
@@ -164,6 +146,7 @@
                   color:'yellow',
                   message: 'Menghapus Data!',
             });
+            window.location.reload();
           }else{
             iziToast.warning({
                   icon: 'fa fa-times',

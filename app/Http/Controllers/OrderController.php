@@ -13,11 +13,15 @@ use App\mMember;
 use Illuminate\Support\Facades\Crypt;
 use Response;
 use PDF;
+use App\Http\Controllers\logController;
 
 class OrderController extends Controller
 {
     public function s_invoice()
     {
+      if (!mMember::akses('SALES INVOICE', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('order/s_invoice/s_invoice');
     }
     public function detail_s_invoice()
@@ -90,7 +94,9 @@ class OrderController extends Controller
     // SALES ORDER
     public function s_order()
     {
-
+      if (!mMember::akses('SALES ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
 
     	return view('order/salesorder/s_order');
     }
@@ -117,10 +123,20 @@ class OrderController extends Controller
             $item = DB::table('m_item')
                       ->get();
 
-            $data_dt = DB::table('d_quotation_dt')
+            $tmp = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
-                       ->where('qd_id',$id)
+                       ->join('d_unit', 'u_id', '=', 'i_unit')
+                       ->where('qd_id',$data->q_id)
+                       ->orderby('qd_dt')
                        ->get();
+
+            $data_dt = [];
+
+            for ($i=0; $i < count($tmp); $i++) {
+              if (stristr($tmp[$i]->i_code, 'BRG')) {
+                $data_dt[$i] = $tmp[$i];
+              }
+            }
 
             return view('order/salesorder/detail_salesorder',compact('data_dt','data','market','id'));
         }
@@ -128,6 +144,9 @@ class OrderController extends Controller
 
     public function print_salesorder($id)
     {
+      if (!mMember::akses('SALES ORDER', 'print')) {
+        return redirect('error-404');
+      }
         if (Auth::user()->akses('SALES ORDER','print')) {
 
             $head = DB::table('d_sales_order')
@@ -160,6 +179,7 @@ class OrderController extends Controller
                 array_push($array, 'a');
               }
             }
+            logController::inputlog('Sales Order', 'Print', $head->so_nota);
             return view('order/salesorder/print_salesorder',compact('array','data','head'));
         }
     }
@@ -227,7 +247,9 @@ class OrderController extends Controller
     // work ORDER
     public function w_order()
     {
-
+      if (!mMember::akses('WORK ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
 
       return view('order/workorder/w_order');
     }
@@ -254,10 +276,20 @@ class OrderController extends Controller
             $item = DB::table('m_item')
                       ->get();
 
-            $data_dt = DB::table('d_quotation_dt')
+            $tmp = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
-                       ->where('qd_id',$id)
+                       ->join('d_unit', 'u_id', '=', 'i_unit')
+                       ->where('qd_id',$data->q_id)
+                       ->orderby('qd_dt')
                        ->get();
+
+             $data_dt = [];
+
+             for ($i=0; $i < count($tmp); $i++) {
+               if (stristr($tmp[$i]->i_code, 'BJS')) {
+                 $data_dt[$i] = $tmp[$i];
+               }
+             }
 
             return view('order/workorder/detail_workorder',compact('data_dt','data','market','id'));
         }
@@ -265,6 +297,9 @@ class OrderController extends Controller
 
     public function print_workorder(request $req)
     {
+      if (!mMember::akses('WORK ORDER', 'print')) {
+        return redirect('error-404');
+      }
         if (Auth::user()->akses('work ORDER','print')) {
 
             $head = DB::table('d_work_order')
@@ -297,6 +332,7 @@ class OrderController extends Controller
                 array_push($array, 'a');
               }
             }
+            logController::inputlog('Work Order', 'Print', $head->wo_ref);
             return view('order/workorder/print_workorder',compact('array','data','head'));
         }
     }
@@ -306,8 +342,11 @@ class OrderController extends Controller
     }
     public function cekbarang()
     {
+      if (!mMember::akses('CHECK STOCK', 'aktif')) {
+        return redirect('error-404');
+      }
       $data = DB::table('i_stock_gudang')
-                ->join('m_item', 'i_code', '=', 'sg_iditem')
+                ->leftjoin('m_item', 'i_code', '=', 'sg_iditem')
                 ->select('sg_iditem', 'i_name', 'sg_qty', DB::raw('sg_qty as sum'), DB::raw('sg_qty as deficieny'))
                 ->get();
 
@@ -350,6 +389,14 @@ class OrderController extends Controller
                   ->orderBy('q_id','DESC')
                   ->get();
 
+                  for ($i=0; $i < count($data); $i++) {
+                    DB::table('d_quotation')
+                          ->where('q_id', $data[$i]->q_id)
+                          ->update([
+                            'q_remain' => $data[$i]->q_total - $data[$i]->q_dp
+                          ]);
+                  }
+
 
         // return $data;
         $data = collect($data);
@@ -374,7 +421,7 @@ class OrderController extends Controller
                             return 'Rp. '. number_format($data->q_dp, 2, ",", ".");
                         })
                         ->addColumn('remain', function ($data) {
-                            return 'Rp. '. number_format($data->q_remain, 2, ",", ".");
+                            return 'Rp. '. number_format(($data->q_total - $data->q_dp), 2, ",", ".");
                         })
                         ->addColumn('status_so', function ($data) {
                             $so = DB::table('d_quotation')
@@ -414,6 +461,9 @@ class OrderController extends Controller
     }
     public function pembayarandeposit()
     {
+      if (!mMember::akses('PEMBAYARAN DEPOSIT', 'aktif')) {
+        return redirect('error-404');
+      }
 
     	return view('order/pembayarandeposit/pembayarandeposit');
     }
@@ -432,8 +482,9 @@ class OrderController extends Controller
                   ->leftjoin('d_sales_order','q_nota','=','so_ref')
                   ->where('q_id',$id)
                   ->first();
+
         $so_dt = DB::table("d_quotation_dt")
-                   ->join('m_item','qd_item','=','i_code')
+                   ->leftjoin('m_item','qd_item','=','i_code')
                    ->where('qd_id',$id)
                    ->where('i_jenis','!=','JASA')
                    ->first();
@@ -444,7 +495,7 @@ class OrderController extends Controller
                   ->first();
 
         $wo_dt = DB::table("d_quotation_dt")
-                   ->join('m_item','qd_item','=','i_code')
+                   ->leftjoin('m_item','qd_item','=','i_code')
                    ->where('qd_id',$id)
                    ->where('i_jenis','JASA')
                    ->first();
@@ -489,15 +540,28 @@ class OrderController extends Controller
         }
 
         $data_dt = DB::table('d_quotation_dt')
-                       ->join('m_item','i_code','=','qd_item')
+                       ->leftjoin('m_item','i_code','=','qd_item')
                        ->where('qd_id',$id)
                        ->get();
 
-        return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo'));
+        $percent = DB::table('m_percent')
+                    ->where('p_status', 'Y')
+                    ->first();
+
+
+        if ($percent == null) {
+          Session::flash('gagal', 'Percent tidak ada yang aktif, aktifkan percent di master percent terlebih dahulu!');
+          return view('order/pembayarandeposit/pembayarandeposit');
+        } else {
+          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent'));
+        }
     }
 
     public function save_deposit(request $req)
     {
+      if (!mMember::akses('PEMBAYARAN DEPOSIT', 'tambah')) {
+        return redirect('error-404');
+      }
         return DB::transaction(function() use ($req) {
 
             $data = DB::table('d_quotation')
@@ -613,7 +677,7 @@ class OrderController extends Controller
                             'q_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
                         ]);
 
-
+            logController::inputlog('Pembayaran Deposit', 'Insert', '');
             return response()->json(['status' => 1]);
         });
     }
@@ -621,6 +685,9 @@ class OrderController extends Controller
     // =====================PAYMENT ORDER=====================================================
     public function payment_order()
     {
+      if (!mMember::akses('PAYMENT ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('order.payment_order.payment_order');
     }
 
@@ -757,13 +824,18 @@ class OrderController extends Controller
                        ->join('m_item','i_code','=','qd_item')
                        ->where('qd_id',$id)
                        ->get();
+
+        $percent = DB::table('m_percent')
+                    ->where('p_status', 'Y')
+                    ->first();
+
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
           array_push($validation, 1);
         }
         if (in_array(1, $validation)) {
           if ($so->so_status == 'Printed' or $wo->wo_status == 'Printed') {
-            return view('order/payment_order/detail_payment_order',compact('item','data','data_dt','id','nota_po','market','nama_item','so','wo'));
+            return view('order/payment_order/detail_payment_order',compact('percent','item','data','data_dt','id','nota_po','market','nama_item','so','wo'));
           }else{
             return redirect()->back();
           }
@@ -772,6 +844,9 @@ class OrderController extends Controller
 
     public function save_payment_order(request $req)
     {
+      if (!mMember::akses('PAYMENT ORDER', 'tambah')) {
+        return redirect('error-404');
+      }
         return DB::transaction(function() use ($req) {
           // dd($req->all());
           $id = DB::table('d_payment_order')
@@ -810,6 +885,7 @@ class OrderController extends Controller
                           'q_remain' => $hasil
                       ]);
 
+                      logController::inputlog('Payment Order', 'Insert', $req->po_nota);
 
           return response()->json(['status' => 1]);
         });
@@ -817,6 +893,9 @@ class OrderController extends Controller
 
     public function proforma_invoice()
     {
+      if (!mMember::akses('PROFORMA INVOICE', 'aktif')) {
+        return redirect('error-404');
+      }
       return view('order.proforma_invoice.proforma_invoice');
     }
 
@@ -844,6 +923,8 @@ class OrderController extends Controller
 
                           if (Auth::user()->akses('PROFORMA INVOICE','print')) {
                             $c = '<button type="button" onclick="printing(\''.$data->po_id.'\')" class="btn btn-warning btn-lg" title="edit">'.'<label class="fa fa-print"></label></button>';
+                          } else {
+                            $c = '';
                           }
 
                           if(Auth::user()->akses('PROFORMA INVOICE','hapus')){
@@ -911,6 +992,9 @@ class OrderController extends Controller
 
     public function save_proforma_invoice(request $req)
     {
+      if (!mMember::akses('PROFORMA INVOICE', 'tambah')) {
+        return redirect('error-404');
+      }
         return DB::transaction(function() use ($req) {
 
           // PENGEMBALIAN NILAI QUOTATION
@@ -952,12 +1036,18 @@ class OrderController extends Controller
                       ->update([
                           'q_remain' => $fix
                       ]);
+
+                      logController::inputlog('Proforma Invoice', 'Insert', '');
+
         return response()->json(['status' => 1]);
         });
     }
 
     public function hapus_proforma_invoice(request $req)
     {
+      if (!mMember::akses('PROFORMA INVOICE', 'hapus')) {
+        return redirect('error-404');
+      }
         return DB::transaction(function() use ($req) {
           $data = DB::table('d_payment_order')
                     ->join('d_quotation','q_nota','=','po_ref')
@@ -974,6 +1064,9 @@ class OrderController extends Controller
           $hapus = DB::table('d_payment_order')
                     ->where('po_id',$req->id)
                     ->delete();
+
+                    logController::inputlog('Proforma Invoice', 'Hapus', '');
+
           return response()->json(['status' => 1]);
         });
     }

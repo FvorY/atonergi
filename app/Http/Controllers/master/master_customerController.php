@@ -7,13 +7,20 @@ use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
 
+use App\mMember;
+use App\Http\Controllers\logController;
 class master_customerController extends Controller
 {
-   
+
     public function customer()
     {
+
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'aktif')) {
+        return redirect('error-404');
+      }
+
         $kode = DB::table('m_customer')->max('c_id');
-    
+
             if ($kode == null) {
                 $kode = 1;
             }else{
@@ -29,7 +36,7 @@ class master_customerController extends Controller
         return view('master/customer/cust',compact('kota','nota'));
     }
     public function datatalble_customer(Request $request)
-    { 
+    {
     	$list = DB::select("SELECT * from m_customer");
         // return $data;
         $data = collect($list);
@@ -51,8 +58,11 @@ class master_customerController extends Controller
 
     public function simpan_customer(Request $request)
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'tambah')) {
+        return redirect('error-404');
+      }
     	$kode = DB::table('m_customer')->max('c_id');
-    
+
     		if ($kode == null) {
     	 		$kode = 1;
 	    	}else{
@@ -85,17 +95,24 @@ class master_customerController extends Controller
                 'c_information'=>$request->c_information,
                 'c_insert'=>$tanggal,
     			]);
+          logController::inputlog('Master Data Customer', 'Insert', $request->c_name);
 
     	return response()->json(['status'=>1]);
     }
     public function dataedit_customer(Request $request)
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'ubah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$data = DB::table('m_customer')->where('c_code','=',$request->id)->get();
     	return response()->json($data);
     }
     public function update_customer(Request $request)
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'ubah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
         $tanggal = date("Y-m-d h:i:s");
     	$date = date_create($request->c_tgl);
@@ -122,15 +139,22 @@ class master_customerController extends Controller
                 'c_update'=>$tanggal,
     			]);
 
+          logController::inputlog('Master Data Customer', 'Update', $request->c_name);
+
     	return response()->json(['status'=>1]);
-    	
+
     }
     public function hapus_customer(Request $request)
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'hapus')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
-    	$data = DB::table('m_customer')->where('c_code','=',$request->id)->delete();
+      $data = DB::table('m_customer')->where('c_code','=',$request->id)->first();
+    	DB::table('m_customer')->where('c_code','=',$request->id)->delete();
+      logController::inputlog('Master Data Customer', 'Insert', $data->c_name);
     	return response()->json($data);
     }
 
-       
+
 }

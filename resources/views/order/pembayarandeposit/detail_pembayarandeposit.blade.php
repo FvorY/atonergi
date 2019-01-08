@@ -5,7 +5,7 @@
 
 <!-- partial -->
 <div class="content-wrapper">
-	<div class="col-lg-12">	
+	<div class="col-lg-12">
 		<nav aria-label="breadcrumb" role="navigation">
 			<ol class="breadcrumb bg-info">
 				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -83,7 +83,7 @@
 							<div class="form-group">
 							  <input type="text" class="form-control form-control-sm" value="{{ $data->q_ship_to }}" readonly="" name="">
 							</div>
-						</div>	
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-2 col-sm-6 col-xs-12">
@@ -145,7 +145,7 @@
 				              <label>Subtotal</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group"> 
+				              <div class="form-group">
 				                <input type="text" class="form-control form-control-sm" name="subtotal" value="{{ 'Rp. '. number_format($data->q_subtotal, 2, ",", ".") }}" readonly="">
 				              </div>
 				            </div>
@@ -153,7 +153,7 @@
 				              <label>Sales Tax</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				                <input type="text" class="form-control form-control-sm" name="tax" value="{{ 'Rp. '. number_format($data->q_tax, 2, ",", ".") }}" readonly="">
 				              </div>
 				            </div>
@@ -161,7 +161,7 @@
 				              <label>Total</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				                <input type="text" class="form-control form-control-sm" name="total" value="{{ 'Rp. '. number_format($data->q_total, 2, ",", ".") }}" readonly="" id="total_harga">
 				              </div>
 				            </div>
@@ -169,11 +169,15 @@
 				              <label>DP</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				              	@if($data->q_dp != null)
 				                <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{'Rp. '. number_format($data->q_dp, 2, ",", ".")}}">
 				                @else
-				                <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="0">
+													@if ($percent == null)
+														<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format((0 / 100) * $data->q_total , 2, ",", ".") }}">
+													@else
+														<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format(($percent->p_percent / 100) * $data->q_total , 2, ",", ".") }}">
+													@endif
 				                @endif
 				              </div>
 				            </div>
@@ -185,12 +189,12 @@
 				              		<button type="button" class="btn btn-primary btn-sm btn-block pilihpembayaran" data-toggle="modal" data-target="#pilihpembayaran">Detail</button>
 				              	</div>
 				            </div>
-				            
+
 				            <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
 				              <label>Remaining Balance</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
-				              <div class="form-group">  
+				              <div class="form-group">
 				              	@if($data->q_remain != null)
 				                <input value="{{'Rp. '. number_format($data->q_remain, 2, ",", ".")}}" type="text" class="form-control form-control-sm" name="remain" readonly="" id="remaining_dp">
 				                @else
@@ -214,30 +218,30 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
-	
-	$('#amount').maskMoney({
-	   precision : 0,
-	    thousands:'.',
-	    allowZero:true,
-	    defaultZero: true
-	});
- 
+
+	$('#amount').maskMoney(
+		{
+			precision : 3,
+			thousands:'.',
+		}
+	);
+
 	$('.pilihpembayaran').click(function(){
 		var dp = $('#dp').val();
 		dp     = dp.replace(/[^0-9\-]+/g,"")/100;
-		console.log(dp);
-		$('#amount').maskMoney('mask',dp);
+
+		$('#amount').val(accounting.formatMoney(dp,"", 0, ".",','));
 	});
 
 	function save_detail(){
-		
+
 		var amount 	= $('#amount').val();
 		amount     = amount.replace(/[^0-9\-]+/g,"");
 		var dp     	= $('#dp');
 		var remaining_dp = $('#remaining_dp');
 		var total_harga = $('#total_harga').val();
 		total_harga     = total_harga.replace(/[^0-9\-]+/g,"")/100;
-		var limit = total_harga/2;
+		var limit = total_harga;
 		if(amount > total_harga){
 			iziToast.warning({
 	            icon: 'fa fa-info',
@@ -269,19 +273,19 @@
 	            message: 'DP Tidak Boleh 0',
 	        });
 	        return false;
-		}	
+		}
 
-		if (status_so == 'Printed' || status_wo == 'Printed') {
-			iziToast.warning({
-	            icon: 'fa fa-info',
-	            message: 'Data Telah Di Print',
-	        });
-	        return false;
-		}	
+		// if (status_so == 'Printed' || status_wo == 'Printed') {
+		// 	iziToast.warning({
+	  //           icon: 'fa fa-info',
+	  //           message: 'Data Telah Di Print',
+	  //       });
+	  //       return false;
+		// }
 		iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Simpan Data!',
@@ -312,7 +316,7 @@
 					            message: 'Data Sudah Ada!',
 					        });
 				      	}
-				      	
+
 				      },error:function(){
 			      		iziToast.warning({
 				            icon: 'fa fa-info',
@@ -335,6 +339,6 @@
 	}
 
 
-	
+
 </script>
 @endsection

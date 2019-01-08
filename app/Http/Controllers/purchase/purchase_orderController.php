@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
-
+use App\mMember;
+use App\Http\Controllers\logController;
 class purchase_orderController extends Controller
 {
   	public function purchaseorder()
     {
+      if (!mMember::akses('PURCHASE ORDER', 'aktif')) {
+        return redirect('error-404');
+      }
     	$vendor = DB::table('m_vendor')->get();
       $item = DB::table('m_item')->get();
       $ro = DB::table('d_requestorder')->join('m_vendor', 's_kode', '=', 'ro_vendor')->where('ro_status_po','=','F')->where('ro_status','=','T')->get();
@@ -121,6 +125,9 @@ class purchase_orderController extends Controller
     }
     public function edit_purchaseorder(Request $request)
     {
+      if (!mMember::akses('PURCHASE ORDER', 'ubah')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_purchaseorder')
                 ->join('d_requestorder', 'ro_code', '=', 'po_nomor_ro')
                 ->join('m_vendor', 's_kode', '=', 'ro_vendor')
@@ -138,6 +145,9 @@ class purchase_orderController extends Controller
     }
     public function save_purchaseorder(Request $request)
     {
+      if (!mMember::akses('PURCHASE ORDER', 'tambah')) {
+        return redirect('error-404');
+      }
       // dd($request->all());
       $tanggal = date("Y-m-d h:i:s");
       $kode = DB::table('d_purchaseorder')->max('po_id');
@@ -202,17 +212,28 @@ class purchase_orderController extends Controller
                           'ro_status_po'=>'T',
                         ]);
 
+                        logController::inputlog('Purchase Order', 'Insert', $request->po_nopo);
+
       return response()->json(['status'=>1]);
     }
     public function hapus_purchaseorder(Request $request)
     {
+      if (!mMember::akses('PURCHASE ORDER', 'hapus')) {
+        return redirect('error-404');
+      }
+
       $hapus_header = DB::table('d_purchaseorder')->where('po_code','=',$request->id)->delete();
       $hapus_seq = DB::table('d_purchaseorder_dt')->where('podt_code','=',$request->id)->delete();
+
+      logController::inputlog('Purchase Order', 'Hapus', $request->id);
 
       return response()->json(['status'=>1]);
     }
     public function print_purchaseorder(Request $request)
     {
+      if (!mMember::akses('PURCHASE ORDER', 'print')) {
+        return redirect('error-404');
+      }
       // dd($request->all());
 
       DB::table('d_purchaseorder')->where('po_code','=',$request->id)->update(['po_print'=>'T']);
@@ -221,7 +242,7 @@ class purchase_orderController extends Controller
       json_encode($print_header);
       $print_seq = DB::table('d_purchaseorder_dt')->where('podt_code','=',$request->id)->join('m_item','m_item.i_code','=','d_purchaseorder_dt.podt_item')->get();
 
-
+      logController::inputlog('Purchase Order', 'Print', $request->id);
 
       return view('purchase/purchaseorder/print_purchaseorder',compact('print_header','print_seq'));
     }
@@ -273,6 +294,9 @@ class purchase_orderController extends Controller
     }
 
     public function update(Request $request){
+      if (!mMember::akses('PURCHASE ORDER', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::table('d_purchaseorder')
             ->where('po_code', $request->po_nopo)
             ->delete();
@@ -343,6 +367,8 @@ class purchase_orderController extends Controller
                         ->update([
                           'ro_status_po'=>'T',
                         ]);
+
+                        logController::inputlog('Purchase Order', 'Update', $request->po_nopo);
 
       return response()->json(['status'=>1]);
     }

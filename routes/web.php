@@ -32,12 +32,10 @@ Route::get('/sinkron_bundle', 'master\master_bundleitemController@sinkron_bundle
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('logout',function(){
-	Session::flush();
-    Auth::logout();
-    Session::forget('key');
-    return Redirect('/');
-});
+Route::get('logout', 'HomeController@logout')->name('logout');
+
+Route::get('/realtime', 'HomeController@realtime')->name('realtime');
+
 Route::get('/tes', 'SettingController@tes');
 
 
@@ -51,6 +49,7 @@ Route::get('/tes', 'SettingController@tes');
         Route::get('/setting/akun', 'SettingController@akun');
         Route::get('/setting/datatable_akun', 'SettingController@datatable_akun')->name('datatable_akun');
         Route::post('/setting/simpan_akun', 'SettingController@simpan_akun');
+        Route::get('/setting/simpan_akun', 'SettingController@simpan_akun');
         Route::get('/setting/hapus_akun', 'SettingController@hapus_akun');
         Route::get('/setting/edit_akun', 'SettingController@edit_akun');
         Route::get('storage/uploads/user/thumbnail')->name('thumbnail');
@@ -158,6 +157,7 @@ Route::get('/order/s_invoice/detail_s_invoice', 'OrderController@detail_s_invoic
 Route::get('/order/s_invoice/print_salesinvoice', 'OrderController@print_salesinvoice');
 Route::get('/order/workorder/w_order', 'OrderController@w_order');
 Route::get('/order/workorder/w_order/detail_workorder', 'OrderController@detail_workorder');
+Route::get('/order/workorder/print_workorder/{id}', 'OrderController@print_workorder');
 Route::get('/order/checklistform/checklistform', 'OrderController@checklist');
 Route::get('/order/pelunasanorder/pelunasanorder', 'OrderController@pelunasanorder');
 Route::get('/order/f_penjualan/f_penjualan', 'OrderController@f_penjualan');
@@ -262,6 +262,8 @@ Route::get('/finance/bookkeeping/bookkeeping', 'FinanceController@bookkeeping');
 Route::get('/finance/bookkeeping/transaksi_bank', 'FinanceController@transaksi_bank');
 Route::get('/finance/bookkeeping/transaksi_memorial', 'FinanceController@transaksi_memorial');
 Route::get('/finance/costmanajemen/costmanajemen', 'FinanceController@costmanajemen');
+// Log-page
+Route::get('/log','logPageController@index')->name('log.index');
 
 
 
@@ -270,17 +272,20 @@ Route::get('/finance/costmanajemen/costmanajemen', 'FinanceController@costmanaje
 
 // Sub-bagian absensi
 Route::get('/hrd/absensi/absensi', 'HRDController@absensi');
-Route::get('/hrd/absensi/absensi-manajemen', 'HRDController@findAbsManajemen');
-Route::get('/hrd/absensi/absensi-produksi', 'HRDController@findAbsManajemen');
-
-Route::post('/hrd/absensi/import-data-manajemen', 'HRDController@importDataManajemen');
-Route::post('/hrd/absensi/import-data-produksi', 'HRDController@importDataProduksi');
+// Route::get('/hrd/absensi/absensi-manajemen', 'HRDController@findAbsManajemen');
+// Route::get('/hrd/absensi/absensi-produksi', 'HRDController@findAbsManajemen');
+//
+// Route::post('/hrd/absensi/import-data-manajemen', 'HRDController@importDataManajemen');
+// Route::post('/hrd/absensi/import-data-produksi', 'HRDController@importDataProduksi');
 // =========================================================
 
 Route::get('/hrd/recruitment/recruitment', 'HRDController@recruitment');
 
 // Sub-bagian tunjangan
 Route::get('/hrd/payroll/payroll', 'HRDController@payroll');
+Route::get('/hrd/payroll/payroll/excel/{data}', 'HRDController@payrollexcel');
+Route::get('/hrd/payroll/print_payroll', 'HRDController@print_payroll')->name('print_payroll');
+Route::get('/hrd/payroll/print_payrolls', 'HRDController@print_payrolls')->name('print_payrolls');
 Route::get('/hrd/payroll/find-tunjangan', 'HRDController@findTunjangan');
 Route::post('/hrd/payroll/insert-tunjangan', 'HRDController@insertTunjangan');
 Route::post('/hrd/payroll/update-tunjangan', 'HRDController@updateTunjangan');
@@ -497,21 +502,21 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/master/jabatan/hapus', 'JabatanController@hapus');
     Route::get('/master/jabatan/edit', 'JabatanController@edit');
 
-    //Payroll
+    // //Payroll
     Route::get('/hrd/payroll/datatable_payroll', 'payrollController@datatable_payroll')->name('datatable_payroll');
     Route::get('/hrd/payroll/simpan_payroll', 'payrollController@simpan_payroll')->name('simpan_payroll');
     Route::get('/hrd/payroll/hapus_payroll', 'payrollController@hapus_payroll')->name('hapus_payroll');
     Route::get('/hrd/payroll/edit_payroll', 'payrollController@edit_payroll')->name('edit_payroll');
     Route::get('/hrd/payroll/update_payroll', 'payrollController@update_payroll')->name('update_payroll');
 
-    //Payroll Manajemen
-    Route::get('/hrd/payroll/payrollman/simpan', 'HRDController@payroll_manajemen_simpan')->name('payroll_manajemen_simpan');
-    Route::get('/hrd/payroll/payrollman/getdivisi', 'HRDController@payroll_manajemen_getdivisi');
-    Route::get('/hrd/payroll/payrollman/getjabatan', 'HRDController@payroll_manajemen_getjabatan');
-    Route::get('/hrd/payroll/payrollman/proses', 'HRDController@payroll_manajemen_proses');
-    Route::get('/hrd/payroll/payrollman/datatable', 'HRDController@payroll_manajemen_datatable');
-    Route::get('/hrd/payroll/payrollman/hapus', 'HRDController@payroll_manajemen_hapus');
-    Route::get('/hrd/payroll/payrollman/detail', 'HRDController@payroll_manajemen_detail');
+    // //Payroll Manajemen
+    // Route::get('/hrd/payroll/payrollman/simpan', 'HRDController@payroll_manajemen_simpan')->name('payroll_manajemen_simpan');
+    // Route::get('/hrd/payroll/payrollman/getdivisi', 'HRDController@payroll_manajemen_getdivisi');
+    // Route::get('/hrd/payroll/payrollman/getjabatan', 'HRDController@payroll_manajemen_getjabatan');
+    // Route::get('/hrd/payroll/payrollman/proses', 'HRDController@payroll_manajemen_proses');
+    // Route::get('/hrd/payroll/payrollman/datatable', 'HRDController@payroll_manajemen_datatable');
+    // Route::get('/hrd/payroll/payrollman/hapus', 'HRDController@payroll_manajemen_hapus');
+    // Route::get('/hrd/payroll/payrollman/detail', 'HRDController@payroll_manajemen_detail');
 
     //Master percent
     Route::get('/master/percent/index', 'percentController@index');
@@ -520,6 +525,93 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/master/percent/nonaktif', 'percentController@nonaktif');
     Route::get('/master/percent/simpan', 'percentController@simpan');
 
+    //Master kpi
+    Route::get('/master/kpi/index', 'master\KpiController@index');
+    Route::get('/master/kpi/datatable-index', 'master\KpiController@getDatatableKpi');
+    Route::get('/master/kpi/tambah-kpi', 'master\KpiController@tambahKpi');
+    Route::get('/master/kpi/delete-kpi', 'master\KpiController@deleteKpi');
+    Route::post('/master/kpi/delete-kpi', 'master\KpiController@deleteKpi');
+    Route::get('/master/kpi/simpan-kpi', 'master\KpiController@simpanKpi');
+    Route::POST('/master/kpi/simpan-kpi', 'master\KpiController@simpanKpi');
+    Route::get('/master/kpi/edit-kpi', 'master\KpiController@editKpi');
+    Route::get('/master/kpi/update-kpi', 'master\KpiController@updateKpi');
+    Route::post('/master/kpi/update-kpi', 'master\KpiController@updateKpi');
+    Route::get('/master/kpi/lookup-data-divisi', 'master\KpiController@lookup_divisi');
+    Route::get('/master/kpi/lookup-data-jabatan', 'master\KpiController@lookup_jabatan');
+    Route::get('/master/kpi/lookup-data-pegawai', 'master\KpiController@lookup_pegawai');
+
+    //Master Scoreboard
+    Route::get('/master/scoreboard/index', 'master\ScoreController@index');
+    Route::get('/master/scoreboard/datatable-index', 'master\ScoreController@get_datatable_index');
+    Route::post('/master/scoreboard/delete-score', 'master\ScoreController@delete_score');
+    Route::get('/master/scoreboard/edit-score', 'master\ScoreController@edit_score');
+    Route::post('/master/scoreboard/update-score', 'master\ScoreController@update_score');
+    Route::get('/master/scoreboard/tambah-score', 'master\ScoreController@tambah_score');
+    Route::post('/master/scoreboard/simpan-score', 'master\ScoreController@simpan_score');
+
+    //Absensi
+    Route::post('/hrd/absensi/importbulan', 'HRDController@importbulan');
+    Route::post('/hrd/absensi/kartushift', 'HRDController@kartushift');
+    Route::get('/hrd/absensi/kartushift', 'HRDController@kartushift');
+    Route::post('/hrd/absensi/rekap', 'HRDController@rekap');
+    Route::get('/hrd/absensi/tahun', 'HRDController@tahun');
+    Route::post('/hrd/absensi/tahun', 'HRDController@tahun');
+    Route::get('/hrd/absensi/kstable', 'HRDController@kstable');
+    Route::get('/hrd/absensi/abtable', 'HRDController@abtable');
+    Route::get('/hrd/absensi/artable', 'HRDController@artable');
+    Route::get('/hrd/absensi/attable', 'HRDController@attable');
+
+    //Payroll
+    Route::post('/hrd/payroll/managerial', 'HRDController@managerial');
+    Route::get('/hrd/payroll/managerial', 'HRDController@managerial');
+    Route::post('/hrd/payroll/staff', 'HRDController@staff');
+    Route::get('/hrd/payroll/staff', 'HRDController@staff');
+    Route::get('/hrd/payroll/managerialtable', 'HRDController@managerialtable');
+    Route::get('/hrd/absensi/stafftable', 'HRDController@stafftable');
+
+    //Score Board Pegawai
+    Route::get('/hrd/scoreboard_pegawai/scoreboard_pegawai/datatable/{tgl1}/{tgl2}', 'DkpiController@getKpiByTgl');
+    Route::get('/hrd/scoreboard_pegawai/scoreboard_pegawai/set-field-modal', 'DkpiController@setFieldModal');
+    Route::post('/hrd/scoreboard_pegawai/scoreboard_pegawai/simpan-data', 'DkpiController@simpanData');
+    Route::get('/hrd/scoreboard_pegawai/scoreboard_pegawai/get-edit/{id}', 'DkpiController@getDataEdit');
+    Route::post('/hrd/scoreboard_pegawai/scoreboard_pegawai/update-data', 'DkpiController@updateData');
+    Route::post('/hrd/scoreboard_pegawai/scoreboard_pegawai/delete-data', 'DkpiController@deleteData');
+
+    //Management Score Board
+    Route::get('/hrd/manajemen_scoreboard/manajemen_scoreboard/get-kpi-by-tgl/{tgl1}/{tgl2}/{tampil}', 'MankpiController@getKpiByTgl');
+    Route::get('/hrd/manajemen_scoreboard/manajemen_scoreboard/get-edit/{id}', 'MankpiController@getDataEdit');
+    Route::post('/hrd/manajemen_scoreboard/manajemen_scoreboard/update-data', 'MankpiController@updateData');
+    Route::post('/hrd/manajemen_scoreboard/manajemen_scoreboard/ubah-status', 'MankpiController@ubahStatus');
+
+    //Data KPI
+    Route::get('/hrd/data_kpi/data_kpi/tambah-data', 'DkpixController@tambahData');
+    Route::get('/hrd/data_kpi/data_kpi/lookup-data-jabatan', 'DkpixController@lookupJabatan');
+    Route::get('/hrd/data_kpi/data_kpi/lookup-data-pegawai', 'DkpixController@lookupPegawai');
+    Route::get('/hrd/data_kpi/data_kpi/set-field-modal/{id}', 'DkpixController@setFieldModal');
+    Route::post('/hrd/data_kpi/data_kpi/simpan-data', 'DkpixController@simpanData');
+    Route::get('/hrd/data_kpi/data_kpi/get-kpi-by-tgl/{tgl1}/{tgl2}', 'DkpixController@getKpixByTgl');
+    Route::get('/hrd/data_kpi/data_kpi/get-edit/{id}', 'DkpixController@getDataEdit');
+    Route::post('/hrd/data_kpi/data_kpi/update-data', 'DkpixController@updateData');
+    Route::post('/hrd/data_kpi/data_kpi/delete-data', 'DkpixController@deleteData');
+
+    //Scoreboard & KPI
+    Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/get-kpi-by-tgl/{tgl1}/{tgl2}/{tampil}', 'ManscorekpiController@getKpiByTgl');
+    Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/get-edit/{id}', 'ManscorekpiController@getDataEdit');
+    Route::post('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/update-data', 'ManscorekpiController@updateData');
+    Route::post('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/ubah-status', 'ManscorekpiController@ubahStatus');
+    Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/get-score-by-tgl/{tgl1}/{tgl2}/{tampil}', 'ManscorekpiController@getScoreByTgl');
+    Route::get('/hrd/manscorekpi/print_kpi/{id}', 'ManscorekpiController@print_pki');
+
+
+    //Lock Screen
+    Route::get('/error-404', 'lockscreenController@error404');
+    Route::get('/lockscreen', 'lockscreenController@lockscreen');
+    Route::get('/lockscreen/unlock', 'lockscreenController@unlock');
+    Route::post('/lockscreen/unlock', 'lockscreenController@unlock');
+
+    //Log
+    Route::get('/getlog', 'logController@getlog');
+    Route::get('/clearlog', 'logController@clearlog');
 
     // Route Keuangan Dirga
 

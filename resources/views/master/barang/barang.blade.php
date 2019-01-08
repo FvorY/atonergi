@@ -35,9 +35,11 @@
               <div class="card">
                   <div class="card-body">
   	                <h4 class="card-title">Master Data Barang</h4>
+                    @if (App\mMember::akses('MASTER DATA BARANG', 'tambah')) 
   		                <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
   		                  	<button type="button" class="btn btn-info" id="tombol_modal_tambah" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
   		                </div>
+                    @endif
                       <div class="row">
                         <div class="col-md-6 col-sm-12 col-xs-12">
                           <div class="alert alert-primary alert-dismissible" title="DP sudah Lunas">

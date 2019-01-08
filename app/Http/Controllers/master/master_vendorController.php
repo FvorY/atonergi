@@ -6,12 +6,19 @@ use Illuminate\Http\Request;
 use App\Barang;
 use Yajra\Datatables\Datatables;
 use DB;
+use App\Http\Controllers\logController;
+use App\mMember;
 
 class master_vendorController extends Controller
 {
-   
+
     public function vendor()
-    {   
+    {
+
+        if (!mMember::akses('MASTER DATA VENDOR', 'aktif')) {
+          return redirect('error-404');
+        }
+
         // $password = bcrypt('admin');
         // return $password;
 
@@ -50,9 +57,12 @@ class master_vendorController extends Controller
 
     public function simpan_vendor(Request $request)
     {
+      if (!mMember::akses('MASTER DATA VENDOR', 'tambah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$kode = DB::table('m_vendor')->max('s_id');
-    
+
     		if ($kode == null) {
     	 		$kode = 1;
 	    	}else{
@@ -88,7 +98,7 @@ class master_vendorController extends Controller
                 's_bankname_1'=>$request->v_namabank_1,
                 's_bank_town_1'=>$request->v_bank_town_1,
                 's_bank_pic_1'=>$request->v_bank_pic_1,
-    			
+
                 's_information'=>$request->v_informasi,
     			's_insert'=>$tanggal,
     			's_date'=>$date,
@@ -96,16 +106,24 @@ class master_vendorController extends Controller
     			's_hometown'=>$request->v_hometown,
     			]);
 
+      logController::inputlog('Master Data Vendor', 'Insert', $request->v_company);
+
     	return response()->json(['status'=>1]);
     }
     public function dataedit_vendor(Request $request)
     {
+      if (!mMember::akses('MASTER DATA VENDOR', 'ubah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$data = DB::table('m_vendor')->where('s_kode','=',$request->id)->get();
     	return response()->json($data);
     }
     public function update_vendor(Request $request)
     {
+      if (!mMember::akses('MASTER DATA VENDOR', 'ubah')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
     	$tanggal = date("Y-m-d h:i:s");
 	    $date = date_create($request->v_tgl);
@@ -124,7 +142,7 @@ class master_vendorController extends Controller
     			's_termin'=>$request->v_credit,
     			's_limit'=>$request->v_plafon,
     			's_npwp'=>$request->v_npwp,
-    			
+
                 's_accountnumber'=>$request->v_accountnumber,
                 's_bankname'=>$request->v_namabank,
                 's_bank_town'=>$request->v_bank_town,
@@ -142,15 +160,22 @@ class master_vendorController extends Controller
     			's_hometown'=>$request->v_hometown,
     			]);
 
+          logController::inputlog('Master Data Vendor', 'Update', $request->v_company);
+
     	return response()->json(['status'=>1]);
-    	
+
     }
     public function hapus_vendor(Request $request)
     {
+      if (!mMember::akses('MASTER DATA VENDOR', 'hapus')) {
+        return redirect('error-404');
+      }
     	// dd($request->all());
-    	$data = DB::table('m_vendor')->where('s_kode','=',$request->id)->delete();
+      $data = DB::table('m_vendor')->where('s_kode','=',$request->id)->first();
+    	DB::table('m_vendor')->where('s_kode','=',$request->id)->delete();
+      logController::inputlog('Master Data Vendor', 'Delete', $data->v_company);
     	return response()->json($data);
     }
 
-       
+
 }

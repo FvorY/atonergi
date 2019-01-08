@@ -5,7 +5,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-  	<div class="col-lg-12">	
+  	<div class="col-lg-12">
   		<nav aria-label="breadcrumb" role="navigation">
   			<ol class="breadcrumb bg-info">
   				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -19,7 +19,7 @@
   	        <div class="card-body">
   	          <h4 class="card-title">Master Data Tipe Barang</h4>
   	          	<div class="row">
-  	          		
+
   					<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
   						<button class="btn btn-info" id="tombol_modal_tambah" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
   					</div>
@@ -34,11 +34,11 @@
   						    </tr>
   						  </thead>
   						  <tbody>
-  						  	
+
   						  </tbody>
   						</table>
   					</div>
-  					
+
   	        	</div>
   	      	</div>
           </div>
@@ -83,7 +83,7 @@
             { "data": "it_code"},
             { "data": "it_name" },
             { "data": "aksi" },
-            
+
             ]
       });
 
@@ -211,7 +211,7 @@
 
     $('input[name="t_name"]').removeClass('border-danger');
     $('input[name="t_code"]').removeClass('border-danger');
-    
+
     var par   = $(m1a2).parents('tr');
     var id    = $(par).find('.it_id').text();
     $.ajax({
@@ -241,7 +241,7 @@
     iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Important!',
@@ -258,7 +258,7 @@
 				        type:'get',
 				        data: {id},
 				        dataType:'json',
-				        success:function(data){        
+				        success:function(data){
 				          var table = $('#t80um').DataTable();
 				          table.ajax.reload();
 				          console.log(data);
@@ -266,7 +266,7 @@
 				            icon: 'fa fa-check',
 				            message: 'Data Berhasil Dihapus!',
 				          });
-				          
+
 				        },
 				        error:function(){
 				          iziToast.warning({
@@ -275,7 +275,7 @@
 				          });
 				        }
 				    });
-                 
+
                 }
               ],
               [
@@ -288,7 +288,7 @@
               ]
             ]
           });
-    
+
   }
 
 </script>

@@ -14,6 +14,8 @@ use carbon\carbon;
 use Session;
 use App\mMember;
 use Illuminate\Support\Facades\Crypt;
+use App\Http\Controllers\logController;
+
 class MasterController extends Controller
 {
     public function suplier()
@@ -22,10 +24,16 @@ class MasterController extends Controller
     }
     public function customer()
     {
+      if (!mMember::akses('MASTER DATA CUSTOMER', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('master/customer/cust');
     }
     public function pegawai()
     {
+      if (!mMember::akses('MASTER DATA PEGAWAI', 'aktif')) {
+        return redirect('error-404');
+      }
     	return view('master/pegawai/pegawai');
     }
     public function keuangan()
@@ -36,6 +44,9 @@ class MasterController extends Controller
     //KEUANGAN AKUN
     public function a_keuangan()
     {
+      if (!mMember::akses('MASTER DATA AKUN KEUANGAN', 'aktif')) {
+        return redirect('error-404');
+      }
 
         $general = DB::table('d_akun')->where('type_akun','GENERAL')->whereNotNull("kelompok_akun")->where("kelompok_akun", "!=", "-")->get();
         $detail = DB::table('d_akun')->where('type_akun','DETAIL')->get();
@@ -84,7 +95,7 @@ class MasterController extends Controller
             // }
 
             // $cek = DB::table("d_akun")->where("group_laba_rugi", $request->group_laba_rugi_general)->where("type_akun", "GENERAL")->first();
-            
+
             // // return json_encode($cek);
 
             // if($cek && !is_null($cek->group_laba_rugi)){
@@ -180,10 +191,16 @@ class MasterController extends Controller
     //END OF
     public function t_keuangan()
     {
+      if (!mMember::akses('MASTER DATA TRANSAKSI KEUANGAN', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('master/transaksi/keuangan');
     }
     public function barang()
     {
+      if (!mMember::akses('MASTER DATA BARANG', 'aktif')) {
+        return redirect('error-404');
+      }
         $type_barang = TypeItem::all();
 
         $unit        = DB::table('d_unit')
@@ -324,12 +341,19 @@ class MasterController extends Controller
     }
     public function ttd()
     {
+      if (!mMember::akses('MASTER DATA TTD', 'aktif')) {
+        return redirect('error-404');
+      }
+
         $data = DB::table('m_signature')
                 ->get();
 
         return view('master.ttd.ttd', compact('data'));
     }
     public function simpanttd(Request $request){
+      if (!mMember::akses('MASTER DATA TTD', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -371,6 +395,8 @@ class MasterController extends Controller
                   's_insert' => Carbon::now('Asia/Jakarta')
                 ]);
 
+                logController::inputlog('Master TTD', 'Insert', $imgPath);
+
             DB::commit();
             Session::flash('sukses', 'Berhasil Disimpan!');
             return redirect('master/ttd/ttd');
@@ -381,6 +407,9 @@ class MasterController extends Controller
         }
     }
     public function hapusttd(Request $request){
+      if (!mMember::akses('MASTER DATA TTD', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -390,6 +419,8 @@ class MasterController extends Controller
         DB::table('m_signature')
             ->where('s_id', $request->id)
             ->delete();
+
+        logController::inputlog('Master TTD', 'Insert', $dir);
 
         DB::commit();
         return response()->json([
@@ -403,6 +434,9 @@ class MasterController extends Controller
       }
     }
     public function updatettd(Request $request){
+      if (!mMember::akses('MASTER DATA TTD', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -438,6 +472,8 @@ class MasterController extends Controller
               's_update' => Carbon::now('Asia/Jakarta')
             ]);
 
+            logController::inputlog('Master TTD', 'Update', $imgPath);
+
         DB::commit();
         Session::flash('sukses', 'Berhasil Disimpan!');
         return redirect('master/ttd/ttd');
@@ -449,6 +485,9 @@ class MasterController extends Controller
   }
     public function bank()
     {
+      if (!mMember::akses('MASTER DATA BANK', 'aktif')) {
+        return redirect('error-404');
+      }
         return view('master.bank.bank');
     }
     public function datatable_bank(request $req)
@@ -493,6 +532,9 @@ class MasterController extends Controller
     }
 public function edit_bank(request $req)
     {
+      if (!mMember::akses('MASTER DATA BANK', 'ubah')) {
+        return redirect('error-404');
+      }
         $data = DB::table('m_bank')
                   ->where('id',$req->id)
                   ->first();
@@ -502,6 +544,9 @@ public function edit_bank(request $req)
 
     public function simpan_bank(request $req)
     {
+      if (!mMember::akses('MASTER DATA BANK', 'tambah')) {
+        return redirect('error-404');
+      }
         $id = DB::table('m_bank')->max('id')+1;
 
         $cari = DB::table('m_bank')
@@ -519,6 +564,7 @@ public function edit_bank(request $req)
                       ->update([
                         'name' => strtoupper($req->name)
                       ]);
+                      logController::inputlog('Master BANK', 'Update', $req->name);
                 return response()->json(['bank'=>3]);
             }else{
                 return response()->json(['bank'=>3]);
@@ -529,6 +575,7 @@ public function edit_bank(request $req)
                         'id'   => $id,
                         'name' => strtoupper($req->name)
                       ]);
+                      logController::inputlog('Master BANK', 'Insert', $req->name);
             return response()->json(['bank'=>1]);
         }
 
@@ -536,14 +583,27 @@ public function edit_bank(request $req)
 
     public function hapus_bank(request $req)
     {
-        $delete = DB::table('m_bank')
+      if (!mMember::akses('MASTER DATA BANK', 'hapus')) {
+        return redirect('error-404');
+      }
+      $delete = DB::table('m_bank')
+                  ->where('id',$req->id)
+                  ->first();
+
+         DB::table('m_bank')
                     ->where('id',$req->id)
                     ->delete();
+
+                    logController::inputlog('Master BANK', 'Hapus', $detele->name);
+
         return response()->json(['bank'=>1]);
 
     }
         public function jasa()
         {
+          if (!mMember::akses('MASTER DATA JASA', 'aktif')) {
+            return redirect('error-404');
+          }
             return view('master.jasa.jasa');
         }
         public function datatable_jasa(request $req)
@@ -555,6 +615,10 @@ public function edit_bank(request $req)
                         ->orderBy('i_id','DESC')
                         ->get();
 
+            for ($i=0; $i < count($data); $i++) {
+              $data[$i]->i_price = "Rp. " . number_format($data[$i]->i_price,0,',','.');
+
+            }
 
             // return $data;
             $data = collect($data);
@@ -591,6 +655,9 @@ public function edit_bank(request $req)
         }
         public function edit_jasa(request $req)
         {
+          if (!mMember::akses('MASTER DATA JASA', 'ubah')) {
+            return redirect('error-404');
+          }
             $data = DB::table('m_item')
                       ->select('i_name', 'i_price', 'i_description', 'i_id', 'u_unit')
                       ->join('d_unit', 'u_id' ,'=', 'i_unit')
@@ -602,6 +669,9 @@ public function edit_bank(request $req)
 
         public function simpan_jasa(request $req)
         {
+          if (!mMember::akses('MASTER DATA JASA', 'tambah')) {
+            return redirect('error-404');
+          }
             $i_id = DB::table('m_item')->max('i_id')+1;
 
             if($i_id<=9)
@@ -650,10 +720,11 @@ public function edit_bank(request $req)
                             'i_name' => strtoupper($req->i_name),
                             'i_price' => floatval($req->i_price) ,
                             'i_sell_price' => floatval($req->i_price) ,
-                            'i_lower_price' => 999999999 ,
+                            'i_lower_price' => 0 ,
                             'i_unit' => $id_satuan,
                             'i_description' => $req->i_description
                           ]);
+                          logController::inputlog('Master Data Jasa', 'Update', strtoupper($req->i_name));
                     return response()->json(['jasa'=>3]);
                 }else{
                     return response()->json(['jasa'=>3]);
@@ -685,6 +756,7 @@ public function edit_bank(request $req)
                             'i_description' => $req->i_description,
                             'i_jenis' => 'JASA'
                           ]);
+                          logController::inputlog('Master Data Jasa', 'Insert', strtoupper($req->i_name));
                 return response()->json(['jasa'=>1]);
             }
 
@@ -692,9 +764,20 @@ public function edit_bank(request $req)
 
         public function hapus_jasa(request $req)
         {
-            $delete = DB::table('m_item')
+          if (!mMember::akses('MASTER DATA JASA', 'hapus')) {
+            return redirect('error-404');
+          }
+
+          $delete = DB::table('m_item')
+                      ->where('i_id',$req->i_id)
+                      ->first();
+
+             DB::table('m_item')
                         ->where('i_id',$req->i_id)
                         ->delete();
+
+                        logController::inputlog('Master Data Jasa', 'Hapus', $delete->i_name);
+
             return response()->json(['jasa'=>1]);
 
         }

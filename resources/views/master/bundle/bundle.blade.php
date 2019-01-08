@@ -8,7 +8,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-  	<div class="col-lg-12">	
+  	<div class="col-lg-12">
   		<nav aria-label="breadcrumb" role="navigation">
   			<ol class="breadcrumb bg-info">
   				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -22,9 +22,11 @@
               <div class="card">
                   <div class="card-body">
   	                <h4 class="card-title">Master Data Bundle Item</h4>
+                    @if (App\mMember::akses('MASTER DATA BUNDLE ITEM', 'tambah'))
   		                <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
   		                  	<button type="button" class="btn btn-info" data-toggle="modal" id="button_add" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
   		                </div>
+                    @endif
                     <div class="table-responsive">
                             <table class="table table-hover table-bordered " id="table-bundle" cellspacing="0">
                               <thead class="bg-gradient-info">
@@ -38,10 +40,10 @@
                                     <th width="15%">Action</th>
                                   </tr>
                                 </thead>
-                                <tbody>       
+                                <tbody>
                                 </tbody>
-                            
-                            </table> 
+
+                            </table>
                           </div>
                   </div>
               </div>
@@ -84,16 +86,16 @@
             var table = $('#bundle_table').DataTable();
             table.clear().draw();
             $('#change_function').html('<button class="btn btn-primary" type="button" id="save_data" >Save Data</button>')
-    })  
+    })
 
-    $('#bund_qty').attr('disabled',true); 
+    $('#bund_qty').attr('disabled',true);
     $('#bund_kodeitem').change(function(){
           var ini = $('#bund_kodeitem').find(':selected').val();
 
           if(ini != '') {
             $('#bund_qty').attr('disabled',false);
           }else{
-            $('#bund_qty').attr('disabled',true);          
+            $('#bund_qty').attr('disabled',true);
           }
           var h_price = $(this).find(':selected').data('harga');
           var currency = $(this).find(':selected').data('currency');
@@ -113,11 +115,11 @@
                   {
                      targets: 0 ,
                      className: 'd_id center'
-                  }, 
+                  },
                   {
                      targets: 1 ,
                      className: 'i_code center'
-                  }, 
+                  },
                   {
                      targets: 6 ,
                      className: 'center '
@@ -189,7 +191,7 @@
                 '<input type="text" name="ib_total_price[]" class="ib_total_price form-control input-sm min-width right format_money" readonly="" value="'+ price +'">',
                 '<button type="button" class="delete btn btn-outline-danger btn-sm hapus"><i class="fa fa-trash"></i></button>',
             ]).draw( false );
-    
+
             x++;
             var awal = 0;
             table.$('.ib_total_price').each(function(){
@@ -215,25 +217,25 @@
        });
       }
     });
-    
-    
+
+
 
   $('#bundle_table tbody').on( 'click', '.delete', function () {
     var parents = $(this).parents('tr');
     var ib_price_dt = $(parents).find('.ib_price_dt').val();
     var ib_price = $("input[name='ib_price']").val();
-    
+
     table
         .row(parents)
         .remove()
         .draw();
-        
+
     var awal = 0;
     table.$('.ib_total_price').each(function(){
       var total = $(this).val();
       awal += parseFloat(total);
-    });  
-          
+    });
+
     if (awal == 0) {
       $('.cur_div').removeClass('disabled');
 
@@ -247,7 +249,7 @@
   $('.form-control').keyup(function(){
     $(this).removeClass('border-danger');
   });
-    
+
 
   $('#change_function').on("click", "#save_data",function(){
 
@@ -353,7 +355,7 @@ function detail(parm) {
                 array_nama += '<td align="right">'+accounting.formatMoney(data[i].ibd_price,"",0,'.',',')+'</td>';
               array_nama += '</tr>';
           })
-          $('#detail_rep').html(array_nama);  
+          $('#detail_rep').html(array_nama);
 
 
          },
@@ -378,7 +380,7 @@ function edit(id){
     iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Important!',
@@ -403,7 +405,7 @@ function edit(id){
                         icon: 'fas fa-check-circle',
                         message: 'Data Telah Terhapus!',
                       });
-                     
+
                      },
                      error: function(){
                       iziToast.warning({
@@ -413,7 +415,7 @@ function edit(id){
                      },
                      async: false
                    });
-                 
+
                 }
               ],
               [

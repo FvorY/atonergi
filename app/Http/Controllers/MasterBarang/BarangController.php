@@ -14,11 +14,15 @@ use Intervention\Image\ImageManagerStatic as Image;
 use carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Response;
+use App\mMember;
+use App\Http\Controllers\logController;
 class BarangController extends Controller
 {
     public function barangproses(Request $request)
     {
-
+      if (!mMember::akses('MASTER DATA BARANG', 'aktif')) {
+        return redirect('error-404');
+      }
 
         return DB::transaction(function() use ($request) {
             $nama = Auth::user()->m_name;
@@ -91,12 +95,16 @@ class BarangController extends Controller
                 'i_insert_by'   =>  $nama,
                 'i_update_by'   =>  $nama,
             ]);
+            logController::inputlog('Master Data Barang', 'Insert', $request->i_name);
             return Response::json(['status'=>1]);
         });
     }
     public function baranghapus(Request $request)
     {
-        $gambar = DB::table('m_item')->select('i_image')->where('i_code','=',$request->id)->first();
+      if (!mMember::akses('MASTER DATA BARANG', 'hapus')) {
+        return redirect('error-404');
+      }
+        $gambar = DB::table('m_item')->where('i_code','=',$request->id)->first();
 
             // dd(base_path('assets\barang\\'.$gambar[0]->i_image));
         if($gambar->i_image != '')
@@ -115,6 +123,9 @@ class BarangController extends Controller
 
 
         $barang = DB::Table('m_item')->where('i_code','=',$request->id)->delete();
+
+        logController::inputlog('Master Data Barang', 'Hapus', $gambar->i_name);
+
         return response()->json(['status'=>1]);
         // return redirect('master/barang/barang')->with('success','Data has been  deleted');
     }
@@ -186,12 +197,18 @@ class BarangController extends Controller
     }
     public function barang_edit(Request $request)
     {
+      if (!mMember::akses('MASTER DATA BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
     	$data = DB::table('m_item')->where('i_code','=',$request->id)->get();
     	return response()->json($data);
     }
 
     public function barang_update(Request $request)
     {
+      if (!mMember::akses('MASTER DATA BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
         // dd($request->all());
 
         return DB::transaction(function() use ($request) {
@@ -244,6 +261,7 @@ class BarangController extends Controller
                 'i_update_at'   =>  Carbon::now(),
                 'i_update_by'   =>  $nama,
             ]);
+            logController::inputlog('Master Data Barang', 'Update',  $request->item_name);
             return Response::json(['status'=>1]);
     	});
     }

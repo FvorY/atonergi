@@ -38,9 +38,11 @@
                       </ul>
                     </div>
 
+                      @if (App\mMember::akses('REQUEST ORDER', 'tambah'))
                         <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                           <button type="button" class="btn btn-info tambah" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
                         </div>
+                      @endif
 
                         <div class="row">
                           <div class="col-md-6 col-sm-12 col-xs-12">

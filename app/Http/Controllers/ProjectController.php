@@ -9,7 +9,8 @@ use DB;
 use Carbon\Carbon;
 use Validator;
 use File;
-
+use App\mMember;
+use App\Http\Controllers\logController;
 class ProjectController extends Controller
 {
     public function dokumentasi()
@@ -18,14 +19,24 @@ class ProjectController extends Controller
     }
     public function jadwalujicoba()
     {
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'aktif')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_schedule')
                 ->get();
 
     	return view('project/jadwalujicoba/jadwalujicoba', compact('data'));
     }
     public function hapus_jadwal(Request $request){
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
+
+        $data = DB::table('d_schedule')
+            ->where('s_id', $request->id)
+            ->first();
 
         DB::table('d_schedule')
             ->where('s_id', $request->id)
@@ -45,6 +56,8 @@ class ProjectController extends Controller
 
         $this->deleteDir('image/uploads/dokumentasi/'.$request->id);
 
+        logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Hapus', $data->s_title . ' ' . $data->s_description);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -58,6 +71,9 @@ class ProjectController extends Controller
     }
     public function tambah_jadwalujicoba()
     {
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'tambah')) {
+        return redirect('error-404');
+      }
         $provinces = DB::table('provinces')
                         ->get();
 
@@ -88,6 +104,9 @@ class ProjectController extends Controller
       return response()->json($data);
     }
     public function simpan_jadwal(Request $request){
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $idschdule = DB::table('d_schedule')
@@ -145,7 +164,7 @@ class ProjectController extends Controller
                   'si_insert' => Carbon::now('Asia/Jakarta')
                 ]);
             }
-            
+
             }
 
           $si_id = DB::table('d_schedule_install')
@@ -259,6 +278,8 @@ class ProjectController extends Controller
                   }
               }
 
+              logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Insert', nl2br($request->judul_laporan) . ' ' . nl2br($request->deskripsi_laporan));
+
         DB::commit();
         Session::flash('sukses', 'Berhasil Disimpan!');
         return redirect('project/jadwalujicoba/jadwalujicoba');
@@ -271,6 +292,9 @@ class ProjectController extends Controller
     }
     public function pdf_jadwal(Request $request)
     {
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'print')) {
+        return redirect('error-404');
+      }
       $request->id = decrypt($request->id);
       $data = DB::table('d_schedule')
                 ->where('s_id', $request->id)
@@ -286,11 +310,19 @@ class ProjectController extends Controller
                 ->distinct('si_judul')
                 ->get();
 
+                logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description);
+
       return view('project/jadwalujicoba/pdf_jadwal', compact('data', 'image', 'judul'));
     }
     public function pdf_install(Request $request)
     {
+      if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'print')) {
+        return redirect('error-404');
+      }
         $request->id = decrypt($request->id);
+        $data = DB::table('d_schedule')
+                  ->where('s_id', $request->id)
+                  ->get();
 
         $data = DB::table('d_schedule_install')
                   ->where('si_schedule', $request->id)
@@ -301,10 +333,17 @@ class ProjectController extends Controller
                       ->where('sc_schedule', $request->id)
                       ->get();
 
+                      logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description);
+
         return view('project/jadwalujicoba/pdf_install', compact('data', 'quotation'));
     }
     public function pemasangan()
     {
+
+      if (!mMember::akses('PEMASANGAN', 'aktif')) {
+        return redirect('error-404');
+      }
+
       $data = DB::table('d_work_order')
               ->leftjoin('d_quotation', 'q_nota', '=', 'wo_ref')
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
@@ -330,6 +369,9 @@ class ProjectController extends Controller
     	return view('project/pemasangan/pemasangan', compact('data','countd','countp','countpd'));
     }
     public function prosespemasangan($id){
+      if (!mMember::akses('PEMASANGAN', 'tambah')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_work_order')
           ->leftjoin('d_quotation', 'q_nota', '=', 'wo_ref')
           ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
@@ -348,9 +390,14 @@ class ProjectController extends Controller
         }
       }
 
+      logController::inputlog('Pemasangan', 'Insert', '');
+
     	return view('project/pemasangan/prosespemasangan', compact('data', 'barang'));
     }
     public function simpanpemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -398,6 +445,8 @@ class ProjectController extends Controller
               'wo_active' => 'Y'
             ]);
 
+            logController::inputlog('Pemasangan', 'Insert', $request->d_wo . ' ' . $finalkode);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -411,6 +460,9 @@ class ProjectController extends Controller
 
     }
     public function editpemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'ubah')) {
+        return redirect('error-404');
+      }
       $wo = DB::table('d_work_order')
               ->select('wo_nota')
               ->Where('wo_id', $request->id)
@@ -424,6 +476,9 @@ class ProjectController extends Controller
       return response()->json($data);
     }
     public function ubahpemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'ubah')) {
+        return redirect('error-404');
+      }
       $id = $request->id;
 
       $data = DB::table('d_work_order')
@@ -449,9 +504,14 @@ class ProjectController extends Controller
                   ->where('i_active', 'Y')
                   ->get();
 
+                  logController::inputlog('Pemasangan', 'Update', '');
+
       return view('project.pemasangan.editprosespemasangan', compact('data','barang','install'));
     }
     public function perbaruipemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -464,6 +524,7 @@ class ProjectController extends Controller
             'i_installer' => $request->i_installer
           ]);
 
+          logController::inputlog('Pemasangan', 'Update', $request->i_io);
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -476,6 +537,9 @@ class ProjectController extends Controller
       }
     }
     public function settingpemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $validation = Validator::make($request->all(), [
@@ -505,6 +569,7 @@ class ProjectController extends Controller
               'wo_status_install' => 'D'
             ]);
         }
+        logController::inputlog('Pemasangan', 'Update', $request->i_wo);
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -517,6 +582,9 @@ class ProjectController extends Controller
       }
     }
     public function hapuspemasangan(Request $request){
+      if (!mMember::akses('PEMASANGAN', 'hapus')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -543,6 +611,8 @@ class ProjectController extends Controller
               ]);
         }
 
+        logController::inputlog('Pemasangan', 'Hapus', $wo[0]->wo_nota);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -568,6 +638,10 @@ class ProjectController extends Controller
     }
     public function pengirimanbarang()
     {
+      if (!mMember::akses('PENGIRIMAN BARANG', 'aktif')) {
+        return redirect('error-404');
+      }
+
       $data = DB::table('d_sales_order')
               ->leftjoin('d_quotation', 'q_nota', '=', 'so_ref')
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
@@ -594,6 +668,9 @@ class ProjectController extends Controller
     }
     public function prosespengirimanbarang($id)
     {
+      if (!mMember::akses('PENGIRIMAN BARANG', 'tambah')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_sales_order')
           ->leftjoin('d_quotation', 'q_nota', '=', 'so_ref')
           ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
@@ -615,6 +692,9 @@ class ProjectController extends Controller
     	return view('project/pengirimanbarang/prosespengirimanbarang', compact('data', 'barang'));
     }
     public function edit(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
       $so = DB::table('d_sales_order')
               ->select('so_nota')
               ->Where('so_id', $request->id)
@@ -630,6 +710,9 @@ class ProjectController extends Controller
       return response()->json($data);
     }
     public function proses(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -680,6 +763,8 @@ class ProjectController extends Controller
               'so_active' => 'Y'
             ]);
 
+            logController::inputlog('Pengiriman Barang', 'Insert', $finalkode);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -693,6 +778,9 @@ class ProjectController extends Controller
 
     }
     public function ubah(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
       $id = $request->id;
 
       $data = DB::table('d_sales_order')
@@ -721,6 +809,9 @@ class ProjectController extends Controller
       return view('project.pengirimanbarang.editprosespengiriman', compact('data','barang','delivery'));
     }
     public function setting(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $validation = Validator::make($request->all(), [
@@ -752,6 +843,7 @@ class ProjectController extends Controller
               'so_status_delivery' => 'D'
             ]);
         }
+        logController::inputlog('Pengiriman Barang', 'Update', '');
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -765,6 +857,9 @@ class ProjectController extends Controller
 
     }
     public function hapus(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'hapus')) {
+        return redirect('error-404');
+      }
     DB::beginTransaction();
     try {
 
@@ -789,6 +884,8 @@ class ProjectController extends Controller
               'd_active' => 'N',
               'd_update' => Carbon::now('Asia/Jakarta')
             ]);
+
+            logController::inputlog('Pengiriman Barang', 'Hapus', '');
       }
 
       DB::commit();
@@ -804,6 +901,9 @@ class ProjectController extends Controller
 
     }
     public function perbarui(Request $request){
+      if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
         $request->d_shipping_charges = str_replace('Rp. ','',$request->d_shipping_charges);
@@ -817,6 +917,8 @@ class ProjectController extends Controller
             'd_weight' => $request->d_weight,
             'd_shipping_charges' => $request->d_shipping_charges
           ]);
+
+          logController::inputlog('Pengiriman Barang', 'Update', $request->nota);
 
         DB::commit();
         return response()->json([
@@ -835,6 +937,10 @@ class ProjectController extends Controller
     }
     public function technicianfee()
     {
+      if (!mMember::akses('TECHNICIAN FEE', 'aktif')) {
+        return redirect('error-404');
+      }
+
     	return view('project/technicianfee/technicianfee');
     }
     public function deleteDir($dirPath)

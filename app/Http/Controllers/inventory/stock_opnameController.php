@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use DB;
 use Carbon\carbon;
+use App\mMember;
+use App\Http\Controllers\logController;
 class stock_opnameController extends Controller
 {
 
 	 public function stockopname()
 	 {
+		 if (!mMember::akses('STOCK OPNAME', 'aktif')) {
+			 return redirect('error-404');
+		 }
 	 	 	$data = DB::table('i_stock_opname')
 								->get();
 
@@ -248,6 +253,7 @@ class stock_opnameController extends Controller
 
           }
        }
+			 logController::inputlog('Stock Opname', 'Insert', $request->so_code);
        DB::commit();
        return response()->json([
          'status' => 'berhasil'

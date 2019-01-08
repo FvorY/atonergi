@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{{asset('assets/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}" tppabs="http://www.bootstrapdash.com/demo/purple/bower_components/clockpicker/dist/jquery-clockpicker.min.css" />
   <!-- End plugin css for this page -->
   <!-- plugins:css -->
-  
+
   <link rel="stylesheet" href="{{asset('assets/node_modules/icheck/skins/all.css')}}" tppabs="http://www.bootstrapdash.com/demo/purple/node_modules/icheck/skins/all.css">
   <link href="{{ asset('assets/autocomplete/autocomplete.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('assets/node_modules/mdi/css/materialdesignicons.min.css')}}">

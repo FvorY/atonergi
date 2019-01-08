@@ -33,10 +33,12 @@
 							</div>
 		          	<div class="row">
 
+						@if (App\mMember::akses('BELANJA LANGSUNG', 'tambah'))
 						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
 							<a class="btn btn-info" href="{{url('purchase/belanjalangsung/tambah_belanjalangsung')}}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Belanja Langsung</a>
 							<a class="btn btn-info" href="{{url('purchase/belanjalangsung/custom')}}"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Custom Belanja Langsung</a>
 						</div>
+						@endif
 
 
 		        	</div>

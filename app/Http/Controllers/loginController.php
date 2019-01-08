@@ -12,9 +12,10 @@ use Validator;
 use Carbon\Carbon;
 use Session;
 use DB;
+use App\Http\Controllers\logController;
 
 class loginController extends Controller
-{   
+{
 
     public function __construct(){
         $this->middleware('guest');
@@ -52,7 +53,7 @@ class loginController extends Controller
             $password  = $req->password;
            	$pass_benar=sha1(md5('passwordAllah').$password);
             // $username = str_replace('\'', '', $username);
-            
+
             $user = mMember::where("m_username", $username)->first();
 
             $user_valid = [];
@@ -66,8 +67,14 @@ class loginController extends Controller
             	if ($user_pass != null) {
            			mMember::where('m_username',$username)->update([
                      'm_last_login'=>Carbon::now(),
-                 	  ]); 
+                 	  ]);
+
+                    mMember::where('m_username',$username)->update([
+                         'm_statuslogin'=>'Y',
+                     	  ]);
+
                 Auth::login($user);
+                logController::inputlog('Login', 'Login', $username);
                 return Redirect('/home');
             	}else{
                 Session::flash('password','Password Yang Anda Masukan Salah!');
@@ -77,10 +84,9 @@ class loginController extends Controller
            		Session::flash('username','Username Tidak Ada');
            		return back()->with('password','username');
            	}
-            
+
 
         }
     }
 
-    
 }

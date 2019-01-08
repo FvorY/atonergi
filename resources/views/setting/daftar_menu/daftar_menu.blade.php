@@ -6,7 +6,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-    <div class="col-lg-12"> 
+    <div class="col-lg-12">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb bg-info">
           <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -37,7 +37,7 @@
                             </thead>
                             <tbody>
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
                   </div>
                 </div>
@@ -138,13 +138,13 @@ $('.simpan').click(function(){
             icon: 'fa fa-times',
             message: 'Terjadi Kesalahan!',
           });
-        } 
+        }
     });
   });
 
 
 function edit(a) {
-    
+
     var par   = $(a).parents('tr');
     var id    = $(par).find('.d_id').text();
     var nama  = $(par).find('.d_nama').text();
@@ -153,7 +153,7 @@ function edit(a) {
     $('.id').val(id);
     $('.nama').val(nama);
     $('.grup_menu').val(grup);
-    $('.grup_menu').trigger('change.select2'); 
+    $('.grup_menu').trigger('change.select2');
     $('#daftar-menu').modal('show');
 
 

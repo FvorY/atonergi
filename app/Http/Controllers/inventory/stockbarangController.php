@@ -8,10 +8,15 @@ use Yajra\Datatables\Datatables;
 use DB;
 use Validator;
 use Carbon\Carbon;
+use App\mMember;
+use App\Http\Controllers\logController;
 class stockbarangController extends Controller
 {
   public function index()
  {
+   if (!mMember::akses('INPUT STOCK BARANG', 'aktif')) {
+     return redirect('error-404');
+   }
   $po = DB::table('d_purchaseorder')->where('po_status','=','F')->get();
   $item = DB::table('m_item')
           ->join('d_unit', 'u_id', '=', 'i_unit')
@@ -115,6 +120,7 @@ class stockbarangController extends Controller
               'sm_insert' => Carbon::now('Asia/Jakarta'),
             ]);
 
+        logController::inputlog('Input Stock Barang', 'Insert', $request->item . ' ' . $request->qty);
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -145,6 +151,8 @@ class stockbarangController extends Controller
         ->where('sm_qty', $data[0]->sg_qty)
         ->where('sm_description', 'INPUT STOCK MANUAL')
         ->delete();
+
+        logController::inputlog('Input Stock Barang', 'Hapus', $data->sg_iditem);
 
      DB::commit();
      return response()->json([
@@ -233,6 +241,8 @@ class stockbarangController extends Controller
                'sm_description' => 'INPUT STOCK MANUAL',
                'sm_insert' => Carbon::now('Asia/Jakarta'),
              ]);
+
+             logController::inputlog('Input Stock Barang', 'Update', $request->itemedit);
 
       DB::commit();
       return response()->json([

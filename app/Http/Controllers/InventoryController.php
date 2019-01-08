@@ -8,6 +8,10 @@ use DB;
 
 use Carbon\Carbon;
 
+use App\mMember;
+
+use App\Http\Controllers\logController;
+
 class InventoryController extends Controller
 {
     public function barangmasuk()
@@ -20,6 +24,9 @@ class InventoryController extends Controller
     }
     public function barangkeluar()
     {
+      if (!mMember::akses('PENGELUARAN BARANG', 'aktif')) {
+        return redirect('error-404');
+      }
       $data = DB::table('m_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
                 ->get();
@@ -61,6 +68,9 @@ class InventoryController extends Controller
         return view('inventory/barangkeluar/kartu_stok', compact('finalkode', 'item', 'mutasi'));
     }
     public function simpankartu(Request $request){
+      if (!mMember::akses('PENGELUARAN BARANG', 'tambah')) {
+        return redirect('error-404');
+      }
       DB::beginTransaction();
       try {
 
@@ -193,6 +203,8 @@ class InventoryController extends Controller
         }
       }
 
+      logController::inputlog('Pengeluaran Barang', 'Insert', $request->pb_code);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -207,6 +219,9 @@ class InventoryController extends Controller
     }
     public function print_kartu_stok(Request $request)
     {
+      if (!mMember::akses('PENGELUARAN BARANG', 'print')) {
+        return redirect('error-404');
+      }
         $request->id = decrypt($request->id);
         $data = DB::table('m_item')
                   ->leftjoin('d_unit', 'u_id', '=', 'i_unit')
@@ -219,6 +234,8 @@ class InventoryController extends Controller
                     ->where('pbd_item', $request->id)
                     ->select('pbd_code')
                     ->first();
+
+                    logController::inputlog('Pengeluaran Barang', 'Print', $request->id);
 
         return view('inventory/barangkeluar/print_kartu_stok', compact('data', 'cardno'));
     }
