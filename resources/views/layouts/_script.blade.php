@@ -89,8 +89,29 @@
   <script src="{{asset('assets/jp-list/js/jplist.bootstrap-pagination-bundle-custom.min.js')}}"></script>
 
 
+  {{-- ez popup script --}}
+  <script src="{{asset('modul_keuangan/js/vendor/ez_popup_v_1_1/ez.popup.js')}}"></script>
 
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#trial-popup').ezPopup('show', {
+        closable: false,
+      });
 
+      @if(Session::has('message'))
+        alert('{{ Session::get('message') }}');
+      @endif
+
+      $('#modul_keuangan_proses_periode').click(function(e){
+        e.stopImmediatePropagation();
+
+        $(this).attr('disabled', 'disabled');
+        $('#modul_keuangan_status_periode').fadeIn(200);
+        $('#modul_keuangan_form_periode').submit();
+      })
+    })
+  </script>
+  
   <script type="text/javascript">
   iziToast.settings({
     timeout: 3000,
@@ -101,6 +122,9 @@
     position:'topRight'
   });
   $(document).ready(function(){
+
+    $('#trial-popup').ezPopup('show');
+
     $("input[type='number'] .number").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||

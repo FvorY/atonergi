@@ -67,14 +67,13 @@ Route::get('/tes', 'SettingController@tes');
 // Master
 Route::get('/master/suplier/suplier', 'MasterController@suplier');
 Route::get('/master/pegawai/pegawai', 'MasterController@pegawai');
-Route::get('/master/akun/a_keuangan', 'MasterController@a_keuangan');
 Route::get('/master/akun/keuangan', 'MasterController@keuangan');
 Route::get('/master/transaksi/t_keuangan', 'MasterController@t_keuangan');
 Route::get('/master/barang/barang', 'MasterController@barang')->name('barang');
 Route::get('/master/barang/cari', 'MasterController@cari');
 
     // MASTER AKUN KUANGAN
-    Route::get('/master/akun/a_keuangan', 'MasterController@a_keuangan')->name('a_keuangan');
+    Route::get('/master/akun/a_keuangan', 'keuangan\master\akun_controller@index')->name('akun.index');
     Route::get('/master/akun/dtgen_keuangan', 'MasterController@dtgen_keuangan')->name('dtgen_keuangan');
     Route::get('/master/akun/dtdet_keuangan', 'MasterController@dtdet_keuangan')->name('dtdet_keuangan');
     Route::get('/master/akun/save_a_keuangan', 'MasterController@save_keuangan')->name('save_a_keuangan');
@@ -260,7 +259,6 @@ Route::get('/manajemenaset/irventarisasi/irventarisasi', 'AsetController@irventa
 Route::get('/finance/reporting/reporting', 'FinanceController@reporting');
 Route::get('/finance/evaluating/evaluating', 'FinanceController@evaluating');
 Route::get('/finance/bookkeeping/bookkeeping', 'FinanceController@bookkeeping');
-Route::get('/finance/bookkeeping/transaksi_kas', 'FinanceController@transaksi_kas');
 Route::get('/finance/bookkeeping/transaksi_bank', 'FinanceController@transaksi_bank');
 Route::get('/finance/bookkeeping/transaksi_memorial', 'FinanceController@transaksi_memorial');
 Route::get('/finance/costmanajemen/costmanajemen', 'FinanceController@costmanajemen');
@@ -521,4 +519,167 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/master/percent/aktif', 'percentController@aktif');
     Route::get('/master/percent/nonaktif', 'percentController@nonaktif');
     Route::get('/master/percent/simpan', 'percentController@simpan');
+
+
+    // Route Keuangan Dirga
+
+        // Routes keuangan Package Here
+    
+            // periode keuangan
+
+                Route::post('modul/keuangan/periode/store', 'modul_keuangan\master\periode_keuangan\periode_keuangan_controller@save')->name('modul_keuangan.periode.save');
+
+            // periode keuangan selesai
+
+
+            // Master Data Group Akun
+
+                Route::get('master/modul/keuangan/master/group-akun', [
+                    "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@index'
+                ])->name('grup-akun.index');
+
+                Route::get('master/modul/keuangan/master/group-akun/create', [
+                    "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@create'
+                ])->name('grup-akun.create');
+
+                Route::get('master/modul/keuangan/master/group-akun/datatable', [
+                    "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@datatable'
+                ])->name('grup-akun.datatable');
+
+                Route::post('master/modul/keuangan/master/group-akun/store', [
+                    "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@store'
+                ])->name('grup-akun.store');
+
+                Route::post('master/modul/keuangan/master/group-akun/update', [
+                    "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@update'
+                ])->name('grup-akun.update');
+
+                Route::post('master/modul/keuangan/master/group-akun/delete', [
+                    "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@delete'
+                ])->name('grup-akun.delete');
+
+            //  Group Akun End
+
+
+
+            // Master Data Akun 
+
+                Route::get('master/modul/keuangan/master/akun', [
+                    "uses"  => 'modul_keuangan\master\akun\akun_controller@index'
+                ])->name('akun.index');
+
+                Route::get('master/modul/keuangan/master/akun/create', [
+                    "uses"  => 'modul_keuangan\master\akun\akun_controller@create'
+                ])->name('akun.create');
+
+                Route::get('master/modul/keuangan/master/akun/create/form-resource', [
+                    "uses"  => 'modul_keuangan\master\akun\akun_controller@form_resource'
+                ])->name('akun.form_resource');
+
+                Route::post('master/modul/keuangan/master/akun/store', [
+                    "uses"  => 'modul_keuangan\master\akun\akun_controller@store'
+                ])->name('akun.store');
+
+                Route::get('master/modul/keuangan/master/akun/datatable', [
+                    "uses"  => 'modul_keuangan\master\akun\akun_controller@datatable'
+                ])->name('akun.datatable');
+
+                Route::post('master/modul/keuangan/master/akun/update', [
+                    "uses"  => 'modul_keuangan\master\akun\akun_controller@update'
+                ])->name('akun.update');
+
+                Route::post('master/modul/keuangan/master/akun/delete', [
+                    "uses"  => 'modul_keuangan\master\akun\akun_controller@delete'
+                ])->name('akun.delete');
+
+            // Data Akun Selesai
+
+
+            // Transaksi Kas
+
+                Route::get('modul/keuangan/transaksi/kas', [
+                    "uses"  => 'modul_keuangan\transaksi\kas\transaksi_kas_controller@index'
+                ])->name('transaksi.kas.index');
+
+                Route::get('modul/keuangan/transaksi/kas/form-resource', [
+                    "uses"  => 'modul_keuangan\transaksi\kas\transaksi_kas_controller@form_resource'
+                ])->name('transaksi.kas.form_resource');
+
+                Route::post('modul/keuangan/transaksi/kas/store', [
+                    "uses"  => 'modul_keuangan\transaksi\kas\transaksi_kas_controller@store'
+                ])->name('transaksi.kas.store');
+
+                Route::get('modul/keuangan/transaksi/kas/datatable', [
+                    "uses"  => 'modul_keuangan\transaksi\kas\transaksi_kas_controller@datatable'
+                ])->name('transaksi.kas.datatable');
+
+                Route::post('modul/keuangan/transaksi/kas/update', [
+                    "uses"  => 'modul_keuangan\transaksi\kas\transaksi_kas_controller@update'
+                ])->name('transaksi.kas.update');
+
+                Route::post('modul/keuangan/transaksi/kas/delete', [
+                    "uses"  => 'modul_keuangan\transaksi\kas\transaksi_kas_controller@delete'
+                ])->name('transaksi.kas.delete');
+
+            // Transaksi Kas Selesai
+
+
+            // Transaksi Bank
+
+            Route::get('modul/keuangan/transaksi/bank', [
+                "uses"  => 'modul_keuangan\transaksi\bank\transaksi_bank_controller@index'
+            ])->name('transaksi.bank.index');
+
+            Route::get('modul/keuangan/transaksi/bank/form-resource', [
+                "uses"  => 'modul_keuangan\transaksi\bank\transaksi_bank_controller@form_resource'
+            ])->name('transaksi.bank.form_resource');
+
+            Route::post('modul/keuangan/transaksi/bank/store', [
+                "uses"  => 'modul_keuangan\transaksi\bank\transaksi_bank_controller@store'
+            ])->name('transaksi.bank.store');
+
+            Route::get('modul/keuangan/transaksi/bank/datatable', [
+                "uses"  => 'modul_keuangan\transaksi\bank\transaksi_bank_controller@datatable'
+            ])->name('transaksi.bank.datatable');
+
+            Route::post('modul/keuangan/transaksi/bank/update', [
+                "uses"  => 'modul_keuangan\transaksi\bank\transaksi_bank_controller@update'
+            ])->name('transaksi.bank.update');
+
+            Route::post('modul/keuangan/transaksi/bank/delete', [
+                "uses"  => 'modul_keuangan\transaksi\bank\transaksi_bank_controller@delete'
+            ])->name('transaksi.bank.delete');
+
+        // Transaksi Bank Selesai
+
+        // Transaksi Memorial
+
+            Route::get('modul/keuangan/transaksi/memorial', [
+                "uses"  => 'modul_keuangan\transaksi\memorial\transaksi_memorial_controller@index'
+            ])->name('transaksi.memorial.index');
+
+            Route::get('modul/keuangan/transaksi/memorial/form-resource', [
+                "uses"  => 'modul_keuangan\transaksi\memorial\transaksi_memorial_controller@form_resource'
+            ])->name('transaksi.memorial.form_resource');
+
+            Route::post('modul/keuangan/transaksi/memorial/store', [
+                "uses"  => 'modul_keuangan\transaksi\memorial\transaksi_memorial_controller@store'
+            ])->name('transaksi.memorial.store');
+
+            Route::get('modul/keuangan/transaksi/memorial/datatable', [
+                "uses"  => 'modul_keuangan\transaksi\memorial\transaksi_memorial_controller@datatable'
+            ])->name('transaksi.memorial.datatable');
+
+            Route::post('modul/keuangan/transaksi/memorial/update', [
+                "uses"  => 'modul_keuangan\transaksi\memorial\transaksi_memorial_controller@update'
+            ])->name('transaksi.memorial.update');
+
+            Route::post('modul/keuangan/transaksi/memorial/delete', [
+                "uses"  => 'modul_keuangan\transaksi\memorial\transaksi_memorial_controller@delete'
+            ])->name('transaksi.memorial.delete');
+
+        // Transaksi Memorial Selesai
+
+    // End Route Dirga
+
 }); // End Route Groub middleware auth

@@ -22,7 +22,7 @@
 		          	<div class="row">
 		          		
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a href="{{ url('finance/bookkeeping/transaksi_kas') }}" class="center text-success alamraya-choosing-panel">
+							<a href="{{ url('modul/keuangan/transaksi/kas') }}" class="center text-success alamraya-choosing-panel">
 								<i class="fa fa-dollar icon-lg text-success"></i>
 								<div class="center">
 									<label>Transaksi Kas</label>
@@ -30,7 +30,7 @@
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a href="{{ url('finance/bookkeeping/transaksi_bank') }}" class="center text-warning alamraya-choosing-panel">
+							<a href="{{ url('modul/keuangan/transaksi/bank') }}" class="center text-warning alamraya-choosing-panel">
 								<i class="fa fa-bank icon-lg text-warning"></i>
 								<div class="center">
 									<label>Transaksi Bank</label>
@@ -38,7 +38,7 @@
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a href="{{ url('finance/bookkeeping/transaksi_memorial') }}" class="center text-danger alamraya-choosing-panel">
+							<a href="{{ url('modul/keuangan/transaksi/memorial') }}" class="center text-danger alamraya-choosing-panel">
 								<i class="fa fa-suitcase icon-lg text-danger"></i>
 								<div class="center">
 									<label>Transaksi Memorial</label>

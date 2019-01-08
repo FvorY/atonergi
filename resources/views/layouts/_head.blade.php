@@ -58,8 +58,12 @@
 
   <link rel="stylesheet" type="text/css" href="{{asset('assets/lightgallery/css/lightgallery.min.css')}}">
 
+  {{-- modul keuangan --}}
+  <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/font-awesome_4_7_0/css/font-awesome.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/css/style.css') }}">
 
-
+  {{-- ez popup style --}}
+  <link rel="stylesheet" type="text/css" href="{{asset('modul_keuangan/js/vendor/ez_popup_v_1_1/ez.popup.css')}}">
 
 
 <style type="text/css">

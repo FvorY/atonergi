@@ -179,6 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Swamsid\Keuangan\KeuanganServiceProvider::class,
 
     ],
 
@@ -231,6 +232,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'keuangan' => Swamsid\Keuangan\Facades\keuangan::class
     ],
 
 ];

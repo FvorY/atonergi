@@ -215,6 +215,7 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/hak_akses') ? 'active' : '' || Request::is('setting/hak_akses/*') ? 'active' : '' }}" href="{{url('setting/hak_akses')}}">Setting Hak Akses</a></li>
 
                   <li class="nav-item"> <a class="nav-link {{Request::is('setting/daftar_menu') ? 'active' : '' || Request::is('setting/daftar_menu/*') ? 'active' : '' }}" href="{{url('setting/daftar_menu')}}">Setting Daftar Menu</a></li>
+
                 </ul>
                 </div>
             </li>
@@ -247,8 +248,11 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/customer/cust') ? 'active' : '' || Request::is('master/customer/*') ? 'active' : '' }}" href="{{url('master/customer/cust')}}">Master Data Customer</a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/pegawai/pegawai') ? 'active' : '' || Request::is('master/pegawai/*') ? 'active' : '' }}" href="{{url('master/pegawai/pegawai')}}">Master Data Pegawai</a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/jabatan/jabatan') ? 'active' : '' || Request::is('master/jabatan/*') ? 'active' : '' }}" href="{{url('master/jabatan/jabatan')}}">Master Data Jabatan</a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('master/akun/a_keuangan') ? 'active' : '' || Request::is('master/akun/*') ? 'active' : '' }}" href="{{url('master/akun/a_keuangan')}}">Master Data Akun Keuangan</a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('master/transaksi/t_keuangan') ? 'active' : '' || Request::is('master/transaksi/*') ? 'active' : '' }}" href="{{url('master/transaksi/t_keuangan')}}">Master Data Transaksi<br> Keuangan</a></li>
+
+                  <li class="nav-item"> <a class="nav-link {{Request::is('master/modul/keuangan/master/group-akun') ? 'active' : '' || Request::is('master/modul/keuangan/master/group-akun/*') ? 'active' : '' }}" href="{{url('master/modul/keuangan/master/group-akun')}}">Master Data Group Akun</a></li>
+
+                  <li class="nav-item"> <a class="nav-link {{Request::is('master/modul/keuangan/master/akun') ? 'active' : '' || Request::is('master/modul/keuangan/master/akun/*') ? 'active' : '' }}" href="{{url('master/modul/keuangan/master/akun')}}">Master Data Akun Keuangan</a></li>
+                  {{-- <li class="nav-item"> <a class="nav-link {{Request::is('master/transaksi/t_keuangan') ? 'active' : '' || Request::is('master/transaksi/*') ? 'active' : '' }}" href="{{url('master/transaksi/t_keuangan')}}">Master Data Transaksi<br> Keuangan</a></li> --}}
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/barang/barang') ? 'active' : '' || Request::is('master/barang/*') ? 'active' : '' }}" href="{{url('master/barang/barang')}}">Master Data Barang</a></li>
 
                     <li class="nav-item">
@@ -442,10 +446,10 @@
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-chart-areaspline menu-icon"></i>
               </a>
-              <div class="collapse {{Request::is('finance') ? 'show' : '' || Request::is('finance/*') ? 'show' : '' }}" id="finance">
+              <div class="collapse {{Request::is('modul/keuangan/transaksi') ? 'show' : '' || Request::is('modul/keuangan/transaksi/*') ? 'show' : '' }}" id="finance">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/costmanajemen/costmanajemen') ? 'active' : '' || Request::is('finance/costmanajemen/*') ? 'active' : '' }}" href="{{url('finance/costmanajemen/costmanajemen')}}">Cost Manajemen<span class="d-none">Finance</span></a></li>
-                  <li class="nav-item"> <a class="nav-link {{Request::is('finance/bookkeeping/bookkeeping') ? 'active' : '' || Request::is('finance/bookkeeping/*') ? 'active' : '' }}" href="{{url('finance/bookkeeping/bookkeeping')}}">Bookkeeping<span class="d-none">Finance</span></a></li>
+                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/transaksi') ? 'active' : '' || Request::is('modul/keuangan/transaksi/*') ? 'active' : '' }}" href="{{url('finance/bookkeeping/bookkeeping')}}">Bookkeeping<span class="d-none">Finance</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/reporting/reporting') ? 'active' : '' || Request::is('finance/reporting/*') ? 'active' : '' }}" href="{{url('finance/reporting/reporting')}}">Reporting<span class="d-none">Finance</span></a></li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/evaluating/evaluating') ? 'active' : '' || Request::is('finance/evaluating/*') ? 'active' : '' }}" href="{{url('finance/evaluating/evaluating')}}">Evaluating<span class="d-none">Finance</span></a></li>
                 </ul>
