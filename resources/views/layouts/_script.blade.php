@@ -41,7 +41,7 @@
   <!-- End Inputmask js -->
   <!-- injectjs -->
 
-  <script src="{{asset('assets/js/off-canvas.js')}}"></script>
+  <script src="{{asset('assets/js/off-canvas.js')}}"></script>  
   <script src="{{asset('assets/js/accounting.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.maskMoney.js')}}"></script>
 

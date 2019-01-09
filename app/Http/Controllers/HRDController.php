@@ -269,7 +269,7 @@ class HRDController extends Controller
         return Datatables::of($data)
                 ->addColumn('aksi', function ($data) {
                           return  '<div class="btn-group">'.
-                                   '<button type="button" class="btn btn-primary btn-lg alamraya-btn-aksi" title="edit" onclick="edit('.$data->mp_id.')"><label class="fa fa-pencil-alt"></label></button>'.
+                                   '<button type="button" class="btn btn-primary btn-lg alamraya-btn-aksi" title="edit" onclick="edit('.$data->mp_id.')"><label class="fa fa-pencil "></label></button>'.
                                   '</div>';
                 })
                 ->addColumn('tunjangan', function ($data) {

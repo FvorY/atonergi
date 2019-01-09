@@ -47,7 +47,7 @@ class purchase_orderController extends Controller
                                    '<button type="button" onclick="print(this)" class="btn btn-primary btn-sm" title="Print">'.
                                    '<label class="fa fa-print"></label></button>'.
                                    '<button type="button" onclick="edit(this)" class="btn btn-info btn-sm" title="edit">'.
-                                   '<label class="fa fa-pencil-alt"></label></button>'.
+                                   '<label class="fa fa-pencil "></label></button>'.
                                    '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-sm" title="hapus">'.
                                    '<label class="fa fa-trash"></label></button>'.
                                   '</div>';
