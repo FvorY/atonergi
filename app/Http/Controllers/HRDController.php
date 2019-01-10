@@ -859,6 +859,7 @@ class HRDController extends Controller
       $data = DB::table('d_payroll_managerial')
                   ->whereIn('pm_pin', $request->pin)
                   ->whereIn('pm_nip', $request->nip)
+                  ->orderby('pm_insert', 'desc')
                   ->get();
 
       for ($i=0; $i < count($data); $i++) {
@@ -879,6 +880,7 @@ class HRDController extends Controller
       $data = DB::table('d_payroll_staff')
                   ->whereIn('ps_pin', $request->pin)
                   ->whereIn('ps_nip', $request->nip)
+                  ->orderby('ps_insert', 'desc')
                   ->get();
 
       for ($i=0; $i < count($data); $i++) {
