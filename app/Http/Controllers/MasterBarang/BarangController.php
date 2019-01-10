@@ -163,7 +163,7 @@ class BarangController extends Controller
                         ->addColumn('aksi', function ($barang) {
                           return  '<div class="btn-group">'.
                                    '<button type="button" onclick="edit(this)" class="btn btn-info btn-lg" title="edit">'.
-                                   '<label class="fa fa-pencil-alt"></label></button>'.
+                                   '<label class="fa fa-pencil "></label></button>'.
                                    '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-lg" title="hapus">'.
                                    '<label class="fa fa-trash"></label></button>'.
                                   '</div>';

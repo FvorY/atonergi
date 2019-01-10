@@ -78,7 +78,7 @@ class request_orderController extends Controller
                         if ($data->ro_status_po == 'F') {
                             return  '<div class="btn-group">'.
                                    '<button type="button" onclick="edit(this)" class="btn btn-info btn-sm" title="edit">'.
-                                   '<label class="fa fa-pencil-alt"></label></button>'.
+                                   '<label class="fa fa-pencil"></label></button>'.
                                    '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-sm" title="hapus">'.
                                    '<label class="fa fa-trash"></label></button>'.
                                   '</div>';
@@ -144,6 +144,7 @@ class request_orderController extends Controller
       if (!mMember::akses('REQUEST ORDER', 'tambah')) {
         return redirect('error-404');
       }
+      
              // dd($request->all());
 
              $tanggal = date("Y-m-d h:i:s");

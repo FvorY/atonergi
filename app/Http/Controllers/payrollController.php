@@ -22,7 +22,7 @@ class payrollController extends Controller
                 ->addColumn('aksi', function ($data) {
                           return  '<div class="btn-group">'.
                                    '<button type="button" onclick="edit('.$data->c_id.')" class="btn btn-info btn-lg" title="edit">'.
-                                   '<label class="fa fa-pencil-alt"></label></button>'.
+                                   '<label class="fa fa-pencil "></label></button>'.
                                    '<button type="button" onclick="hapus('.$data->c_id.')" class="btn btn-danger btn-lg" title="hapus">'.
                                    '<label class="fa fa-trash"></label></button>'.
                                   '</div>';

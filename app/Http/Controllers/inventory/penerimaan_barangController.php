@@ -27,10 +27,14 @@ class penerimaan_barangController extends Controller
 								->where('s_kode', $po[$i]->po_vendor)
 								->first();
 
-			$po[$i]->po_vendor = $tmp->s_company;
+			if (empty($tmp)) {
+				$po[$i]->po_vendor = '';
+			} else {
+				$po[$i]->po_vendor = $tmp->s_company;
+			}			
 		}
 
-	 	return view('inventory/penerimaan_barang/penerimaan_barang',compact("po", "vendor"));
+	 	return view('inventory/penerimaan_barang/penerimaan_barang',compact("po"));
 	 }
 	 public function datatable_penerimaan_barang()
 	 {
@@ -50,7 +54,7 @@ class penerimaan_barangController extends Controller
               ->addColumn('aksi', function ($data) {
                         return  '<div class="btn-group">'.
                                  '<button type="button" onclick="edit(this)" class="btn btn-info btn-sm" title="edit">'.
-                                 '<label class="fa fa-pencil-alt"></label></button>'.
+                                 '<label class="fa fa-pencil"></label></button>'.
                                 '</div>';
               })
               ->addColumn('detail', function ($data) {
