@@ -353,4 +353,7 @@ textarea{
 .light:hover {
     color:yellow !important;
 }
+.closed:hover {
+    color:#ff4d4d !important;
+}
 /* end */
