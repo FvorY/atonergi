@@ -669,7 +669,7 @@ function detailKpix(id)
 		type: "GET",
 		dataType: "JSON",
 		success: function(response)
-		{
+		{			
 			var date = response.data[0].d_kpix_date;
 			if(date != null) { var newTglKpix = date.split("-").reverse().join("-"); }
 

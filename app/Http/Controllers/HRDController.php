@@ -697,9 +697,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_kartushift')
                         ->whereBetween('k_tanggal', array($tgl_awal, $tgl_akhir))
+                        ->orderby('k_tanggal', 'desc')
                         ->get();
           } else {
             $data = DB::table('d_kartushift')
+                        ->orderby('k_tanggal', 'desc')
                         ->get();
           }
       }
@@ -725,9 +727,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_absensibulan')
                         ->whereBetween('a_tanggal', array($tgl_awal, $tgl_akhir))
+                        ->orderBy('a_tanggal', 'DESC')
                         ->get();
           } else {
             $data = DB::table('d_absensibulan')
+                        ->orderBy('a_tanggal', 'DESC')
                         ->get();
           }
       }
@@ -832,9 +836,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_rekapperiode')
                         ->whereBetween('r_insert', array($tgl_awal, $tgl_akhir))
+                        ->orderBy('r_insert', 'DESC')
                         ->get();
           } else {
             $data = DB::table('d_rekapperiode')
+                        ->orderBy('r_insert', 'DESC')
                         ->get();
           }
       }
@@ -1053,9 +1059,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_rincian_tahunan')
                         ->whereBetween('r_insert', array($tgl_awal, $tgl_akhir))
+                        ->orderBy('rt_insert', 'DESC')
                         ->get();
           } else {
             $data = DB::table('d_rincian_tahunan')
+                        ->orderBy('rt_insert', 'DESC')
                         ->get();
           }
       }
