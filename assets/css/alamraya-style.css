@@ -307,3 +307,55 @@ textarea{
 .btn i.fa {
     min-width: 12px;
 }
+
+/* favorite button style */
+@keyframes bounce {
+	0%, 20%, 60%, 100% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	40% {
+		-webkit-transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+
+	80% {
+		-webkit-transform: translateY(-5px);
+		transform: translateY(-5px);
+	}
+}
+
+.bintang1:hover {
+    animation: bounce 1s;
+    color: yellow !important;
+}
+.bintang2:hover {
+    animation: bounce 1s;
+    color: yellow !important;
+}
+.bintang3:hover {
+    animation: bounce 1s;
+    color: yellow !important;
+}
+.bintang4:hover {
+    animation: bounce 1s;
+    color: yellow !important;
+}
+.bintang5:hover {
+    animation: bounce 1s;
+    color: yellow !important;
+}
+.bintang6:hover {
+    animation: bounce 1s;
+    color: yellow !important;
+}
+.bintang7:hover {
+    animation: bounce 1s;
+    color: yellow !important;
+}
+.bintang8:hover {
+    animation: bounce 1s;
+    color: yellow !important;
+}
+/* end */

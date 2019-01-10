@@ -42,7 +42,9 @@ class HomeController extends Controller
       }
         // return Auth::user()->m_id;
         // return 'asd';
-        return view('home', compact('counton', 'countoff'));
+        // return view('home', compact('counton', 'countoff'));
+        return view('home', ['counton', 'countoff']);
+   
     }
 
     public function realtime(){
