@@ -108,7 +108,7 @@ Route::get('/master/ttd/hapus', 'MasterController@hapusttd');
 Route::get('/master/ttd/update', 'MasterController@updatettd');
 Route::post('/master/ttd/update', 'MasterController@updatettd');
 // Quotation
-Route::get('/quotation/q_quotation/q_quotation', 'QuotationController@q_quotation');
+Route::get('/quotation/q_quotation/q_quotation', 'QuotationController@q_quotation')->name('q_quotation');
 Route::get('/quotation/q_quotation/datatable', 'QuotationController@quote_datatable')->name('quote_datatable');
 Route::get('/quotation/q_quotation/cari_penawaran', 'QuotationController@cari_penawaran');
 
@@ -172,18 +172,18 @@ Route::get('/order/cekbarang/detail/{id}', 'OrderController@detailbarang');
     // END
 
     // SALES ORDER
-    Route::get('/order/salesorder/s_order', 'OrderController@s_order');
+    Route::get('/order/salesorder/s_order', 'OrderController@s_order')->name('s_order');
     Route::get('/order/salesorder/datatable_so', 'OrderController@datatable_so')->name('datatable_so');
     Route::get('/order/salesorder/s_order/detail_salesorder/{id}', 'OrderController@detail_salesorder');
     Route::get('/order/salesorder/print_salesorder/{id}', 'OrderController@print_salesorder');
 
     // work ORDER
-    Route::get('/order/workorder/w_order', 'OrderController@w_order');
+    Route::get('/order/workorder/w_order', 'OrderController@w_order')->name('w_order');
     Route::get('/order/workorder/datatable_so', 'OrderController@datatable_wo')->name('datatable_wo');
     Route::get('/order/workorder/s_order/detail_workorder/{id}', 'OrderController@detail_workorder');
     Route::get('/order/workorder/print_workorder', 'OrderController@print_workorder');
     // PAYMENT ORDER
-    Route::get('/order/payment_order', 'OrderController@payment_order');
+    Route::get('/order/payment_order', 'OrderController@payment_order')->name('payment_order');
     Route::get('/order/payment_order/datatable_payment_order', 'OrderController@datatable_payment_order')->name('datatable_payment_order');
     Route::get('/order/payment_order/detail_payment_order/{id}', 'OrderController@detail_payment_order');
     Route::get('/order/payment_order/save_payment_order', 'OrderController@save_payment_order');
@@ -422,7 +422,7 @@ Route::get('/master/barang/caribarang', 'MasterBarang\BarangController@caribaran
 //--------------PURCHASE -----------deny------------\\
 
 //request order
-Route::get('/purchase/rencanapembelian/rencanapembelian', 'purchase\request_orderController@rencanapembelian');
+Route::get('/purchase/rencanapembelian/rencanapembelian', 'purchase\request_orderController@rencanapembelian')->name('rencanapembelian');
 Route::get('/purchase/rencanapembelian/kode_rencanapembelian', 'purchase\request_orderController@kode_rencanapembelian')->name('kode_rencanapembelian');
 Route::get('/purchase/rencanapembelian/detail_rencanapembelian', 'purchase\request_orderController@detail_rencanapembelian')->name('detail_rencanapembelian');
 Route::get('/purchase/rencanapembelian/hapus_rencanapembelian', 'purchase\request_orderController@hapus_rencanapembelian')->name('hapus_rencanapembelian');
