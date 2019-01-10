@@ -27,12 +27,9 @@
               </div>
             </div>
           </div> -->
-          <style>
-            
-          </style>
           <div class="row">
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#0033c7;">
+                  <div class="card px-2" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
                             <div class="col-lg-3 pl-0">
@@ -52,7 +49,7 @@
                   </div>
               </div>
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#0033c7;">
+                  <div class="card px-2" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
                             <div class="col-lg-3 pl-0">
@@ -72,7 +69,7 @@
                   </div>
               </div>
           </div>
-          <hr style="background:black; border:0px; height:2px; margin-bottom: 5px;">
+          <hr style="background:#5c848e; border:0px; height:2px; margin-bottom: 5px;">
           <!-- <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
                 <div class="card px-2" style="background-color:#0033c7;">
                     <div class="card-body">
@@ -92,7 +89,7 @@
           </div> -->
           <div class="row">
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#0033c7;">
+                  <div class="card px-2" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 pl-0 click">
@@ -108,7 +105,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#0033c7;">
+                  <div class="card px-2" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 pl-0 click">
@@ -124,7 +121,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#0033c7;">
+                  <div class="card px-2" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 pl-0 click">
@@ -140,7 +137,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#0033c7;">
+                  <div class="card px-2" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 pl-0 click">
@@ -156,7 +153,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#0033c7;">
+                  <div class="card px-2" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 pl-0 click">
@@ -172,7 +169,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#0033c7;">
+                  <div class="card px-2" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 pl-0 click">
@@ -188,7 +185,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-1" style="background-color:#0033c7;">
+                  <div class="card px-1" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 pl-0 click">
@@ -204,7 +201,7 @@
                   </div>
               </div>
               <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-4" style="background-color:#0033c7;">
+                  <div class="card px-4" style="background-color:#503bff;">
                       <div class="card-body">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 pl-0 click">
