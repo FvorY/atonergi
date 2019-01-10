@@ -697,11 +697,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_kartushift')
                         ->whereBetween('k_tanggal', array($tgl_awal, $tgl_akhir))
-                        ->orderby('k_tanggal', 'desc')
+                        ->orderby('k_tanggal', 'DESC')
                         ->get();
           } else {
             $data = DB::table('d_kartushift')
-                        ->orderby('k_tanggal', 'desc')
+                        ->orderby('k_tanggal', 'DESC')
                         ->get();
           }
       }
