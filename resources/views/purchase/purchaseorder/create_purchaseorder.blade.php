@@ -500,15 +500,13 @@
         var total  = $('#po_tax').val();
         var hitung = parseInt(total)+parseInt(hitung);
 
-        $('#po_tax').val(hitung);
-        alert('if');
+        $('#po_tax').val(hitung);        
       }else if($('.ppn').prop('checked') == false){
         var hitung = parseInt(total_price)*(10/parseInt(100));
         var total  = $('#po_tax').val();
         var hitung = parseInt(total)-parseInt(hitung);
 
-        $('#po_tax').val(hitung);
-        alert('else');
+        $('#po_tax').val(hitung);        
       }
     }
 
