@@ -27,9 +27,6 @@
               </div>
             </div>
           </div> -->
-          <style>
-            
-          </style>
           <div class="row">
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#0033c7;">
