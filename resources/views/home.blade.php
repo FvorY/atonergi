@@ -29,7 +29,7 @@
           </div> -->
           <div class="row">
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#6c5ce7;">
                   <i class="fa fa-times d-flex justify-content-end" aria-hidden="true" style="margin-top:5px; color:white;"></i>
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
@@ -50,7 +50,7 @@
                   </div>
               </div>
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#ff7675;">
                   <i class="fa fa-times d-flex justify-content-end" aria-hidden="true" style="margin-top:5px; color:white;"></i>
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
@@ -71,7 +71,7 @@
                   </div>
               </div>
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#00b894">
                   <i class="fa fa-times d-flex justify-content-end" aria-hidden="true" style="margin-top:5px; color:white;"></i>
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
@@ -92,7 +92,7 @@
                   </div>
               </div>
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#fdcb6e;">
                   <i class="fa fa-times d-flex justify-content-end" aria-hidden="true" style="margin-top:5px; color:white;"></i>
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
@@ -113,7 +113,7 @@
                   </div>
               </div>
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#00cec9;">
                   <i class="fa fa-times d-flex justify-content-end" aria-hidden="true" style="margin-top:5px; color:white;"></i>
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
@@ -134,7 +134,7 @@
                   </div>
               </div>
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#e84393;">
                   <i class="fa fa-times d-flex justify-content-end" aria-hidden="true" style="margin-top:5px; color:white;"></i>
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
@@ -155,7 +155,7 @@
                   </div>
               </div>
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#ef6c57;">
                   <i class="fa fa-times d-flex justify-content-end" aria-hidden="true" style="margin-top:5px; color:white;"></i>
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
@@ -176,7 +176,7 @@
                   </div>
               </div>
               <div class="col-lg-5" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#f79f24;">
                   <i class="fa fa-times d-flex justify-content-end" aria-hidden="true" style="margin-top:5px; color:white;"></i>
                       <div class="card-body">
                           <div class="container-fluid d-flex justify-content-between">
@@ -217,7 +217,7 @@
           </div> -->
           <div class="row">
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#6c5ce7;">
                       <div class="card-body bintang1">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:10px;">
@@ -231,7 +231,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#ff7675;">
                       <div class="card-body bintang2">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:10px;">
@@ -245,7 +245,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#00b894;">
                       <div class="card-body bintang3">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:10px;">
@@ -259,7 +259,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#fdcb6e;">
                       <div class="card-body bintang4">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:10px;">
@@ -273,7 +273,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#00cec9;">
                       <div class="card-body bintang5">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:10px;">
@@ -287,7 +287,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-2" style="background-color:#1976d2;">
+                  <div class="card px-2" style="background-color:#e84393;">
                       <div class="card-body bintang6">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:10px;">
@@ -301,7 +301,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-1" style="background-color:#1976d2;">
+                  <div class="card px-1" style="background-color:#ef6c57;">
                       <div class="card-body bintang7">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:10px;">
@@ -315,7 +315,7 @@
                   </div>
               </div>
               <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
-                  <div class="card px-4" style="background-color:#1976d2;">
+                  <div class="card px-4" style="background-color:#f79f24;">
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 click" style="margin-top:20px;">
