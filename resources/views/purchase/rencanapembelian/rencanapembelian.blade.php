@@ -3,6 +3,7 @@
 
 @include('purchase.rencanapembelian.tambah')
 @include('purchase.rencanapembelian.detail')
+@include('purchase.rencanapembelian.edit')
 
 <style type="text/css">
 
@@ -126,6 +127,7 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
+  var totaledit;  
   $(document).ready(function(){
 
 
@@ -208,7 +210,7 @@
       });
 
 
-    var table           = $("#t72a").DataTable();
+    var table           = $("#t72a").DataTable();    
     var rp_qty         = $("#rp_qty");
     var rp_item          = $("#rp_item");
     var rp_kodeitem       = $("#rp_kodeitem");
@@ -608,6 +610,206 @@ function hapus(parm){
 
    window.location.reload();
   }
+
+  function edit(parm){
+    var par   = $(parm).parents('tr');
+    var id    = $(par).find('.d_id').text();
+
+    $.ajax({
+      type: 'get',
+      data: {id},
+      dataType: 'json',
+      url: baseUrl + '/purchase/rencanapembelian/edit_rencanapembelian',
+      success : function(response){    
+        tables.clear();     
+        $('#ro_codes').val(response.dataheader[0].ro_code);
+        $('#ro_dates').val(response.dataheader[0].ro_insert);
+        
+        $('#ro_vendor_headers').val(response.dataheader[0].ro_vendor).trigger('change');    
+        $('#ro_total_headers').val('Rp. '+accounting.formatMoney(response.dataheader[0].ro_price,"",0,'.',','));     
+        totaledit = response.dataheader[0].ro_price;        
+        for(var i=0; i < response.dataseq.length; i++){
+          if(response.dataseq[i].sg_qty == null){
+            var qtygudang = 0;
+          } else {
+            var qtygudang = response.dataseq[i].sg_qty;
+          }
+          tables.row.add( [
+            '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly" readonly value="'+ response.dataseq[i].rodt_barang +'">',
+            '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ response.dataseq[i].i_name +'">',
+            '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(response.dataseq[i].rodt_unit_price,"",0,'.',',') +'">',
+            '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(response.dataseq[i].rodt_price,"",0,'.',',') +'">',
+            '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(response.dataseq[i].rodt_qty,"",0,'.',',') +'">',
+            '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ qtygudang +'">',
+            '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
+        ] ).draw( false );
+        }        
+        var total_qty = 0;
+        $('.total_qty').each(function(){
+          var total = $(this).val();
+          total = total.replace(/[^0-9\-]+/g,"");
+          total_qty += parseInt(total);
+        });
+        $("input[name='ro_qty_header']").val(total_qty);
+      }
+    });
+  }
+
+  var tables           = $("#t72as").DataTable();    
+  var rp_qtys         = $("#rp_qtys");
+  var rp_items          = $("#rp_items");
+  var rp_kodeitems       = $("#rp_kodeitems");
+
+  var x = 1;
+
+  $('#rp_qtys').attr('disabled',true);
+  $('#rp_kodeitems').change(function(){
+    var this_val = $(this).find(':selected').data('price');
+        if($(this).val() != '') {
+          $('#rp_qtys').attr('disabled',false);
+        }else{
+          $('#rp_qtys').attr('disabled',true);
+        }
+    var price = $('#rp_items').val(accounting.formatMoney(this_val,"",0,'.',','));
+  });
+
+
+  rp_qtys.keypress(function(e) {
+    if(e.which == 13 || e.keyCode == 13){
+      var qty = rp_qtys.val();
+      var harga_1 = rp_items.val();
+
+      qty = qty.replace(/[^0-9\-]+/g,"");
+      harga_1 = harga_1.replace(/[^0-9\-]+/g,"");
+
+      var total = parseInt(harga_1)*parseInt(qty);
+      tables.row.add( [
+          '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly" readonly value="'+ rp_kodeitems.val() +'">',
+          '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ rp_kodeitems.find(':selected').data('name') +'">',
+          '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(rp_kodeitems.find(':selected').data('price'),"",0,'.',',') +'">',
+          '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
+          '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(rp_qtys.val(),"",0,'.',',') +'">',
+          '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ rp_kodeitems.find(':selected').data('qty') +'">',
+          '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
+      ] ).draw( false );
+
+      x++;
+
+      $('.rp').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
+
+      var total_price = totaledit;
+      $('.total_price').each(function(){
+        var total = $(this).val();
+        total = total.replace(/[^0-9\-]+/g,"");
+        total_price += parseInt(total);
+      });
+      $("input[name='ro_total_header']").val('Rp. ' + accounting.formatMoney(total_price,"",0,'.',','));
+
+      var total_qty = 0;
+      $('.total_qty').each(function(){
+        var total = $(this).val();
+        total = total.replace(/[^0-9\-]+/g,"");
+        total_qty += parseInt(total);
+      });
+      $("input[name='ro_qty_header']").val(total_qty);
+
+      rp_items.focus();
+      rp_items.val('');
+      rp_kodeitems.val('').trigger('change');
+      rp_qtys.val('');
+    }
+  } );
+
+
+
+
+  $('#t72a').on( 'click', function () {
+
+
+  });
+
+
+
+
+
+
+
+  $('#t72as tbody').on( 'click', '.delete', function () {
+      tables
+          .row($(this).parents('tr'))
+          .remove()
+          .draw();
+
+      var parents = $(this).parents('tr');
+      var total_price_seq = $(parents).find('.total_price').val();
+      var total_qty_seq = $(parents).find('.total_qty').val();
+      var total_price_header = $("input[name='ro_total_header']").val();
+      var total_qty_header = $("input[name='ro_qty_header']").val();
+
+      total_price_header = total_price_header.replace(/[^0-9\-]+/g,"");
+      total_qty_header = total_qty_header.replace(/[^0-9\-]+/g,"");
+      total_price_seq = total_price_seq.replace(/[^0-9\-]+/g,"");
+      total_qty_seq = total_qty_seq.replace(/[^0-9\-]+/g,"");
+
+      var kurang_total = parseInt(total_price_header)-parseInt(total_price_seq);
+      var kurang_qty = parseInt(total_qty_header)-parseInt(total_qty_seq);
+      $("input[name='ro_total_header']").val(accounting.formatMoney(kurang_total,"",0,'.',','));
+      $("input[name='ro_qty_header']").val(accounting.formatMoney(kurang_qty,"",0,'.',','));
+
+  });
+
+$('#change_function').on("click", "#save_data",function(){
+  $.ajax({
+       type: "get",
+       url: '{{ route('simpan_rencanapembelian') }}',
+       data: $('#form-save').serialize(),
+       success: function(data){
+          var table_history = $('#table_datatable_histori').DataTable();
+          var table_rencana = $('#table_datatable_rencana').DataTable();
+          table_history.ajax.reload();
+          table_rencana.ajax.reload();
+          iziToast.success({
+            icon: 'fas fa-check-circle',
+            message: 'Data Telah Tersimpan!',
+          });
+          $('#tambah').modal('hide');
+       },
+       error: function(){
+        iziToast.warning({
+          icon: 'fa fa-times',
+          message: 'Terjadi Kesalahan!',
+        });
+       },
+       async: false
+     });
+})
+
+$('#change_functions').on("click", "#save_datas",function(){
+  $.ajax({
+       type: "get",
+       url: '{{ route('update_rencanapembelian') }}',
+       data: $('#form-edit').serialize(),
+       success: function(data){
+          var table_history = $('#table_datatable_histori').DataTable();
+          var table_rencana = $('#table_datatable_rencana').DataTable();
+          table_history.ajax.reload();
+          table_rencana.ajax.reload();
+          iziToast.success({
+            icon: 'fas fa-check-circle',
+            message: 'Data Telah Tersimpan!',
+          });
+          $('#edit').modal('hide');
+       },
+       error: function(){
+        iziToast.warning({
+          icon: 'fa fa-times',
+          message: 'Terjadi Kesalahan!',
+        });
+       },
+       async: false
+     });
+})
+
 
 </script>
 @endsection

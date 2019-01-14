@@ -427,6 +427,7 @@ Route::get('/purchase/rencanapembelian/kode_rencanapembelian', 'purchase\request
 Route::get('/purchase/rencanapembelian/detail_rencanapembelian', 'purchase\request_orderController@detail_rencanapembelian')->name('detail_rencanapembelian');
 Route::get('/purchase/rencanapembelian/hapus_rencanapembelian', 'purchase\request_orderController@hapus_rencanapembelian')->name('hapus_rencanapembelian');
 Route::get('/purchase/rencanapembelian/detail_rencanapembelian', 'purchase\request_orderController@detail_rencanapembelian')->name('detail_rencanapembelian');
+Route::get('/purchase/rencanapembelian/edit_rencanapembelian', 'purchase\request_orderController@edit_rencanapembelian')->name('edit_rencanapembelian');
 Route::get('/purchase/rencanapembelian/update_rencanapembelian', 'purchase\request_orderController@update_rencanapembelian')->name('update_rencanapembelian');
 Route::get('/purchase/rencanapembelian/approve_rencanapembelian', 'purchase\request_orderController@approve_rencanapembelian')->name('approve_rencanapembelian');
 Route::get('/purchase/rencanapembelian/simpan_rencanapembelian', 'purchase\request_orderController@simpan_rencanapembelian')->name('simpan_rencanapembelian');

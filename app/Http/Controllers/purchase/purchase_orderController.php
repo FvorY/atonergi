@@ -371,6 +371,6 @@ class purchase_orderController extends Controller
                         logController::inputlog('Purchase Order', 'Update', $request->po_nopo);
 
       return response()->json(['status'=>1]);
-    }
+    }    
 
 }
