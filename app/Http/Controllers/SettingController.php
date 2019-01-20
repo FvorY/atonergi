@@ -127,7 +127,7 @@ class SettingController extends Controller
                         ->addColumn('aksi', function ($data) {
                           return  '<div class="btn-group">'.
                                    '<button type="button" onclick="edit(this)" class="btn btn-info btn-lg" title="edit">'.
-                                   '<label class="fa fa-pencil-alt"></label></button>'.
+                                   '<label class="fa fa-pencil "></label></button>'.
                                    '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-lg" title="hapus">'.
                                    '<label class="fa fa-trash"></label></button>'.
                                   '</div>';
@@ -299,7 +299,7 @@ class SettingController extends Controller
                           $hapus = '';
                           if (mMember::akses('SETTING ACCOUNT', 'ubah')) {
                             $ubah = '<button type="button" onclick="edit(this)" class="btn btn-info btn-lg" title="edit">'.
-                            '<label class="fa fa-pencil-alt"></label></button>';
+                            '<label class="fa fa-pencil "></label></button>';
                           }
                          if (mMember::akses('SETTING ACCOUNT', 'hapus')) {
                            $hapus = '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-lg" title="hapus">'.
@@ -476,7 +476,7 @@ class SettingController extends Controller
                         $hapus = '';
                         if (mMember::akses('SETTING DAFTAR MENU', 'ubah')) {
                           $ubah = '<button type="button" onclick="edit(this)" class="btn btn-info btn-lg" title="edit">'.
-                          '<label class="fa fa-pencil-alt"></label></button>';
+                          '<label class="fa fa-pencil "></label></button>';
                         }
                        if (mMember::akses('SETTING DAFTAR MENU', 'hapus')) {
                          $hapus = '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-lg" title="hapus">'.

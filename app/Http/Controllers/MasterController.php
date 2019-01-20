@@ -237,7 +237,7 @@ class MasterController extends Controller
                     $a =  '<div class="btn-group">';
 
                     if(Auth::user()->akses('MASTER DATA STATUS','ubah')){
-                     $b = '<button type="button" onclick="edit(\''.$data->s_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil-alt"></label></button>';
+                     $b = '<button type="button" onclick="edit(\''.$data->s_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
                     }else{
                       $b = '';
                     }
@@ -505,7 +505,7 @@ class MasterController extends Controller
                     $a =  '<div class="btn-group">';
 
                     if(Auth::user()->akses('MASTER DATA BANK','ubah')){
-                     $b = '<button type="button" onclick="edit(\''.$data->id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil-alt"></label></button>';
+                     $b = '<button type="button" onclick="edit(\''.$data->id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
                     }else{
                       $b = '';
                     }
@@ -628,7 +628,7 @@ public function edit_bank(request $req)
                         $a =  '<div class="btn-group">';
 
                         if(Auth::user()->akses('MASTER DATA JASA','ubah')){
-                         $b = '<button type="button" onclick="edit(\''.$data->i_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil-alt"></label></button>';
+                         $b = '<button type="button" onclick="edit(\''.$data->i_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
                         }else{
                           $b = '';
                         }

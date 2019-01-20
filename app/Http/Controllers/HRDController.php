@@ -269,7 +269,7 @@ class HRDController extends Controller
         return Datatables::of($data)
                 ->addColumn('aksi', function ($data) {
                           return  '<div class="btn-group">'.
-                                   '<button type="button" class="btn btn-primary btn-lg alamraya-btn-aksi" title="edit" onclick="edit('.$data->mp_id.')"><label class="fa fa-pencil-alt"></label></button>'.
+                                   '<button type="button" class="btn btn-primary btn-lg alamraya-btn-aksi" title="edit" onclick="edit('.$data->mp_id.')"><label class="fa fa-pencil "></label></button>'.
                                   '</div>';
                 })
                 ->addColumn('tunjangan', function ($data) {
@@ -697,9 +697,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_kartushift')
                         ->whereBetween('k_tanggal', array($tgl_awal, $tgl_akhir))
+                        ->orderby('k_tanggal', 'DESC')
                         ->get();
           } else {
             $data = DB::table('d_kartushift')
+                        ->orderby('k_tanggal', 'DESC')
                         ->get();
           }
       }
@@ -725,9 +727,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_absensibulan')
                         ->whereBetween('a_tanggal', array($tgl_awal, $tgl_akhir))
+                        ->orderBy('a_tanggal', 'DESC')
                         ->get();
           } else {
             $data = DB::table('d_absensibulan')
+                        ->orderBy('a_tanggal', 'DESC')
                         ->get();
           }
       }
@@ -832,9 +836,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_rekapperiode')
                         ->whereBetween('r_insert', array($tgl_awal, $tgl_akhir))
+                        ->orderBy('r_insert', 'DESC')
                         ->get();
           } else {
             $data = DB::table('d_rekapperiode')
+                        ->orderBy('r_insert', 'DESC')
                         ->get();
           }
       }
@@ -853,6 +859,7 @@ class HRDController extends Controller
       $data = DB::table('d_payroll_managerial')
                   ->whereIn('pm_pin', $request->pin)
                   ->whereIn('pm_nip', $request->nip)
+                  ->orderby('pm_insert', 'desc')
                   ->get();
 
       for ($i=0; $i < count($data); $i++) {
@@ -873,6 +880,7 @@ class HRDController extends Controller
       $data = DB::table('d_payroll_staff')
                   ->whereIn('ps_pin', $request->pin)
                   ->whereIn('ps_nip', $request->nip)
+                  ->orderby('ps_insert', 'desc')
                   ->get();
 
       for ($i=0; $i < count($data); $i++) {
@@ -1053,9 +1061,11 @@ class HRDController extends Controller
               $tgl_akhir = date('Y-m-d', strtotime($tgl_akhir));
               $data = DB::table('d_rincian_tahunan')
                         ->whereBetween('r_insert', array($tgl_awal, $tgl_akhir))
+                        ->orderBy('rt_insert', 'DESC')
                         ->get();
           } else {
             $data = DB::table('d_rincian_tahunan')
+                        ->orderBy('rt_insert', 'DESC')
                         ->get();
           }
       }

@@ -42,7 +42,7 @@ class master_bundleitemController extends Controller
                           $a =  '<div class="btn-group">';
 
                             if(Auth::user()->akses('MASTER DATA BUNDLE ITEM','ubah')){
-                             $b = '<button type="button" onclick="edit(\''.$data->i_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil-alt"></label></button>';
+                             $b = '<button type="button" onclick="edit(\''.$data->i_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
                             }else{
                               $b = '';
                             }

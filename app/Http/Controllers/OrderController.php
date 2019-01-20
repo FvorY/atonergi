@@ -916,7 +916,7 @@ class OrderController extends Controller
                           $a =  '<div class="btn-group">';
 
                           if(Auth::user()->akses('PROFORMA INVOICE','ubah')){
-                            $b = '<button type="button" onclick="edit(\''.$data->po_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil-alt"></label></button>';
+                            $b = '<button type="button" onclick="edit(\''.$data->po_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
                           }else{
                             $b = '';
                           }

@@ -70,7 +70,7 @@ class QuotationController extends Controller
                            $a =  '<div class="btn-group">';
 
                             if(Auth::user()->akses('QUOTATION','ubah')){
-                             $b = '<button type="button" onclick="edit(\''.$data->q_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil-alt"></label></button>';
+                             $b = '<button type="button" onclick="edit(\''.$data->q_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
                             }else{
                               $b = '';
                             }

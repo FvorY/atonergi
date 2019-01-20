@@ -19,7 +19,7 @@ class MankpiController extends Controller
 {
     public function index()
     {
-      if (!mMember::akses('MANAJEMEM SCOREBOARD', 'aktif')) {
+      if (!mMember::akses('MANAJEMEN SCOREBOARD', 'aktif')) {
         return redirect('error-404');
       }
         //dd(Auth::user());
@@ -181,8 +181,8 @@ class MankpiController extends Controller
     }
 
     public function getDataEdit($id)
-    {
-      if (!mMember::akses('MANAJEMEM SCOREBOARD', 'ubah')) {
+    {        
+      if (!mMember::akses('MANAJEMEN SCOREBOARD', 'ubah')) {
         return redirect('error-404');
       }
         $id_peg = d_kpi::select('d_kpi_pid')->where('d_kpi.d_kpi_id', $id)->first();
@@ -211,7 +211,7 @@ class MankpiController extends Controller
 
     public function updateData(Request $request)
     {
-      if (!mMember::akses('MANAJEMEM SCOREBOARD', 'ubah')) {
+      if (!mMember::akses('MANAJEMEN SCOREBOARD', 'ubah')) {
         return redirect('error-404');
       }
         //dd($request->all());
@@ -256,7 +256,7 @@ class MankpiController extends Controller
 
     public function ubahStatus(Request $request)
     {
-      if (!mMember::akses('MANAJEMEM SCOREBOARD', 'ubah')) {
+      if (!mMember::akses('MANAJEMEN SCOREBOARD', 'ubah')) {
         return redirect('error-404');
       }
       DB::beginTransaction();
