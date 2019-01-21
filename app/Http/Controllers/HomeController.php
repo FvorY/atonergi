@@ -48,13 +48,7 @@ class HomeController extends Controller
     }
 
     public function realtime(){
-      $counton = mMember::where('m_statuslogin', 'Y')->count();
-      $countoff = mMember::where('m_statuslogin', 'N')->count();
-
-      return response()->json([
-        'countoff' => $countoff,
-        'counton' => $counton
-      ]);
+      
     }
 
     public function logout(){
