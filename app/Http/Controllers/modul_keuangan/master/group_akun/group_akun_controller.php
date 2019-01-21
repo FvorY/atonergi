@@ -15,6 +15,14 @@ class group_akun_controller extends Controller
     	return view('modul_keuangan.master.group-akun.index', compact('data'));
     }
 
+    public function form_resource(){
+        $subclass = DB::table('dk_akun_group_subclass')->select('gs_id as id', 'gs_nama as text', 'gs_type', 'gs_kelompok')->get();
+
+        return json_encode([
+            "subclass"  => $subclass
+        ]);
+    }
+
     public function datatable(Request $request){
     	// return json_encode($request->all());
 
@@ -49,6 +57,7 @@ class group_akun_controller extends Controller
     			"ag_nomor"		=> $request->ag_type.'-'.$nomor,
     			"ag_type"		=> $request->ag_type,
     			"ag_nama"		=> $request->ag_nama,
+                "ag_subclass"   => $request->ag_subclass,
     			"ag_kelompok"	=> $request->ag_kelompok,
     		]);
 
@@ -89,7 +98,8 @@ class group_akun_controller extends Controller
 
     		$cek->update([
     			"ag_nama"		=> $request->ag_nama,
-    			"ag_kelompok"	=> $request->ag_kelompok
+    			"ag_kelompok"	=> $request->ag_kelompok,
+                "ag_subclass"   => $request->ag_subclass,
     		]);
 
     		DB::commit();

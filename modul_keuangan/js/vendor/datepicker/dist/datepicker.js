@@ -97,7 +97,7 @@
     // The offset top or bottom of the datepicker from the element
     offset: 10,
     // The `z-index` of the datepicker
-    zIndex: 1000,
+    zIndex: 1500,
     // Filter each date item (return `false` to disable a date item)
     filter: null,
     // Event shortcuts

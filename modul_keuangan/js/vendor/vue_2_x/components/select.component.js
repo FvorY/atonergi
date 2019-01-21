@@ -1,6 +1,6 @@
 Vue.component('vue-select', {
 
-	props: ['name', 'id', 'title', 'options', 'disabled', 'search', 'value'],
+	props: ['name', 'id', 'title', 'options', 'disabled', 'search', 'value', 'styles'],
 
     mounted: function(){
     	var vm = this;
@@ -69,6 +69,6 @@ Vue.component('vue-select', {
     },
 
     template: `
-      	<select class="form-control" :id="id" :name="name" :title="title" :disabled="disabled" style="border: 0px; height:"></select>
+      	<select class="form-control" :id="id" :name="name" :title="title" :disabled="disabled" :style="'border: 0px;'+styles"></select>
     `,
 });

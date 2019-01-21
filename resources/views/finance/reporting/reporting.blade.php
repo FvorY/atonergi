@@ -9,6 +9,35 @@
 @include('finance/reporting/arus_kas')
 <!-- partial -->
 <div class="content-wrapper">
+
+	<?php 
+
+        // jurnal
+            $tanggal = date('Y-m').'-01';
+
+            $tanggalFirst = date('d/m/Y', strtotime($tanggal));
+            $tanggalNext = date('d/m/Y', strtotime("+1 months", strtotime($tanggal)));
+
+            $jurnalRequest = "_token=".csrf_token()."&d1=".$tanggalFirst."&d2=".$tanggalNext."&type=K&nama=true";
+
+        // buku besar
+            $bulan = date('Y-m');
+
+            $bulanFirst = date('m/Y', strtotime($bulan));
+            $bulanNext = date('m/Y', strtotime("+1 months", strtotime($bulan)));
+
+            $buku_besar = "_token=".csrf_token()."&d1=".$bulanFirst."&d2=".$bulanNext."&semua=on&lawan=true";
+
+        // Neraca Saldo
+            $neraca_saldo = "_token=".csrf_token()."&d1=".$bulanFirst;
+
+        // Neraca
+            $neraca = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=";
+
+        // laba_rugi
+            $laba_rugi = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=";
+    ?>
+
 	<div class="row">
 		<div class="col-lg-12">	
 			<nav aria-label="breadcrumb" role="navigation">
@@ -27,7 +56,7 @@
 		          	<div class="row">
 		          		
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a data-toggle="modal" href="#jurnalumum" class="center text-primary alamraya-choosing-panel">
+							<a href="{{ route('laporan.keuangan.jurnal_umum', $jurnalRequest) }}" class="center text-primary alamraya-choosing-panel">
 								<i class="fa fa-clipboard icon-lg text-primary"></i>
 								<div class="center">
 									<label>Jurnal Umum</label>
@@ -35,7 +64,7 @@
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a data-toggle="modal" href="#bukubesar" class="center text-warning alamraya-choosing-panel">
+							<a href="{{ route('laporan.keuangan.buku_besar', $buku_besar) }}" class="center text-warning alamraya-choosing-panel">
 								<i class="fa fa-book icon-lg text-warning"></i>
 								<div class="center">
 									<label>&nbsp;Buku Besar&nbsp;</label>
@@ -43,7 +72,7 @@
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a data-toggle="modal" href="#neracasaldo" class="center text-danger alamraya-choosing-panel">
+							<a href="{{ Route('laporan.keuangan.neraca_saldo', $neraca_saldo) }}" class="center text-danger alamraya-choosing-panel">
 								<i class="fa fa-random icon-lg text-danger"></i>
 								<div class="center">
 									<label>Neraca Saldo</label>
@@ -51,7 +80,7 @@
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a data-toggle="modal" href="#neraca" class="center text-success alamraya-choosing-panel">
+							<a href="{{ Route('laporan.keuangan.neraca', $neraca) }}" class="center text-success alamraya-choosing-panel">
 								<i class="fa fa-columns icon-lg text-success"></i>
 								<div class="center">
 									<label>&nbsp;&nbsp;&nbsp;&nbsp; Neraca &nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -59,7 +88,7 @@
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a data-toggle="modal" href="#labarugi" class="center text-muted alamraya-choosing-panel">
+							<a href="{{ Route('laporan.keuangan.laba_rugi', $laba_rugi) }}" class="center text-muted alamraya-choosing-panel">
 								<i class="fa fa-bar-chart-o icon-lg text-muted"></i>
 								<div class="center">
 									<label>&nbsp; Laba Rugi &nbsp;</label>

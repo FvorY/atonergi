@@ -66,13 +66,68 @@
 		return $bulan;
 	}
 	
+	function switchBulan($bulan){
+		
+		if($bulan == '01' || $bulan == '1')
+			return 'Januari';
+		else if($bulan == '02' || $bulan == '2')
+			return 'Februari';
+		else if($bulan == '03' || $bulan == '3')
+			return 'Maret';
+		else if($bulan == '04' || $bulan == '4')
+			return 'April';
+		else if($bulan == '05' || $bulan == '5')
+			return 'Mei';
+		else if($bulan == '06' || $bulan == '6')
+			return 'Juni';
+		else if($bulan == '07' || $bulan == '7')
+			return 'Juli';
+		else if($bulan == '08' || $bulan == '8')
+			return 'Agustus';
+		else if($bulan == '09' || $bulan == '9')
+			return 'September';
+		else if($bulan == '10')
+			return 'Oktober';
+		else if($bulan == '11')
+			return 'November';
+		else if($bulan == '12')
+			return 'Desember';
+
+		return "Bulan Tidak Diketahui";
+	}
+
 	function modulSetting(){
 		$setting = [
-			'extraScripts' => 'extra_script',
-			'extraStyles'  => 'extra_style',
+			// Container
+				'extraScripts' => 'extra_script',
+				'extraStyles'  => 'extra_style',
 		];
 
 		return $setting;
+	}
+
+	function jurnal(){
+		$setting = [
+			// setting
+				'allowJurnalToExecute'	=> true,
+				'comp'					=> 1,
+				'companyName'			=> 'Dirga Ambara Corporindo',
+
+			// kelompok_akun_role
+				'kelompok_kas'						=> '1.001',
+				'kelompok_bank'						=> '1.002',
+				'kelompok_harta'					=> '1.004',
+				'kelompok_akumulasi_penyusutan'		=> '1.005',
+				'kelompok_beban_penyusutan'			=> '4.001',
+
+			// Akun Role
+				'akun_Pendapatan_aktiva' 	=> '5.002.01',
+				'akun_Kerugian_aktiva' 		=> '4.008.01',
+				'akun_hutang_usaha'			=> '2.001.01',
+				'akun_piutang_usaha'		=> '1.003.01',
+		];
+
+		return (object) $setting;
 	}
 
 ?>
