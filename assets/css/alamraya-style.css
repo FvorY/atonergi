@@ -350,4 +350,12 @@ textarea{
 .bintang8:hover {
     animation: bounce 1s;
 }
+
+.closed:hover {
+    color:#eb4d4b !important;
+}
+
+.light:hover {
+    color:#fff200 !important;
+}
 /* end */

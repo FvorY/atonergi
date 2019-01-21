@@ -241,7 +241,7 @@
           </div>
           <hr style="background:#5c848e; border:0px; height:2px; margin-bottom: 5px;">
           <div class="row">
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#6c5ce7;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"></i>
                       <div class="card-body bintang1">
@@ -256,7 +256,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-3" style="background-color:#ff7675;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-10px;"></i>
                       <div class="card-body bintang2">
@@ -271,7 +271,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#00b894;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"></i>
                       <div class="card-body bintang3">
@@ -286,7 +286,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-4" style="background-color:#fdcb6e;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-20px;"></i>
                       <div class="card-body bintang8">
@@ -301,7 +301,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#00cec9;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"></i>
                       <div class="card-body bintang5">
@@ -316,7 +316,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#e84393;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"></i>
                       <div class="card-body bintang6">
@@ -331,7 +331,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-1" style="background-color:#ef6c57;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:1px;"></i>
                       <div class="card-body bintang7">
@@ -346,7 +346,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-4" style="background-color:#f79f24;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-20px;"></i>
                       <div class="card-body bintang8">
@@ -361,7 +361,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-4" style="background-color:#ffe98a">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-20px;"></i>
                       <div class="card-body bintang8">
@@ -376,7 +376,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-4" style="background-color:#d195f9;">
                   <i class="fa fa-star d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-20px;"></i>
                       <div class="card-body bintang8">
