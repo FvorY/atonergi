@@ -72,7 +72,7 @@ Vue.component('vue-datatable',{
 
       <div class="row">
         <div class="col-md-3">
-          <select class="form-control modul-keuangan" style="cursor: pointer" id="vue-datatable-search-context" title="Pencarian Berdasarkan">
+          <select title="Pencarian Berdasarkan">
               <option :value="column.context" v-for="column in columns">{{ column.name }}</option>
           </select>
         </div>
