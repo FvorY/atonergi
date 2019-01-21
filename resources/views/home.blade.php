@@ -241,7 +241,7 @@
           </div>
           <hr style="background:#5c848e; border:0px; height:2px; margin-bottom: 5px;">
           <div class="row">
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#6c5ce7;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="qo()" style="cursor:pointer;" id="qoico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="qo" id="qo" value="N"> 
@@ -257,7 +257,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-3" style="background-color:#ff7675;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="so()" style="cursor:pointer;" id="soico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="so" id="so" value="N"> 
@@ -273,7 +273,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#00b894;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="wo()" style="cursor:pointer;" id="woico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="wo" id="wo" value="N"> 
@@ -289,7 +289,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-4" style="background-color:#fdcb6e;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="pay()" style="cursor:pointer;" id="payico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="pay" id="pay" value="N"> 
@@ -305,7 +305,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#00cec9;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="ro()" style="cursor:pointer;" id="roico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="ro" id="ro" value="N"> 
@@ -321,7 +321,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-2" style="background-color:#e84393;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="po()" style="cursor:pointer;" id="poico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="po" id="po" value="N"> 
@@ -337,7 +337,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-1" style="background-color:#ef6c57;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="stok()" style="cursor:pointer;" id="stokico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="stok" id="stok" value="N"> 
@@ -353,7 +353,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-4" style="background-color:#f79f24;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="hutang()" style="cursor:pointer;" id="hutangico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="hutang" id="hutang" value="N"> 
@@ -369,7 +369,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-4" style="background-color:#ffe98a">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="piutang()" style="cursor:pointer;" id="piutangico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="piutang" id="piutang" value="N"> 
@@ -385,7 +385,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-4" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
                   <div class="card px-4" style="background-color:#d195f9;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="omset()" style="cursor:pointer;" id="omsetico" class="fa fa-star-o"></span></i>
                     <input type="hidden" name="omset" id="omset" value="N"> 

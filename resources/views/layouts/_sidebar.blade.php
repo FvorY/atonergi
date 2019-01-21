@@ -223,6 +223,11 @@
 
                   @endif
                   @if( (int)$sidebar[8]->aktif == 1)
+
+                  @if( (int)$sidebar[8]->aktif == 1)
+                  <li class="nav-item"> <a class="nav-link {{Request::is('master/modul/keuangan/master/group-akun') ? 'active' : '' || Request::is('master/modul/keuangan/master/group-akun/*') ? 'active' : '' }}" href="{{url('master/modul/keuangan/master/group-akun')}}">Master Data Group Akun</a></li>
+                  @endif
+
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/modul/keuangan/master/akun') ? 'active' : '' || Request::is('master/modul/keuangan/master/akun/*') ? 'active' : '' }}" href="{{url('master/modul/keuangan/master/akun')}}">Master Data Akun Keuangan</a></li>
                   @endif
 
@@ -528,7 +533,7 @@
             </li>
           @endif
           @if ( (int)$sidebar[52]->aktif == 1 || (int)$sidebar[53]->aktif == 1 || (int)$sidebar[54]->aktif == 1)
-            <li class="nav-item {{Request::is('manajemenaset') ? 'active' : '' || Request::is('manajemenaset/*') ? 'active' : '' }}">
+            <li class="nav-item {{Request::is('modul/keuangan/manajemen-aset') ? 'active' : '' || Request::is('modul/keuangan/manajemen-aset/*') ? 'active' : '' }}">
               <a class="nav-link" data-toggle="collapse" href="#aset" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Manajemen Aset</span>
                 <span class="d-none">
@@ -539,17 +544,25 @@
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-chart-line menu-icon"></i>
               </a>
-              <div class="collapse {{Request::is('manajemenaset') ? 'show' : '' || Request::is('manajemenaset/*') ? 'show' : '' }}" id="aset">
+              <div class="collapse {{Request::is('modul/keuangan/manajemen-aset') ? 'show' : '' || Request::is('modul/keuangan/manajemen-aset/*') ? 'show' : '' }}" id="aset">
                 <ul class="nav flex-column sub-menu">
-                  @if( (int)$sidebar[52]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('manajemenaset/irventarisasi/irventarisasi') ? 'active' : '' || Request::is('manajemenaset/irventarisasi/*') ? 'active' : '' }}" href="{{url('manajemenaset/irventarisasi/irventarisasi')}}">Irventarisasi<span class="d-none">Manajemen Aset</span></a></li>
+
+                   @if( (int)$sidebar[52]->aktif == 1)
+                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/manajemen-aset/group-aset') ? 'active' : '' || Request::is('modul/keuangan/manajemen-aset/group-aset/*') ? 'active' : '' }}" href="{{url('modul/keuangan/manajemen-aset/group-aset')}}">Data Golongan Aset</a></li>
                   @endif
+
+                  @if( (int)$sidebar[52]->aktif == 1)
+                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/manajemen-aset/aset') ? 'active' : '' || Request::is('modul/keuangan/manajemen-aset/aset/*') ? 'active' : '' }}" href="{{url('modul/keuangan/manajemen-aset/aset')}}">Data Aset<span class="d-none">Manajemen Aset</span></a></li>
+                  @endif
+{{-- 
                   @if( (int)$sidebar[53]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('manajemenaset/history/history') ? 'active' : '' || Request::is('manajemenaset/history/*') ? 'active' : '' }}" href="{{url('manajemenaset/history/history')}}">History<span class="d-none">Manajemen Aset</span></a></li>
                   @endif
+
                   @if( (int)$sidebar[54]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('manajemenaset/penyusutan/penyusutan') ? 'active' : '' || Request::is('manajemenaset/penyusutan/*') ? 'active' : '' }}" href="{{url('manajemenaset/penyusutan/penyusutan')}}">Penyusutan<span class="d-none">Manajemen Aset</span></a></li>
-                  @endif
+                  @endif --}}
+
                 </ul>
                 </div>
             </li>
