@@ -11,102 +11,104 @@
 
 
 @section('content')
-    <!-- partial -->
-<div class="content-wrapper">
-  <div class="row">
-    <div class="col-lg-12">
-        <nav aria-label="breadcrumb" role="navigation">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb bg-info">
-                <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-                <li class="breadcrumb-item">Master</li>
-                <li class="breadcrumb-item active" aria-current="page">Master Data Group Akun</li>
+              <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
+              <li class="breadcrumb-item">Master</li>
+              <li class="breadcrumb-item active" aria-current="page">Master Data Akun</li>
             </ol>
-        </nav>
-    </div>
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Master Data Akun</h4>
-            <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
-                <a href="{{ route('akun.create') }}">
-                    <button class="btn btn-info btn-sm">Tambah / Edit Data Akun</button>
-                </a>
+          </nav>
+        </div>
+
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Master Data Akun</h4>
+                {{-- @if (App\mMember::akses('MASTER DATA VENDOR', 'tambah')) --}}
+                  <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
+                    <a href="{{ route('akun.create') }}">
+                        <button class="btn btn-info btn-sm">Tambah / Edit Data Akun</button>
+                    </a>
+                  </div>
+                {{-- @endif --}}
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-stripped" id="data-sample">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th width="12%">Kode Akun</th>
+                                <th width="25%">Nama Akun</th>
+                                <th width="15%">Kelompok</th>
+                                <th width="8%">D/K</th>
+                                <th width="15%">Saldo Opening</th>
+                                <th width="15%">Tanggal Buat</th>
+                                <th width="10">Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach($data as $key => $akun)
+                                <?php 
+                                    $bg     = '#eee';
+                                    $color  = '#aaa';
+
+                                    if($akun->ak_isactive == '1'){
+                                        $bg     = 'none';
+                                        $color  = 'none';
+                                    }
+                                ?>
+
+                                <tr style="background: {{ $bg  }}; color: {{  $color }};">
+                                    <td class="text-center">{{ ($key+1) }}</td>
+                                    <td>{{ $akun->ak_id }}</td>
+                                    <td>{{ $akun->ak_nama }}</td>
+                                    <td>{{ $akun->kelompok }}</td>
+
+                                    <?php 
+                                        if($akun->ak_posisi == 'D')
+                                            $posisi = 'DEBET';
+                                        else
+                                            $posisi = 'KREDIT';
+                                    ?>
+
+                                    <td class="text-center">{{ $posisi }}</td>
+                                    <td class="text-right">{{ number_format($akun->ak_opening, 2) }}</td>
+                                    <td class="text-center">{{ date('d/m/Y', strtotime($akun->created_at)) }}</td>
+                                    <td class="text-center">
+                                        {{-- <button class="btn btn-secondary btn-sm" title="Edit Data Group">
+                                            <i class="fa fa-edit"></i>
+                                        </button> --}}
+
+                                        @if($akun->ak_status == 'locked')
+                                            <button class="btn btn-default btn-sm" title="Akun Sedang Dikunci" style="cursor: no-drop;">
+                                                <i class="fa fa-lock"></i>
+                                            </button>
+                                        @elseif($akun->ak_isactive == '1')
+                                            <button class="btn btn-success btn-sm aktifkanData" title="Nonaktifkan" data-id="{{ $akun->ak_id }}">
+                                                <i class="fa fa-check-square-o"></i>
+                                            </button>
+                                        @else
+                                            <button class="btn btn-danger btn-sm aktifkanData" title="Aktifkan" data-id="{{ $akun->ak_id }}">
+                                                <i class="fa fa-square-o"></i>
+                                            </button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            
+                        </tbody>
+                    </table>
+                </div>
+              </div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-bordered table-stripped" id="data-sample">
-                <thead>
-                    <tr>
-                        <th width="5%">No</th>
-                        <th width="12%">Kode Akun</th>
-                        <th width="25%">Nama Akun</th>
-                        <th width="15%">Kelompok</th>
-                        <th width="8%">D/K</th>
-                        <th width="15%">Saldo Opening</th>
-                        <th width="15%">Tanggal Buat</th>
-                        <th width="10">Aksi</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    @foreach($data as $key => $akun)
-                        <?php 
-                            $bg     = '#eee';
-                            $color  = '#aaa';
-
-                            if($akun->ak_isactive == '1'){
-                                $bg     = 'none';
-                                $color  = 'none';
-                            }
-                        ?>
-
-                        <tr style="background: {{ $bg  }}; color: {{  $color }};">
-                            <td class="text-center">{{ ($key+1) }}</td>
-                            <td>{{ $akun->ak_id }}</td>
-                            <td>{{ $akun->ak_nama }}</td>
-                            <td>{{ $akun->kelompok }}</td>
-
-                            <?php 
-                                if($akun->ak_posisi == 'D')
-                                    $posisi = 'DEBET';
-                                else
-                                    $posisi = 'KREDIT';
-                            ?>
-
-                            <td class="text-center">{{ $posisi }}</td>
-                            <td class="text-right">{{ number_format($akun->ak_opening, 2) }}</td>
-                            <td class="text-center">{{ date('d/m/Y', strtotime($akun->created_at)) }}</td>
-                            <td class="text-center">
-                                {{-- <button class="btn btn-secondary btn-sm" title="Edit Data Group">
-                                    <i class="fa fa-edit"></i>
-                                </button> --}}
-
-                                @if($akun->ak_status == 'locked')
-                                    <button class="btn btn-default btn-sm" title="Akun Sedang Dikunci" style="cursor: no-drop;">
-                                        <i class="fa fa-lock"></i>
-                                    </button>
-                                @elseif($akun->ak_isactive == '1')
-                                    <button class="btn btn-success btn-sm aktifkanData" title="Nonaktifkan" data-id="{{ $akun->ak_id }}">
-                                        <i class="fa fa-check-square-o"></i>
-                                    </button>
-                                @else
-                                    <button class="btn btn-danger btn-sm aktifkanData" title="Aktifkan" data-id="{{ $akun->ak_id }}">
-                                        <i class="fa fa-square-o"></i>
-                                    </button>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                    
-                </tbody>
-            </table>
-            </div>
-          </div>
         </div>
       </div>
-  </div>
-</div>
-<!-- content-wrapper ends -->
+    </div>
 @endsection
 
 

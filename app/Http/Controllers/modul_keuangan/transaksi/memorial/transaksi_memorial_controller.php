@@ -17,16 +17,16 @@ class transaksi_memorial_controller extends Controller
 
     public function form_resource(){
     	$akunKas = DB::table('dk_akun')
-    					->where('ak_kelompok', '!=', '1.001')
-    					->where('ak_kelompok', '!=', '1.002')
+    					->where('ak_kelompok', '!=', jurnal()->kelompok_kas)
+    					->where('ak_kelompok', '!=', jurnal()->kelompok_bank)
     					->where('ak_type', 'detail')
     					->where('ak_isactive', '1')
     					->select('ak_id as id', DB::raw("concat(ak_id, ' - ', ak_nama) as text"))
     					->get();
 
     	$akunLawan = DB::table('dk_akun')
-    					->where('ak_kelompok', '!=', '1.001')
-    					->where('ak_kelompok', '!=', '1.002')
+    					->where('ak_kelompok', '!=', jurnal()->kelompok_kas)
+    					->where('ak_kelompok', '!=', jurnal()->kelompok_bank)
     					->where('ak_type', 'detail')
     					->where('ak_isactive', '1')
     					->select('ak_id as id', DB::raw("concat(ak_id, ' - ', ak_nama) as text"))
@@ -43,7 +43,7 @@ class transaksi_memorial_controller extends Controller
         $tanggal = explode('/', $request->tanggal)[2].'-'.explode('/', $request->tanggal)[1].'-01';
         $tanggalNext = date('Y-m-d', strtotime('+1 months', strtotime($tanggal)));
 
-        $data = transaksi::with('detail')->get();
+        $data = transaksi::with('detail')->where('tr_type', 'MM')->get();
 
         return json_encode($data);
     }
@@ -156,7 +156,7 @@ class transaksi_memorial_controller extends Controller
 
             DB::table('dk_transaksi_detail')->insert($detail);
 
-            keuangan::jurnal()->addJurnal($jurnalDetail, $date, $tr_number, $request->tr_nama, 'MM', '1');
+            keuangan::jurnal()->addJurnal($jurnalDetail, $date, $tr_number, $request->tr_nama, 'MM', jurnal()->comp);
 
             DB::commit();
 
@@ -303,7 +303,7 @@ class transaksi_memorial_controller extends Controller
             }
 
             DB::table('dk_transaksi_detail')->insert($detail);
-            keuangan::jurnal()->addJurnal($jurnalDetail, $date, $tr_number, $request->tr_nama, $trans->first()->tr_type, '1');
+            keuangan::jurnal()->addJurnal($jurnalDetail, $date, $tr_number, $request->tr_nama, $trans->first()->tr_type, jurnal()->comp);
 
             DB::commit();
 

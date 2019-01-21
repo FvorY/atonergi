@@ -1,10 +1,10 @@
 Vue.component('vue-datepicker', {
 
-  props: ['name', 'id', 'title', 'value', 'disabled', 'readonly'],
+  props: ['name', 'id', 'title', 'value', 'disabled', 'readonly', 'styles', 'format'],
 
     mounted: function(){
       var vm = this;
-        this.$datePicker = $(this.$el).datepicker({autoHide: true, format: 'dd/mm/yyyy'})
+        this.$datePicker = $(this.$el).datepicker({autoHide: true, format: (vm.format) ? vm.format : 'dd/mm/yyyy'})
         .on('change', function(e){
             vm.$emit('input', $(e.target).val())
         });
@@ -17,6 +17,6 @@ Vue.component('vue-datepicker', {
     },
 
     template: `
-        <input type="text" :value="value" class="form-control form-control-sm" :name="name" :id="id" :title="title" :disabled="disabled" :readonly="readonly" style="cursor: pointer; background: white;">
+        <input type="text" :value="value" class="form-control form-control-sm" :name="name" :id="id" :title="title" :disabled="disabled" :readonly="readonly" :style="'cursor: pointer; background: white;'+styles">
     `,
 });

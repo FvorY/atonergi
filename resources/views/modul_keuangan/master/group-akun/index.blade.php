@@ -11,27 +11,32 @@
 
 
 @section('content')
-  <!-- partial -->
+    <!-- partial -->
+
 <div class="content-wrapper">
   <div class="row">
     <div class="col-lg-12">
-        <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb bg-info">
-                <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-                <li class="breadcrumb-item">Master</li>
-                <li class="breadcrumb-item active" aria-current="page">Master Data Group Akun</li>
-            </ol>
-        </nav>
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb bg-info">
+          <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
+          <li class="breadcrumb-item">Master</li>
+          <li class="breadcrumb-item active" aria-current="page">Master Data Group Akun</li>
+        </ol>
+      </nav>
     </div>
+
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Master Data Group Akun</h4>
-            <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
+            {{-- @if (App\mMember::akses('MASTER DATA VENDOR', 'tambah')) --}}
+              <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                 <a href="{{ route('grup-akun.create') }}">
-                    <button class="btn btn-info btn-sm">Tambah / Edit Data Group Akun</button>
-                </a>
-            </div>
+                        <button class="btn btn-info btn-sm">Tambah / Edit Data Group Akun</button>
+                    </a>
+              </div>
+            {{-- @endif --}}
+
             <div class="table-responsive">
                 <table class="table table-bordered table-stripped" id="data-sample">
                     <thead>
@@ -105,9 +110,10 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
   </div>
 </div>
+
 <!-- content-wrapper ends -->
 @endsection
 

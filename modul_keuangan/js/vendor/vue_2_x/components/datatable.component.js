@@ -41,6 +41,9 @@ Vue.component('vue-datatable',{
       },
       hoverMe: function(index){
         this.$emit('hovered', index);
+      },
+      changeConteks: function(alpha){
+        this.search_context = alpha.target.options[alpha.target.options.selectedIndex].getAttribute('value');
       }
   },
   watch: {
@@ -56,10 +59,11 @@ Vue.component('vue-datatable',{
     search: function(value){
       if(value == ""){ this.dataTab = this.data_resource; return }
 
-      idx = $('#vue-datatable-search-context').val();
+      idx = $('#vue-datatable-search-context').children('option:selected').html();
+      mine = this;
 
       var data = this.data_resource.filter(function(o){
-        if(o[idx].toUpperCase().includes(value.toUpperCase())) return o;
+        if(o[mine.search_context].toUpperCase().includes(value.toUpperCase())) return o;
       })
 
       this.dataTab = data;
@@ -72,7 +76,7 @@ Vue.component('vue-datatable',{
 
       <div class="row">
         <div class="col-md-3">
-          <select class="form-control modul-keuangan" style="cursor: pointer" id="vue-datatable-search-context" title="Pencarian Berdasarkan">
+          <select class="form-control modul-keuangan" style="cursor: pointer" id="vue-datatable-search-context" title="Pencarian Berdasarkan"  @change="changeConteks">
               <option :value="column.context" v-for="column in columns">{{ column.name }}</option>
           </select>
         </div>

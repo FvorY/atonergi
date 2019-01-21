@@ -150,6 +150,11 @@ class akun_controller extends Controller
 	    		];
 
     		}else{
+
+                $opening = ($request->ak_opening) ? str_replace(',', '', $request->ak_opening) : 0;
+                $posisi = $cek->first()->ak_posisi;
+                $openingDB = $cek->first()->ak_opening;
+
     			$cek->update([
 	    			'ak_nama'			=> $request->ak_nama,
 	    			'ak_posisi'			=> $request->ak_posisi,
@@ -158,6 +163,10 @@ class akun_controller extends Controller
 	    			'ak_group_ak'		=> $request->ak_group_ak,
 	    			'ak_opening'		=> ($request->ak_opening) ? str_replace(',', '', $request->ak_opening) : 0,
     			]);
+
+                 if($opening != $openingDB || $posisi != $request->ak_posisi){
+                    keuangan::akunSaldo()->updateAkun($request->ak_id);
+                 }
 
     			$response = [
 	    			'status'		=> 'berhasil',

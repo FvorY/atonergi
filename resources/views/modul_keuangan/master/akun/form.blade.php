@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Tambah Data Akun')
+@section('title', 'Tambah Data Group Akun')
 
 @section(modulSetting()['extraStyles'])
 
@@ -13,218 +13,220 @@
 
 
 @section('content')
-     <!-- partial -->
-<div class="content-wrapper" id="vue-component">
-  <div class="row">
-    <div class="col-lg-12">
-        <nav aria-label="breadcrumb" role="navigation">
+    <div class="content-wrapper" id="vue-component">
+      <div class="row">
+        <div class="col-lg-12">
+          <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb bg-info">
-                <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-                <li class="breadcrumb-item">Master</li>
-                <li class="breadcrumb-item active" aria-current="page">Master Data Akun</li>
+              <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
+              <li class="breadcrumb-item">Master</li>
+              <li class="breadcrumb-item active" aria-current="page">Master Data Group Akun</li>
             </ol>
-        </nav>
-    </div>
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <div class="table-responsive">
-                <form id="data-form" v-cloak>
-                    <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" readonly name="ak_id" v-model="singleData.ak_id">
-                    {{-- <div class="row"> --}}
-                        <div class="col-md-12" style="background: none;">
-                            <div class="row">
-                                <div class="col-md-6 mt-form">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Type Akun</label>
-                                        </div>
+          </nav>
+        </div>
 
-                                        <div class="col-md-3">
-                                            <vue-select :name="'ak_type'" :id="'ak_type'" :options="type" :disabled="onUpdate" @input="typeChange"></vue-select>
-                                        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Master Data Group Akun</h4>
 
-                                        <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
-                                            <i class="fa fa-search" title="Cari Akun Berdasarkan Type Akun"></i>
-                                        </div>
+                <div class="table-responsive" style="border-top: 1px solid #eee; padding-top: 20px;">
+                    <form id="data-form" v-cloak>
+                        <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" readonly name="ak_id" v-model="singleData.ak_id">
+                        {{-- <div class="row"> --}}
+                            <div class="col-md-12" style="background: none;">
+                                <div class="row">
+                                    <div class="col-md-6 mt-form">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan">Type Akun</label>
+                                            </div>
 
-                                        <div class="col-md-1 form-info-icon link" @click="formReset" v-if="onUpdate">
-                                            <i class="fa fa-times" title="Bersihkan Pencarian" style="color: #CC0000;"></i>
+                                            <div class="col-md-3">
+                                                <vue-select :name="'ak_type'" :id="'ak_type'" :options="type" :disabled="onUpdate" @input="typeChange"></vue-select>
+                                            </div>
+
+                                            <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
+                                                <i class="fa fa-search" title="Cari Akun Berdasarkan Type Akun"></i>
+                                            </div>
+
+                                            <div class="col-md-1 form-info-icon link" @click="formReset" v-if="onUpdate">
+                                                <i class="fa fa-times" title="Bersihkan Pencarian" style="color: #CC0000;"></i>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-md-6 mt-form"></div>
+                                    <div class="col-md-6 mt-form"></div>
 
-                                <div class="col-md-6 mt-form">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Kelompok Akun</label>
+                                    <div class="col-md-6 mt-form">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan">Kelompok Akun</label>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <vue-select :name="'ak_kelompok'" :id="'ak_kelompok'" :options="kelompok" :disabled="onUpdate" @input="kelompokChange" :search="true"></vue-select>
+                                            </div>
                                         </div>
+                                    </div>
 
+                                    <div class="col-md-6 mt-form">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan">Nomor Akun *</label>
+                                            </div>
+
+                                            <div class="col-md-7">
+                                                <div class="input-group">
+                                                  <div class="input-group-prepend modul-keuangan">
+                                                    <span style="padding-right: 10px; padding-top: 10px;">@{{ singleData.parrentId }}.</span>
+                                                  </div>
+
+                                                  <input type="text" name="ak_nomor" class="form-control modul-keuangan" placeholder="contoh: 001" v-model="singleData.ak_nomor" title="Tidak Boleh Kosong, Hanya Angka" @keypress="onlyNumber" :readonly="onUpdate">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mt-form">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan">Nama Akun *</label>
+                                            </div>
+
+                                            <div class="col-md-7">
+                                                <input type="text" name="ak_nama" class="form-control modul-keuangan" :placeholder="singleData.placeholderNama" v-model="singleData.ak_nama" title="Tidak Boleh Kosong">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mt-form" v-if="conteks == 'detail'">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan">Posisi Debet/Kredit</label>
+                                            </div>
+
+                                            <div class="col-md-7">
+                                                <vue-select :name="'ak_posisi'" :id="'ak_posisi'" :options="posisi"></vue-select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mt-form" v-if="conteks == 'detail'">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan">Saldo Pembukaan</label>
+                                            </div>
+
+                                            <div class="col-md-7">
+                                                <vue-inputmask :name="'ak_opening'" :id="'ak_opening'"></vue-inputmask>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-form" style="background: none; border-top: 1px solid #eee; padding-top: 20px;" v-if="conteks == 'detail'">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Neraca</label>
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <vue-select :name="'ak_group_neraca'" :id="'ak_group_neraca'" :options="groupNeraca"></vue-select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Laba Rugi</label>
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <vue-select :name="'ak_group_lr'" :id="'ak_group_lr'" :options="groupLabaRugi"></vue-select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mt-form">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Arus Kas</label>
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <vue-select :name="'ak_group_ak'" :id="'ak_group_ak'" :options="groupArusKas"></vue-select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="col-md-12" style="margin-top: 40px;" v-if="locked">
+                                    <div class="row">
                                         <div class="col-md-5">
-                                            <vue-select :name="'ak_kelompok'" :id="'ak_kelompok'" :options="kelompok" :disabled="onUpdate" @input="kelompokChange" :search="true"></vue-select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-form">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Nomor Akun *</label>
-                                        </div>
-
-                                        <div class="col-md-7">
-                                            <div class="input-group">
-                                              <div class="input-group-prepend modul-keuangan" style="padding-right: 15px; padding-top: 5px;">
-                                                <span class="input-group-text" id="basic-addon1">@{{ singleData.parrentId }}.</span>
-                                              </div>
-
-                                              <input type="text" name="ak_nomor" class="form-control modul-keuangan" placeholder="contoh: 001" v-model="singleData.ak_nomor" title="Tidak Boleh Kosong, Hanya Angka" @keypress="onlyNumber" :readonly="onUpdate">
+                                            <div class="modul-keuangan-alert primary" role="alert">
+                                              <i class="fa fa-info-circle"></i> &nbsp;&nbsp;Akun Dikunci. Tidak Bisa Dinonaktifkan
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-md-6 mt-form">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Nama Akun *</label>
-                                        </div>
-
-                                        <div class="col-md-7">
-                                            <input type="text" name="ak_nama" class="form-control modul-keuangan" :placeholder="singleData.placeholderNama" v-model="singleData.ak_nama" title="Tidak Boleh Kosong">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-form" v-if="conteks == 'detail'">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Posisi Debet/Kredit</label>
-                                        </div>
-
-                                        <div class="col-md-7">
-                                            <vue-select :name="'ak_posisi'" :id="'ak_posisi'" :options="posisi"></vue-select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mt-form" v-if="conteks == 'detail'">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Saldo Pembukaan</label>
-                                        </div>
-
-                                        <div class="col-md-7">
-                                            <vue-inputmask :name="'ak_opening'" :id="'ak_opening'"></vue-inputmask>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
-                        </div>
+                        {{-- </div> --}}
 
-                        <div class="col-md-12 mt-form" style="background: none; border-top: 1px solid #eee; padding-top: 20px;" v-if="conteks == 'detail'">
+                        <div class="col-md-12" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
                             <div class="row">
-
                                 <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Neraca</label>
-                                        </div>
-
-                                        <div class="col-md-5">
-                                            <vue-select :name="'ak_group_neraca'" :id="'ak_group_neraca'" :options="groupNeraca"></vue-select>
-                                        </div>
-                                    </div>
+                                    <a href="{{ route('akun.index') }}">
+                                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Akun</button>
+                                    </a>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Laba Rugi</label>
-                                        </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
 
-                                        <div class="col-md-5">
-                                            <vue-select :name="'ak_group_lr'" :id="'ak_group_lr'" :options="groupLabaRugi"></vue-select>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && dataIsActive"><i class="fa fa-times"></i> &nbsp;Nonaktifkan</button>
 
-                                <div class="col-md-6 mt-form">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Arus Kas</label>
-                                        </div>
+                                    <button type="button" class="btn btn-success btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && !dataIsActive"><i class="fa fa-check-square-o"></i> &nbsp;Aktifkan</button>
 
-                                        <div class="col-md-5">
-                                            <vue-select :name="'ak_group_ak'" :id="'ak_group_ak'" :options="groupArusKas"></vue-select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="col-md-12" style="margin-top: 40px;" v-if="locked">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <div class="modul-keuangan-alert primary" role="alert">
-                                          <i class="fa fa-info-circle"></i> &nbsp;&nbsp;Akun Dikunci. Tidak Bisa Dinonaktifkan
-                                        </div>
-                                    </div>
+                                    <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
                                 </div>
                             </div>
                         </div>
-                    {{-- </div> --}}
-
-                    <div class="col-md-11 content-button">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a href="{{ route('akun.index') }}">
-                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Akun</button>
-                                </a>
-                            </div>
-
-                            <div class="col-md-6 text-right">
-                                <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
-
-                                <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && dataIsActive"><i class="fa fa-times"></i> &nbsp;Nonaktifkan</button>
-
-                                <button type="button" class="btn btn-success btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && !dataIsActive"><i class="fa fa-check-square-o"></i> &nbsp;Aktifkan</button>
-
-                                <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+              </div>
             </div>
-          </div>
         </div>
       </div>
-  </div>
 
-    <div class="ez-popup" id="data-popup">
-        <div class="layout" style="width: 70%">
-            <div class="top-popup" style="background: none;">
-                <span class="title">
-                    Data Group Akun Yang Sudah Dibuat
-                </span>
+        <div class="ez-popup" id="data-popup">
+            <div class="layout" style="width: 70%">
+                <div class="top-popup" style="background: none;">
+                    <span class="title">
+                        Data Group Akun Yang Sudah Dibuat
+                    </span>
 
-                <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
-            </div>
-            
-            <div class="content-popup">
-                <vue-datatable :data_resource="list_data_table" :columns="data_table_columns" :selectable="true" :ajax_on_loading="onAjaxLoading" :index_column="'ak_id'" @selected="dataSelected"></vue-datatable>
+                    <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
+                </div>
+                
+                <div class="content-popup">
+                    <vue-datatable :data_resource="list_data_table" :columns="data_table_columns" :selectable="true" :ajax_on_loading="onAjaxLoading" :index_column="'ak_id'" @selected="dataSelected"></vue-datatable>
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
-<!-- content-wrapper ends -->
+    </div>
 @endsection
 
 
@@ -603,7 +605,7 @@
                     this.list_data_table = [];
                     this.onAjaxLoading = true;
 
-                    axios.get('{{ route('akun.datatable') }}?type='+$('#ak_type').val())
+                    axios.get('{{ Route('akun.datatable') }}?type='+$('#ak_type').val())
                             .then((response) => {
                                 console.log(response.data);
                                 if(response.data.length){
@@ -624,8 +626,6 @@
                     var idx = this.list_data_table.findIndex(a => a.ak_id === e);
                     var conteks = this.list_data_table[idx];
                     var cek = (parseInt(this.list_data_table[idx]['ak_kelompok'].length) + 1);
-
-                    console.log(conteks);
 
                     $('#ak_kelompok').val(conteks['ak_kelompok']).trigger('change.select2');
 
