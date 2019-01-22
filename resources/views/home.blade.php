@@ -811,7 +811,7 @@
             var component = '';  
 
         } else if(widget == 'stok'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;">'
+            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="stokparent">'
                 +'<div class="card px-2" style="background-color:#ef6c57;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="stokclose()" class="fa fa-times"></span></i>';
 
