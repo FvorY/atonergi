@@ -475,7 +475,7 @@
     
     realtime();
 
-    setInterval(function(){ realtime(); }, 3000);                 
+    setInterval(function(){ realtime(); }, 5000);                 
 
     function realtime(){
         $.ajax({
@@ -755,10 +755,10 @@
         $('#omsetico').attr('class', 'fa fa-star-o');
     }
 
-    function insertwidget(status, widget){
+    function insertwidget(status, widget){        
         var html = '';  
-        var component = +'<p style="padding:0px 0px 0px; margin-bottom:1px;"><b><span id="'+widget+'release">0</span> Release</b></p>'
-                        +'<p style="padding:0px 0px 0px; margin-bottom:-1px;"><b><span id="'+widget+'won">0</span> Won</b></p>'
+        var component = '<p style="padding:0px 0px 0px; margin-bottom:1px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+
+                        '<p style="padding:0px 0px 0px; margin-bottom:-1px;"><b><span id="'+widget+'won">0</span> Won</b></p>'+
                          '<p style="padding:0px 0px 0px; margin-bottom:-20px;"><b><span id="'+widget+'printed">0</span> Printed</b></p>';
 
         var tambahan = '<p class="text-right"><span id="'+widget+'tahun">0</span> '+widget.toUpperCase()+'</p>';
@@ -767,7 +767,7 @@
             var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="qoparent">'
                 +'<div class="card px-2" style="background-color:#6c5ce7;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="qoclose()" class="fa fa-times"></span></i>';
-                        
+                       
         } else if(widget == 'so'){
             var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="soparent">'
                 +'<div class="card px-2" style="background-color:#ff7675;">'
