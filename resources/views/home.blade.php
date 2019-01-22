@@ -166,7 +166,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'stok')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em; cursor:pointer;" onclick="showstok()" id="stokparent">
+                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="stokparent">
                     <div class="card px-2" style="background-color:#ef6c57;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="stokclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -174,7 +174,7 @@
                               <div class="col-lg-3 pl-0">
                                   <span class="mdi mdi-arrow-up-bold-box-outline menu-icon" style="font-size:4em; color:white;"></span>
                               </div>
-                              <div class="col-lg-9" style="color:white;">
+                              <div class="col-lg-9" style="color:white; cursor:pointer;" onclick="showstok()">
                                 <h1 class="text-right"><span id="stokbulan">0</span> STOK</h1>                                
                               </div>
                             </div>
@@ -763,6 +763,10 @@
 
         var tambahan = '<p class="text-right"><span id="'+widget+'tahun">0</span> '+widget.toUpperCase()+'</p>';
 
+        var tambahanclass = '';
+
+        var tambahanonclick = '';
+
         if(widget == 'qo'){
             var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="qoparent">'
                 +'<div class="card px-2" style="background-color:#6c5ce7;">'
@@ -807,13 +811,17 @@
             var component = '';  
 
         } else if(widget == 'stok'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="stokparent">'
+            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;">'
                 +'<div class="card px-2" style="background-color:#ef6c57;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="stokclose()" class="fa fa-times"></span></i>';
 
             var component = '';  
 
             var tambahan = '';
+
+            var tambahanclass = 'cursor:pointer;';
+
+            var tambahanonclick = 'onclick="showstok()"';
 
         } else if(widget == 'hutang'){
             var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="hutangparent">'
@@ -840,7 +848,7 @@
                       +'<div class="col-lg-3 pl-0">'
                           +'<span class="mdi mdi-format-quote-close" style="font-size:4em; color:white;"></i>'
                       +'</div>'
-                      +'<div class="col-lg-9" style="color:white;">'
+                      +'<div class="col-lg-9" style="color:white; '+tambahanclass+'" '+tambahanonclick+'>'
                         +'<h1 class="text-right"><span id="'+widget+'bulan">0</span> '+widget.toUpperCase()+'</h1>'
                         +tambahan
                       +'</div>'
