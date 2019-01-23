@@ -34,7 +34,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('logout', 'HomeController@logout')->name('logout');
 
+//Dashboard
 Route::get('/realtime', 'HomeController@realtime')->name('realtime');
+Route::get('/insertwidget', 'HomeController@insertwidget')->name('insertwidget');
+Route::get('/showstok', 'HomeController@showstok')->name('showstok');
+
 
 Route::get('/tes', 'SettingController@tes');
 
