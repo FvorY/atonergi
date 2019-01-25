@@ -365,7 +365,7 @@
                   Pengiriman Barang
                   Pemasangan
                   Schedule Uji Coba dan Dokumetasi
-                  Technician Fee
+                  {{-- Technician Fee --}}
                 </span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-engine menu-icon"></i>
@@ -387,10 +387,10 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/jadwalujicoba/*') ? 'active' : ''
                  }}" href="{{url('project/jadwalujicoba/jadwalujicoba')}}">Schedule Uji Coba dan <br>Dokumentasi<span class="d-none">After Order Schedule Uji Coba dan Dokumentasi</span></a></li>
                   @endif
-                  @if( (int)$sidebar[33]->aktif == 1)
+                  {{-- @if( (int)$sidebar[33]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/technicianfee/*') ? 'active' : ''
                   }}" href="{{url('project/technicianfee/technicianfee')}}">Technician Fee<span class="d-none">After Order</span></a></li>
-                  @endif
+                  @endif --}}
 
                 </ul>
 
@@ -504,7 +504,7 @@
               <a class="nav-link" data-toggle="collapse" href="#finance" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Finance</span>
                 <span class="d-none">
-                  Cost Manajemen
+                  {{-- Cost Manajemen --}}
                   Bookkeeping
                   Reporting
                   Evaluating
@@ -514,9 +514,9 @@
               </a>
               <div class="collapse {{Request::is('modul/keuangan/transaksi') ? 'show' : '' || Request::is('modul/keuangan/transaksi/*') ? 'show' : '' }}" id="finance">
                 <ul class="nav flex-column sub-menu">
-                  @if( (int)$sidebar[48]->aktif == 1)
+                  {{-- @if( (int)$sidebar[48]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/costmanajemen/costmanajemen') ? 'active' : '' || Request::is('finance/costmanajemen/*') ? 'active' : '' }}" href="{{url('finance/costmanajemen/costmanajemen')}}">Cost Manajemen<span class="d-none">Finance</span></a></li>
-                  @endif
+                  @endif --}}
 
                   @if( (int)$sidebar[49]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/transaksi') ? 'active' : '' || Request::is('modul/keuangan/transaksi/*') ? 'active' : '' }}" href="{{url('finance/bookkeeping/bookkeeping')}}"">Bookkeeping<span class="d-none">Finance</span></a></li>
