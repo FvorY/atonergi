@@ -13,7 +13,7 @@ class aset_controller extends Controller
     public function index(){
     	$data = DB::table('dk_aktiva')
                     ->join('dk_aktiva_golongan', 'dk_aktiva_golongan.ga_id', 'dk_aktiva.at_golongan')
-                    ->select('at_nomor', 'at_nama', 'at_harga_beli', 'at_nilai_sisa', 'at_tanggal_habis', 'dk_aktiva_golongan.ga_nama')
+                    ->select('at_nomor', 'at_nama', 'at_harga_beli', 'at_nilai_sisa', 'at_tanggal_habis', 'dk_aktiva_golongan.ga_nama', 'at_status')
     				->get();
 
     	// return json_encode($data);
@@ -61,8 +61,6 @@ class aset_controller extends Controller
     	return json_encode([
     		"golongan"	        => $gol,
             "akunKas"           => $akunKas,
-            // "akunPendapatan"    => $akunPendapatan->id.' - '.$akunPendapatan->nama,
-            // "akunKerugian"      => $akunKerugian->id.' - '.$akunKerugian->nama,
     	]);
     }
 
@@ -222,6 +220,48 @@ class aset_controller extends Controller
 
             return json_encode($response);
     	}
+    }
+
+    public function update(Request $request){
+        // return json_encode($request->all();)
+
+        $aktiva = DB::table('dk_aktiva')->where('at_id', $request->at_id);
+
+        if(!$aktiva->first()){
+            $response = [
+                "status"    => 'error',
+                "message"   => 'Aset Dipilih Tidak Bisa Ditemukan. Cobalah Memuat Ulang Halaman'
+            ];
+
+            return json_encode($response);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            
+            $aktiva->update([
+                "at_status" => 'SL'
+            ]);
+
+            DB::commit();
+
+            $response = [
+                "status"    => 'berhasil',
+                "message"   => 'Data Aktiva Berhasil Ditandai Sebagai Aset Terjual',
+            ];
+
+            return json_encode($response);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            $response = [
+                "status"    => 'error',
+                "message"   => 'System Mengalami Masalah. Err: '.$e,
+            ];
+
+            return json_encode($response);
+        }
     }
 
     public function delete(Request $request){

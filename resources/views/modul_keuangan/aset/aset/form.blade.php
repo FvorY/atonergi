@@ -50,7 +50,7 @@
                                         <label class="modul-keuangan">Nomor Aset</label>
                                     </div>
 
-                                    <div class="col-md-5">
+                                    <div class="col-md-6">
                                         <input type="text" name="at_nomor" class="form-control modul-keuangan" placeholder="Di Isi Oleh Sistem" readonly v-model="singleData.at_nomor">
                                     </div>
 
@@ -69,7 +69,7 @@
                                         <label class="modul-keuangan">Nama Aset *</label>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-7">
                                         <input type="text" name="at_nama" class="form-control modul-keuangan" placeholder="contoh: Komputer Admin" v-model="singleData.at_nama" title="Tidak Boleh Kosong" :disabled="onUpdate">
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                         <label class="modul-keuangan">Tanggal Pembelian *</label>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-7">
                                         <vue-datepicker :name="'at_tanggal_beli'" :id="'at_tanggal_beli'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" @input="tanggalChange" v-if="!onUpdate"></vue-datepicker>
 
                                         <input type="text" name="qwe" class="form-control modul-keuangan" placeholder="contoh: Komputer Admin" v-model="singleData.at_tanggal_beli" title="Tidak Boleh Kosong" :disabled="onUpdate" v-if="onUpdate">
@@ -91,7 +91,7 @@
                                         <label class="modul-keuangan">Kelompok Aset</label>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-7">
                                         <vue-select :name="'at_golongan'" :id="'at_golongan'" :options="kelompokAset" @input="kelompokChange" :disabled="onUpdate"></vue-select>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                         <label class="modul-keuangan">Metode Penyusutan</label>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-7">
                                         <vue-select :name="'at_metode'" :id="'at_metode'" :options="metodePenyusutan" @input="metodeChange" :disabled="onUpdate"></vue-select>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                                         <label class="modul-keuangan">Harga Pembelian *</label>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-7">
                                         <vue-inputmask :name="'at_harga_beli'" :id="'at_harga_beli'" v-if="!onUpdate"></vue-inputmask>
 
                                         <input type="text" id="at_harga_beli" name="asd" class="form-control modul-keuangan" placeholder="contoh: Komputer Admin" v-model="singleData.at_harga_beli" title="Tidak Boleh Kosong" :disabled="onUpdate" v-if="onUpdate" style="text-align: right;">
@@ -239,9 +239,9 @@
                     <div class="col-md-12" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
                         <div class="row">
                             <div class="col-md-6">
-                                {{-- <a href="{{ route('group.aset.index') }}">
-                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Group Aset</button>
-                                </a> --}}
+                                <a href="{{ route('aset.index') }}">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Aset</button>
+                                </a>
                             </div>
 
                             <div class="col-md-6 text-right">
@@ -855,9 +855,48 @@
                     evt.preventDefault();
                     evt.stopImmediatePropagation();
 
-                    this.stat = 'loading';
-                    this.statMessage = 'Sedang Memproses Penjualan Data ..'
-                    this.btnDisabled = true;
+                    var cfrm = confirm('Aset Anda Akan Ditandai Sebagai Aset Yang Terjual. Lanjutkan ?');
+
+                    if(cfrm){
+                        this.stat = 'loading';
+                        this.statMessage = 'Sedang Memproses Penjualan Data ..'
+                        this.btnDisabled = true;
+
+                        axios.post('{{ route('aset.update') }}', { at_id: this.singleData.at_id, _token: '{{ csrf_token() }}' })
+                                .then((response) => {
+                                    console.log(response.data);
+                                    
+                                    if(response.data.status == 'berhasil'){
+                                        $.toast({
+                                            text: response.data.message,
+                                            showHideTransition: 'slide',
+                                            position: 'top-right',
+                                            icon: 'success',
+                                            hideAfter: 5000
+                                        });
+
+                                        this.formReset();
+                                        $('#jual-confirmation-popup').ezPopup('close');
+                                    }else{
+                                        $.toast({
+                                            text: response.data.message,
+                                            showHideTransition: 'slide',
+                                            position: 'top-right',
+                                            icon: 'error',
+                                            hideAfter: false
+                                        });
+
+                                        this.stat = 'standby';
+                                    }
+
+                                })
+                                .catch((err) => {
+                                    alert('Ups. Sistem Mengalami kesalahan. Message: '+err);
+                                })
+                                .then(() => {
+                                    this.btnDisabled = false;
+                                })
+                    }
                 },
 
                 confirmDelete: function(evt){

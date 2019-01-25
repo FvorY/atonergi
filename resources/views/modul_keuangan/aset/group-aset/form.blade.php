@@ -45,11 +45,11 @@
                                 <div class="col-md-6" style="background: none;">
 
                                     <div class="row mt-form">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label class="modul-keuangan">Nomor Group Aset</label>
                                         </div>
 
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <input type="text" name="ga_nomor" class="form-control modul-keuangan" placeholder="Di Isi Oleh Sistem" readonly v-model="singleData.ga_nomor">
                                         </div>
 
@@ -63,11 +63,11 @@
                                     </div>
 
                                     <div class="row mt-form">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label class="modul-keuangan">Golongan Group *</label>
                                         </div>
 
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <vue-select :name="'ga_golongan'" :id="'ga_golongan'" :options="groupAset" :disabled="onUpdate" @input="golonganChange"></vue-select>
                                         </div>
 
@@ -78,21 +78,21 @@
 
 
                                     <div class="row mt-form">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label class="modul-keuangan">Nama Group Aset *</label>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-7">
                                             <input type="text" name="ga_nama" class="form-control modul-keuangan" placeholder="contoh: Inventaris Kantor" v-model="singleData.ga_nama" title="Tidak Boleh Kosong">
                                         </div>
                                     </div>
 
                                     <div class="row mt-form">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label class="modul-keuangan">Keterangan Group</label>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-7">
                                             <input type="text" name="ga_keterangan" class="form-control modul-keuangan" placeholder="contoh: Kumpulan Aset Inventaris Kantor" v-model="singleData.ga_keterangan" title="Tidak Boleh Kosong">
                                         </div>
                                     </div>
