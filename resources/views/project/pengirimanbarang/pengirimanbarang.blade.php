@@ -49,56 +49,63 @@
 		                  <table class="table data-table table-hover" cellspacing="0">
 		                  	<thead class="bg-gradient-info">
 		                  		<tr>
-		                  			<th>No</th>
-														<th>ID SO</th>
-		                  			<th>Customer</th>
-														<th>Tanggal SO</th>
-		                  			<th>Status</th>
-														<th>Delivery Date</th>
-														<th>Receiver</th>
-		                  			<th>Action</th>
+									<th>No</th>
+									<th>ID SO</th>
+									<th>Customer</th>
+									<th>Tanggal SO</th>
+									<th>Status</th>
+									<th>Delivery Date</th>
+									<th>Receiver</th>
+									<th>Action</th>
 		                  		</tr>
 		                  	</thead>
 		                  	<tbody>
-													@foreach ($data as $key => $value)
-														<tr>
-			                  			<td>{{$key + 1}}</td>
-			                  			<td>{{$value->so_nota}}</td>
-			                  			<td>{{$value->c_name}}</td>
-			                  			<td>{{Carbon\Carbon::parse($value->so_date)->format('d-m-Y')}}</td>
-															@if ($value->so_status_delivery == 'P')
-																<td><span class="badge badge-pill badge-warning">Sedang Process</span></td>
-															@elseif ($value->so_status_delivery == 'PD')
-																<td><span class="badge badge-pill badge-primary">Process Delivery</span></td>
-															@elseif ($value->so_status_delivery == 'D')
-																<td><span class="badge badge-pill badge-success">Delivered</span></td>
-															@endif
-			                  			<td>{{Carbon\Carbon::parse($value->q_delivery)->format('d-m-Y')}}</td>
-															<td>{{$value->d_receiver}}</td>
-															@if ($value->so_status_delivery == 'P')
-																<td>
-				                  				<div class="btn-group">
-				                  					<a href="{{url('project/pengirimanbarang/prosespengirimanbarang').'/'.$value->so_id}}" class="btn btn-info btn-sm" title="Process"><i class="fa fa-sign-in-alt"></i></a>
-				                  					<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
-				                  				</div>
-				                  			</td>
-															@elseif ($value->so_status_delivery == 'PD')
-																<td>
-				                  				<div class="btn-group">
-																		<button type="button" class="btn btn-info btn-sm" onclick="ubah({{$value->so_id}})" name="button" title="Edit"> <i class="fa fa-edit"></i> </button>
-				                  					<button data-target="#edit" data-toggle="modal" data class="btn btn-warning btn-sm" onclick="edit({{$value->so_id}})" title="Setting"><i class="fa fa-cog"></i></button>
-				                  					<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
-				                  				</div>
-				                  			</td>
-															@elseif ($value->so_status_delivery == 'D')
-																<td>
-				                  				<div class="btn-group">
-				                  					<button class="btn btn-danger btn-sm" disabled="" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
-				                  				</div>
-				                  			</td>
-															@endif
-			                  		</tr>
-													@endforeach
+								@foreach ($data as $key => $value)
+									<tr>
+										<td>{{$key + 1}}</td>
+										<td>{{$value->so_nota}}</td>
+										<td>{{$value->c_name}}</td>
+										<td>{{Carbon\Carbon::parse($value->so_date)->format('d-m-Y')}}</td>
+
+										@if ($value->so_status_delivery == 'P')
+
+										<td><span class="badge badge-pill badge-warning">Belum Process</span></td>
+
+										@elseif ($value->so_status_delivery == 'PD')
+
+										<td><span class="badge badge-pill badge-primary">Process Delivery</span></td>
+
+										@elseif ($value->so_status_delivery == 'D')
+
+										<td><span class="badge badge-pill badge-success">Delivered</span></td>
+
+										@endif
+										<td>{{Carbon\Carbon::parse($value->q_delivery)->format('d-m-Y')}}</td>
+										<td>{{$value->d_receiver}}</td>
+										@if ($value->so_status_delivery == 'P')
+										<td>
+											<div class="btn-group">
+												<a href="{{url('project/pengirimanbarang/prosespengirimanbarang').'/'.$value->so_id}}" class="btn btn-info btn-sm" title="Process"><i class="fa fa-sign-in"></i></a>
+												<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
+											</div>
+										</td>
+										@elseif ($value->so_status_delivery == 'PD')
+										<td>
+											<div class="btn-group">
+												<button type="button" class="btn btn-info btn-sm" onclick="ubah({{$value->so_id}})" name="button" title="Edit"> <i class="fa fa-edit"></i> </button>
+												<button data-target="#edit" data-toggle="modal" data class="btn btn-warning btn-sm" onclick="edit({{$value->so_id}})" title="Isi Penerima"><i class="fa fa-user"></i></button>
+												<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
+											</div>
+										</td>
+										@elseif ($value->so_status_delivery == 'D')
+										<td>
+											<div class="btn-group">
+												<button class="btn btn-danger btn-sm" disabled="" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
+											</div>
+										</td>
+									@endif
+									</tr>
+								@endforeach
 		                  	</tbody>
 		                  </table>
 		              </div>
