@@ -39,6 +39,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
       if (!mMember::akses('DASHBOARD', 'aktif')) {
         return redirect('error-404');
       }

@@ -1,9 +1,9 @@
 @extends('main')
 @section('content')
 
-@include('finance/evaluating/tambah_evaluating')
 <!-- partial -->
 <div class="content-wrapper">
+
 	<div class="row">
 		<div class="col-lg-12">	
 			<nav aria-label="breadcrumb" role="navigation">
@@ -17,27 +17,44 @@
 		<div class="col-lg-12 grid-margin stretch-card">
 	      	<div class="card">
 		        <div class="card-body">
-		          <h4 class="card-title">Evaluating</h4>
+		          <h4 class="card-title">Pilih Analisa</h4>
+		          <br>
 		          	<div class="row">
 		          		
-						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
-							<button class="btn btn-info" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
+							<a href="{{ Route('analisa.keuangan.npo', '_token='.csrf_token().'&type=bulan&d1='.date('Y')) }}" class="center text-primary alamraya-choosing-panel">
+								<i class="fa fa-clipboard icon-lg text-primary"></i>
+								<div class="center">
+									<label>Analisa Net Profit/OCF</label>
+								</div>
+							</a>
 						</div>
-						<div class="table-responsive">
-							<table class="table table-hover data-table" cellspacing="0">
-							  <thead class="bg-gradient-info">
-							    <tr>
-							      <th>No</th>
-							      <th>Offer Code</th>
-							      <th>Offer Classification</th>
-							      <th>Information</th>
-							      <th>Action</th>
-							    </tr>
-							  </thead>
-							  <tbody>
-							    
-							  </tbody>
-							</table>
+
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
+							<a href="{{ Route('analisa.keuangan.hutang_piutang', '_token='.csrf_token().'&type=bulan&d1='.date('Y')) }}" class="center text-primary alamraya-choosing-panel">
+								<i class="fa fa-clipboard icon-lg text-primary"></i>
+								<div class="center">
+									<label>Analisa Hutang Piutang</label>
+								</div>
+							</a>
+						</div>
+
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
+							<a href="{{ Route('analisa.keuangan.pertumbuhan_aset', '_token='.csrf_token().'&type=bulan&d1='.date('Y')) }}" class="center text-primary alamraya-choosing-panel">
+								<i class="fa fa-clipboard icon-lg text-primary"></i>
+								<div class="center">
+									<label>Analisa Pertumbuhan Aset</label>
+								</div>
+							</a>
+						</div>
+
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
+							<a href="{{ Route('analisa.keuangan.aset_ekuitas', '_token='.csrf_token().'&type=bulan&d1='.date('Y')) }}" class="center text-primary alamraya-choosing-panel">
+								<i class="fa fa-clipboard icon-lg text-primary"></i>
+								<div class="center">
+									<label>Analisa Aset Terhadap Ekuitas</label>
+								</div>
+							</a>
 						</div>
 						
 		        	</div>

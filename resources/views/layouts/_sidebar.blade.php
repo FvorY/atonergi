@@ -518,6 +518,8 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/costmanajemen/costmanajemen') ? 'active' : '' || Request::is('finance/costmanajemen/*') ? 'active' : '' }}" href="{{url('finance/costmanajemen/costmanajemen')}}">Cost Manajemen<span class="d-none">Finance</span></a></li>
                   @endif --}}
 
+                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/setting/klasifikasi-akun') ? 'active' : '' || Request::is('modul/keuangan/setting/klasifikasi-akun/*') ? 'active' : '' }}" href="{{url('modul/keuangan/setting/klasifikasi-akun')}}"">Klasifikasi Akun<span class="d-none">Finance</span></a></li>
+
                   @if( (int)$sidebar[49]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/transaksi') ? 'active' : '' || Request::is('modul/keuangan/transaksi/*') ? 'active' : '' }}" href="{{url('finance/bookkeeping/bookkeeping')}}"">Bookkeeping<span class="d-none">Finance</span></a></li>
                   @endif

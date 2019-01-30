@@ -20,7 +20,7 @@
             <ol class="breadcrumb bg-info">
               <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
               <li class="breadcrumb-item">Master</li>
-              <li class="breadcrumb-item active" aria-current="page">Master Data Group Akun</li>
+              <li class="breadcrumb-item active" aria-current="page">Master Akun</li>
             </ol>
           </nav>
         </div>
@@ -28,7 +28,7 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Master Data Group Akun</h4>
+                <h4 class="card-title">Master Akun</h4>
 
                 <div class="table-responsive" style="border-top: 1px solid #eee; padding-top: 20px;">
                     <form id="data-form" v-cloak>
@@ -129,7 +129,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12 mt-form" style="background: none; border-top: 1px solid #eee; padding-top: 20px;" v-if="conteks == 'detail'">
+                            {{-- <div class="col-md-12 mt-form" style="background: none; border-top: 1px solid #eee; padding-top: 20px;" v-if="conteks == 'detail'">
                                 <div class="row">
 
                                     <div class="col-md-6">
@@ -169,7 +169,7 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-12">
                                 <div class="col-md-12" style="margin-top: 40px;" v-if="locked">
@@ -248,7 +248,7 @@
 
 	<script type="text/javascript">
 
-        function register_validator(){
+       function register_validator(){
             $('#data-form').bootstrapValidator({
                 feedbackIcons : {
                   valid : 'glyphicon glyphicon-ok',
@@ -284,7 +284,7 @@
             });
         }
 
-		var app = new Vue({
+        var app = new Vue({
             el: '#vue-component',
             data: {
                 stat: 'standby',
@@ -294,7 +294,7 @@
                 onUpdate: false,
                 locked: false,
                 dataIsActive: true,
-                conteks: 'parrent',
+                conteks: 'detail',
 
                 data_table_columns : [
                     {name: 'Nomor Akun', context: 'ak_id', width: '20%', childStyle: 'text-align: center'},
@@ -320,14 +320,9 @@
 
                 type: [
                     {
-                        id      : 'parrent',
-                        text    : 'Parrent'
-                    },
-
-                    {
                         id      : 'detail',
                         text    : 'Detail'
-                    }
+                    },
                 ],
 
                 posisi: [
@@ -342,32 +337,7 @@
                     }
                 ],
 
-                kelompokParrent: [
-                    {
-                        id      : '1',
-                        text    : '1 - Aset'
-                    },
-
-                    {
-                        id      : '2',
-                        text    : '2 - Kewajiban'
-                    },
-
-                    {
-                        id      : '3',
-                        text    : '3 - Modal'
-                    },
-
-                    {
-                        id      : '4',
-                        text    : '4 - Beban-Beban'
-                    },
-
-                    {
-                        id      : '5',
-                        text    : '5 - Pendapatan'
-                    }
-                ],
+                kelompok: [],
 
                 kelompokDetail: [],
                 kelompok: [],
@@ -397,15 +367,8 @@
                           .then((response) => {
                             // console.log(response.data.akun_parrent);
                             this.kelompokDetail = response.data.akun_parrent;
-
-                            this.groupNeraca = response.data.group_neraca;
-                            this.groupArusKas = response.data.arus_kas;
-                            this.groupLabaRugi = response.data.laba_rugi;
-                            this.kelompok = this.kelompokParrent;
-
-                            this.groupNeraca.unshift({id: '', text: 'Tidak Memiliki Relasi Neraca'});
-                            this.groupLabaRugi.unshift({id: '', text: 'Tidak Memiliki Relasi Laba Rugi'});
-                            this.groupArusKas.unshift({id: '', text: 'Tidak Memiliki Relasi Arus Kas'});
+                            this.kelompok = response.data.kelompok;
+                            this.singleData.parrentId = response.data.kelompok[0].id
                           })
                           .catch((e) => {
                             alert('error '+e);
@@ -605,7 +568,7 @@
                     this.list_data_table = [];
                     this.onAjaxLoading = true;
 
-                    axios.get('{{ Route('akun.datatable') }}?type='+$('#ak_type').val())
+                    axios.get('{{ Request('/') }}/modul/keuangan/master/akun/datatable?type='+$('#ak_type').val())
                             .then((response) => {
                                 console.log(response.data);
                                 if(response.data.length){
