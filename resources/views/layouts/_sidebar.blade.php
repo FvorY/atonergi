@@ -199,7 +199,7 @@
                     Master Data TTD
                     Master Currency
                     Master Data Bank
-                    Master Data Jasa
+                    Master Data Jasa Pemasangan
                     Master Data Percent
                     Master Data KPI
                     Master Data Scoreboard
@@ -242,7 +242,7 @@
                   @if( (int)$sidebar[11]->aktif == 1)
                     <li class="nav-item">
                       <a class="{{Request::is('master/jasa/*') ? 'active' : ''}} nav-link" href="{{route('master_jasa')}}">
-                        Master Data Jasa
+                        Master Data Jasa Pemasangan
                       </a>
                     </li>
                   @endif
