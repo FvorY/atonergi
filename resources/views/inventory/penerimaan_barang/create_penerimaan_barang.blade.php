@@ -117,7 +117,7 @@
 
 		      	</div>
 		      <div class="pull-right" style="margin-top: 10px">
-				<button type="button" class="btn btn-info btn-sm" onclick="save_data()" >Add Data</button>
+				<button type="button" class="btn btn-info btn-sm" onclick="save_data()" >Save Data</button>
 				<a href="{{url('inventory/penerimaan_barang/penerimaan_barang')}}" class="btn btn-secondary btn-sm">Back</a>
 			  </div>
 	    	</div>
