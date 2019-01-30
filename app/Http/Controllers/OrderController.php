@@ -1070,4 +1070,9 @@ class OrderController extends Controller
           return response()->json(['status' => 1]);
         });
     }
+
+    public function print_proforma_invoice()
+    {
+      return view('order.proforma_invoice.print_proformainvoice');
+    }
 }

@@ -193,6 +193,7 @@ Route::get('/order/cekbarang/detail/{id}', 'OrderController@detailbarang');
     Route::get('/order/payment_order/save_payment_order', 'OrderController@save_payment_order');
     // PROFORMA INVOICE
     Route::get('/order/proforma_invoice', 'OrderController@proforma_invoice');
+    Route::get('/order/proforma_invoice/print_proforma_invoice', 'OrderController@print_proforma_invoice')->name('print_proforma_invoice');
     Route::get('/order/payment_order/datatable_proforma_invoice', 'OrderController@datatable_proforma_invoice')->name('datatable_proforma_invoice');
     Route::get('/order/proforma_invoice/detail_proforma_invoice/{id}', 'OrderController@detail_proforma_invoice');
     Route::get('/order/proforma_invoice/save_proforma_invoice', 'OrderController@save_proforma_invoice');

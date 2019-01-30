@@ -159,5 +159,10 @@ function hapus(id) {
           });
 
 }
+function printing(id){
+
+  window.open('{{route('print_proforma_invoice')}}','_blank');
+
+}
 </script>
 @endsection
