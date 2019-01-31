@@ -568,7 +568,7 @@
                     this.list_data_table = [];
                     this.onAjaxLoading = true;
 
-                    axios.get('{{ Request('/') }}/modul/keuangan/master/akun/datatable?type='+$('#ak_type').val())
+                    axios.get('{{ Route('akun.datatable') }}?type='+$('#ak_type').val())
                             .then((response) => {
                                 console.log(response.data);
                                 if(response.data.length){
