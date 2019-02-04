@@ -44,7 +44,7 @@
 											<td>{{$value->i_description}}</td>
 											<td align="center">
 												<div class="btn-group btn-group-sm">
-							    			<a href="{{url('/inventory/barangkeluar/kartu_stok')}}?id={{encrypt($value->i_id)}}" title="Kartu Stok" class="btn btn-primary"><i class="fa fa-external-link-square-alt"></i></a>
+							    			<a href="{{url('/inventory/barangkeluar/kartu_stok')}}?id={{encrypt($value->i_id)}}" title="Kartu Stok" class="btn btn-primary"><i class="fa fa-folder"></i></a>
 												<a href="{{url('inventory/barangkeluar/print_kartu_stok')}}?id={{encrypt($value->i_code)}}" class="btn btn-primary" target="_blank" title="Print Kartu Stok"><i class="fa fa-print"></i></a>
 												</div>
 											</td>
