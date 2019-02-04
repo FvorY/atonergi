@@ -18,15 +18,15 @@
 				<ol class="breadcrumb bg-info">
 					<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
 					<li class="breadcrumb-item">Inventory</li>
-					<li class="breadcrumb-item"><a href="{{url('inventory/penerimaan_barang/penerimaan_barang')}}">Penerimaan Barang</a></li>
-					<li class="breadcrumb-item active" aria-current="page">Process Penerimaan Barang</li>
+					<li class="breadcrumb-item"><a href="{{route('stockopname')}}">Stock Opname</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Process Stock Opname</li>
 				</ol>
 			</nav>
 		</div>
 		<div class="col-lg-12 grid-margin stretch-card">
 	      	<div class="card">
 		        <div class="card-body">
-		          <h4 class="card-title">Process Penerimaan Barang</h4>
+		          <h4 class="card-title">Process Stock Opname</h4>
 					<div class="row">
 
 				    <div class="col-md-3 col-sm-6 col-xs-12">
@@ -109,7 +109,7 @@
 
 		      <div class="pull-right" style="margin-top: 10px">
 				<button type="button" class="btn btn-info btn-sm" onclick="save_data()" >Save Data</button>
-				<a href="{{url('inventory/opname/opname')}}" class="btn btn-secondary btn-sm">Back</a>
+				<a href="{{route('stockopname')}}" class="btn btn-secondary btn-sm">Back</a>
 			  </div>
 	    	</div>
 
