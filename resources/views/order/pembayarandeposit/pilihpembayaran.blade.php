@@ -73,7 +73,8 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              <input type="text" class="form-control-sm form-control" id="amount" name="amount">
+              <input type="text" class="form-control-sm form-control" id="amount" name="amount" onkeyup="amountup()">
+              <input type="hidden" name="batasamount" id="batasamount">
             </div>
           </div>
 

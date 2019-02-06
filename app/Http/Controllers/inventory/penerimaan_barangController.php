@@ -31,7 +31,7 @@ class penerimaan_barangController extends Controller
 				$po[$i]->po_vendor = '';
 			} else {
 				$po[$i]->po_vendor = $tmp->s_company;
-			}			
+			}
 		}
 
 	 	return view('inventory/penerimaan_barang/penerimaan_barang',compact("po"));
@@ -144,74 +144,76 @@ class penerimaan_barangController extends Controller
 								->where('sg_iditem', $request->po_item[$i])
 								->get();
 
-								if (count($stock) < 0) {
+								if ($request->po_item[$i] != null) {
+									if (count($stock) != 0) {
+											DB::table('i_stock_gudang')
+																->where('sg_id', $stock[0]->sg_id)
+																->where('sg_iditem', $request->po_item[$i])
+																->update([
+																	'sg_qty' => $stock[0]->sg_qty + $request->qty_received[$i],
+																	'sg_harga' => $request->po_harga[$i]
+																]);
+
+																$idmutasi = DB::table('i_stock_mutasi')
+																							->where('sm_id', $stock[0]->sg_id)
+																							->max('sm_iddetail');
+
+																$harga = DB::table('i_stock_gudang')
+																					->where('sg_iditem', $request->po_item[$i])
+																					->select('sg_harga')
+																					->get();
+
+																DB::table('i_stock_mutasi')
+																		->insert([
+																			'sm_id' => $stock[0]->sg_id,
+																			'sm_iddetail' => $idmutasi + 1,
+																			'sm_item' => $request->po_item[$i],
+																			'sm_hpp' => $harga[0]->sg_harga,
+																			'sm_qty' => $request->qty_received[$i],
+																			'sm_use' => 0,
+																			'sm_sisa' => $request->qty_received[$i],
+																			'sm_description' => 'PENERIMAAN BARANG',
+																			'sm_ref' => $nota,
+																			'sm_insert' => Carbon::now('Asia/Jakarta'),
+																			'sm_deliveryorder' => $request->pb_delivery_order
+																		]);
+									} else {
+										$idstock = DB::table('i_stock_gudang')
+																->max('sg_id');
+
 										DB::table('i_stock_gudang')
-															->where('sg_id', $stock[0]->sg_id)
-															->where('sg_iditem', $request->po_item[$i])
-															->update([
-																'sg_qty' => $stock[0]->sg_qty + $request->qty_received[$i],
-																'sg_harga' => $request->po_harga[$i]
-															]);
+											->insert([
+												'sg_id' => $idstock + 1,
+												'sg_iditem' => $request->po_item[$i],
+												'sg_qty' => $request->qty_received[$i],
+												'sg_harga' => $request->po_harga[$i],
+												'sg_insert' => Carbon::now('Asia/Jakarta')
+											]);
 
-															$idmutasi = DB::table('i_stock_mutasi')
-																						->where('sm_id', $stock[0]->sg_id)
-																						->max('sm_iddetail');
+											$idmutasi = DB::table('i_stock_mutasi')
+																		->where('sm_id', $idstock + 1)
+																		->max('sm_iddetail');
 
-															$harga = DB::table('i_stock_gudang')
-																				->where('sg_iditem', $request->po_item[$i])
-																				->select('sg_harga')
-																				->get();
+											$harga = DB::table('i_stock_gudang')
+																->where('sg_iditem', $request->po_item[$i])
+																->select('sg_harga')
+																->get();
 
-															DB::table('i_stock_mutasi')
-																	->insert([
-																		'sm_id' => $idstock + 1,
-																		'sm_iddetail' => $idmutasi + 1,
-																		'sm_item' => $request->po_item[$i],
-																		'sm_hpp' => $harga[0]->sg_harga,
-																		'sm_qty' => $request->qty_received[$i],
-																		'sm_use' => 0,
-																		'sm_sisa' => $request->qty_received[$i],
-																		'sm_description' => 'PENERIMAAN BARANG',
-																		'sm_ref' => $nota,
-																		'sm_insert' => Carbon::now('Asia/Jakarta'),
-																		'sm_deliveryorder' => $request->pb_delivery_order
-																	]);
-								} else {
-									$idstock = DB::table('i_stock_gudang')
-															->max('sg_id');
-
-									DB::table('i_stock_gudang')
-										->insert([
-											'sg_id' => $idstock + 1,
-											'sg_iditem' => $request->po_item[$i],
-											'sg_qty' => $request->qty_received[$i],
-											'sg_harga' => $request->po_harga[$i],
-											'sg_insert' => Carbon::now('Asia/Jakarta')
-										]);
-
-										$idmutasi = DB::table('i_stock_mutasi')
-																	->where('sm_id', $idstock + 1)
-																	->max('sm_iddetail');
-
-										$harga = DB::table('i_stock_gudang')
-															->where('sg_iditem', $request->po_item[$i])
-															->select('sg_harga')
-															->get();
-
-										DB::table('i_stock_mutasi')
-												->insert([
-													'sm_id' => $idstock + 1,
-													'sm_iddetail' => $idmutasi + 1,
-													'sm_item' => $request->po_item[$i],
-													'sm_hpp' => $harga[0]->sg_harga,
-													'sm_qty' => $request->qty_received[$i],
-													'sm_use' => 0,
-													'sm_sisa' => $request->qty_received[$i],
-													'sm_description' => 'PENERIMAAN BARANG',
-													'sm_ref' => $nota,
-													'sm_insert' => Carbon::now('Asia/Jakarta'),
-													'sm_deliveryorder' => $request->pb_delivery_order
-												]);
+											DB::table('i_stock_mutasi')
+													->insert([
+														'sm_id' => $idstock + 1,
+														'sm_iddetail' => $idmutasi + 1,
+														'sm_item' => $request->po_item[$i],
+														'sm_hpp' => $harga[0]->sg_harga,
+														'sm_qty' => $request->qty_received[$i],
+														'sm_use' => 0,
+														'sm_sisa' => $request->qty_received[$i],
+														'sm_description' => 'PENERIMAAN BARANG',
+														'sm_ref' => $nota,
+														'sm_insert' => Carbon::now('Asia/Jakarta'),
+														'sm_deliveryorder' => $request->pb_delivery_order
+													]);
+									}
 								}
 
 	 	}

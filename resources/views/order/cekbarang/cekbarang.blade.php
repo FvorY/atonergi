@@ -33,13 +33,15 @@
 							  </thead>
 							  <tbody>
 									@foreach ($data as $key => $value)
-								    <tr>
-								    	<td>{{$value->sg_iditem}}</td>
-											<td>{{$value->i_name}}</td>
-											<td><a href="{{url('/order/cekbarang/detail')}}/{{encrypt($value->sg_iditem)}}">{{$value->sum}}</a></td>
-											<td>{{$value->sg_qty}}</td>
-											<td>{{$value->deficieny}}</td>
-								    </tr>
+										@if ($value->sum != 0)
+											<tr>
+									    	<td>{{$value->sg_iditem}}</td>
+												<td>{{$value->i_name}}</td>
+												<td><a href="{{url('/order/cekbarang/detail')}}/{{encrypt($value->sg_iditem)}}">{{$value->sum}}</a></td>
+												<td>{{$value->sg_qty}}</td>
+												<td>{{$value->deficieny}}</td>
+									    </tr>
+										@endif
 									@endforeach
 							  </tbody>
 							</table>

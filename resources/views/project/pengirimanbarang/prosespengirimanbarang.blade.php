@@ -129,7 +129,7 @@
 												@foreach ($barang as $key => $value)
 													<tr>
 		                  			<td>
-		                  				<input type="text" class="form-control form-control-sm" readonly="" name="" value="{{$value->qd_item}}">
+		                  				<input type="text" class="form-control form-control-sm" readonly="" name="" value="{{$value->i_code}} - {{$value->i_name}}">
 		                  			</td>
 		                  			<td>
 		                  				<input type="text" class="form-control form-control-sm" readonly="" name="" value="{{$value->qd_qty}}">

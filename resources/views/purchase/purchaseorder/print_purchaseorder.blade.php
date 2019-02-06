@@ -6,7 +6,7 @@
 *{
 	font-family: arial;
 	text-align: center;
-	
+
 }
 table {
     border-collapse: collapse;
@@ -58,7 +58,7 @@ table, td, th {
 	content: "";
 	background-image: url("{{asset('assets/atonergi.png')}}");
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
 	position: absolute;
 	display: block;
 	z-index: -1;
@@ -66,7 +66,7 @@ table, td, th {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	opacity: 0.1; 
+	opacity: 0.1;
 }
 .top
 {
@@ -148,11 +148,11 @@ table, td, th {
 </head>
 <body>
 	<div class="btn-print">
-		<button onclick="javascript:window.print();">Print</button>
+		<button onclick="window.print()">Print</button>
 	</div>
 	<div class="page-break">
 		<div class="div-width">
-			
+
 			<div class="header-left">
 				<img width="300px" height="80px" src="{{asset('assets/atonergi.png')}}">
 			</div>
@@ -183,9 +183,9 @@ table, td, th {
 						</tr>
 					</tbody>
 				</table>
-				
+
 			</div>
-			
+
 			<div class="header-right" style="margin-top: 15px;">
 				<table class="border-none" width="100%">
 					<tbody>
@@ -220,7 +220,7 @@ table, td, th {
 				</table>
 			</div>
 			<table class="border-none" width="100%" style="margin-bottom: 15px;">
-				
+
 				<thead>
 					<tr class="border-none">
 						<th class="border-none" width="30%">Shipping Method</th>
@@ -236,7 +236,7 @@ table, td, th {
 						<td>{{ $print_header->po_delivery_date }}</td>
 					</tr>
 				</tbody>
-				
+
 			</table>
 
 			<table class="border-none" width="100%">
@@ -275,11 +275,11 @@ table, td, th {
 								{{ number_format($seq->podt_price,2,',','.') }}
 							</div>
 							</td>
-							
-							
+
+
 						</tr>
 					@endforeach
-					
+
 					<tr>
 						<td class="border-none" colspan="5"></td>
 						<td class="border-none text-right">Subtotal</td>
@@ -297,7 +297,7 @@ table, td, th {
 						<td class="border-none text-right">Sales Tax</td>
 						<td>
 							<div class="float-left">
-								
+
 							</div>
 							<div class="float-right">
 								{{ number_format($print_header->po_sales_tax,2,',','.') }}
@@ -351,6 +351,6 @@ table, td, th {
 	</div>
 </body>
 <script type="text/javascript">
-	window.print();
+	window.print()
 </script>
 </html>

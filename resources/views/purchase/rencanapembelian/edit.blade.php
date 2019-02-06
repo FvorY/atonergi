@@ -123,7 +123,7 @@
                </tr>
              </thead>
              <tbody id="muncul">
-              
+
              </tbody>
            </table>
          </div>
@@ -132,7 +132,7 @@
       </div> <!-- End div modal-content -->
       <div class="modal-footer">
         <div id="change_functions">
-          <button class="btn btn-primary" type="button" id="save_datas" >Save Data</button>
+          <button class="btn btn-primary" type="button" onclick="update()" >Save Data</button>
         </div>
         <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
       </div>

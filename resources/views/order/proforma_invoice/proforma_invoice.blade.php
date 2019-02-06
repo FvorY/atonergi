@@ -18,18 +18,12 @@
 		        <div class="card-body">
 		          <h4 class="card-title">Proforma Invoice</h4>
 		          	<div class="row">
-
-						@if (App\mMember::akses('PROFORMA INVOICE', 'tambah'))
-						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
-							<button class="btn btn-info" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Invoice</button>
-						</div>
-						@endif
 						<div class="table-responsive">
 							<table class="table table-hover table_quote" id="table_quote" cellspacing="">
 							  <thead class="bg-gradient-info">
 							    <tr>
 							      <th>No</th>
-							      <th>P.O.#</th>
+							      <th>P.I.#</th>
 							      <th>Q.O.#</th>
 										<th>Customer</th>
 							      <th>Total</th>
@@ -130,7 +124,6 @@ function hapus(id) {
                         if (data.status == '1') {
                           var table = $('#table_quote').DataTable();
                           table.ajax.reload();
-                          console.log(data);
                           iziToast.success({
                             icon: 'fa fa-trash',
                             message: 'Data Berhasil Dihapus!',
@@ -161,7 +154,7 @@ function hapus(id) {
 }
 function printing(id){
 
-  window.open('{{route('print_proforma_invoice')}}','_blank');
+  window.open('{{route('print_proforma_invoice')}}?id='+id,'_blank');
 
 }
 </script>

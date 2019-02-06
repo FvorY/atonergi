@@ -6,7 +6,7 @@
 *{
 	font-family: arial;
 	text-align: center;
-	
+
 }
 table {
     border-collapse: collapse;
@@ -58,7 +58,7 @@ table, td, th {
 	content: "";
 	background-image: url("{{asset('assets/atonergi.png')}}");
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
 	position: absolute;
 	display: block;
 	z-index: -1;
@@ -66,7 +66,7 @@ table, td, th {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	opacity: 0.1; 
+	opacity: 0.1;
 }
 .top
 {
@@ -161,7 +161,7 @@ table, td, th {
 	</div>
 	<div class="page-break">
 		<div class="div-width">
-			
+
 			<div class="header-left">
 				<img width="300px" height="80px" src="{{asset('assets/atonergi.png')}}">
 			</div>
@@ -176,45 +176,45 @@ table, td, th {
 						<tr >
 							<td class="text-left border-none">Cust</td>
 							<td width="1" class="text-left border-none">:</td>
-							<td class="text-left border-none">Alpha</td>
+							<td class="text-left border-none">{{$data->c_name}}</td>
 
 						</tr>
 						<tr>
 							<td class="text-left border-none"></td>
-							<td class="text-left border-none" colspan="2"><e class="email">alpha@alpha.com</e></td>
+							<td class="text-left border-none" colspan="2"><e class="email">{{$data->c_email}}</e></td>
 						</tr>
 						<tr>
 							<td class="text-left border-none"></td>
-							<td class="text-left border-none" colspan="2">Jl. Alpha, Surabaya, Jawa Timur, Indonesia</td>
+							<td class="text-left border-none" colspan="2">{{$data->c_address}}</td>
 						</tr>
 						<tr>
 							<td class="text-left border-none"></td>
-							<td class="text-left border-none" colspan="2">[+ 62 853 333 3333]</td>
+							<td class="text-left border-none" colspan="2">{{$data->c_phone}}</td>
 						</tr>
 					</tbody>
 				</table>
-				
+
 			</div>
-			
+
 			<div class="header-right" style="margin-top: 15px;">
 				<table class="border-none" width="100%">
 					<tbody>
 						<tr >
 							<td class="text-left border-none">Date : </td>
-							<td class="text-left border-none">April 14, 2018</td>
+							<td class="text-left border-none">{{Carbon\Carbon::parse($data->si_date)->format('M d, Y')}}</td>
 
 						</tr>
 						<tr>
 							<td class="text-left border-none">S.O#</td>
-							<td class="text-left border-none">A001</td>
+							<td class="text-left border-none">{{$data->so_nota}}</td>
 						</tr>
 						<tr>
 							<td class="text-left border-none">Customer ID</td>
-							<td class="text-left border-none">CUS/001</td>
+							<td class="text-left border-none">{{$data->c_code}}</td>
 						</tr>
 						<tr>
 							<td class="text-left border-none">Rev Quote#</td>
-							<td class="text-left border-none">B001</td>
+							<td class="text-left border-none">{{$data->q_nota}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -224,13 +224,13 @@ table, td, th {
 					<tbody>
 						<tr>
 							<td class="text-left border-none">Ship to : </td>
-							<td class="text-left border-none"></td>
+							<td class="text-left border-none">{{$data->q_ship_to}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<table class="border-none" width="100%" style="margin-bottom: 15px;">
-				
+
 				<thead>
 					<tr class="border-none">
 						<th class="border-none" width="30%">Shipping Method</th>
@@ -241,12 +241,12 @@ table, td, th {
 
 				<tbody>
 					<tr>
-						<td>Air Freight</td>
-						<td>5 Minggu</td>
-						<td></td>
+						<td>{{$data->q_shipping_method}}</td>
+						<td>{{$data->q_term}}</td>
+						<td>{{Carbon\Carbon::parse($data->q_delivery)->format('d-m-Y')}}</td>
 					</tr>
 				</tbody>
-				
+
 			</table>
 
 			<table class="border-none" id="print_salesinvoice" width="100%">
@@ -262,328 +262,32 @@ table, td, th {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Cable</td>
-						<td>30</td>
-						<td>Meter</td>
-						<td>Kabel Hitam</td>
-						<td>
-							<div class="float-left">
-								Rp.
-							</div>
-							<div class="float-right">
-								10.000,00
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								Rp.
-							</div>
-							<div class="float-right">
-								300.000,00
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Pompa Air</td>
-						<td>1</td>
-						<td>Pcs</td>
-						<td>Pompa Merk Sanyo</td>
-						<td>
-							<div class="float-left">
-								Rp.
-							</div>
-							<div class="float-right">
-								300.000,00
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								Rp.
-							</div>
-							<div class="float-right">
-								300.000,00
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="blank"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-						<td>
-							<div class="float-left">
-								
-							</div>
-							<div class="float-right">
-								
-							</div>
-						</td>
-					</tr>
+					@foreach ($data_dt as $key => $value)
+						<tr>
+							<td>{{$key + 1}}</td>
+							<td>{{$value->i_name}}</td>
+							<td>{{$value->qd_qty}}</td>
+							<td>{{$value->u_unit}}</td>
+							<td>{{$value->qd_description}}</td>
+							<td>
+								<div class="float-left">
+									Rp.
+								</div>
+								<div class="float-right">
+									{{number_format($value->qd_price,2,',','.')}}
+								</div>
+							</td>
+							<td>
+								<div class="float-left">
+									Rp.
+								</div>
+								<div class="float-right">
+									{{number_format($value->qd_total,2,',','.')}}
+								</div>
+							</td>
+						</tr>
+					@endforeach
+
 					<tr class="none-background-color">
 						<td class="border-none" colspan="5"></td>
 						<td class="border-none text-right">Subtotal</td>
@@ -592,7 +296,7 @@ table, td, th {
 								Rp.
 							</div>
 							<div class="float-right">
-								600.000,00
+								{{number_format($data->q_subtotal,2,',','.')}}
 							</div>
 						</td>
 					</tr>
@@ -604,19 +308,32 @@ table, td, th {
 								Rp.
 							</div>
 							<div class="float-right">
-								250.000,00
+								{{number_format($data->q_dp,2,',','.')}}
 							</div>
 						</td>
 					</tr>
-					<tr class="none-background-color">
+					<tr class="none-background-color tebal">
 						<td class="border-none" colspan="5"></td>
-						<td class="border-none text-right">Total</td>
+						<td class="border-none text-right">Paid</td>
 						<td>
 							<div class="float-left">
 								Rp.
 							</div>
 							<div class="float-right">
-								350.000,00
+								<?php $paid = $data->q_subtotal - $data->q_dp ?>
+								{{number_format($paid,2,',','.')}}
+							</div>
+						</td>
+					</tr>
+					<tr class="none-background-color tebal">
+						<td class="border-none" colspan="5"></td>
+						<td class="border-none text-right">Amount Due</td>
+						<td>
+							<div class="float-left">
+								Rp.
+							</div>
+							<div class="float-right">
+								{{number_format($data->q_remain,2,',','.')}}
 							</div>
 						</td>
 					</tr>

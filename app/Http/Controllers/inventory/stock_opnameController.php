@@ -78,24 +78,25 @@ class stock_opnameController extends Controller
      DB::beginTransaction();
      try {
 
+			 $idopname = DB::table('i_stock_opname')
+										->max('so_id');
+
+			if ($idopname == null) {
+				$idopname = 1;
+			} else {
+				$idopname += 1;
+			}
+
+		 DB::table('i_stock_opname')
+				->insert([
+					'so_id' => $idopname,
+					'so_code' => $request->so_code,
+					'so_bulan' => Carbon::parse($request->so_date)->format('Y-m-d'),
+					'so_create_at' => Carbon::now('Asia/Jakarta')
+				]);
+				
        for ($i=0; $i < count($request->so_real); $i++) {
           if ($request->so_real[$i] > 0) {
-            $idopname = DB::table('i_stock_opname')
-                         ->max('so_id');
-
-           if ($idopname == null) {
-             $idopname = 1;
-           } else {
-             $idopname += 1;
-           }
-
-          DB::table('i_stock_opname')
-             ->insert([
-               'so_id' => $idopname,
-               'so_code' => $request->so_code,
-               'so_bulan' => Carbon::parse($request->so_date)->format('Y-m-d'),
-               'so_create_at' => Carbon::now('Asia/Jakarta')
-             ]);
 
              $iddtopname = DB::table('i_stock_opname_dt')
                             ->max('sodt_id');

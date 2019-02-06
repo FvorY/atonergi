@@ -33,10 +33,18 @@
 
                     <div class="row">
                       <div class="col-md-6 col-sm-12 col-xs-12">
-                        <div class="alert alert-warning alert-dismissible" title="Process">
+                        <div class="alert alert-primary alert-dismissible" title="Approved">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <strong>Notice!</strong> <br>
-                            <label class="badge badge-pill badge-warning">{{$count}}</label>
+                            <label class="badge badge-pill badge-primary">{{$printed}}</label>
+                            Printed
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="alert alert-warning alert-dismissible" title="Need Approved">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Notice!</strong> <br>
+                            <label class="badge badge-pill badge-warning">{{$process}}</label>
                             Process
                         </div>
                       </div>
@@ -339,28 +347,9 @@
                 '<button style="background-color:#44d7c9;">Process</button>',
                 function (instance, toast) {
                 //ajax
-                 $.ajax({
-                   type: "get",
-                   url: '{{ route('print_purchaseorder') }}',
-                   data: {id},
-                   success: function(data){
+                window.open('{{ route('print_purchaseorder') }}?id='+id);
 
-                      var table = $('#dataTable').DataTable();
-                      table.ajax.reload();
-                      window.open().document.write(data);
-
-                   },
-                   complete:function(){
-                      // alert(this.url);
-                   },
-                   error: function(){
-                    iziToast.warning({
-                      icon: 'fa fa-times',
-                      message: 'Terjadi Kesalahan!',
-                    });
-                   },
-                   async: false
-                 });
+                window.location.reload();
                 //end of ajax
 
 

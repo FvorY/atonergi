@@ -104,6 +104,7 @@
 			dataType: 'json',
 			url : baseUrl + '/inventory/opname/detail',
 			success : function(result){
+				console.log(result);
 				for (var i = 0; i < result.length; i++) {
 					html += '<tr>'+
 									'<td>'+result[i].i_name+'</td>'+

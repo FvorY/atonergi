@@ -5,7 +5,7 @@
 
 <!-- partial -->
 <div class="content-wrapper">
-  <div class="col-lg-12"> 
+  <div class="col-lg-12">
     <nav aria-label="breadcrumb" role="navigation">
       <ol class="breadcrumb bg-info">
         <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -66,7 +66,7 @@
               <div class="form-group">
                 <input type="text" class="form-control form-control-sm" value="{{ $data->q_ship_to }}" readonly="" name="">
               </div>
-            </div>  
+            </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <label>Date Payment</label>
             </div>
@@ -117,7 +117,7 @@
               <tbody>
                 @foreach($data_dt as $i=>$val)
                 <tr>
-                  <td>{{ $val->i_name }}</td>
+                  <td>{{$val->i_code}} - {{ $val->i_name }}</td>
                   <td>{{ $val->qd_qty }}</td>
                   <td>{{ $val->i_unit }}</td>
                   <td>{{ $val->qd_description }}</td>
@@ -137,7 +137,7 @@
                       <label>Subtotal</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group"> 
+                      <div class="form-group">
                         <input type="text" class="form-control form-control-sm" name="subtotal" value="{{ 'Rp. '. number_format($data->q_subtotal, 2, ",", ".") }}" readonly="">
                       </div>
                     </div>
@@ -145,7 +145,7 @@
                       <label>Sales Tax</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
+                      <div class="form-group">
                         <input type="text" class="form-control form-control-sm" name="tax" value="{{ 'Rp. '. number_format($data->q_tax, 2, ",", ".") }}" readonly="">
                       </div>
                     </div>
@@ -153,7 +153,7 @@
                       <label>Total</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
+                      <div class="form-group">
                         <input type="text" class="form-control form-control-sm" name="total" value="{{ 'Rp. '. number_format($data->q_total, 2, ",", ".") }}" readonly="" id="total_harga">
                       </div>
                     </div>
@@ -161,7 +161,7 @@
                       <label>DP</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
+                      <div class="form-group">
                         @if($data->q_dp != null)
                         <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{'Rp. '. number_format($data->q_dp, 2, ",", ".")}}">
                         @else
@@ -169,7 +169,7 @@
                         @endif
                       </div>
                     </div>
-                    
+
                     <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                       <label>Payment Log</label>
                     </div>
@@ -182,7 +182,7 @@
                       <label>Payment</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
+                      <div class="form-group">
                         <input value="{{ 'Rp. '. number_format($data->po_total, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="payment" id="payment" readonly="">
                       </div>
                     </div>
@@ -190,7 +190,7 @@
                       <label>Total Paid</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
+                      <div class="form-group">
                         <input value="{{ 'Rp. '. number_format($data->q_total - $data->q_remain, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="total_paid" id="total_paid" readonly="">
                       </div>
                     </div>
@@ -198,7 +198,7 @@
                       <label>Remaining</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
+                      <div class="form-group">
                         <input value="{{ 'Rp. '. number_format($data->q_remain, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="" readonly="" value="" id="remain">
                       </div>
                     </div>
@@ -224,7 +224,7 @@
       allowZero:true,
       defaultZero: true
   });
- 
+
   $('.pilihpembayaran').click(function(){
     var dp = $('#payment').val();
     dp     = dp.replace(/[^0-9\-]+/g,"")/100;
@@ -280,12 +280,12 @@
               message: 'Payment Tidak Boleh 0',
           });
           return false;
-    } 
+    }
 
     iziToast.show({
             overlay: true,
             close: false,
-            timeout: 20000, 
+            timeout: 20000,
             color: 'dark',
             icon: 'fas fa-question-circle',
             title: 'Simpan Data!',
@@ -316,7 +316,7 @@
                       message: 'Data Sudah Ada!',
                   });
                 }
-                
+
               },error:function(){
                 iziToast.warning({
                     icon: 'fa fa-info',
@@ -339,6 +339,6 @@
   }
 
 
-  
+
 </script>
 @endsection
