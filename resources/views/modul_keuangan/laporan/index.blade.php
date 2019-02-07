@@ -61,7 +61,7 @@
 
 
         // hutang
-            $hutang = "_token=".csrf_token()."&d1=".$tanggal."&jenis=rekap&type=Hutang_Supplier";
+            $hutang = "_token=".csrf_token()."&d1=".date('d/m/Y')."&jenis=rekap&type=Hutang_Supplier";
     ?>
 
     <div class="col-md-12" style="background: none;">

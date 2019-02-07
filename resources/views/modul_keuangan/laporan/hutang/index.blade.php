@@ -246,7 +246,7 @@
 				<div id="contentnya">
 
 					<?php 
-						$tanggal_1 = switchBulan(explode('-', $_GET['d1'])[2]).' '.explode('-', $_GET['d1'])[1];
+						$tanggal_1 = switchBulan(explode('/', $_GET['d1'])[2]).' '.explode('/', $_GET['d1'])[1];
 					?>					
 
 					{{-- Judul Kop --}}
