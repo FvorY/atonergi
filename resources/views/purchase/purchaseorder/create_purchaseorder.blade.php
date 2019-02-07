@@ -28,8 +28,7 @@
           <div class="card">
             <form id="form-save">
               <div class="card-body">
-                <h4 class="card-title">Tambah Purchase Order</h4>
-
+                <h4 class="card-title">Tambah Purchase Order</h4>                
 
                 <div class="row">
 
@@ -500,13 +499,13 @@
         var total  = $('#po_tax').val();
         var hitung = parseInt(total)+parseInt(hitung);
 
-        $('#po_tax').val(hitung);        
+        $('#po_tax').val(hitung);
       }else if($('.ppn').prop('checked') == false){
         var hitung = parseInt(total_price)*(10/parseInt(100));
         var total  = $('#po_tax').val();
         var hitung = parseInt(total)-parseInt(hitung);
 
-        $('#po_tax').val(hitung);        
+        $('#po_tax').val(hitung);
       }
     }
 
