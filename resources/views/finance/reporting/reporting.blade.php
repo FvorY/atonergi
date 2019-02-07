@@ -96,7 +96,7 @@
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a data-toggle="modal" href="#aruskas" class="center text-info alamraya-choosing-panel">
+							<a href="{{ Route('laporan.keuangan.arus_kas', $laba_rugi) }}" class="center text-info alamraya-choosing-panel">
 								<i class="fa fa-refresh icon-lg text-info"></i>
 								<div class="center">
 									<label>&nbsp;&nbsp;&nbsp; Arus Kas &nbsp;&nbsp;&nbsp;</label>

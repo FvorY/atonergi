@@ -12,7 +12,6 @@
 
 @endsection
 
-
 @section('content')
     <div class="content-wrapper" id="vue-component">
       <div class="row">

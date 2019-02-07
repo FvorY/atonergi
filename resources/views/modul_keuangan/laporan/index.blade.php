@@ -58,6 +58,10 @@
 
         // laba_rugi
             $laba_rugi = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=";
+
+
+        // hutang
+            $hutang = "_token=".csrf_token()."&d1=".$tanggal."&jenis=rekap&type=Hutang_Supplier";
     ?>
 
     <div class="col-md-12" style="background: none;">
@@ -172,13 +176,13 @@
                 <div class="col-md-3" style="padding: 10px 30px;">
                     <div class="row laporan-wrap">
                         <div class="col-md-12 text-center">
-                            <a href="#">
+                            <a href="{{ Route('laporan.keuangan.hutang', $hutang) }}">
                                 <i class="fa fa-clipboard" style="font-size: 42pt;"></i>
                             </a>
                         </div>
 
                         <div class="col-md-12 text-center text">
-                            <a href="#">
+                            <a href="{{ Route('laporan.keuangan.hutang', $hutang) }}">
                                 Laporan Hutang
                             </a>
                         </div>    

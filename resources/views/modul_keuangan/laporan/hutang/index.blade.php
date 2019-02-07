@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Laporan Jurnal Umum</title>
+		<title>Laporan Hutang</title>
         
 		<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/bootstrap_4_1_3/css/bootstrap.min.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/font-awesome_4_7_0/css/font-awesome.min.css') }}">
@@ -100,18 +100,39 @@
 		    	font-size: 8pt;
 		    }
 
-		    #table-data td, #table-data th {
+		    #table-data td{
 		    	padding: 5px 10px;
+		    	border: 1px solid #eee;
 		    }
 
 		    #table-data th{
-		    	border: 1px solid #eee;
+		    	padding: 5px 10px;
+		    	background-color: #0099CC;
+		    	color: white;
+		    	border: 1px solid white;
+		    	vertical-align: middle;
+		    }
+
+		    #table-data td.head{
+		    	border: 1px solid #0099CC;
 		    	background: #0099CC;
 		    	color: white;
+		    	font-weight: bold;
+		    }
+
+		    #table-data td.sub-head{
+		    	border: 1px solid #0099CC;
+		    	color: #333;
+		    	font-weight: bold;
+		    	text-align: center;
+		    }
+
+		    #table-data td.divide{
+		    	background-color: #eee;
 		    }
 
 		    #contentnya{
-	          width: 80%;
+	          width: 100%;
 	          padding: 0px 20px;
 	          background: white;
 	          min-height: 700px;
@@ -122,34 +143,34 @@
 		</style>
 
 		<style type="text/css" media="print">
-	          @page { size: portrait; }
-	          nav{
-	            display: none;
-	          }
+          @page { size: landscape; }
+          nav{
+            display: none;
+          }
 
-	          .ctn-nav{
-	            display: none;
-	          }
+          .ctn-nav{
+          	display: none;
+          }
 
-	          #contentnya{
-	          	width: 100%;
-	          	padding: 0px;
-	          	margin-top: -50px;
-	          }
+          #contentnya{
+          	width: 100%;
+          	padding: 0px;
+          	margin-top: -50px;
+          }
 
-	          #table-data th{
-	             background-color: #0099CC !important;
-	             color: white;
-	             -webkit-print-color-adjust: exact;
-	          }
+          #table-data th{
+             background-color: #0099CC !important;
+             color: white;
+             -webkit-print-color-adjust: exact;
+          }
 
-	          #table-data td.not-same{
-	             color: red !important;
-	             -webkit-print-color-adjust: exact;
-	          }
+          #table-data td.divide{
+             background-color: #eee !important;
+             -webkit-print-color-adjust: exact;
+          }
 
-	          .page-break { display: block; page-break-before: always; }
-	    </style>
+          .page-break { display: block; page-break-before: always; }
+      	</style>
 	</head>
 
 	<body>
@@ -225,16 +246,7 @@
 				<div id="contentnya">
 
 					<?php 
-						$tanggal_1 = explode('/', $_GET['d1'])[0].' '.switchBulan(explode('/', $_GET['d1'])[1]).' '.explode('/', $_GET['d1'])[2];
-
-						$tanggal_2 = explode('/', $_GET['d2'])[0].' '.switchBulan(explode('/', $_GET['d2'])[1]).' '.explode('/', $_GET['d2'])[2];
-
-						$type = 'Transaksi Kas';
-
-						if($_GET["type"] == 'B')
-							$type = 'Transaksi Bank';
-						else if($_GET["type"] == 'M')
-							$type = 'Transaksi Memorial'
+						$tanggal_1 = switchBulan(explode('-', $_GET['d1'])[2]).' '.explode('-', $_GET['d1'])[1];
 					?>					
 
 					{{-- Judul Kop --}}
@@ -242,7 +254,7 @@
 						<table width="100%" border="0" style="border-bottom: 1px solid #333;" v-if="pageNow == 1" v-cloak>
 				          <thead>
 				            <tr>
-				              <th style="text-align: left; font-size: 14pt; font-weight: 600; padding-top: 10px;" colspan="2">Laporan Jurnal {{ $type }} </th>
+				              <th style="text-align: left; font-size: 14pt; font-weight: 600; padding-top: 10px;" colspan="2">Laporan Hutang Supplier</th>
 				            </tr>
 
 				            <tr>
@@ -253,7 +265,7 @@
 				              <th style="text-align: left; font-size: 8pt; font-weight: 500; padding-bottom: 10px;">(Angka Disajikan Dalam Rupiah, Kecuali Dinyatakan Lain)</th>
 
 				              <th class="text-right" style="font-size: 8pt; font-weight: normal;">
-				              	<b>{{ $tanggal_1 }}</b>&nbsp; s/d&nbsp; <b>{{ $tanggal_2 }}</b>
+				              	<b>{{ $tanggal_1 }}</b>
 				              </th>
 				            </tr>
 				          </thead>
@@ -261,63 +273,32 @@
 
 				    {{-- End Judul Kop --}}
 
-
-			    	{{-- End Tanggal --}}
-
 			    	<div style="padding-top: 20px;">
+
 						<table class="table" id="table-data" v-cloak>
+
 							<thead>
 								<tr>
-									<th width="8%" style="">Tanggal</th>
-									<th width="12%">No. Bukti</th>
-									<th :width="(requestNama == 'true') ? '20%' : '40%'">Keterangan</th>
-									<th width="10%">No. Akun</th>
-									<th width="20%" v-if="requestNama == 'true'">Nama Akun</th>
-									<th width="15%">Debet</th>
-									<th width="15%">Kredit</th>
+									<th rowspan="2" width="5%">No</th>
+									<th rowspan="2" width="20%">Nama Kreditur</th>
+									<th rowspan="2" width="15%">Jumlah Hutang</th>
+									<th rowspan="2" width="15%">Belum Jatuh Tempo</th>
+									<th colspan="4" width="45%">Sudah Jatuh Tempo</th>
+								</tr>
+
+								<tr>
+									<th>0-30 Hari</th>
+									<th>30-60 Hari</th>
+									<th>60-90 Hari</th>
+									<th>>90 Hari</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								<template v-for="(data, idx) in dataPrint">
-									<tr v-for="(detail, index) in data.detail">
-										<td class="text-center" style="border: 1px solid #eee;">@{{ humanizeDate(data.jr_tanggal_trans) }}</td>
-										<td class="text-center" style="border: 1px solid #eee;">@{{ data.jr_ref }}</td>
-										<td style="border: 1px solid #eee;">@{{ data.jr_keterangan }}</td>
-										<td class="text-center" style="border: 1px solid #eee;">@{{ detail.jrdt_akun }}</td>
-										<td style="border: 1px solid #eee;" v-if="requestNama == 'true'">@{{ detail.ak_nama }}</td>
-										<td class="text-right" style="border: 1px solid #eee;">
-											<span v-html="(detail.jrdt_dk == 'D') ? humanizePrice(detail.jrdt_value) : '0.00'"></span>
-										</td>
-										<td class="text-right" style="border: 1px solid #eee;">
-											<span v-html="(detail.jrdt_dk == 'K') ? humanizePrice(detail.jrdt_value) : '0.00'"></span>
-										</td>
-									</tr>
-
-									<tr>
-										<td :colspan="(requestNama == 'true') ? 5 : 4" style="background: #eee; padding: 0px;"></td>
-										<td class="text-right" style="border: 1px solid #eee; background: #eee; font-weight: bold; padding: 10px 5px;">
-											@{{ humanizePrice(dkSummary[idx].debet) }}
-										</td>
-										<td class="text-right" style="border: 1px solid #eee; background: #eee; font-weight: bold; padding: 10px 5px;">
-											@{{ humanizePrice(dkSummary[idx].kredit) }}
-										</td>
-									</tr>
-								</template>
+								
 							</tbody>
-
-							<tfoot v-if="pageNow == dataPage">
-								<tr>
-									<td :colspan="(requestNama == 'true') ? 5 : 4" style="background: none; padding: 0px;"></td>
-									<td class="text-right" style="border: 0px solid #eee; background: white; font-weight: bold; padding: 10px 5px; border-bottom: 2px solid #eee; color: #0099CC;">
-										@{{ humanizePrice(totDK.debet) }}
-									</td>
-									<td class="text-right" style="border: 0px solid #eee; background: white; font-weight: bold; padding: 10px 5px; border-bottom: 2px solid #eee; color: #0099CC;">
-										@{{ humanizePrice(totDK.kredit) }}
-									</td>
-								</tr>
-							</tfoot>
 						</table>
+
 					</div>
 				</div>
 			</div>
@@ -337,25 +318,16 @@
 	            <div class="layout" style="width: 35%; min-height: 250px;">
 	                <div class="top-popup" style="background: none;">
 	                    <span class="title">
-	                        Setting Laporan Jurnal
+	                        Setting Laporan Buku Besar
 	                    </span>
 
 	                    <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
 	                </div>
 	                
 	                <div class="content-popup">
-	                	<form id="form-setting" method="get" action="{{ route('laporan.keuangan.jurnal_umum') }}">
+	                	<form id="form-setting" method="get" action="{{ route('laporan.keuangan.buku_besar') }}">
 	                	<input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
 	                    <div class="col-md-12">
-	                    	<div class="row mt-form">
-	                            <div class="col-md-4">
-	                                <label class="modul-keuangan">Type Laporan</label>
-	                            </div>
-
-	                            <div class="col-md-8">
-	                                <vue-select :name="'type'" :id="'type'" :options="typeLaporan" :styles="'width:100%'"></vue-select>
-	                            </div>
-	                        </div>
 
 	                        <div class="row mt-form">
 	                            <div class="col-md-4">
@@ -366,11 +338,11 @@
 	                            	<table width="100%" border="0">
 	                            		<tr>
 	                            			<td>
-	                            				<vue-datepicker :name="'d1'" :id="'d1'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" @input="d1Change" :styles="'font-size: 9pt;'"></vue-datepicker>
+	                            				<vue-datepicker :name="'d1'" :id="'d1'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" :format="'mm/yyyy'" @input="d1Change" :styles="'font-size: 9pt;'"></vue-datepicker>
 	                            			</td>
 	                            			<td style="padding: 0px 10px;">-</td>
 	                            			<td>
-	                            				<vue-datepicker :name="'d2'" :id="'d2'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" :styles="'font-size: 9pt;'"></vue-datepicker>
+	                            				<vue-datepicker :name="'d2'" :id="'d2'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" :format="'mm/yyyy'" :styles="'font-size: 9pt;'"></vue-datepicker>
 	                            			</td>
 	                            		</tr>
 	                            	</table>
@@ -379,13 +351,47 @@
 
 	                        <div class="row mt-form">
 	                            <div class="col-md-4">
-	                                <label class="modul-keuangan">Nama Akun</label>
+	                                <label class="modul-keuangan">Akun Lawan</label>
 	                            </div>
 
 	                            <div class="col-md-7">
-	                                <vue-select :name="'nama'" :id="'nama'" :options="namaAkun" :styles="'width:100%'"></vue-select>
+	                                <vue-select :name="'lawan'" :id="'lawan'" :options="lawanAkun" :styles="'width:100%'"></vue-select>
 	                            </div>
 	                        </div>
+
+	                        <div class="row mt-form">
+	                            <div class="col-md-4">
+	                                <label class="modul-keuangan"></label>
+	                            </div>
+
+	                            <div class="col-md-7">
+	                                <input type="checkbox" name="semua" title="Centang Untuk Menambahkan Nilai Lebih Bayar Ke Akun Dana Titipan" v-model="semua">
+
+                                	<span style="font-size: 8pt; margin-left: 5px;">Tampilkan Semua Akun</span>
+	                            </div>
+	                        </div>
+
+	                        <template v-if='!semua'>
+		                        <div class="row mt-form" style="border-top: 1px solid #eee; padding-top: 20px;">
+		                            <div class="col-md-4">
+		                                <label class="modul-keuangan">Pilih Akun</label>
+		                            </div>
+
+		                            <div class="col-md-7">
+		                                <vue-select :name="'akun1'" :id="'akun1'" :options="akun" :styles="'width:100%'" @input="akunChange"></vue-select>
+		                            </div>
+		                        </div>
+
+		                        <div class="row mt-form">
+		                            <div class="col-md-4">
+		                                <label class="modul-keuangan">Sampai Akun</label>
+		                            </div>
+
+		                            <div class="col-md-7">
+		                                <vue-select :name="'akun2'" :id="'akun2'" :options="akun2" :styles="'width:100%'"></vue-select>
+		                            </div>
+		                        </div>
+		                    </template>
 
 	                    </div>
 
@@ -432,51 +438,34 @@
 			    				textLoading: "",
 			    				statMessage: "Sedang Menyiapkan Laporan..",
 			    				stat: "standby",
-			    				requestNama: '',
+			    				showLawan: true,
 			    				url: new URL(window.location.href),
 
 			    				firstElement: 0,
 			    				dataPage: 1,
 			    				pageNow: 0,
-			    				rowsCount: 6,
+			    				rowsCount: 5,
 
 			    				nextDisabled: false,
 			    				previousDisabled: true,
 
 			    				dataSource: [],
 			    				dataPrint: [],
-			    				totDK: {
-			    					debet: 0,
-			    					kredit: 0
-			    				},
+			    				saldo: 0,
 
 			    				// setting
-			    					typeLaporan: [
-			    						{
-			    							id: 'K',
-			    							text: 'Laporan Jurnal Kas',
-			    						},
-
-			    						{
-			    							id: 'B',
-			    							text: 'Laporan Jurnal Bank',
-			    						},
-
-			    						{
-			    							id: 'M',
-			    							text: 'Laporan Jurnal Memorial',
-			    						},
-			    					],
-
-			    					namaAkun: [
+			    					semua: true,
+			    					akun: [],
+			    					akun2: [],
+			    					lawanAkun: [
 			    						{
 			    							id: 'true',
-			    							text: 'Tampilkan Nama Akun'
+			    							text: 'Tampilkan Akun Lawan'
 			    						},
 
 			    						{
 			    							id: 'false',
-			    							text: 'Jangan Tampilkan Nama Akun'
+			    							text: 'Jangan Tampilkan Akun Lawan'
 			    						}
 			    					],
 			    			},
@@ -491,16 +480,11 @@
 				            	$('#loading-popup').ezPopup('show');
 
 				            	$('#d1').val('{{ $_GET['d1'] }}');
-				            	$('#d2').val('{{ $_GET['d2'] }}');
-				            	$('#type').val('{{ $_GET['type'] }}').trigger('change.select2');
-				            	$('#nama').val('{{ $_GET['nama'] }}').trigger('change.select2');
 
 				            	that = this;
 
-				            	axios.get('{{route('laporan.keuangan.jurnal_umum.data_resource')}}?'+that.url.searchParams)
+				            	axios.get('{{route('laporan.keuangan.hutang.data_resource')}}?'+that.url.searchParams)
 			                            .then((response) => {
-
-			                            	this.requestNama = response.data.requestNama;
 
 			                                if(response.data.data.length){
 			                                	this.dataSource = response.data.data;
@@ -524,6 +508,25 @@
 			                                	this.pageNow = 1;
 			                                }
 
+			                                if(response.data.akun.length > 0){
+			                                	this.akun = response.data.akun;
+			                                	this.akun2 = response.data.akun;
+			                                }
+
+			                                this.showLawan = (response.data.requestLawan == 'true') ? true : false;
+			                                this.semua = (response.data.requestSemua == 'on') ? true : false;
+
+			                                if(!this.semua){
+
+
+			                                	setTimeout(function(){
+		                                			$('#akun1').val(response.data.akun1).trigger('change.select2');
+			                                		$('#akun2').val(response.data.akun2).trigger('change.select2');
+			                                	}, 0);
+
+		                                		this.akunChange(response.data.akun1);
+			                                }
+
 			                                $('#loading-popup').ezPopup('close');
 			                                this.calculatingDK();
 			                            })
@@ -533,24 +536,33 @@
 				            },
 
 				            computed: {
-				            	dkSummary: function(){
+				            	saldoInfo: function(){
+				            		that = this;
+				            		var clock = []; var movement = 0
 
-				            		var clock = [];
+				                	$.each(this.dataPrint, function(a, b){
+				                		
+				                		var stack = [];
+				                		movement = b.ak_saldo_awal;
 
-				            		$.each(this.dataPrint, function(i, n){
-				            			var d = k = 0;
+				                		$.each(b.jurnal_detail, function(c, d){
+				                			if(d.jrdt_dk != b.ak_posisi)
+				                				movement -= d.jrdt_value;
+				                			else
+				                				movement += d.jrdt_value;
 
-				            			$.each(n.detail, function(x, y){
-				            				if(y.jrdt_dk == "D")
-				            					d += y.jrdt_value;
-				            				else
-				            					k += y.jrdt_value;
-				            			})
+				                			stack.push(movement)
+				                		})	
 
-				            			clock.push({debet: d, kredit: k})
-				            		})
+				                		clock.push(
+				                			{
+				                				saldoAwal 	: b.ak_saldo_awal,
+				                				saldo 		: stack
+				                			}
+				                		);
+				                	})
 
-				            		return clock;
+				                	return clock;
 				            	}
 				            },
 
@@ -614,7 +626,7 @@
 			                            stack: false
 									});
 
-				                    $('#pdfIframe').attr('src', '{{route('laporan.keuangan.jurnal_umum.print.pdf')}}?'+that.url.searchParams)
+				                    $('#pdfIframe').attr('src', '{{route('laporan.keuangan.buku_besar.print.pdf')}}?'+that.url.searchParams)
 
 				            	},
 
@@ -633,7 +645,7 @@
 			                            stack: false
 			                        });
 
-			                        $('#pdfIframe').attr('src', '{{route('laporan.keuangan.jurnal_umum.print.excel')}}?'+that.url.searchParams)
+			                        $('#pdfIframe').attr('src', '{{route('laporan.keuangan.buku_besar.print.excel')}}?'+that.url.searchParams)
 				            	},
 
 				            	print: function(evt){
@@ -653,7 +665,7 @@
 
 				            		window.print();
 
-				            		// $('#pdfIframe').attr('src', '{{route('laporan.keuangan.jurnal_umum.print')}}?'+that.url.searchParams)
+				            		// $('#pdfIframe').attr('src', '{{route('laporan.keuangan.buku_besar.print')}}?'+that.url.searchParams)
 				            	},
 
 				            	humanizePrice: function(alpha){
@@ -691,6 +703,12 @@
 				                	$('#d2').datepicker("setStartDate", e);
 				                },
 
+				                akunChange:function(e){
+				                	var ak2 = $.grep(this.akun, function(alpha){ return alpha.id >= e });
+
+				                	this.akun2 = ak2;
+				                },
+
 				                prosesLaporan: function(evt){
 				                	evt.preventDefault();
 				                	evt.stopImmediatePropagation();
@@ -717,22 +735,17 @@
 				                	return true;
 				                },
 
-				                calculatingDK: function(){
-				                	var clock = [];
-				            		var d = k = 0;
+				                getDK: function(index){
+				                	var data = this.dataPrint[index];
 
-				            		$.each(this.dataSource, function(i, n){
-
-				            			$.each(n.detail, function(x, y){
-				            				if(y.jrdt_dk == "D")
-				            					d += y.jrdt_value;
-				            				else
-				            					k += y.jrdt_value;
-				            			})
-
-				            		})
-
-				            		this.totDK = {debet: d, kredit: k};
+				                	if(data.ak_saldo_awal < 0){
+				                		if(data.ak_posisi == "D")
+				                			return "K";
+				                		else
+				                			return "D";
+				                	}else{
+				                		return data.ak_posisi;
+				                	}
 				                },
 				            }
 			    		})
