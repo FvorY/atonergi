@@ -229,8 +229,13 @@
 	$('.pilihpembayaran').click(function(){
 		var dp = $('#dp').val();
 		dp     = dp.replace(/[^0-9\-]+/g,"")/100;
+		var tmppercent = $('input[name=percent]').val();
+				tmppercent = tmppercent.replace(' %', '');
 
-		$('#amount').val(accounting.formatMoney(dp,"", 0, ".",','));
+		var percent = tmppercent / 100 * dp;
+
+		$('#amount').val(accounting.formatMoney(percent,"", 0, ".",','));
+		$('#batasamount').val(percent);
 	});
 
 	function save_detail(){
@@ -257,6 +262,21 @@
 		$('#pilihpembayaran').modal('hide');
 	}
 
+	function amountup(){
+		var amount = $('#amount').val();
+		amount = amount.replace(/[^0-9\-]+/g,"");
+		var batas = $('#batasamount').val();
+		var tmppercent = $('input[name=percent]').val();
+
+		if (amount < batas) {
+			iziToast.warning({
+	            icon: 'fa fa-info',
+	            message: 'Tidak boleh lebih dari '+tmppercent+'!',
+	        });
+
+			$('#amount').val(accounting.formatMoney(batas,"", 0, ".",','));
+		}
+	}
 
 	function save_data() {
 		var amount 	= $('#dp').val();

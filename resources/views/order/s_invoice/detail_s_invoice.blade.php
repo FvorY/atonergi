@@ -4,7 +4,7 @@
 @include('order.s_invoice.log_payment')
 <!-- partial -->
 <div class="content-wrapper">
-  <div class="col-lg-12"> 
+  <div class="col-lg-12">
     <nav aria-label="breadcrumb" role="navigation">
       <ol class="breadcrumb bg-info">
         <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -25,29 +25,21 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="form-group">
-                <input type="text" readonly="" class="form-control form-control-sm" value="" name="q_nota">
+                <input type="text" readonly="" class="form-control form-control-sm" value="{{$data->q_nota}}" name="q_nota">
               </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <label>Sales Invoice#</label>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
-              <input type="text" readonly="" class="form-control-sm form-control po_nota" value="" name="po_nota">
+              <input type="text" readonly="" class="form-control-sm form-control po_nota" value="{{$data->si_nota}}" name="po_nota">
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <label>Customer ID</label>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="form-group">
-                <input type="text" readonly="" class="form-control-sm form-control" value="" name="">
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-              <label>Order By</label>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-              <div class="form-group">
-                <input type="text" readonly="" class="form-control form-control-sm" value="" name="">
+                <input type="text" readonly="" class="form-control-sm form-control" value="{{$data->q_customer}}" name="">
               </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -55,7 +47,7 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="form-group">
-                <input type="text" readonly="" class="form-control-sm form-control" value="" name="">
+                <input type="text" readonly="" class="form-control-sm form-control" value="{{Carbon\Carbon::parse($data->si_date)->format('d-m-Y')}}" name="">
               </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -63,15 +55,15 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="form-group">
-                <input type="text" class="form-control form-control-sm" value="" readonly="" name="">
+                <input type="text" class="form-control form-control-sm" value="{{$data->q_ship_to}}" readonly="" name="">
               </div>
-            </div>  
+            </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <label>Date Payment</label>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="form-group">
-                <input type="text" readonly="" class="form-control-sm form-control date_payment datepicker" value="" name="dates">
+                <input type="text" readonly="" class="form-control-sm form-control date_payment datepicker" value="{{$data->si_date}}" name="dates">
               </div>
             </div>
           </form>
@@ -81,7 +73,7 @@
             </div>
             <div class="col-md-2 col-sm-6 col-xs-12">
               <div class="form-group">
-                <input type="text" class="form-control-sm form-control" readonly="" value="" name="">
+                <input type="text" class="form-control-sm form-control" readonly="" value="{{$data->q_shipping_method}}" name="">
               </div>
             </div>
             <div class="col-md-2 col-sm-6 col-xs-12">
@@ -89,7 +81,7 @@
             </div>
             <div class="col-md-2 col-sm-6 col-xs-12">
               <div class="form-group">
-                <input type="text" class="form-control-sm form-control" readonly="" value="" name="">
+                <input type="text" class="form-control-sm form-control" readonly="" value="{{$data->q_term}}" name="">
               </div>
             </div>
             <div class="col-md-2 col-sm-6 col-xs-12">
@@ -97,7 +89,7 @@
             </div>
             <div class="col-md-2 col-sm-6 col-xs-12">
               <div class="form-group">
-                <input type="text" class="form-control-sm form-control" readonly="" value="" name="">
+                <input type="text" class="form-control-sm form-control" readonly="" value="{{Carbon\Carbon::parse($data->q_delivery)->format('d-m-Y')}}" name="">
               </div>
             </div>
           </div>
@@ -106,33 +98,28 @@
               <thead class="bg-gradient-info">
                 <tr>
                   <th>No</th>
-                  <th>S.I.# / Q.O.#</th>
-                  <th>Customer</th>
-                  <th>Total Bill</th>
-                  <th>Down Payment</th>
-                  <th>Payment</th>
-                  <th>Status</th>
+                  <th>Item</th>
+                  <th>Unit</th>
+                  <th>Price</th>
+                  <th>Line Total</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>SI-001/SWP/SF-PS/112018</td>
-                  <td>Alpha</td>
-                  <td>
-                    <div class="pull-left">Rp.</div>
-                    <div class="pull-right">40.000.000,00</div>
-                  </td>
-                  <td>
-                    <div class="pull-left">Rp.</div>
-                    <div class="pull-right">4.000.000,00</div>
-                  </td>
-                  <td>Tunai</td>
-                  <td>
-                    <span class="badge badge-success badge-pill">Paid off</span>
-                    <span class="badge badge-primary badge-pill">Printed</span>
-                  </td>
-                </tr>
+                @foreach ($datadt as $key => $value)
+                  <tr>
+                    <td>{{$key + 1}}</td>
+                    <td>{{$value->i_code}} - {{$value->i_name}}</td>
+                    <td>{{$value->u_unit}}</td>
+                    <td>
+                      <div class="pull-left">Rp.</div>
+                      <div class="pull-right">{{number_format($value->qd_price,2,',','.')}}</div>
+                    </td>
+                    <td>
+                      <div class="pull-left">Rp.</div>
+                      <div class="pull-right">{{number_format($value->qd_total,2,',','.')}}</div>
+                    </td>
+                  </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
@@ -145,70 +132,69 @@
                       <label>Subtotal</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group"> 
-                        <input type="text" class="form-control form-control-sm" name="subtotal" value="" readonly="">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="subtotal" value="{{number_format($data->q_subtotal,2,',','.')}}" readonly="">
                       </div>
                     </div>
                     <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                       <label>Sales Tax</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
-                        <input type="text" class="form-control form-control-sm" name="tax" value="" readonly="">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="tax" value="{{number_format($data->q_tax,2,',','.')}}" readonly="">
                       </div>
                     </div>
                     <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                       <label>Total</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
-                        <input type="text" class="form-control form-control-sm" name="total" value="" readonly="" id="total_harga">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="total" value="{{number_format($data->q_total,2,',','.')}}" readonly="" id="total_harga">
                       </div>
                     </div>
                     <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                       <label>DP</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
-                        <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="0">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{number_format($data->q_dp,2,',','.')}}">
                       </div>
                     </div>
-                    
+
                     <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                       <label>Payment Log</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
                       <div class="form-group">
-                          <button class="btn btn-primary btn-sm btn-block pilihpembayaran" data-toggle="modal" data-target="#logpayment">Detail</button>
+                          <button class="btn btn-primary btn-sm btn-block pilihpembayaran" data-toggle="modal" data-target="#pilihpembayaran">Detail</button>
                         </div>
                     </div>
                     <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                       <label>Payment</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
-                        <input value="0" type="text" class="form-control form-control-sm" name="payment" id="payment" readonly="">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="payment" id="payment" value="{{number_format($data->q_total,2,',','.')}}" readonly="">
                       </div>
                     </div>
                     <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                       <label>Total Paid</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
-                        <input value="" type="text" class="form-control form-control-sm" name="total_paid" id="total_paid" readonly="">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="total_paid" id="total_paid" readonly="" value="{{number_format($data->q_total,2,',','.')}}">
                       </div>
                     </div>
                     <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                       <label>Remaining</label>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-12">
-                      <div class="form-group">  
-                        <input value="" type="text" class="form-control form-control-sm" name="" readonly="" value="" id="remain">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-sm" name="" readonly="" value="0" id="remain">
                       </div>
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12" align="right">
-                      <a onclick="save_data()" class="btn btn-info text-white">Save Data</a>
-                      <a href="" class="btn btn-secondary" >Back</a>
+                      <a href="{{url('/order/s_invoice/s_invoice')}}" class="btn btn-secondary" >Back</a>
                   </div>
               </div>
                 </div>
@@ -223,15 +209,15 @@
 @section('extra_script')
 
 <script type="text/javascript">
-  
+
   $(function() {
     $('.currency').maskMoney(
       {
         prefix:'RP. ',
         allowZero: true,
-        allowNegative: true, 
-        thousands:'.', 
-        decimal:',', 
+        allowNegative: true,
+        thousands:'.',
+        decimal:',',
         affixesStay: false
       }
     );

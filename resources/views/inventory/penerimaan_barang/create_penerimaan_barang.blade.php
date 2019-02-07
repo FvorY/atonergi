@@ -100,7 +100,7 @@
 			        	@foreach ($seq_cari as $key => $a)
 			        		<tr>
 				            <td>{{ $key + 1 }}</td>
-				            <td><input type="hidden" class="form-control form-control-sm po_item" value="{{ $a->i_code }}" name="po_item[]">{{ $a->i_name }}</td>
+				            <td><input type="hidden" class="form-control form-control-sm po_item" value="{{ $a->i_code }}" name="po_item[]">{{$a->i_code}} - {{ $a->i_name }}</td>
 				            <td><input type="hidden" class="form-control form-control-sm" value="{{ $a->podt_unit_price }}" name="po_harga[]">{{ $a->i_unit }}</td>
 				            <td><input type="text" class="format_money_kosongan form-control form-control-sm qty_approved{{$key}} right readonly" value="{{ $a->podt_qty_approved }}" name="qty_approved[]"></td>
 				            <td><input type="text" class="format_money_kosongan form-control form-control-sm qty_received{{$key}} right" onkeyup="dinamis({{$key}})" onkeypress="return isNumberKey(event)" name="qty_received[]"></td>

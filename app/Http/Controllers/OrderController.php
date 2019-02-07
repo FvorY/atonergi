@@ -22,21 +22,53 @@ class OrderController extends Controller
       if (!mMember::akses('SALES INVOICE', 'aktif')) {
         return redirect('error-404');
       }
-    	return view('order/s_invoice/s_invoice');
+
+      $data = DB::table('d_sales_invoice')
+                  ->join('d_quotation', 'q_nota', '=', 'si_ref')
+                  ->join('m_customer', 'c_code', '=', 'q_customer')
+                  ->get();
+
+    	return view('order/s_invoice/s_invoice', compact('data'));
     }
-    public function detail_s_invoice()
+    public function detail_s_invoice(Request $request)
     {
-      return view('order/s_invoice/detail_s_invoice');
+      $data = DB::table('d_sales_invoice')
+                  ->join('d_quotation', 'q_nota', '=', 'si_ref')
+                  ->join('m_customer', 'c_code', '=', 'q_customer')
+                  ->where('si_id', $request->id)
+                  ->first();
+
+      $datadt = DB::table('d_quotation_dt')
+                  ->join('m_item', 'i_code', '=', 'qd_item')
+                  ->join('d_unit', 'u_id', '=', 'i_unit')
+                  ->where('qd_id', $data->q_id)
+                  ->get();
+
+      return view('order/s_invoice/detail_s_invoice', compact('data', 'datadt'));
     }
-    public function print_salesinvoice(){
-      return view('order.s_invoice.print_salesinvoice');
+    public function print_salesinvoice(Request $request){
+
+      $data = DB::table('d_quotation')
+                ->join('d_sales_order', 'so_ref', '=', 'q_nota')
+                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->join('d_sales_invoice', 'si_ref', 'q_nota')
+                ->where('q_id',$request->id)
+                ->first();
+
+      $data_dt = DB::table('d_quotation_dt')
+                     ->join('m_item','i_code','=','qd_item')
+                     ->join('d_unit', 'u_id', '=', 'i_unit')
+                     ->where('qd_id',$request->id)
+                     ->get();
+
+      return view('order.s_invoice.print_salesinvoice', compact('data','data_dt'));
     }
     public function datatable_so()
     {
         $data = DB::table('d_sales_order')
           ->join('d_quotation','so_ref','=','q_nota')
           ->where('q_status',1)
-          ->orderBy('q_id','DESC')
+          ->orderBy('so_date', 'DESC')
           ->get();
 
 
@@ -98,7 +130,15 @@ class OrderController extends Controller
         return redirect('error-404');
       }
 
-    	return view('order/salesorder/s_order');
+      $printed = DB::table('d_sales_order')
+                    ->where('so_status', 'Printed')
+                    ->count();
+
+      $released = DB::table('d_sales_order')
+                    ->where('so_status', 'Released')
+                    ->count();
+
+    	return view('order/salesorder/s_order', compact('printed', 'released'));
     }
 
     public function detail_salesorder($id)
@@ -189,7 +229,7 @@ class OrderController extends Controller
         $data = DB::table('d_work_order')
           ->join('d_quotation','wo_ref','=','q_nota')
           ->where('q_status',1)
-          ->orderBy('q_id','DESC')
+          ->orderBy('wo_date', 'DESC')
           ->get();
 
 
@@ -251,7 +291,15 @@ class OrderController extends Controller
         return redirect('error-404');
       }
 
-      return view('order/workorder/w_order');
+      $printed = DB::table('d_sales_order')
+                    ->where('so_status', 'Printed')
+                    ->count();
+
+      $released = DB::table('d_sales_order')
+                    ->where('so_status', 'Released')
+                    ->count();
+
+      return view('order/workorder/w_order', compact('printed', 'released'));
     }
 
     public function detail_workorder($id)
@@ -345,20 +393,42 @@ class OrderController extends Controller
       if (!mMember::akses('CHECK STOCK', 'aktif')) {
         return redirect('error-404');
       }
-      $data = DB::table('i_stock_gudang')
-                ->leftjoin('m_item', 'i_code', '=', 'sg_iditem')
-                ->select('sg_iditem', 'i_name', 'sg_qty', DB::raw('sg_qty as sum'), DB::raw('sg_qty as deficieny'))
-                ->get();
+
+      $data = DB::table('d_quotation')
+                  ->join('d_quotation_dt', 'qd_id', 'q_id')
+                  ->whereMonth('q_created_at', date('m'))
+                  ->whereYear('q_created_at', date('Y'))
+                  ->select('qd_item', DB::raw('qd_item as sg_iditem'), DB::raw('qd_item as sg_qty'), DB::raw('qd_item as i_name'), DB::raw('qd_item as sum'), DB::raw('qd_item as deficieny'))
+                  ->get();
 
       for ($i=0; $i < count($data); $i++) {
           $data[$i]->sum = DB::table('d_quotation_dt')
-                              ->where('qd_item', $data[$i]->sg_iditem)
+                              ->where('qd_item', $data[$i]->qd_item)
                               ->sum('qd_qty');
+
+          $tmp = DB::table('i_stock_gudang')
+                    ->leftjoin('m_item', 'i_code', '=', 'sg_iditem')
+                    ->where('sg_iditem', $data[$i]->qd_item)
+                    ->first();
+
+          if (!empty($tmp)) {
+            $data[$i]->sg_qty = $tmp->sg_qty;
+            $data[$i]->i_name = $tmp->i_name;
+          } else {
+            $tmp = DB::table('m_item')
+                      ->where('i_code', $data[$i]->qd_item)
+                      ->first();
+
+            $data[$i]->sg_qty = 0;
+            $data[$i]->i_name = $tmp->i_name;
+          }
+
       }
 
       for ($i=0; $i < count($data); $i++) {
           $data[$i]->deficieny = (int)$data[$i]->sum - (int)$data[$i]->sg_qty;
       }
+
 
     	return view('order/cekbarang/cekbarang', compact('data'));
     }
@@ -807,7 +877,7 @@ class OrderController extends Controller
         $index = (integer)$cari_nota[0]->id + 1;
         $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
-        $nota_po = 'PO-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+        $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
 
         // END
         $market = '';
@@ -884,6 +954,30 @@ class OrderController extends Controller
                       ->update([
                           'q_remain' => $hasil
                       ]);
+
+                      if ((int)$hasil == 0) {
+                        $id = DB::table('d_sales_invoice')->max('si_id')+1;
+                        $bulan = date('m');
+                        $tahun = date('Y');
+                        $cari_nota = DB::select("SELECT  substring(max(si_nota),4,3) as id from d_sales_invoice
+                                                        WHERE MONTH(si_date) = '$bulan'
+                                                        AND YEAR(si_date) = '$tahun'");
+                        $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+
+                        $index = (integer)$cari_nota[0]->id + 1;
+                        $index = str_pad($index, 3, '0', STR_PAD_LEFT);
+
+                        $notasi = 'SI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+
+
+                        DB::table('d_sales_invoice')
+                            ->insert([
+                              'si_id' => $id,
+                              'si_ref' => $data->q_nota,
+                              'si_nota' => $notasi,
+                              'si_date' => Carbon::now('Asia/Jakarta')
+                            ]);
+                      }
 
                       logController::inputlog('Payment Order', 'Insert', $req->po_nota);
 
@@ -996,13 +1090,13 @@ class OrderController extends Controller
         return redirect('error-404');
       }
         return DB::transaction(function() use ($req) {
-
           // PENGEMBALIAN NILAI QUOTATION
 
           $data = DB::table('d_payment_order')
                     ->join('d_quotation','q_nota','=','po_ref')
                     ->where('po_id',$req->id)
                     ->first();
+
           $hasil = $data->q_remain + $data->po_total;
 
           $update = DB::table('d_quotation')
@@ -1071,8 +1165,21 @@ class OrderController extends Controller
         });
     }
 
-    public function print_proforma_invoice()
+    public function print_proforma_invoice(Request $request)
     {
-      return view('order.proforma_invoice.print_proformainvoice');
+      $data = DB::table('d_quotation')
+                ->join('d_payment_order','po_ref','=','q_nota')
+                ->join('d_sales_order', 'so_ref', '=', 'q_nota')
+                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->where('po_id',$request->id)
+                ->first();
+
+      $data_dt = DB::table('d_quotation_dt')
+                     ->join('m_item','i_code','=','qd_item')
+                     ->join('d_unit', 'u_id', '=', 'i_unit')
+                     ->where('qd_id',$data->q_id)
+                     ->get();
+
+      return view('order.proforma_invoice.print_proformainvoice', compact('data', 'data_dt'));
     }
 }

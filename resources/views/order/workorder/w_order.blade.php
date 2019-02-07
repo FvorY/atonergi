@@ -3,7 +3,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-  	<div class="col-lg-12">	
+  	<div class="col-lg-12">
   		<nav aria-label="breadcrumb" role="navigation">
   			<ol class="breadcrumb bg-info">
   				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -16,22 +16,22 @@
         	<div class="card">
   	        <div class="card-body">
   	          <h4 class="card-title">Work Order</h4>
-  	          		
-    					<div class="row">
+
+              <div class="row">
     						<div class="col-md-6 col-sm-12 col-xs-12">
-    							<div class="alert alert-primary alert-dismissible" title="DP sudah Lunas">
+    							<div class="alert alert-primary alert-dismissible" title="Released">
     							    <button type="button" class="close" data-dismiss="alert">&times;</button>
     							    <strong>Notice!</strong> <br>
-    							    DP Paid Off
-    							    <label class="badge badge-pill badge-primary">0</label>
+    							    Released
+    							    <label class="badge badge-pill badge-primary">{{$printed}}</label>
     							</div>
     						</div>
     						<div class="col-md-6 col-sm-12 col-xs-12">
-    							<div class="alert alert-warning alert-dismissible" title="DP belum Lunas">
+    							<div class="alert alert-success alert-dismissible" title="Printed">
     							    <button type="button" class="close" data-dismiss="alert">&times;</button>
     							    <strong>Notice!</strong> <br>
-    							    DP not yet paid off
-    							    <label class="badge badge-pill badge-warning">0</label>
+    							    Printed
+    							    <label class="badge badge-pill badge-success">{{$released}}</label>
     							</div>
     						</div>
     					</div>
@@ -49,11 +49,11 @@
                     				</tr>
     							</thead>
     							<tbody>
-    				               
+
     				            </tbody>
     						</table>
     					</div>
-  	        	
+
   	      	</div>
       	</div>
   	</div>
@@ -67,6 +67,7 @@ $(document).ready(function(){
 	$('#table_quote').DataTable({
       processing: true,
       serverSide: true,
+      aaSorting: [],
       ajax: {
           url:'{{ route('datatable_wo') }}',
       },
@@ -101,7 +102,7 @@ function printing(id) {
 	iziToast.show({
         overlay: true,
         close: false,
-        timeout: 20000, 
+        timeout: 20000,
         color: 'dark',
         icon: 'fas fa-question-circle',
         title: 'Print Data!',
@@ -142,7 +143,7 @@ function printing(id) {
         ]
     });
 
-   
+
 }
 </script>
 @endsection

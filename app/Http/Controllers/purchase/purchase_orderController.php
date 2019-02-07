@@ -19,12 +19,17 @@ class purchase_orderController extends Controller
       $item = DB::table('m_item')->get();
       $ro = DB::table('d_requestorder')->join('m_vendor', 's_kode', '=', 'ro_vendor')->where('ro_status_po','=','F')->where('ro_status','=','T')->get();
 
-      $count = DB::table('d_purchaseorder')
+      $process = DB::table('d_purchaseorder')
                 ->where('po_status', 'F')
                 ->where('po_print', 'F')
                 ->count();
 
-    	return view('purchase/purchaseorder/purchaseorder',compact('vendor','item', 'ro', 'count'));
+      $printed = DB::table('d_purchaseorder')
+                    ->where('po_status', 'T')
+                    ->where('po_print', 'T')
+                    ->count();
+
+    	return view('purchase/purchaseorder/purchaseorder',compact('vendor','item', 'ro', 'process', 'printed'));
     }
     public function datatable_purchaseorder()
     {
@@ -371,6 +376,6 @@ class purchase_orderController extends Controller
                         logController::inputlog('Purchase Order', 'Update', $request->po_nopo);
 
       return response()->json(['status'=>1]);
-    }    
+    }
 
 }

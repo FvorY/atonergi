@@ -46,13 +46,13 @@ class request_orderController extends Controller
     }
     public function datatable_rencanapembelian(Request $request)
     {
-        $list = DB::select("SELECT * from d_requestorder join m_vendor on d_requestorder.ro_vendor = m_vendor.s_kode");
+        // $list = DB::select("SELECT * from d_requestorder join m_vendor on d_requestorder.ro_vendor = m_vendor.s_kode");
 
-        for ($i=0; $i < count($list); $i++) {
-          $list[$i]->ro_insert = Carbon::parse($list[$i]->ro_insert)->format('d-m-Y');
-        }
+        $list = DB::table('d_requestorder')
+                    ->join('m_vendor', 'ro_vendor', '=', 's_kode')
+                    ->select('ro_code', DB::raw('DATE_FORMAT(ro_insert, "%d-%m-%Y") as ro_insert'), 's_company', 'ro_qty', 'ro_qty_approved', 'ro_id', 'ro_status_po', 'ro_status')
+                    ->orderBy('ro_id', 'DESC');
 
-        $data = collect($list);
 
        // for ($i=0; $i <count($list) ; $i++) {
        //                  $code[$i] = $list[$i]->ro_code;
@@ -72,10 +72,10 @@ class request_orderController extends Controller
        //  }
         // return $lol;
 
-        return Datatables::of($data)
+        return Datatables::of($list)
 
-                ->addColumn('aksi', function ($data) {
-                        if ($data->ro_status_po == 'F') {
+                ->addColumn('aksi', function ($list) {
+                        if ($list->ro_status_po == 'F' && $list->ro_status == 'F') {
                             return  '<div class="btn-group">'.
                                    '<button type="button" onclick="edit(this)" data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm" title="edit">'.
                                    '<label class="fa fa-pencil"></label></button>'.
@@ -88,11 +88,11 @@ class request_orderController extends Controller
 
                 })
 
-                ->addColumn('detail', function ($data) {
+                ->addColumn('detail', function ($list) {
                     return '<button data-toggle="modal" onclick="detail(this)"  class="btn btn-outline-primary btn-sm">Detail</button>';
                 })
-                ->addColumn('status', function ($data) {
-                  if ($data->ro_status_po == 'F' && $data->ro_status == 'F') {
+                ->addColumn('status', function ($list) {
+                  if ($list->ro_status_po == 'F' && $list->ro_status == 'F') {
                     return '<label class="badge badge-warning">Need Approved</label>';
                   } else {
                     return '<label class="badge badge-primary">Approved</label>';
@@ -144,7 +144,7 @@ class request_orderController extends Controller
       if (!mMember::akses('REQUEST ORDER', 'tambah')) {
         return redirect('error-404');
       }
-      
+
              // dd($request->all());
 
              $tanggal = date("Y-m-d h:i:s");
@@ -265,7 +265,7 @@ class request_orderController extends Controller
                     ->where('ro_code', $request->id)
                     ->get();
 
-        for ($i=0; $i < count($dataheader); $i++) { 
+        for ($i=0; $i < count($dataheader); $i++) {
             $dataheader[$i]->ro_insert = Carbon::parse($dataheader[$i]->ro_insert)->format('d-m-Y');
         }
 
@@ -297,13 +297,13 @@ class request_orderController extends Controller
                     }else{
                         $kode += 1;
                     }
-    
+
                 $ro_price_header = str_replace('.','',$request->ro_total_header);
                 $ro_price_header = str_replace('Rp ','',$ro_price_header);
                 $ro_qty_header = str_replace('.','',$request->ro_qty_header);
                 $ro_qty_header = str_replace('Rp ','',$ro_qty_header);
                 $tanggal = date("Y-m-d h:i:s");
-    
+
                 $header = DB::table('d_requestorder')
                         ->insert([
                             'ro_id'    => $kode,
@@ -316,7 +316,7 @@ class request_orderController extends Controller
                             'ro_status' => $hapus_header[0]->ro_status,
                             'ro_insert' =>$tanggal,
                 ]);
-    
+
                 $kode_seq = 0;
                 for ($i=0; $i < count($request->ro_item_seq); $i++) {
                     $unit_price_seq[$i] = str_replace('.','',$request->ro_unit_price_seq[$i]);
@@ -325,13 +325,13 @@ class request_orderController extends Controller
                     $price_seq[$i] = str_replace('Rp ','',$price_seq[$i]);
                     $qty_seq[$i] = str_replace('.','',$request->ro_qty_seq[$i]);
                     $qty_seq[$i] = str_replace('Rp ','',$qty_seq[$i]);
-    
+
                     $kode_seq = $kode_seq + 1;
-    
+
                     $sequence[$i] = DB::table('d_requestorder_dt')
                         ->insert([
                             'rodt_id'     => $kode_seq,
-                            'rodt_code' => $request->ro_code_header,                            
+                            'rodt_code' => $request->ro_code_header,
                             'rodt_barang' => $request->ro_item_seq[$i],
                             'rodt_qty' => $qty_seq[$i],
                             'rodt_qty_approved' => 0,
@@ -343,7 +343,7 @@ class request_orderController extends Controller
                     ]);
                 }
                 logController::inputlog('Request Order', 'Update', $request->ro_code_header);
-    
+
             return response()->json(['status'=>1]);
     }
 

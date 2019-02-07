@@ -665,7 +665,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
         //  Group Akun End
 
 
-        // Master Data Akun 
+        // Master Data Akun
 
             Route::get('master/modul/keuangan/master/akun', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@index'
@@ -1062,7 +1062,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
                 Route::get('modul/keuangan/laporan/laba_rugi/print/excel', [
                     'uses'  => 'modul_keuangan\laporan\laba_rugi\laporan_laba_rugi_controller@excel'
                 ])->name('laporan.keuangan.laba_rugi.print.excel');
-                
+
 
             // laporan Arus Kas
                 Route::get('modul/keuangan/laporan/arus_kas', [

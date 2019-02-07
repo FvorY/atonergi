@@ -85,7 +85,7 @@
 			        	@foreach ($seq_penerimaan as $a)
 			        		<tr>
 				            <td><input type="hidden" class="form-control form-control-sm" value="{{ $a->i_price }}" name="po_harga[]">{{ $a->pbdt_id }}</td>
-				            <td><input type="hidden" class="form-control form-control-sm po_item" value="{{ $a->i_code }}" name="po_item[]">{{ $a->i_name }}</td>
+				            <td><input type="hidden" class="form-control form-control-sm po_item" value="{{ $a->i_code }}" name="po_item[]">{{$a->i_code}} - {{ $a->i_name }}</td>
 				            <td><input type="hidden" class="form-control form-control-sm po_id" value="{{ $a->pbdt_id }}" name="po_id[]">{{ $a->i_unit }}</td>
 				            <td><input type="text" class="form-control form-control-sm qty_approved right readonly" value="{{ $a->pbdt_qty_sent }}" name="qty_approved[]"></td>
 				            <td><input type="text" class="form-control form-control-sm qty_received right format_money_kosongan" value="{{ $a->pbdt_qty_received }}" onkeyup="qty_received(this);" name="qty_received[]"></td>

@@ -127,7 +127,7 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
-  var totaledit;  
+  var totaledit;
   $(document).ready(function(){
 
 
@@ -137,6 +137,7 @@
             processing: true,
             // responsive:true,
             serverSide: true,
+            aasorting: [],
             ajax: {
                 url:'{{ route('datatable_rencanapembelian') }}',
             },
@@ -172,6 +173,7 @@
             processing: true,
             // responsive:true,
             serverSide: true,
+            aasorting: [],
             ajax: {
                 url:'{{ route('datatable_historypembelian') }}',
             },
@@ -210,7 +212,7 @@
       });
 
 
-    var table           = $("#t72a").DataTable();    
+    var table           = $("#t72a").DataTable();
     var rp_qty         = $("#rp_qty");
     var rp_item          = $("#rp_item");
     var rp_kodeitem       = $("#rp_kodeitem");
@@ -620,14 +622,14 @@ function hapus(parm){
       data: {id},
       dataType: 'json',
       url: baseUrl + '/purchase/rencanapembelian/edit_rencanapembelian',
-      success : function(response){    
-        tables.clear();     
+      success : function(response){
+        tables.clear();
         $('#ro_codes').val(response.dataheader[0].ro_code);
         $('#ro_dates').val(response.dataheader[0].ro_insert);
-        
-        $('#ro_vendor_headers').val(response.dataheader[0].ro_vendor).trigger('change');    
-        $('#ro_total_headers').val('Rp. '+accounting.formatMoney(response.dataheader[0].ro_price,"",0,'.',','));     
-        totaledit = response.dataheader[0].ro_price;        
+
+        $('#ro_vendor_headers').val(response.dataheader[0].ro_vendor).trigger('change');
+        $('#ro_total_headers').val('Rp. '+accounting.formatMoney(response.dataheader[0].ro_price,"",0,'.',','));
+        totaledit = response.dataheader[0].ro_price;
         for(var i=0; i < response.dataseq.length; i++){
           if(response.dataseq[i].sg_qty == null){
             var qtygudang = 0;
@@ -643,7 +645,7 @@ function hapus(parm){
             '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ qtygudang +'">',
             '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
         ] ).draw( false );
-        }        
+        }
         var total_qty = 0;
         $('.total_qty').each(function(){
           var total = $(this).val();
@@ -655,7 +657,7 @@ function hapus(parm){
     });
   }
 
-  var tables           = $("#t72as").DataTable();    
+  var tables           = $("#t72as").DataTable();
   var rp_qtys         = $("#rp_qtys");
   var rp_items          = $("#rp_items");
   var rp_kodeitems       = $("#rp_kodeitems");
@@ -758,7 +760,7 @@ function hapus(parm){
 
   });
 
-$('#change_function').on("click", "#save_data",function(){
+function simpan(){
   $.ajax({
        type: "get",
        url: '{{ route('simpan_rencanapembelian') }}',
@@ -782,9 +784,9 @@ $('#change_function').on("click", "#save_data",function(){
        },
        async: false
      });
-})
+}
 
-$('#change_functions').on("click", "#save_datas",function(){
+function update(){
   $.ajax({
        type: "get",
        url: '{{ route('update_rencanapembelian') }}',
@@ -808,7 +810,7 @@ $('#change_functions').on("click", "#save_datas",function(){
        },
        async: false
      });
-})
+}
 
 
 </script>
