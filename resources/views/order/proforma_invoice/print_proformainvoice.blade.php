@@ -386,7 +386,7 @@ table, td, th {
 							<td class="border-none">Date</td>
 						</tr>
 						<tr>
-							<td class="border-none"><img width="100" height="50" src="{{asset('assets/checked.jpg')}}"></td>
+							<td class="border-none"><img width="100" height="50" src="{{asset('assets/approved.png')}}"></td>
 							<td class="border-none"></td>
 						</tr>
 					</tbody>

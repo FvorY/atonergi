@@ -97,14 +97,14 @@
                     @if ($so!=null)
                       <option @if ($so->so_type == 'tunai')
                         selected=""
-                      @endif value="tunai">tunai</option>
+                      @endif value="tunai">Tunai</option>
                       <option @if ($so->so_type == 'Transfer')
                         selected=""
                       @endif value="Transfer">Transfer</option>
                     @else
                       <option @if ($wo->wo_type == 'tunai')
                         selected=""
-                      @endif>tunai</option>
+                      @endif>Tunai</option>
                       <option @if ($wo->wo_type == 'Transfer')
                         selected=""
                       @endif>Transfer</option>

@@ -475,7 +475,11 @@ class OrderController extends Controller
         // return $data;
         return Datatables::of($data)
                         ->addColumn('aksi', function ($data) {
-                            return '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
+                            return 
+                            '<div class="btn-group">'.
+                              '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
+                              '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
+                            '</div>';
                         })
                         ->addColumn('none', function ($data) {
                             return '-';
@@ -801,7 +805,10 @@ class OrderController extends Controller
         return Datatables::of($data)
                         ->addColumn('aksi', function ($data) {
                           if ($data->q_remain != 0) {
-                            return '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
+                            return '<div class="btn-group">'.
+                              '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
+                            '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'
+                            '</div>';
                           }else{
                             return  '<span class="badge badge-pill badge-success">Paid Off</span>';
                           }
@@ -1172,5 +1179,8 @@ class OrderController extends Controller
                      ->get();
 
       return view('order.proforma_invoice.print_proformainvoice', compact('data', 'data_dt'));
+    }
+    public function print_tandaterimakasih(){
+      return view('order.pembayarandeposit.print_tandaterimakasih');
     }
 }
