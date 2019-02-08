@@ -787,70 +787,76 @@ class ProjectController extends Controller
                         ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
                         ->get();
 
-                    $permintaan = $barang[$i]->qd_qty;
-
-                    DB::table('i_stock_gudang')
-                        ->where('sg_id', $stock[0]->sm_id)
-                        ->where('sg_iditem', $stock[0]->sm_item)
-                        ->update([
-                            'sg_qty' => $stock[0]->sg_qty - $permintaan
+                    if (!empty($stock)) {
+                        return response()->json([
+                          'status' => 'Stpck untuk barang' . $barang[$i]->i_code . '-' . $barang[$i]->i_name . 'kurang'
                         ]);
+                    } else {
+                      $permintaan = $barang[$i]->qd_qty;
 
-                    for ($j = 0; $j < count($stock); $j++) {
-                        //Terdapat sisa permintaan
+                      DB::table('i_stock_gudang')
+                          ->where('sg_id', $stock[0]->sm_id)
+                          ->where('sg_iditem', $stock[0]->sm_item)
+                          ->update([
+                              'sg_qty' => $stock[0]->sg_qty - $permintaan
+                          ]);
 
-                        $detailid = DB::table('i_stock_mutasi')
-                            ->max('sm_iddetail');
+                      for ($j = 0; $j < count($stock); $j++) {
+                          //Terdapat sisa permintaan
 
-                        if ($permintaan > $stock[$j]->sm_sisa && $permintaan != 0) {
+                          $detailid = DB::table('i_stock_mutasi')
+                              ->max('sm_iddetail');
 
-                            DB::table('i_stock_mutasi')
-                                ->where('sm_id', '=', $stock[$j]->sm_id)
-                                ->where('sm_iddetail', '=', $stock[$j]->sm_iddetail)
-                                ->update([
-                                    'sm_use' => $stock[$j]->sm_qty
-                                ]);
+                          if ($permintaan > $stock[$j]->sm_sisa && $permintaan != 0) {
 
-                            $permintaan = $permintaan - $stock[$j]->sm_sisa;
+                              DB::table('i_stock_mutasi')
+                                  ->where('sm_id', '=', $stock[$j]->sm_id)
+                                  ->where('sm_iddetail', '=', $stock[$j]->sm_iddetail)
+                                  ->update([
+                                      'sm_use' => $stock[$j]->sm_qty
+                                  ]);
 
-                            DB::table('i_stock_mutasi')
-                                ->insert([
-                                    'sm_id' => $stock[$j]->sm_id,
-                                    'sm_iddetail' => $detailid + 1,
-                                    'sm_item' => $barang[$i]->qd_item,
-                                    'sm_qty' => $stock[$j]->sm_sisa,
-                                    'sm_use' => 0,
-                                    'sm_hpp' => $stock[$j]->sm_hpp,
-                                    'sm_deliveryorder' => $stock[$j]->sm_deliveryorder
-                                ]);
+                              $permintaan = $permintaan - $stock[$j]->sm_sisa;
 
-                        } elseif ($permintaan <= $stock[$j]->sm_sisa && $permintaan != 0) {
-                            //Langsung Eksekusi
+                              DB::table('i_stock_mutasi')
+                                  ->insert([
+                                      'sm_id' => $stock[$j]->sm_id,
+                                      'sm_iddetail' => $detailid + 1,
+                                      'sm_item' => $barang[$i]->qd_item,
+                                      'sm_qty' => $stock[$j]->sm_sisa,
+                                      'sm_use' => 0,
+                                      'sm_hpp' => $stock[$j]->sm_hpp,
+                                      'sm_deliveryorder' => $stock[$j]->sm_deliveryorder
+                                  ]);
 
-                            $detailid = DB::table('i_stock_mutasi')
-                                ->max('sm_iddetail');
+                          } elseif ($permintaan <= $stock[$j]->sm_sisa && $permintaan != 0) {
+                              //Langsung Eksekusi
 
-                            DB::table('i_stock_mutasi')
-                                ->where('sm_id', '=', $stock[$j]->sm_id)
-                                ->where('sm_iddetail', '=', $stock[$j]->sm_iddetail)
-                                ->update([
-                                    'sm_use' => $permintaan + $stock[$j]->sm_use
-                                ]);
+                              $detailid = DB::table('i_stock_mutasi')
+                                  ->max('sm_iddetail');
 
-                            DB::table('i_stock_mutasi')
-                                ->insert([
-                                    'sm_id' => $stock[$j]->sm_id,
-                                    'sm_iddetail' => $detailid + 1,
-                                    'sm_item' => $barang[$i]->qd_item,
-                                    'sm_qty' => $permintaan,
-                                    'sm_use' => 0,
-                                    'sm_hpp' => $stock[$j]->sm_hpp,
-                                    'sm_deliveryorder' => $stock[$j]->sm_deliveryorder
-                                ]);
+                              DB::table('i_stock_mutasi')
+                                  ->where('sm_id', '=', $stock[$j]->sm_id)
+                                  ->where('sm_iddetail', '=', $stock[$j]->sm_iddetail)
+                                  ->update([
+                                      'sm_use' => $permintaan + $stock[$j]->sm_use
+                                  ]);
 
-                            $permintaan = 0;
-                            $j = count($stock) + 1;
-                        }
+                              DB::table('i_stock_mutasi')
+                                  ->insert([
+                                      'sm_id' => $stock[$j]->sm_id,
+                                      'sm_iddetail' => $detailid + 1,
+                                      'sm_item' => $barang[$i]->qd_item,
+                                      'sm_qty' => $permintaan,
+                                      'sm_use' => 0,
+                                      'sm_hpp' => $stock[$j]->sm_hpp,
+                                      'sm_deliveryorder' => $stock[$j]->sm_deliveryorder
+                                  ]);
+
+                              $permintaan = 0;
+                              $j = count($stock) + 1;
+                          }
+                      }
                     }
                 }
 

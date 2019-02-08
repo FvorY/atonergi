@@ -475,11 +475,7 @@ class OrderController extends Controller
         // return $data;
         return Datatables::of($data)
                         ->addColumn('aksi', function ($data) {
-                            return 
-                            '<div class="btn-group">'.
-                              '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
-                              '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
-                            '</div>';
+                            return '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
                         })
                         ->addColumn('none', function ($data) {
                             return '-';
@@ -805,10 +801,7 @@ class OrderController extends Controller
         return Datatables::of($data)
                         ->addColumn('aksi', function ($data) {
                           if ($data->q_remain != 0) {
-                            return '<div class="btn-group">'.
-                              '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
-                            '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'
-                            '</div>';
+                            return '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
                           }else{
                             return  '<span class="badge badge-pill badge-success">Paid Off</span>';
                           }
@@ -1017,15 +1010,25 @@ class OrderController extends Controller
                       ->addColumn('aksi', function ($data) {
                           $a =  '<div class="btn-group">';
 
+                          if(Auth::user()->akses('PROFORMA INVOICE','ubah')){
+                            $b = '<button type="button" onclick="edit(\''.$data->po_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
+                          }else{
+                            $b = '';
+                          }
+
                           if (Auth::user()->akses('PROFORMA INVOICE','print')) {
                             $c = '<button type="button" onclick="printing(\''.$data->po_id.'\')" class="btn btn-warning btn-lg" title="edit">'.'<label class="fa fa-print"></label></button>';
                           } else {
                             $c = '';
                           }
 
-                          $d = '</div>';
+                          if(Auth::user()->akses('PROFORMA INVOICE','hapus')){
+                            $d = '<button type="button" onclick="hapus(\''.$data->po_id.'\')" class="btn btn-danger btn-lg" title="hapus">'.'<label class="fa fa-trash"></label></button>'.'</div>';
+                          }else{
+                            $d = '</div>';
+                          }
 
-                          return $a . $c . $d;
+                          return $a . $b .  $c . $d;
                       })
                       ->addColumn('none', function ($data) {
                           return '-';
@@ -1179,8 +1182,5 @@ class OrderController extends Controller
                      ->get();
 
       return view('order.proforma_invoice.print_proformainvoice', compact('data', 'data_dt'));
-    }
-    public function print_tandaterimakasih(){
-      return view('order.pembayarandeposit.print_tandaterimakasih');
     }
 }
