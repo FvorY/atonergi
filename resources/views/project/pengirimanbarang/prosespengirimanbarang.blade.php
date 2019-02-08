@@ -117,17 +117,17 @@
 	                  <table class="table data-table table-hover" cellspacing="0">
 	                  	<thead class="bg-gradient-info">
 	                  		<tr>
-	                  			<th>Item</th>
-	                  			<th>Qty</th>
-	                  			<th>Unit</th>
-													<th>Description</th>
-													<th>Unit Price</th>
-													<th>Line Total</th>
+	                  			<th width="30%">Item</th>
+	                  			<th width="10%">Qty</th>
+	                  			<th width="10%">Unit</th>
+								<th width="20%">Description</th>
+								<th width="15%">Unit Price</th>
+								<th width="15%">Line Total</th>
 	                  		</tr>
 	                  	</thead>
 	                  	<tbody>
-												@foreach ($barang as $key => $value)
-													<tr>
+							@foreach ($barang as $key => $value)
+								<tr>
 		                  			<td>
 		                  				<input type="text" class="form-control form-control-sm" readonly="" name="" value="{{$value->i_code}} - {{$value->i_name}}">
 		                  			</td>
@@ -147,7 +147,7 @@
 		                  				<input type="text" class="form-control form-control-sm" readonly="" name="" value="Rp. {{number_format($value->qd_total,2,',','.')}}">
 		                  			</td>
 		                  		</tr>
-												@endforeach
+							@endforeach
 	                  	</tbody>
 	                  </table>
 	              </div>
