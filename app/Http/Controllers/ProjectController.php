@@ -325,11 +325,11 @@ class ProjectController extends Controller
                   ->get();
 
         $install = DB::table('d_schedule_install')
-                  ->where('si_schedule', $request->id)
-                  ->join('m_signature', 's_id', '=', 'si_signature')
+                  ->where('si_schedule', $request->id)                  
                   ->get();
 
         $quotation = DB::table('d_schedule_checklist')
+                      ->join('m_item', 'i_code', '=', 'sc_item')
                       ->where('sc_schedule', $request->id)
                       ->get();
 
@@ -381,6 +381,7 @@ class ProjectController extends Controller
       $barang = DB::table('d_quotation_dt')
                 ->join('m_item', 'i_code', '=', 'qd_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
+                ->where('i_code', 'LIKE', '%BJS%')
                 ->where('qd_id', $data[0]->q_id)
                 ->get();
 
@@ -490,6 +491,7 @@ class ProjectController extends Controller
       $barang = DB::table('d_quotation_dt')
                 ->join('m_item', 'i_code', '=', 'qd_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
+                ->where('i_code', 'LIKE', '%BJS%')
                 ->where('qd_id', $data[0]->q_id)
                 ->get();
 
@@ -890,6 +892,7 @@ class ProjectController extends Controller
       $barang = DB::table('d_quotation_dt')
                 ->join('m_item', 'i_code', '=', 'qd_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
+                ->where('i_code', 'LIKE', '%BRG%')
                 ->where('qd_id', $data[0]->q_id)
                 ->get();
 

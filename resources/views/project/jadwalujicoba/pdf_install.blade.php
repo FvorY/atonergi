@@ -391,7 +391,7 @@
 				<table>
 					<tbody class="center">
 						<tr>
-							<td class="tw-150">End Customer</td>
+							<td class="tw-150">End Customer</td>							
 							<td class="tw-350">{{$install[0]->si_end_customer}}</td>
 						</tr>
 						<tr>
@@ -903,21 +903,21 @@
 						</tr>
 					</thead>
 					<tbody class="center">
-						@for($i=1; $i < 50; $i++)
-						<tr class="alamraya-tr-padding">
-							<td>
-								{{ $i }}
-							</td>
-							<td>Lorentz Pump Type : surface C-SF4-6</td>
-							<td>1</td>
-							<td>
-								<input type="checkbox" class="checkbox" name="" checked>
-							</td>
-							<td>
-								Tidak terpasang,kabel terlalu jauh.
-							</td>
-						</tr>
-						@endfor
+						@foreach ($quotation as $key => $value)
+							<tr class="alamraya-tr-padding">
+								<td>
+									{{ $key + 1 }}
+								</td>
+								<td>{{$value->i_name}}</td>
+								<td>{{$value->sc_quantity}}</td>
+								<td>
+									<input type="checkbox" class="checkbox" name="" @if($value->sc_check == 'Y')checked @endif>
+								</td>
+								<td>
+									{{$value->sc_remarks}}
+								</td>
+							</tr>
+						@endforeach
 					</tbody>
 				</table>
 			</div><br>

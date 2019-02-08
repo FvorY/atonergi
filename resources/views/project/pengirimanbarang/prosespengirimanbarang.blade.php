@@ -176,6 +176,7 @@
 			dataType: 'json',
 			url: baseUrl + '/project/pengirimanbarang/proses',
 			success : function(result){
+				console.log(result);
 				iziToast.success({
           icon: 'fa fa-check',
           message: 'Berhasil Diproses!',
