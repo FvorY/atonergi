@@ -126,7 +126,7 @@
 						  <tbody>
 						  	@foreach($data_dt as $i=>$val)
 						    <tr>
-						    	<td>{{ $val->i_name }}</td>
+						    	<td>{{ $val->i_code }} - {{ $val->i_name }}</td>
 						    	<td>{{ $val->qd_qty }}</td>
 						    	<td>{{ $val->i_unit }}</td>
 						    	<td>{{ $val->qd_description }}</td>

@@ -216,7 +216,7 @@
                 </tr>
               </thead>
               <tbody>
-                
+
               </tbody>
             </table>
           </div>
@@ -227,7 +227,7 @@
                   <label>Subtotal</label>
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
-                  <div class="form-group">  
+                  <div class="form-group">
                     <input style="text-align: right;" value="0" type="text" class="form-control form-control-sm" readonly="" name="subtotal" id="subtotal">
                   </div>
                 </div>
@@ -235,15 +235,15 @@
                   <label>Sales Tax</label>
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
-                  <div class="form-group">  
-                    <input style="text-align: right;" type="text" class="form-control form-control-sm" value="0" name="tax" id="tax">
+                  <div class="form-group">
+                    <input style="text-align: right;" readonly type="text" class="form-control form-control-sm" value="0" name="tax" id="tax">
                   </div>
                 </div>
                 <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                   <label>Total</label>
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
-                  <div class="form-group">  
+                  <div class="form-group">
                     <input style="text-align: right;" type="text" class="form-control form-control-sm" readonly="" name="total" value="0" id="total">
                   </div>
                   <label style="color: red" hidden  class="valid valid_10"><b>Total Tidak Boleh 0</b></label>
@@ -252,7 +252,7 @@
             </div>
           </div>
 
-         
+
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary save" type="button">Process</button>

@@ -398,6 +398,8 @@ class OrderController extends Controller
                   ->join('d_quotation_dt', 'qd_id', 'q_id')
                   ->whereMonth('q_created_at', date('m'))
                   ->whereYear('q_created_at', date('Y'))
+                  ->where('q_status', 1)
+                  ->where('qd_item', 'LIKE', '%BRG%')
                   ->select('qd_item', DB::raw('qd_item as sg_iditem'), DB::raw('qd_item as sg_qty'), DB::raw('qd_item as i_name'), DB::raw('qd_item as sum'), DB::raw('qd_item as deficieny'))
                   ->get();
 
