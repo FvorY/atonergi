@@ -3600,12 +3600,12 @@ Please see [original select2 docs](http://ivaynberg.github.com/select2) for deta
 
 You should manually download and include select2 distributive:  
 
-    <link href="select2/select2.css"/*tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/select2/select2.css*/ rel="stylesheet" type="text/css"></link>
-    <script src="select2/select2.js"/*tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/select2/select2.js*/></script>
+    <link href="select2/select2.css" tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/select2/select2.css rel="stylesheet" type="text/css"></link>
+    <script src="select2/select2.js" tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/select2/select2.js></script>
 
 To make it **bootstrap-styled** you can use css from [here](https://github.com/t0m/select2-bootstrap-css):
 
-    <link href="select2-bootstrap.css"/*tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/select2-bootstrap.css*/ rel="stylesheet" type="text/css"></link>
+    <link href="select2-bootstrap.css"/*tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/select2-bootstrap.css rel="stylesheet" type="text/css"></link>
 
 **Note:** currently `autotext` feature does not work for select2 with `ajax` remote source.
 You need initially put both `data-value` and element's text youself:
@@ -4433,7 +4433,7 @@ $(function(){
 Combodate input - dropdown date and time picker.
 Based on [combodate](http://vitalets.github.com/combodate) plugin (included). To use it you should manually include [momentjs](http://momentjs.com).
 
-    <script src="js/moment.min.js"/*tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/js/moment.min.js*/></script>
+    <script src="js/moment.min.js"/*tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/js/moment.min.js></script>
 
 Allows to input:
 
@@ -6489,8 +6489,8 @@ Bootstrap-datetimepicker.
 Based on [smalot bootstrap-datetimepicker plugin](https://github.com/smalot/bootstrap-datetimepicker).
 Before usage you should manually include dependent js and css:
 
-    <link href="css/datetimepicker.css"/*tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/css/datetimepicker.css*/ rel="stylesheet" type="text/css"></link>
-    <script src="js/bootstrap-datetimepicker.js"/*tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/js/bootstrap-datetimepicker.js*/></script>
+    <link href="css/datetimepicker.css"tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/css/datetimepicker.css rel="stylesheet" type="text/css"></link>
+    <script src="js/bootstrap-datetimepicker.js"tpa=http://www.bootstrapdash.com/demo/purple/bower_components/x-editable/dist/bootstrap3-editable/js/js/bootstrap-datetimepicker.js></script>
 
 For **i18n** you should include js file from here: https://github.com/smalot/bootstrap-datetimepicker/tree/master/js/locales
 and set `language` option.

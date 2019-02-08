@@ -169,6 +169,8 @@
     $('select').select2({
       width: '100%'
     });
+
+
     $('.data-table').dataTable({
           //"responsive":true,
 
@@ -211,6 +213,7 @@
   $('.bintang_merah').css('color','red')
   $('.red').css('color','red')
   $('.readonly').attr('readonly',true)
+
 
 
 
@@ -450,41 +453,7 @@
       @endif
 
     </script>
-    {{-- end filter menu --}}
-{{-- <script type="text/javascript">
-  function myFunction() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("filterInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("ayaysir");
-    li = ul.getElementsByTagName("li");
-    button = document.getElementById('btn-reset');
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
 
-        }
-    }
-
-
-    if (input.value != 0 ) {
-      button.classList.remove('d-none');
-    } else {
-      button.classList.add('d-none');
-    }
-
-  }
-  function btnReset() {
-    input = document.getElementById("filterInput");
-    input.value=null;
-    input.focus();
-  }
-
-
-</script> --}}
 
 <script type="text/javascript">
 

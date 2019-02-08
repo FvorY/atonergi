@@ -359,3 +359,7 @@ textarea{
     color:#fff200 !important;
 }
 /* end */
+
+.select2-container {
+    width: 100% !important;
+}
