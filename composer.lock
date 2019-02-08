@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "5aba83a349aceab23b2104447fa7588f",
@@ -1729,12 +1729,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/swamsid/keuangan.git",
-                "reference": "8f425ba6c16cabc8717b416b450ac8a1e1f22015"
+                "reference": "1af8756068bdfe7b7efcbc4c912e86201f510014"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swamsid/keuangan/zipball/8f425ba6c16cabc8717b416b450ac8a1e1f22015",
-                "reference": "8f425ba6c16cabc8717b416b450ac8a1e1f22015",
+                "url": "https://api.github.com/repos/swamsid/keuangan/zipball/1af8756068bdfe7b7efcbc4c912e86201f510014",
+                "reference": "1af8756068bdfe7b7efcbc4c912e86201f510014",
                 "shasum": ""
             },
             "type": "laravel",
@@ -1754,7 +1754,7 @@
                 }
             ],
             "description": "Package Laravel Untuk Modul Keuangan Di Aplikasi-Aplikasi Alamraya.",
-            "time": "2019-01-07T22:10:00+00:00"
+            "time": "2019-01-30T07:59:44+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
