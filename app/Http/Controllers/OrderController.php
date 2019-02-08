@@ -807,7 +807,7 @@ class OrderController extends Controller
                           if ($data->q_remain != 0) {
                             return '<div class="btn-group">'.
                               '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
-                            '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'
+                            '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
                             '</div>';
                           }else{
                             return  '<span class="badge badge-pill badge-success">Paid Off</span>';
