@@ -477,7 +477,7 @@ class OrderController extends Controller
                         ->addColumn('aksi', function ($data) {
                             return '<div class="btn-group">'.
                               '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
-                            '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'
+                            '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
                             '</div>';
                         })
                         ->addColumn('none', function ($data) {
@@ -1189,7 +1189,7 @@ class OrderController extends Controller
 
       return view('order.proforma_invoice.print_proformainvoice', compact('data', 'data_dt'));
     }
-    
+
     public function print_tandaterimakasih(){
       return view('order.pembayarandeposit.print_tandaterimakasih');
     }
