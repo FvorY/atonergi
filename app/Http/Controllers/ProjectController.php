@@ -786,8 +786,6 @@ class ProjectController extends Controller
                         ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
                         ->get();
 
-                        dd($stock);
-
                     $permintaan = $barang[$i]->qd_qty;
 
                     DB::table('i_stock_gudang')
