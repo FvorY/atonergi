@@ -325,11 +325,11 @@ class ProjectController extends Controller
                   ->get();
 
         $install = DB::table('d_schedule_install')
-                  ->where('si_schedule', $request->id)
-                  ->join('m_signature', 's_id', '=', 'si_signature')
+                  ->where('si_schedule', $request->id)                  
                   ->get();
 
         $quotation = DB::table('d_schedule_checklist')
+                      ->join('m_item', 'i_code', '=', 'sc_item')
                       ->where('sc_schedule', $request->id)
                       ->get();
 
