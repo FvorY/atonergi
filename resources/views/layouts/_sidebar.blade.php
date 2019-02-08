@@ -92,7 +92,7 @@
               <h6 class="p-3 mb-0 text-center">4 new messages</h6>
             </div>
           </li> -->
-        
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle nav-profile" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <img src="{{route('thumbnail').'/'.Auth::user()->m_image}}" alt="image">
@@ -234,7 +234,7 @@
                   {{-- @if( (int)$sidebar[9]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/transaksi/t_keuangan') ? 'active' : '' || Request::is('master/transaksi/*') ? 'active' : '' }}" href="{{url('master/transaksi/t_keuangan')}}">Master Data Transaksi<br> Keuangan</a></li>
                   @endif --}}
-                  
+
                   @if( (int)$sidebar[10]->aktif == 1)
 
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/barang/barang') ? 'active' : '' || Request::is('master/barang/*') ? 'active' : '' }}" href="{{url('master/barang/barang')}}">Master Data Barang</a></li>
@@ -339,9 +339,6 @@
                   @if( (int)$sidebar[25]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/salesorder/s_order') ? 'active' : '' || Request::is('order/salesorder/*') ? 'active' : '' }}" href="{{url('order/salesorder/s_order')}}"> Sales Order<span class="d-none">Order</span></a></li>
                   @endif
-                  @if( (int)$sidebar[26]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('order/cekbarang/cekbarang') ? 'active' : '' || Request::is('order/cekbarang/*') ? 'active' : '' }}" href="{{url('order/cekbarang/cekbarang')}}">Check Stock<span class="d-none">Order</span></a></li>
-                  @endif
                   @if( (int)$sidebar[27]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/workorder/w_order') ? 'active' : '' || Request::is('order/workorder/*') ? 'active' : '' }}" href="{{url('order/workorder/w_order')}}">Work Order<span class="d-none">Order</span></a></li>
                   @endif
@@ -350,6 +347,9 @@
                   @endif
                   @if( (int)$sidebar[29]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('order/payment_order') ? 'active' : '' || Request::is('order/payment_order/*') ? 'active' : '' }}" href="{{url('order/payment_order')}}">Payment Order<span class="d-none">Order</span></a></li>
+                  @endif
+                  @if( (int)$sidebar[26]->aktif == 1)
+                  <li class="nav-item"> <a class="nav-link {{Request::is('order/cekbarang/cekbarang') ? 'active' : '' || Request::is('order/cekbarang/*') ? 'active' : '' }}" href="{{url('order/cekbarang/cekbarang')}}">Check Stock<span class="d-none">Order</span></a></li>
                   @endif
                 </ul>
                 </div>
@@ -556,7 +556,7 @@
                   @if( (int)$sidebar[52]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/manajemen-aset/aset') ? 'active' : '' || Request::is('modul/keuangan/manajemen-aset/aset/*') ? 'active' : '' }}" href="{{url('modul/keuangan/manajemen-aset/aset')}}">Data Aset<span class="d-none">Manajemen Aset</span></a></li>
                   @endif
-{{-- 
+{{--
                   @if( (int)$sidebar[53]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('manajemenaset/history/history') ? 'active' : '' || Request::is('manajemenaset/history/*') ? 'active' : '' }}" href="{{url('manajemenaset/history/history')}}">History<span class="d-none">Manajemen Aset</span></a></li>
                   @endif

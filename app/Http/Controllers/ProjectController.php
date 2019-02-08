@@ -682,6 +682,7 @@ class ProjectController extends Controller
                 ->join('m_item', 'i_code', '=', 'qd_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
                 ->where('qd_id', $data[0]->q_id)
+                ->where('qd_item', 'LIKE', '%BRG%')
                 ->get();
 
       for ($i=0; $i < count($barang); $i++) {
@@ -774,8 +775,8 @@ class ProjectController extends Controller
                       ->join('m_item', 'i_code', '=', 'qd_item')
                       ->join('d_unit', 'u_id', '=', 'i_unit')
                       ->where('qd_id', $data[0]->q_id)
-                      ->get();                      
-
+                      ->get();
+                      
                 for ($i = 0; $i < count($barang); $i++) {
 
                     $stock = DB::table('i_stock_gudang')
@@ -788,10 +789,10 @@ class ProjectController extends Controller
                     $permintaan = $barang[$i]->qd_qty;
 
                     DB::table('i_stock_gudang')
-                        ->where('sg_id', $stock[$i]->sm_id)
-                        ->where('sg_iditem', $stock[$i]->sm_item)
+                        ->where('sg_id', $stock[0]->sm_id)
+                        ->where('sg_iditem', $stock[0]->sm_item)
                         ->update([
-                            'sg_qty' => $stock[$i]->sg_qty - $permintaan
+                            'sg_qty' => $stock[0]->sg_qty - $permintaan
                         ]);
 
                     for ($j = 0; $j < count($stock); $j++) {

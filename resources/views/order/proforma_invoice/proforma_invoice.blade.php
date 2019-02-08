@@ -55,7 +55,6 @@ $(document).ready(function(){
           url:'{{ route('datatable_proforma_invoice') }}',
       },
       columnDefs: [
-
               {
                  targets: 0 ,
                  className: 'center'
