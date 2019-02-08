@@ -381,6 +381,7 @@ class ProjectController extends Controller
       $barang = DB::table('d_quotation_dt')
                 ->join('m_item', 'i_code', '=', 'qd_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
+                ->where('i_code', 'LIKE', '%BJS%')
                 ->where('qd_id', $data[0]->q_id)
                 ->get();
 
@@ -490,6 +491,7 @@ class ProjectController extends Controller
       $barang = DB::table('d_quotation_dt')
                 ->join('m_item', 'i_code', '=', 'qd_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
+                ->where('i_code', 'LIKE', '%BJS%')
                 ->where('qd_id', $data[0]->q_id)
                 ->get();
 
@@ -890,6 +892,7 @@ class ProjectController extends Controller
       $barang = DB::table('d_quotation_dt')
                 ->join('m_item', 'i_code', '=', 'qd_item')
                 ->join('d_unit', 'u_id', '=', 'i_unit')
+                ->where('i_code', 'LIKE', '%BRG%')
                 ->where('qd_id', $data[0]->q_id)
                 ->get();
 

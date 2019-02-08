@@ -1627,7 +1627,7 @@ $(document).on('click', '.btn-scrollbottom', function(){
          for (var i = 0; i < result.length; i++) {
            html += '<tr>'+
                     '<td>'+(i + 1)+'</td>'+
-                    '<td>'+result[i].i_name+'</td>'+
+                    '<td><input type="hidden" name="sc_item[]" value="'+result[i].i_code+'">'+result[i].i_name+'</td>'+
                     '<td>'+
                     '<input type="number" name="sc_quantity[]" class="form-control" placeholder="0" min="0">'+
                     '</td>'+

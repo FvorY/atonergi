@@ -18,7 +18,7 @@
                 <div class="card-body">
                   <h4 class="card-title">Process Edit Pemasangan</h4>
 									<form id="data">
-									<input type="text" name="i_io" value="{{$install[0]->i_io}}">
+									<input type="hidden" name="i_io" value="{{$install[0]->i_io}}">
                 	<div class="row">
                 		<div class="col-md-6 col-sm-12 col-xs-12">
                 			<div class="row">
@@ -130,7 +130,7 @@
 												@foreach ($barang as $key => $value)
 													<tr>
 		                  			<td>
-		                  				<input type="text" class="form-control form-control-sm" readonly="" name="" value="{{$value->qd_item}}">
+		                  				<input type="text" class="form-control form-control-sm" readonly="" name="" value="{{$value->i_code}} - {{$value->i_name}}">
 		                  			</td>
 		                  			<td>
 		                  				<input type="text" class="form-control form-control-sm" readonly="" name="" value="{{$value->qd_qty}}">
