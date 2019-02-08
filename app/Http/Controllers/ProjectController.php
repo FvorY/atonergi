@@ -775,8 +775,9 @@ class ProjectController extends Controller
                       ->join('m_item', 'i_code', '=', 'qd_item')
                       ->join('d_unit', 'u_id', '=', 'i_unit')
                       ->where('qd_id', $data[0]->q_id)
+                      ->where('qd_item', 'LIKE', '%BRG%')
                       ->get();
-                      
+
                 for ($i = 0; $i < count($barang); $i++) {
 
                     $stock = DB::table('i_stock_gudang')
