@@ -170,7 +170,7 @@ Route::get('/order/cekbarang/detail/{id}', 'OrderController@detailbarang');
 
     // PEMBAYARAN DEPOSIT
     Route::get('/order/pembayarandeposit/pembayarandeposit', 'OrderController@pembayarandeposit');
-    Route::get('/order/pembayarandeposit/print_tandaterimakasih', 'OrderController@print_tandaterimakasih')->name('print_tandaterimakasih');
+
     Route::get('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit/{id}', 'OrderController@detail_pembayarandeposit');
     Route::get('/order/pembayarandeposit/pembayarandeposit/datatable_deposit', 'OrderController@datatable_deposit')->name('datatable_deposit');
     Route::get('/order/pembayarandeposit/save_deposit', 'OrderController@save_deposit');
@@ -200,6 +200,8 @@ Route::get('/order/cekbarang/detail/{id}', 'OrderController@detailbarang');
     Route::get('/order/proforma_invoice/save_proforma_invoice', 'OrderController@save_proforma_invoice');
     Route::get('/order/proforma_invoice/hapus_proforma_invoice', 'OrderController@hapus_proforma_invoice');
 
+    // Print Tanda Terima Kasih
+    Route::get('/order/pembayarandeposit/print_tandaterimakasih', 'OrderController@print_tandaterimakasih')->name('print_tandaterimakasih');
 
 // Pilih After Order
 Route::get('/project/dokumentasi/dokumentasi', 'ProjectController@dokumentasi');
