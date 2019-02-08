@@ -324,7 +324,7 @@ class ProjectController extends Controller
                   ->where('s_id', $request->id)
                   ->get();
 
-        $data = DB::table('d_schedule_install')
+        $install = DB::table('d_schedule_install')
                   ->where('si_schedule', $request->id)
                   ->join('m_signature', 's_id', '=', 'si_signature')
                   ->get();
@@ -333,9 +333,9 @@ class ProjectController extends Controller
                       ->where('sc_schedule', $request->id)
                       ->get();
 
-                      logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description);
+        logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description);
 
-        return view('project/jadwalujicoba/pdf_install', compact('data', 'quotation'));
+        return view('project/jadwalujicoba/pdf_install', compact('data', 'install', 'quotation'));
     }
     public function pemasangan()
     {
@@ -789,7 +789,8 @@ class ProjectController extends Controller
 
                     if (!empty($stock)) {
                         return response()->json([
-                          'status' => 'Stpck untuk barang' . $barang[$i]->i_code . '-' . $barang[$i]->i_name . 'kurang'
+                          'status' => 'stpck kurang',
+                          'ket' => 'Stock ' . $barang[$i]->i_code . '-' . $barang[$i]->i_name . 'kurang'
                         ]);
                     } else {
                       $permintaan = $barang[$i]->qd_qty;

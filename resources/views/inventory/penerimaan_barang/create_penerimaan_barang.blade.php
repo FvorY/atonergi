@@ -163,11 +163,22 @@
              url: '{{ route('save_penerimaan_barang') }}',
              data:$('#form-save').serialize(),
              success: function(data){
-
-              iziToast.success({
-                icon: 'fas fa-check-circle',
-                message: 'Data Telah Tersimpan!',
-              });
+							 if (data.status == 'berhasil') {
+								 iziToast.success({
+ 	                icon: 'fas fa-check-circle',
+ 	                message: 'Data Telah Tersimpan!',
+ 	              });
+							} else if (data.status == 'stock kurang') {
+								iziToast.warning({
+	                icon: 'fa fa-times',
+	                message: +data.ket'!',
+	              });
+							} else {
+								iziToast.warning({
+	                icon: 'fa fa-times',
+	                message: 'Terjadi Kesalahan!',
+	              });
+							}
 
 							setTimeout(function () {
 								window.location.href= '{{ route('penerimaan_barang') }}';

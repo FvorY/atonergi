@@ -392,15 +392,15 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">End Customer</td>
-							<td class="tw-350">{{$data[0]->si_end_customer}}</td>
+							<td class="tw-350">{{$install[0]->si_end_customer}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Installer</td>
-							<td class="tw-350">{{$data[0]->si_installer}}</td>
+							<td class="tw-350">{{$install[0]->si_installer}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Contact data of Installer</td>
-							<td class="tw-350">{{$data[0]->si_contact_data_of_installer}}</td>
+							<td class="tw-350">{{$install[0]->si_contact_data_of_installer}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -413,27 +413,27 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">Country</td>
-							<td class="tw-350">{{$data[0]->si_country}}</td>
+							<td class="tw-350">{{$install[0]->si_country}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Province, state</td>
-							<td class="tw-350">{{$data[0]->si_province}}</td>
+							<td class="tw-350">{{$install[0]->si_province}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">City, village, town</td>
-							<td class="tw-350">{{$data[0]->si_city}}</td>
+							<td class="tw-350">{{$install[0]->si_city}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Longitude</td>
 							<td class="tw-350">
-								<div class="float-left">{{$data[0]->si_longitude}}</div>
+								<div class="float-left">{{$install[0]->si_longitude}}</div>
 								<div class="float-right">East</div>
 							</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Latitude</td>
 							<td class="tw-350">
-								<div class="float-left">{{$data[0]->si_latitude}}</div>
+								<div class="float-left">{{$install[0]->si_latitude}}</div>
 								<div class="float-right">South</div>
 							</td>
 						</tr>
@@ -448,7 +448,7 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">Date</td>
-							<td class="tw-350">{{Carbon\Carbon::parse($data[0]->si_installation_date)->format('d F Y')}}</td>
+							<td class="tw-350">{{Carbon\Carbon::parse($install[0]->si_installation_date)->format('d F Y')}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -469,11 +469,11 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">Application</td>
-							<td class="tw-350">{{$data[0]->si_application}}</td>
+							<td class="tw-350">{{$install[0]->si_application}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Other applications</td>
-							<td class="tw-350">{{$data[0]->si_other_application}}</td>
+							<td class="tw-350">{{$install[0]->si_other_application}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -486,15 +486,15 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">How many people are supplied from the system?</td>
-							<td class="tw-350">{{$data[0]->si_many_people}}</td>
+							<td class="tw-350">{{$install[0]->si_many_people}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">How many animals are supplied by the system?</td>
-							<td class="tw-350">{{$data[0]->si_many_animal}}</td>
+							<td class="tw-350">{{$install[0]->si_many_animal}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">What type of animals does the system supply?</td>
-							<td class="tw-350">{{$data[0]->si_type_animal}}</td>
+							<td class="tw-350">{{$install[0]->si_type_animal}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -507,17 +507,17 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">What crop is grown?</td>
-							<td class="tw-350">-{{$data[0]->si_crop_grown}}</td>
+							<td class="tw-350">-{{$install[0]->si_crop_grown}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">What area of land is irrigated?</td>
 							<td class="tw-350">
-								<div class="float-left">{{$data[0]->si_area}}</div>
-								@if ($data[0]->si_satuan_area == 'M2')
+								<div class="float-left">{{$install[0]->si_area}}</div>
+								@if ($install[0]->si_satuan_area == 'M2')
 										<div class="float-right">m<sup>2</sup></div>
-								@elseif ($data[0]->si_satuan_area == 'HA')
+								@elseif ($install[0]->si_satuan_area == 'HA')
 										<div class="float-right">ha</div>
-								@elseif ($data[0]->si_satuan_area == 'AC')
+								@elseif ($install[0]->si_satuan_area == 'AC')
 										<div class="float-right">ac</div>
 								@endif
 							</td>
@@ -534,12 +534,12 @@
 						<tr>
 							<td class="tw-150">Pool size</td>
 							<td class="tw-350">
-								<div class="float-left">{{$data[0]->si_pool_size}}</div>
-								@if ($data[0]->si_satuan_pool == 'M3')
+								<div class="float-left">{{$install[0]->si_pool_size}}</div>
+								@if ($install[0]->si_satuan_pool == 'M3')
 										<div class="float-right">m<sup>3</sup></div>
-								@elseif ($data[0]->si_satuan_pool == 'LITERS')
+								@elseif ($install[0]->si_satuan_pool == 'LITERS')
 										<div class="float-right">litres</div>
-								@elseif ($data[0]->si_satuan_pool == 'USG')
+								@elseif ($install[0]->si_satuan_pool == 'USG')
 										<div class="float-right">USG</div>
 								@endif
 							</td>
