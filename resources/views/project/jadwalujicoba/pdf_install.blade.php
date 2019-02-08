@@ -391,7 +391,7 @@
 				<table>
 					<tbody class="center">
 						<tr>
-							<td class="tw-150">End Customer</td>							
+							<td class="tw-150">End Customer</td>
 							<td class="tw-350">{{$install[0]->si_end_customer}}</td>
 						</tr>
 						<tr>
@@ -546,7 +546,7 @@
 						</tr>
 						<tr>
 							<td class="tw-150">Pool type</td>
-							<td class="tw-350">Freshwater Salt</td>
+							<td class="tw-350">{{$install[0]->si_pool_type}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -563,7 +563,7 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">Additional Information</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_additional_information}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -582,9 +582,9 @@
 						</tr>
 						<tr>
 							<td class="tw-125">Pump System(s)</td>
-							<td class="tw-125">Surface</td>
-							<td class="tw-125">C-SF4-6-</td>
-							<td class="tw-125">PS2-1800 -1,8  kvA</td>
+							<td class="tw-125">{{$install[0]->si_pump_type}}</td>
+							<td class="tw-125">{{$install[0]->si_pump_pump}}</td>
+							<td class="tw-125">{{$install[0]->si_pump_controller}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -598,15 +598,15 @@
 						</tr>
 						<tr>
 							<td class="tw-150">Controller</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_controller_serial_number}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Motor / EC Drive</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_motor_serial_number}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Pump End</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_pump_end_serial_number}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -620,21 +620,21 @@
 						<tr>
 							<td class="tw-150">Total dynamic head</td>
 							<td class="tw-350">
-								<div class="float-left">30</div>
-								<div class="float-right">m ft</div>
+								<div class="float-left">{{$install[0]->si_total_dynamic_head}}</div>
+								<div class="float-right">{{$install[0]->si_total_dinamyc_satuan}}</div>
 							</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Static head</td>
 							<td class="tw-350">
-								<div class="float-left"> </div>
+								<div class="float-left">{{$install[0]->si_static_head}}</div>
 								<div class="float-right">m</div>
 							</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Daily flow rate</td>
 							<td class="tw-350">
-								<div class="float-left">37</div>
+								<div class="float-left">{{$install[0]->si_daily_flow_rate}}</div>
 								<div class="float-right">m<sup>3</sup></div>
 							</td>
 						</tr>
@@ -653,37 +653,37 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">Water source</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_water_source}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Pipe length</td>
 							<td class="tw-350">
-								<div class="float-left"></div>
+								<div class="float-left">{{$install[0]->si_pipe_lenght}}</div>
 								<div class="float-right">m</div>
 							</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Pipe diameter</td>
 							<td class="tw-350">
-								<div class="float-left"></div>
+								<div class="float-left">{{$install[0]->si_pipe_diameter}}</div>
 								<div class="float-right">mm</div>
 							</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Cable length</td>
 							<td class="tw-350">
-								<div class="float-left"></div>
+								<div class="float-left">{{$install[0]->si_cable_lenght}}</div>
 								<div class="float-right">m</div>
 							</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Type of water storage</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_type_of_water_storage}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Size of water storage</td>
 							<td class="tw-350">
-								<div class="float-left"></div>
+								<div class="float-left">{{$install[0]->si_size_of_water_storage}}</div>
 								<div class="float-right">m<sup>3</sup></div>
 							</td>
 						</tr>
@@ -699,15 +699,15 @@
 						<tr>
 							<td class="tw-150">Suction head</td>
 							<td class="tw-350">
-								<div class="float-left"></div>
-								<div class="float-right">m&nbsp; ft</div>
+								<div class="float-left">{{$install[0]->si_suction_head}}</div>
+								<div class="float-right">{{$install[0]->si_suction_head_satuan}}</div>
 							</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Inlet pipe size</td>
 							<td class="tw-350">
-								<div class="float-left"></div>
-								<div class="float-right">mm&nbsp; inch</div>
+								<div class="float-left">{{$install[0]->si_itlet_pipe_size_satuan}}</div>
+								<div class="float-right">{{$install[0]->si_itlet_pipe_size_satuan}}</div>
 							</td>
 						</tr>
 					</tbody>
@@ -721,19 +721,19 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">PV module manufacturer</td>
-							<td class="tw-350">Seraphim</td>
+							<td class="tw-350">{{$install[0]->si_pv_module_manufacturer}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Model</td>
-							<td class="tw-350">SRP-280-BPB</td>
+							<td class="tw-350">{{$install[0]->si_model_generator}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Type</td>
-							<td class="tw-350">Polycristallene</td>
+							<td class="tw-350">{{$install[0]->si_type_generator}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Quantity</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_quantity_generator}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -750,11 +750,11 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">Power (each)</td>
-							<td class="tw-350">280 wp</td>
+							<td class="tw-350">{{$install[0]->si_power_each}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Power (total)</td>
-							<td class="tw-350">3360 wp</td>
+							<td class="tw-350">{{$install[0]->si_power_total}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -767,15 +767,15 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">Quantity</td>
-							<td class="tw-350">-</td>
+							<td class="tw-350">{{$install[0]->si_quantity_battery}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Capacity</td>
-							<td class="tw-350">-</td>
+							<td class="tw-350">{{$install[0]->si_capacity_battery}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Voltage</td>
-							<td class="tw-350">-</td>
+							<td class="tw-350">{{$install[0]->si_voltage_battery}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -788,19 +788,19 @@
 					<tbody class="center">
 						<tr>
 							<td class="tw-150">Manufacturer</td>
-							<td class="tw-350">custom</td>
+							<td class="tw-350">{{$install[0]->si_manufaktur_system}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Type</td>
-							<td class="tw-350">-</td>
+							<td class="tw-350">{{$install[0]->si_type_system}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Model</td>
-							<td class="tw-350">For tracked enter tracking system model</td>
+							<td class="tw-350">{{$install[0]->si_model_system}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Quantity</td>
-							<td class="tw-350">1</td>
+							<td class="tw-350">{{$install[0]->si_quantity_system}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -822,7 +822,9 @@
 						<tr class="alamraya-tr-padding">
 							<td class="tw-150 text-center">
 								<!-- <input type="checkbox" class="checkbox" name="" checked> -->
-								✔
+								@if ($install[0]->si_check1 == 'Y')
+									✔
+								@endif
 							</td>
 							<td class="tw-350">
 								<p>
@@ -832,7 +834,9 @@
 						</tr>
 						<tr class="alamraya-tr-padding">
 							<td class="tw-150 text-center">
-								✔
+								@if ($install[0]->si_check2 == 'Y')
+									✔
+								@endif
 							</td>
 							<td class="tw-350">
 								<p>
@@ -842,7 +846,7 @@
 						</tr>
 						<tr>
 							<td class="tw-150">Your Name</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_your_name}}</td>
 						</tr>
 						<tr>
 							<td class="tw-150">Signature</td>
@@ -850,7 +854,7 @@
 						</tr>
 						<tr>
 							<td class="tw-150">E-mail address</td>
-							<td class="tw-350"></td>
+							<td class="tw-350">{{$install[0]->si_email_address}}</td>
 						</tr>
 					</tbody>
 				</table>

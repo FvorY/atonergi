@@ -91,7 +91,9 @@ class ProjectController extends Controller
       $data = DB::table('d_quotation')
                 ->join('d_quotation_dt', 'qd_id', '=', 'q_id')
                 ->join('m_item', 'i_code', '=', 'qd_item')
+                ->where('q_status', 1)
                 ->where('q_id', $request->quotation)
+                ->where('i_code', 'LIKE', '%BRG%')
                 ->get();
 
       return response()->json($data);
@@ -325,9 +327,10 @@ class ProjectController extends Controller
                   ->get();
 
         $install = DB::table('d_schedule_install')
-                  ->where('si_schedule', $request->id)                  
+                  ->where('si_schedule', $request->id)
+                  ->leftjoin('m_signature', 's_id', '=', 'si_signature')
                   ->get();
-
+                  
         $quotation = DB::table('d_schedule_checklist')
                       ->join('m_item', 'i_code', '=', 'sc_item')
                       ->where('sc_schedule', $request->id)
