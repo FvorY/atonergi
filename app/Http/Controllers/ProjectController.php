@@ -774,7 +774,7 @@ class ProjectController extends Controller
                       ->join('m_item', 'i_code', '=', 'qd_item')
                       ->join('d_unit', 'u_id', '=', 'i_unit')
                       ->where('qd_id', $data[0]->q_id)
-                      ->get();                      
+                      ->get();
 
                 for ($i = 0; $i < count($barang); $i++) {
 
@@ -784,6 +784,8 @@ class ProjectController extends Controller
                         ->where('sg_iditem', $barang[$i]->qd_item)
                         ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
                         ->get();
+
+                        dd($stock);
 
                     $permintaan = $barang[$i]->qd_qty;
 

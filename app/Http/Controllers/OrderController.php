@@ -1003,7 +1003,6 @@ class OrderController extends Controller
                   ->orderBy('po_id','DESC')
                   ->get();
 
-
       // return $data;
       $data = collect($data);
       // return $data;
@@ -1011,25 +1010,15 @@ class OrderController extends Controller
                       ->addColumn('aksi', function ($data) {
                           $a =  '<div class="btn-group">';
 
-                          if(Auth::user()->akses('PROFORMA INVOICE','ubah')){
-                            $b = '<button type="button" onclick="edit(\''.$data->po_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
-                          }else{
-                            $b = '';
-                          }
-
                           if (Auth::user()->akses('PROFORMA INVOICE','print')) {
                             $c = '<button type="button" onclick="printing(\''.$data->po_id.'\')" class="btn btn-warning btn-lg" title="edit">'.'<label class="fa fa-print"></label></button>';
                           } else {
                             $c = '';
                           }
 
-                          if(Auth::user()->akses('PROFORMA INVOICE','hapus')){
-                            $d = '<button type="button" onclick="hapus(\''.$data->po_id.'\')" class="btn btn-danger btn-lg" title="hapus">'.'<label class="fa fa-trash"></label></button>'.'</div>';
-                          }else{
-                            $d = '</div>';
-                          }
+                          $d = '</div>';
 
-                          return $a . $b .  $c . $d;
+                          return $a . $c . $d;
                       })
                       ->addColumn('none', function ($data) {
                           return '-';
