@@ -32,12 +32,38 @@
 	      	<div class="card">
 		        <div class="card-body">
 		          <h4 class="card-title">Quotation</h4>
-		          	<div class="row">
 
 						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
 							@if(Auth::user()->akses('QUOTATION','tambah'))
 							<button class="btn btn-info open_modal" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Quotation</button>
 							@endif
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 col-sm-12 col-xs-12">
+								<div class="alert alert-success alert-dismissible" title="Approved">
+										<button type="button" class="close" data-dismiss="alert">&times;</button>
+										<strong>Notice!</strong> <br>
+										<label class="badge badge-pill badge-success">{{$won}}</label>
+										Won
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-12 col-xs-12">
+								<div class="alert alert-primary alert-dismissible" title="Need Approved">
+										<button type="button" class="close" data-dismiss="alert">&times;</button>
+										<strong>Notice!</strong> <br>
+										<label class="badge badge-pill badge-primary">{{$printed}}</label>
+										Printed
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-12 col-xs-12">
+								<div class="alert alert-warning alert-dismissible" title="Need Approved">
+										<button type="button" class="close" data-dismiss="alert">&times;</button>
+										<strong>Notice!</strong> <br>
+										<label class="badge badge-pill badge-warning">{{$release}}</label>
+										Release
+								</div>
+							</div>
 						</div>
 
 						<div class="table-responsive">
@@ -61,7 +87,6 @@
 							</table>
 						</div>
 
-		        	</div>
 		      	</div>
 	    	</div>
 		</div>

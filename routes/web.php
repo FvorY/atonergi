@@ -628,6 +628,13 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/getlog', 'logController@getlog');
     Route::get('/clearlog', 'logController@clearlog');
 
+    //Master Print Out Term & Condition
+    Route::get('/master/printout/index', 'printoutController@index');
+    Route::get('/master/printout/datatable_print', 'printoutController@datatable_print');
+    Route::get('/master/printout/simpan', 'printoutController@simpan');
+    Route::get('/master/printout/hapus', 'printoutController@hapus');
+    Route::get('/master/printout/edit', 'printoutController@edit');
+
     // Route Keuangan Dirga
 
         Route::get('modul_keuangan/connection', function () {

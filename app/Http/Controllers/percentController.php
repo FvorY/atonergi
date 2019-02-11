@@ -124,7 +124,7 @@ class percentController extends Controller
     }
 
     public function simpan(Request $request){
-      if (!mMember::akses('MASTER PERCENT', 'aktif')) {
+      if (!mMember::akses('MASTER PERCENT', 'tambah')) {
         return redirect('error-404');
       }
       DB::beginTransaction();

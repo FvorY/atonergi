@@ -41,16 +41,21 @@
                                   <td class="d_nama">{{$value->j_nama}}</td>
                                   <td class="d_keterangan">{{$value->j_keterangan}}</td>
                                   <td>
-                                    <div class="btn-group">'.
-                                      @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'ubah'))
-                                           <button type="button" onclick="edit(this)" class="btn btn-info btn-xs" title="edit">
-                                           <label class="fa fa-pencil-alt"></label></button>
-                                      @endif
-                                      @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'hapus'))
-                                           <button type="button" onclick="hapus(this)" class="btn btn-danger btn-xs" title="hapus">
-                                           <label class="fa fa-trash"></label></button>
-                                      @endif
-                                    </div></td>
+                                    @if ($value->j_nama == 'MANAGER')
+                                      <span class="badge badge-danger">Disabled</span>
+                                    @else
+                                      <div class="btn-group">'.
+                                        @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'ubah'))
+                                             <button type="button" onclick="edit(this)" class="btn btn-info btn-xs" title="edit">
+                                             <label class="fa fa-pencil"></label></button>
+                                        @endif
+                                        @if (App\mMember::akses('SETTING LEVEL ACCOUNT', 'hapus'))
+                                             <button type="button" onclick="hapus(this)" class="btn btn-danger btn-xs" title="hapus">
+                                             <label class="fa fa-trash"></label></button>
+                                        @endif
+                                      </div>
+                                    @endif
+                                    </td>
                                 </tr>
                               @endforeach
                             </tbody>

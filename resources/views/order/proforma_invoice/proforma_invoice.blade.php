@@ -26,8 +26,9 @@
 							      <th>P.I.#</th>
 							      <th>Q.O.#</th>
 										<th>Customer</th>
-							      <th>Total</th>
-							      <th>Status</th>
+							      <th>Total Bill</th>
+										<th>DP</th>
+										<th>Remain</th>							      
 							      <th>Action</th>
 							    </tr>
 							  </thead>
@@ -82,11 +83,12 @@ $(document).ready(function(){
             ],
       columns: [
         {data: 'DT_Row_Index', name: 'DT_Row_Index'},
-        {data: 'po_nota', name: 'q_nota'},
-        {data: 'po_ref', name: 'po_ref'},
+        {data: 'pi', name: 'pi'},
+        {data: 'q_nota', name: 'q_nota'},
 				{data: 'c_name', name: 'c_name'},
-        {data: 'po_total', render: $.fn.dataTable.render.number( '.', ',', 2, '' )},
-        {data: 'status', name: 'status'},
+				{data: 'total', name: 'total'},
+        {data: 'dp', name: 'dp'},
+        {data: 'remain', name: 'remain'},
         {data: 'aksi', name: 'aksi'},
       ]
 	});

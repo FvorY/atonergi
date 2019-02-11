@@ -94,6 +94,7 @@ class mMember extends Model implements AuthenticatableContract, CanResetPassword
                 ->where('ha_menu', '=', $fitur)
                 ->where($aksi, '=', 1)
                 ->where('m_id', '=', Auth::user()->m_id)
+                ->where('ha_level', Auth::user()->m_jabatan)
                 ->get();
 
         if(count($cek) != 0)
