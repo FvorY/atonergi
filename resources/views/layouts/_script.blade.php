@@ -92,6 +92,9 @@
   {{-- ez popup script --}}
   <script src="{{asset('modul_keuangan/js/vendor/ez_popup_v_1_1/ez.popup.js')}}"></script>
 
+  {{-- core js --}}
+  <script src="{{asset('assets/js/misc.js')}}"></script>
+
   <script type="text/javascript">
     $(document).ready(function(){
       $('#trial-popup').ezPopup('show', {

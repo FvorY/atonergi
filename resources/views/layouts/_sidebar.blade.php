@@ -203,6 +203,7 @@
                     Master Data Percent
                     Master Data KPI
                     Master Data Scoreboard
+                    Master Data Ekspedisi
                   </span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -278,6 +279,10 @@
                   @if( (int)$sidebar[20]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/scoreboard/*') ? 'active' : '' }}" href="{{url('master/scoreboard/index')}}">Master Scoreboard</a></li>
                   @endif
+
+                  <li class="nav-item">
+                    <a href="{{route('ekspedisi')}}" class="nav-link {{Request::is('master/ekspedisi/*') ? 'active' : ''}}">Master Data Ekspedisi</a>
+                  </li>
                 </ul>
                 </div>
             </li>
@@ -365,6 +370,7 @@
                   Pengiriman Barang
                   Pemasangan
                   Schedule Uji Coba dan Dokumetasi
+                  Surat Jalan
                   {{-- Technician Fee --}}
                 </span>
                 <i class="menu-arrow"></i>
@@ -383,9 +389,12 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/pemasangan/*') ? 'active' : ''
                   }}" href="{{url('project/pemasangan/pemasangan')}}">Pemasangan<span class="d-none">After Order</span></a></li>
                   @endif
+                  <li class="nav-item"> <a class="nav-link {{Request::is('project/suratjalan/*') ? 'active' : ''}}" href="{{route('suratjalan')}}">Surat Jalan<span class="d-none">After Order</span></a>
+                    
+                  </li>
                   @if( (int)$sidebar[32]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/jadwalujicoba/*') ? 'active' : ''
-                 }}" href="{{url('project/jadwalujicoba/jadwalujicoba')}}">Schedule Uji Coba dan <br>Dokumentasi<span class="d-none">After Order Schedule Uji Coba dan Dokumentasi</span></a></li>
+                 }}" href="{{url('project/jadwalujicoba/jadwalujicoba')}}">Schedule Uji Coba dan <br>Dokumentasi<span class="d-none">After Order</span></a></li>
                   @endif
                   {{-- @if( (int)$sidebar[33]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/technicianfee/*') ? 'active' : ''
@@ -435,7 +444,7 @@
                   Pengeluaran Barang
                   Stock Opname
                   Stock Gudang
-                  Stock Barang
+                  Input Stock Barang
                 </span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-arrow-up-bold-box-outline menu-icon"></i>
@@ -466,11 +475,13 @@
               <a class="nav-link" data-toggle="collapse" href="#hrd" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">HRD</span>
                 <span class="d-none">
-                  Rekruitment
+                  Absensi
                   Payroll
-                  Freelance
+                  Scoreboard Pegawai
                   Kesejahteraan
-                  KPI
+                  Data KPI
+                  Manajemen Scoreboard
+                  Scoreboard & KPI
                 </span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-account-multiple menu-icon"></i>
