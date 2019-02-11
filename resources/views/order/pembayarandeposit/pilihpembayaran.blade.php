@@ -20,44 +20,12 @@
               </select>
             </div>
           </div>
-
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <label>Paid to Account</label>
-          </div>
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="form-group">
-              @if ($so != null or $wo != null)
-                <select class="form-control form-control-sm" name="akun">
-                    @if ($so!=null)
-                      <option @if ($so->so_type == 'Cash')
-                        selected=""
-                      @endif value="Cash">Cash</option>
-                      <option @if ($so->so_type == 'Deposit')
-                        selected=""
-                      @endif value="Deposit">Deposit</option>
-                    @else
-                      <option @if ($wo->wo_type == 'Cash')
-                        selected=""
-                      @endif>Cash</option>
-                      <option @if ($wo->wo_type == 'Deposit')
-                        selected=""
-                      @endif>Deposit</option>
-                    @endif
-                </select>
-              @else
-                <select class="form-control form-control-sm" name="akun">
-                  <option>Cash</option>
-                  <option>Deposit</option>
-                </select>
-              @endif
-            </div>
-          </div>
-
+        
           @if ($percent == null)
 
           @else
             <div class="col-md-3 col-sm-6 col-xs-12">
-              <label>Percent</label>
+              <label>Minimal DP</label>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="form-group">
@@ -117,23 +85,6 @@
                 </select>
               @endif
 
-            </div>
-          </div>
-
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <label>Reference</label>
-          </div>
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="form-group">
-              @if ($so != null or $wo != null)
-                @if ($so!=null)
-                  <input value="{{ $so->so_note2 }}" type="text" class="form-control-sm form-control" name="nota2">
-                @else
-                  <input value="{{ $wo->wo_note2 }}" type="text" class="form-control-sm form-control" name="nota2">
-                @endif
-              @else
-                <input type="text" class="form-control-sm form-control" name="nota2">
-              @endif
             </div>
           </div>
 

@@ -146,28 +146,62 @@ $('#edit_data').on('click', function(){
     });
 });
 
-function hapus(id){
-  $.ajax({
-    type: 'get',
-    data: {id:id},
-    dataType: 'json',
-    url: baseUrl + '/master/jabatan/hapus',
-    success : function(response){
-      if (response.status == 'berhasil') {
-        iziToast.success({
-          icon: 'fas fa-check-circle',
-          message: 'Data Telah Tersimpan!',
-        });
-        table.ajax.reload();
-      } else {
-        iziToast.warning({
-          icon: 'fa fa-times',
-          message: 'Terjadi Kesalahan!',
-        });
-      }
-    }
-  });
-}
+function hapus(id) {
+    iziToast.show({
+            overlay: true,
+            close: false,
+            timeout: 20000,
+            color: 'dark',
+            icon: 'fas fa-question-circle',
+            title: 'Important!',
+            message: 'Apakah Anda Yakin ?!',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+              [
+                '<button style="background-color:red;">Delete</button>',
+                function (instance, toast) {
+
+                  $.ajax({
+                    type: 'get',
+                    data: {id:id},
+                    dataType: 'json',
+                    url: baseUrl + '/master/jabatan/hapus',
+                    success : function(response){
+                      if (response.status == 'berhasil') {
+                        iziToast.success({
+                          icon: 'fas fa-check-circle',
+                          message: 'Data Telah Tersimpan!',
+                        });
+                        table.ajax.reload();
+                      } else {
+                        iziToast.warning({
+                          icon: 'fa fa-times',
+                          message: 'Terjadi Kesalahan!',
+                        });
+                      }
+                      },
+                      error:function(){
+                        iziToast.warning({
+                          icon: 'fa fa-times',
+                          message: 'Terjadi Kesalahan!',
+                        });
+                      }
+                  });
+
+                }
+              ],
+              [
+                '<button style="background-color:#44d7c9;">Cancel</button>',
+                function (instance, toast) {
+                  instance.hide({
+                    transitionOut: 'fadeOutUp'
+                  }, toast);
+                }
+              ]
+            ]
+          });
+  }
 
 </script>
 @endsection

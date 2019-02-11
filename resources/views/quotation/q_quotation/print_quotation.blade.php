@@ -451,10 +451,7 @@ table, td, th {
 				</tbody>
 			</table>
 			<div class="text-left" style="margin-top: -50px;font-size: 12px;width: 40%;">
-				1. Please send two copies of your invoice.<br>
-				2. Enter this order in accordance with prices, terms, delivery method, and specification listed above.<br>
-				3. Please notify US immediately if you are unable to ship as specified.<br>
-				4. Send all correspondence to:
+				<?php echo $term->p_print; ?>
 			</div>
 			<div class="float-left text-left" style="font-size: 12px;margin-top: 5px;width: 25%;">
 				PT. REJA ATON ENERGI<br>
@@ -487,7 +484,7 @@ table, td, th {
 				<table class="border-none" width="100%">
 					<thead>
 						<tr>
-							<th class="border-none"></th>
+							<th class="border-none"><img width="100" height="80" src="{{asset('assets/approved.png')}}"></th>
 							<th class="border-none">{{date('d M Y')}}</th>
 						</tr>
 					</thead>
@@ -497,7 +494,7 @@ table, td, th {
 							<td class="border-none">Date</td>
 						</tr>
 						<tr>
-							<td class="border-none"><img width="100" height="80" src="{{asset('assets/approved.png')}}"></td>
+							<td class="border-none"></td>
 							<td class="border-none"></td>
 						</tr>
 					</tbody>

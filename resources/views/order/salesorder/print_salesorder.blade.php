@@ -6,7 +6,7 @@
 *{
 	font-family: arial;
 	text-align: center;
-	
+
 }
 table {
     border-collapse: collapse;
@@ -59,14 +59,14 @@ table, td, th {
 	content: "";
 	background-image: url("{{asset('assets/atonergi.png')}}");
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
 	position: absolute;
 	z-index: -1;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	opacity: 0.1; 
+	opacity: 0.1;
 	width: 90vw;
 }
 .top
@@ -162,10 +162,10 @@ table, td, th {
 		<button onclick="javascript:window.print();">Print</button>
 	</div>
 <div class="div-width-background">
-	
+
 </div>
 <div class="div-width">
-	
+
 	<div class="header-left">
 		<img width="300px" height="80px" src="{{asset('assets/atonergi.png')}}">
 	</div>
@@ -188,9 +188,9 @@ table, td, th {
 				</tr>
 			</tbody>
 		</table>
-		
+
 	</div>
-	
+
 	<div class="header-right" style="margin-top: 15px;">
 		<table class="border-none" width="100%">
 			<tbody>
@@ -225,7 +225,7 @@ table, td, th {
 		</table>
 	</div>
 	<table class="border-none" width="100%" style="margin-bottom: 15px;">
-		
+
 		<thead>
 			<tr class="border-none">
 				<th class="border-none" width="30%">Shipping Method</th>
@@ -241,7 +241,7 @@ table, td, th {
 				<td>{{ carbon\carbon::parse($head->q_delivery)->format('d-m-Y') }}</td>
 			</tr>
 		</tbody>
-		
+
 	</table>
 
 	<table class="border-none" id="print_salesorder" width="100%">
@@ -298,18 +298,18 @@ table, td, th {
 				<td></td>
 				<td>
 					<div class="float-left">
-						
+
 					</div>
 					<div class="float-right">
-						
+
 					</div>
 				</td>
 				<td>
 					<div class="float-left">
-						
+
 					</div>
 					<div class="float-right">
-						
+
 					</div>
 				</td>
 			</tr>
@@ -329,10 +329,7 @@ table, td, th {
 		</tbody>
 	</table>
 	<div class="text-left" style="font-size: 12px;width: 40%;">
-		1. Please send two copies of your invoice.<br>
-		2. Enter this order in accordance with prices, terms, delivery method, and specification listed above.<br>
-		3. Please notify US immediately if you are unable to ship as specified.<br>
-		4. Send all correspondence to:
+		<?php echo $term->p_print; ?>
 	</div>
 	<div class="float-left text-left" style="font-size: 12px;margin-top: 5px;width: 25%;">
 		PT. REJA ATON ENERGI<br>
@@ -365,7 +362,7 @@ table, td, th {
 		<table class="border-none" width="100%">
 			<thead>
 				<tr>
-					<th class="border-none"></th>
+					<th class="border-none"><img width="100" height="50" src="{{asset('assets/checked.jpg')}}"></th>
 					<th class="border-none">{{date('d M Y')}}</th>
 				</tr>
 			</thead>
@@ -375,7 +372,7 @@ table, td, th {
 					<td class="border-none">Date</td>
 				</tr>
 				<tr>
-					<td class="border-none"><img width="100" height="50" src="{{asset('assets/checked.jpg')}}"></td>
+					<td class="border-none"></td>
 					<td class="border-none"></td>
 				</tr>
 			</tbody>

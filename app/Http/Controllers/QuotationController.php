@@ -51,8 +51,19 @@ class QuotationController extends Controller
     $status = DB::table('d_status')
                 ->get();
 
+    $won = DB::table('d_quotation')
+                ->where('q_status', 1)
+                ->count();
 
- 		return view('quotation/q_quotation/q_quotation',compact('customer','marketing','now','item','status','type_product','kota','currency'));
+    $release = DB::table('d_quotation')
+                ->where('q_status', 2)
+                ->count();
+
+    $printed = DB::table('d_quotation')
+                ->where('q_status', 3)
+                ->count();
+
+ 		return view('quotation/q_quotation/q_quotation',compact('won', 'release', 'printed', 'customer','marketing','now','item','status','type_product','kota','currency'));
  	}
 
  	public function quote_datatable()
@@ -409,11 +420,15 @@ class QuotationController extends Controller
         $count_jasa = count($jasa) + count($array);
       }
 
+      $term = DB::table('m_printoutterm')
+                  ->where("p_menu", 'QO')
+                  ->first();
+
       logController::inputlog('Quotation', 'Print', $head->q_nota);
      // $pdf = PDF::loadView('quotation/q_quotation/print_quotation', $data);
      // return $pdf->stream("test.pdf");
       $print = 'global';
-      return view('quotation/q_quotation/print_quotation',compact('head','data','array','print','jasa','count_data','count_jasa'));
+      return view('quotation/q_quotation/print_quotation',compact('term','head','data','array','print','jasa','count_data','count_jasa'));
     }else{
       return redirect()->back();
     }
@@ -474,13 +489,17 @@ class QuotationController extends Controller
         }
       }
 
+      $term = DB::table('m_printoutterm')
+                  ->where("p_menu", 'QO')
+                  ->first();
+
       // return $item;
 
      // $pdf = PDF::loadView('quotation/q_quotation/print_quotation', $data);
      // return $pdf->stream("test.pdf");
       $print = 'detail';
       logController::inputlog('Quotation', 'Print', $head->q_nota);
-      return view('quotation/q_quotation/print_quotation',compact('head','data','array','print','jasa'));
+      return view('quotation/q_quotation/print_quotation',compact('term','head','data','array','print','jasa'));
     }else{
       return redirect()->back();
     }

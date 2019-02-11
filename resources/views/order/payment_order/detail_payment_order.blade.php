@@ -218,17 +218,19 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
-	$('#amount').maskMoney({
-	   precision : 0,
-	    thousands:'.',
-	    allowZero:true,
-	    defaultZero: true
-	});
+$('#amount').maskMoney(
+	{
+		precision : 3,
+		thousands:'.',
+	}
+);
 
 	$('.pilihpembayaran').click(function(){
 		var dp = $('#payment').val();
 		dp     = dp.replace(/[^0-9\-]+/g,"")/100;
-		$('#amount').maskMoney('mask',dp);
+		var remain = $('#remain').val();
+		remain     = remain.replace(/[^0-9\-]+/g,"");
+		$('#amount').val(accounting.formatMoney(remain, "", 0, ".",','));
 	});
 
 

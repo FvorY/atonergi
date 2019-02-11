@@ -219,8 +219,13 @@ class OrderController extends Controller
                 array_push($array, 'a');
               }
             }
+
+            $term = DB::table('m_printoutterm')
+                      ->where('p_menu', 'SO')
+                      ->first();
+
             logController::inputlog('Sales Order', 'Print', $head->so_nota);
-            return view('order/salesorder/print_salesorder',compact('array','data','head'));
+            return view('order/salesorder/print_salesorder',compact('term', 'array','data','head'));
         }
     }
     // ===================END SALES ORDER=========================
@@ -380,8 +385,13 @@ class OrderController extends Controller
                 array_push($array, 'a');
               }
             }
+
+            $term = DB::table('m_printoutterm')
+                      ->where('p_menu', 'WO')
+                      ->first();
+
             logController::inputlog('Work Order', 'Print', $head->wo_ref);
-            return view('order/workorder/print_workorder',compact('array','data','head'));
+            return view('order/workorder/print_workorder',compact('term', 'array','data','head'));
         }
     }
     public function checklist()
@@ -475,9 +485,19 @@ class OrderController extends Controller
         // return $data;
         return Datatables::of($data)
                         ->addColumn('aksi', function ($data) {
+                            $approved = '';
+                            if (Auth::user()->m_jabatan == 'MANAGER') {
+                              if ($data->q_approved == 'N') {
+                                $approved = '<button type="button" class="btn btn-success" title="Approve" onclick="approve('.$data->q_id.')"><em class="fa fa-check"> </em></button>';
+                              } else {
+                                $approved = '';
+                              }
+                            }
+                            
                             return '<div class="btn-group">'.
-                            '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
+                            '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
                               '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
+                              $approved.
                             '</div>';
                         })
                         ->addColumn('none', function ($data) {
@@ -1003,59 +1023,63 @@ class OrderController extends Controller
 
     public function datatable_proforma_invoice()
     {
-      $data = DB::table('d_payment_order')
-                  ->leftjoin('d_quotation', 'po_ref', '=', 'q_nota')
-                  ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
-                  ->orderBy('po_id','DESC')
-                  ->get();
 
-      // return $data;
-      $data = collect($data);
-      // return $data;
-      return Datatables::of($data)
-                      ->addColumn('aksi', function ($data) {
-                          $a =  '<div class="btn-group">';
+    $data = DB::table('d_quotation')
+              ->join('m_customer', 'c_code', '=', 'q_customer')
+              ->where('q_status',1)
+              ->orderBy('q_id','DESC')
+              ->get();
 
-                          if(Auth::user()->akses('PROFORMA INVOICE','ubah')){
-                            $b = '<button type="button" onclick="edit(\''.$data->po_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
-                          }else{
-                            $b = '';
-                          }
+              for ($i=0; $i < count($data); $i++) {
+                DB::table('d_quotation')
+                      ->where('q_id', $data[$i]->q_id)
+                      ->update([
+                        'q_remain' => $data[$i]->q_total - $data[$i]->q_dp
+                      ]);
+              }
 
-                          if (Auth::user()->akses('PROFORMA INVOICE','print')) {
-                            $c = '<button type="button" onclick="printing(\''.$data->po_id.'\')" class="btn btn-warning btn-lg" title="edit">'.'<label class="fa fa-print"></label></button>';
-                          } else {
-                            $c = '';
-                          }
+                      // return $data;
+                      $data = collect($data);
+                      // return $data;
+                      return Datatables::of($data)
+                                      ->addColumn('aksi', function ($data) {
+                                          $a =  '<div class="btn-group">';
 
-                          if(Auth::user()->akses('PROFORMA INVOICE','hapus')){
-                            $d = '<button type="button" onclick="hapus(\''.$data->po_id.'\')" class="btn btn-danger btn-lg" title="hapus">'.'<label class="fa fa-trash"></label></button>'.'</div>';
-                          }else{
-                            $d = '</div>';
-                          }
+                                          if (Auth::user()->akses('PROFORMA INVOICE','print')) {
+                                            $c = '<button type="button" onclick="printing(\''.$data->q_id.'\')" class="btn btn-warning btn-lg" title="edit">'.'<label class="fa fa-print"></label></button>';
+                                          } else {
+                                            $c = '';
+                                          }
 
-                          return $a . $b .  $c . $d;
-                      })
-                      ->addColumn('none', function ($data) {
-                          return '-';
-                      })
-                      ->addColumn('detail', function ($data) {
-                          return '<button class="btn btn-outline-primary btn-sm" onclick="detail(this)" data-toggle="modal" data-target="#detail_item">Detail</button>';
-                      })
-                      ->addColumn('histori', function ($data) {
-                          return '<button onclick="histori(this)" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#detail_status">Detail</button>';
-                      })
-                      ->addColumn('status', function ($data) {
+                                            $d = '</div>';
 
-                          if ($data->po_status != 'Released') {
-                              return  '<span class="badge badge-pill badge-success">Printed</span>';
-                          }else{
-                              return  '<span class="badge badge-pill badge-primary">Released</span>';
-                          }
-                      })
-                      ->rawColumns(['aksi', 'detail','histori','total','status_so','dp','remain','status'])
-                      ->addIndexColumn()
-                      ->make(true);
+                                          return $a .  $c . $d;
+                                      })
+                                      ->addColumn('pi', function ($data) {
+                                          $tmp = str_replace('QO', 'PI', $data->q_nota);
+                                          return $tmp;
+                                      })
+                                      ->addColumn('none', function ($data) {
+                                          return '-';
+                                      })
+                                      ->addColumn('detail', function ($data) {
+                                          return '<button class="btn btn-outline-primary btn-sm" onclick="detail(this)" data-toggle="modal" data-target="#detail_item">Detail</button>';
+                                      })
+                                      ->addColumn('histori', function ($data) {
+                                          return '<button onclick="histori(this)" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#detail_status">Detail</button>';
+                                      })
+                                      ->addColumn('total', function ($data) {
+                                          return 'Rp. '. number_format($data->q_total, 2, ",", ".");
+                                      })
+                                      ->addColumn('dp', function ($data) {
+                                          return 'Rp. '. number_format($data->q_dp, 2, ",", ".");
+                                      })
+                                      ->addColumn('remain', function ($data) {
+                                          return 'Rp. '. number_format(($data->q_total - $data->q_dp), 2, ",", ".");
+                                      })
+                                      ->rawColumns(['aksi', 'pi', 'detail','histori','total','dp','remain'])
+                                      ->addIndexColumn()
+                                      ->make(true);
     }
 
     public function detail_proforma_invoice($id)
@@ -1174,11 +1198,13 @@ class OrderController extends Controller
 
     public function print_proforma_invoice(Request $request)
     {
+      if (!mMember::akses('PROFORMA INVOICE', 'print')) {
+        return redirect('error-404');
+      }
       $data = DB::table('d_quotation')
-                ->join('d_payment_order','po_ref','=','q_nota')
                 ->join('d_sales_order', 'so_ref', '=', 'q_nota')
                 ->join('m_customer', 'c_code', '=', 'q_customer')
-                ->where('po_id',$request->id)
+                ->where('q_id',$request->id)
                 ->first();
 
       $data_dt = DB::table('d_quotation_dt')
@@ -1187,7 +1213,9 @@ class OrderController extends Controller
                      ->where('qd_id',$data->q_id)
                      ->get();
 
-      return view('order.proforma_invoice.print_proformainvoice', compact('data', 'data_dt'));
+      $term = DB::table('m_printoutterm')->where('p_menu', 'PI')->first();
+
+      return view('order.proforma_invoice.print_proformainvoice', compact('data', 'data_dt', 'term'));
     }
 
     public function print_tandaterimakasih(){
