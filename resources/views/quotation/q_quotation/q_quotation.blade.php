@@ -186,9 +186,30 @@ function qty(p) {
 	var unit_price  = $(par).find('.unit_price').val();
 	unit_price 	    = unit_price.replace(/[^0-9\-]+/g,"")*1;
 	var qty 	    = $(par).find('.jumlah').val();
+	var tmpitem = $(par).find('.tmpitem').val();
+
+	var total_price = unit_price * qty;
+
+	if (tmpitem == 'BRG') {
+
+		var beforetax = total_price / 1.1;
+
+		var tax = parseInt(total_price) - parseInt(beforetax);
+
+	} else {
+		var tmp = data.data.i_sell_price * q_qty.val();
+
+		var beforetax = total_price / 2.5;
+
+		var tax = parseInt(total_price) - parseInt(beforetax);
+	}
+
+	$(par).find('.tax').val(parseInt(tax));
+	$(par).find('.beforetax').val(parseInt(beforetax));
 
     $(par).find('.line_total').val(accounting.formatMoney(unit_price * qty, "", 0, ".",','));
     hitung_dpp();
+		synctax();
 }
 
 function unit_price(p){
@@ -196,9 +217,30 @@ function unit_price(p){
   var qty  = $(par).find('.jumlah').val();
   var unit_price       = $(par).find('.unit_price').val();
   unit_price      = unit_price.replace(/[^0-9\-]+/g,"")*1;
+	var tmpitem = $(par).find('.tmpitem').val();
+
+	var total_price = unit_price * qty;
+
+	if (tmpitem == 'BRG') {
+
+		var beforetax = total_price / 1.1;
+
+		var tax = parseInt(total_price) - parseInt(beforetax);
+
+	} else {
+		var tmp = data.data.i_sell_price * q_qty.val();
+
+		var beforetax = total_price / 2.5;
+
+		var tax = parseInt(total_price) - parseInt(beforetax);
+	}
+
+	$(par).find('.tax').val(parseInt(tax));
+	$(par).find('.beforetax').val(parseInt(beforetax));
 
     $(par).find('.line_total').val(accounting.formatMoney(unit_price * qty, "", 0, ".",','));
     hitung_dpp();
+		synctax();
 }
 
 function edit_item(p) {
@@ -260,6 +302,7 @@ $(document).on('blur','.unit_price',function(){
 
 	@endif
 	hitung_dpp();
+	synctax();
 })
 
 var q_qty         = $("#q_qty");
@@ -290,8 +333,24 @@ q_qty.keypress(function(e) {
       		var temp1 = '<option value="'+data.item[i].i_code+'">'+data.item[i].i_code+' - '+data.item[i].i_name+'</option>';
       		temp += temp1;
       	}
-      	var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
 
+				if (data.data.i_active == 'BRG') {
+					var tmp = data.data.i_sell_price * q_qty.val();
+
+					var beforetax = tmp / 1.1;
+
+					var tax = parseInt(tmp) - parseInt(beforetax);
+
+				} else {
+					var tmp = data.data.i_sell_price * q_qty.val();
+
+					var beforetax = tmp / 2.5;
+
+					var tax = parseInt(tmp) - parseInt(beforetax);
+				}
+
+
+      	var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
          m_table.row.add( [
             dropdown,
             '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ q_qty.val() +'">',
@@ -299,7 +358,7 @@ q_qty.keypress(function(e) {
             '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
             '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
 
-            '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
+            '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+data.data.i_active+'">'+
             '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
 
             '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
@@ -314,6 +373,7 @@ q_qty.keypress(function(e) {
         q_qty.val('');
         $('.item').val('0');
   		$('.item').select2();
+			synctax();
 
   		$('.jumlah').keyup(function(){
 			var qty = $(this).val();
@@ -719,6 +779,23 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 	      }
 	    });
 	})
+
+	function synctax(){
+		var values = [];
+		var selectedVal;
+		$(".tax").each(function(i, sel){
+				selectedVal = $(sel).val();
+				selectedVal = selectedVal.replace(/[^0-9\-]+/g,"");
+				values.push(selectedVal);
+		});
+
+		var total = values.reduce(getSum);
+		$('input[name=totaltax]').val(total);
+	}
+
+	function getSum(total, num) {
+	return parseInt(total) + parseInt(num);
+	}
 
 </script>
 @endsection

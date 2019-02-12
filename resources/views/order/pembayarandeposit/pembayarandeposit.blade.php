@@ -120,5 +120,57 @@ $(document).ready(function(){
 
 	});
 })
+
+function approve(id) {
+  iziToast.show({
+          overlay: true,
+          close: false,
+          timeout: 20000,
+          color: 'dark',
+          icon: 'fas fa-question-circle',
+          title: 'Approve data!',
+          message: 'Apakah Anda Yakin ?!',
+          position: 'center',
+          progressBarColor: 'rgb(0, 255, 184)',
+          buttons: [
+            [
+              '<button style="background-color:#32CD32;">Save</button>',
+              function (instance, toast) {;
+
+            $.ajax({
+            type: 'get',
+            url:baseUrl + '/order/pembayarandeposit/approve_deposit',
+            data: {id},
+            dataType:'json',
+            success:function(data){
+              if (data.status == 1) {
+                location.href = "{{ url('/order/pembayarandeposit/pembayarandeposit') }}";
+              }else{
+                iziToast.warning({
+                    icon: 'fa fa-info',
+                    message: 'Data Sudah Ada!',
+                });
+              }
+
+            },error:function(){
+              iziToast.warning({
+                  icon: 'fa fa-info',
+                  message: 'Terjadi Kesalahan!',
+              });
+            }
+          });
+              }
+            ],
+            [
+              '<button style="background-color:#44d7c9;">Cancel</button>',
+              function (instance, toast) {
+                instance.hide({
+                  transitionOut: 'fadeOutUp'
+                }, toast);
+              }
+            ]
+          ]
+      });
+}
 </script>
 @endsection
