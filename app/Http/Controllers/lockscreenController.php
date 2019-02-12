@@ -20,8 +20,10 @@ class lockscreenController extends Controller
       return view('error-404');
     }
 
-    public function lockscreen(){
-      return view('lock-screen');
+    public function lockscreen(Request $request){
+      $url = decrypt($request->url);
+
+      return view('lock-screen', compact('url'));
     }
 
     public function unlock(Request $request){
@@ -51,7 +53,7 @@ class lockscreenController extends Controller
                             ->first();
 
             if ($user_pass != null) {
-              return Redirect('/home');
+              return Redirect($request->url);
             }else{
               Session::flash('password','Password Yang Anda Masukan Salah!');
               return back()->with('password');

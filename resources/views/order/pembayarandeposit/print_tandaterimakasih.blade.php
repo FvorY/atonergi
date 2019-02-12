@@ -471,6 +471,10 @@ table.border-none > tbody > tr > td{
 							<td>
 								<div class="dotted w-100">{{$terbilang}}</div>
 							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td> <br> </td>
 						</tr>
 							<tr>
 							<td colspan="3">
@@ -530,6 +534,6 @@ table.border-none > tbody > tr > td{
 	</div>
 </body>
 <script type="text/javascript">
-	// window.print();
+	window.print();
 </script>
 </html>

@@ -41,7 +41,7 @@
   <!-- End Inputmask js -->
   <!-- injectjs -->
 
-  <script src="{{asset('assets/js/off-canvas.js')}}"></script>  
+  <script src="{{asset('assets/js/off-canvas.js')}}"></script>
   <script src="{{asset('assets/js/accounting.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.maskMoney.js')}}"></script>
 
@@ -114,7 +114,7 @@
       })
     })
   </script>
-  
+
   <script type="text/javascript">
     $('.input-daterange').datepicker({
         format:'dd-mm-yyyy'
@@ -490,4 +490,10 @@
       $('#theme-settings').removeClass('open');
     })
   });
+
+  var timeout;
+  document.onmousemove = function(){
+    clearTimeout(timeout);
+    timeout = setTimeout(function(){ window.location.href = "{{url('/lockscreen')}}?url={{encrypt(url()->full())}}" }, 60000);
+  }
 </script>

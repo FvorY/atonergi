@@ -99,7 +99,7 @@
               <span class="d-none d-lg-inline">{{Auth::user()->m_name}}</span>
             </a>
             <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="{{url('/lockscreen')}}">
+              <a class="dropdown-item" href="{{url('/lockscreen')}}?url={{encrypt(url()->full())}}">
                 <i class="mdi mdi-lock mr-2 text-success"></i>
                 Lock Screen
               </a>
@@ -396,7 +396,7 @@
                   }}" href="{{url('project/pemasangan/pemasangan')}}">Pemasangan<span class="d-none">After Order</span></a></li>
                   @endif
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/suratjalan/*') ? 'active' : ''}}" href="{{route('suratjalan')}}">Surat Jalan<span class="d-none">After Order</span></a>
-                    
+
                   </li>
                   @if( (int)$sidebar[32]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/jadwalujicoba/*') ? 'active' : ''

@@ -28,6 +28,7 @@
               <p class="user-name text-white mb-5 pb-3">{{Auth::user()->m_name}}</p>
               <form action="{{url('/lockscreen/unlock')}}" method="POST">
                 {{ csrf_field() }}
+                <input type="hidden" name="url" value="{{$url}}">
                 <div class="form-group">
                   <input type="password" class="form-control" name="password" placeholder="Password">
                 </div>

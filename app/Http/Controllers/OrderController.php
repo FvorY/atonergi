@@ -1367,32 +1367,32 @@ class OrderController extends Controller
       $terbilang3 = '';
       $terbilang4 = '';
       $terbilang5 = '';
-      if (strlen($terbilang) > 87) {
-        $terbilang1 = substr($terbilang, 87);
-        $terbilang = substr($terbilang, 0, 87);
+      if (strlen($terbilang) > 75) {
+        $terbilang1 = substr($terbilang, 75);
+        $terbilang = substr($terbilang, 0, 75);
       }
 
       if ($terbilang1 != "") {
-        if (strlen($terbilang1) > 73) {
-          $terbilang2 = substr($terbilang1, 73);
+        if (strlen($terbilang1) > 86) {
+          $terbilang2 = substr($terbilang1, 86);
         }
       }
 
       if ($terbilang2 != "") {
-        if (strlen($terbilang2) > 73) {
-          $terbilang3 = substr($terbilang2, 73);
+        if (strlen($terbilang2) > 86) {
+          $terbilang3 = substr($terbilang2, 86);
         }
       }
 
       if ($terbilang3 != "") {
-        if (strlen($terbilang3) > 73) {
-          $terbilang4 = substr($terbilan3, 73);
+        if (strlen($terbilang3) > 86) {
+          $terbilang4 = substr($terbilan3, 86);
         }
       }
 
       if ($terbilang4 != "") {
-        if (strlen($terbilang4) > 73) {
-          $terbilang5 = substr($terbilan4, 73);
+        if (strlen($terbilang4) > 86) {
+          $terbilang5 = substr($terbilan4, 86);
         }
       }
 
