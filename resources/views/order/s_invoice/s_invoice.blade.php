@@ -69,7 +69,8 @@
 				          						<td>
 				          							<div class="btn-group btn-group-xs">
 				          								<a href="{{url('order/s_invoice/detail_s_invoice')}}?id={{$value->si_id}}" class="btn btn-info">Detail</a>
-					          							<a href="{{url('order/s_invoice/print_salesinvoice')}}?id={{$value->q_id}}" target="_blank" class="btn btn-primary" title="Print"><i class="fa fa-print"></i></a>
+					          							<a href="{{url('order/s_invoice/print_salesinvoice')}}?id={{$value->q_id}}&status=no" title="Print Without Tax" target="_blank" class="btn btn-primary" title="Print"><i class="fa fa-print"></i></a>
+																	<a href="{{url('order/s_invoice/print_salesinvoice')}}?id={{$value->q_id}}&status=yes" title="Print With Tax" target="_blank" class="btn btn-success" title="Print"><i class="fa fa-print"></i></a>
 					          						</div>
 				          						</td>
 				          					</tr>

@@ -258,6 +258,10 @@ table, td, th {
 						<th class="border-none" width="10%">Unit</th>
 						<th class="border-none">Description</th>
 						<th class="border-none">Unit Price</th>
+						@if ($status == 'yes')
+							<th class="border-none">Before Tax</th>
+							<th class="border-none">Tax</th>
+						@endif
 						<th class="border-none" width="30%">Line Total</th>
 					</tr>
 				</thead>
@@ -277,6 +281,24 @@ table, td, th {
 									{{number_format($value->qd_price,2,',','.')}}
 								</div>
 							</td>
+							@if ($status == 'yes')
+								<td>
+									<div class="float-left">
+										Rp.
+									</div>
+									<div class="float-right">
+										{{number_format($value->qd_beforetax,2,',','.')}}
+									</div>
+								</td>
+								<td>
+									<div class="float-left">
+										Rp.
+									</div>
+									<div class="float-right">
+										{{number_format($value->qd_tax,2,',','.')}}
+									</div>
+								</td>
+							@endif
 							<td>
 								<div class="float-left">
 									Rp.
@@ -289,7 +311,7 @@ table, td, th {
 					@endforeach
 
 					<tr class="none-background-color">
-						<td class="border-none" colspan="5"></td>
+						<td class="border-none" @if($status == 'yes') colspan="7" @else colspan="5" @endif></td>
 						<td class="border-none text-right">Subtotal</td>
 						<td>
 							<div class="float-left">
@@ -301,7 +323,7 @@ table, td, th {
 						</td>
 					</tr>
 					<tr class="none-background-color">
-						<td class="border-none" colspan="5"></td>
+						<td class="border-none" @if($status == 'yes') colspan="7" @else colspan="5" @endif></td>
 						<td class="border-none text-right">Down Payment</td>
 						<td>
 							<div class="float-left">
@@ -313,7 +335,7 @@ table, td, th {
 						</td>
 					</tr>
 					<tr class="none-background-color tebal">
-						<td class="border-none" colspan="5"></td>
+						<td class="border-none" @if($status == 'yes') colspan="7" @else colspan="5" @endif></td>
 						<td class="border-none text-right">Paid</td>
 						<td>
 							<div class="float-left">
@@ -325,7 +347,7 @@ table, td, th {
 						</td>
 					</tr>
 					<tr class="none-background-color tebal">
-						<td class="border-none" colspan="5"></td>
+						<td class="border-none" @if($status == 'yes') colspan="7" @else colspan="5" @endif></td>
 						<td class="border-none text-right">Amount Due</td>
 						<td>
 							<div class="float-left">

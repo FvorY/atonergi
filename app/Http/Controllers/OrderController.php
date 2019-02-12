@@ -47,6 +47,7 @@ class OrderController extends Controller
       return view('order/s_invoice/detail_s_invoice', compact('data', 'datadt'));
     }
     public function print_salesinvoice(Request $request){
+      $status = $request->status;
 
       $data = DB::table('d_quotation')
                 ->join('d_sales_order', 'so_ref', '=', 'q_nota')
@@ -68,9 +69,9 @@ class OrderController extends Controller
 
          $data->q_update_by = $tmp;
        }
-       
 
-      return view('order.s_invoice.print_salesinvoice', compact('data','data_dt'));
+
+      return view('order.s_invoice.print_salesinvoice', compact('data','data_dt', 'status'));
     }
     public function datatable_so()
     {
