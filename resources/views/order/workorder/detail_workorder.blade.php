@@ -104,6 +104,8 @@
 			                  <th>Unit</th>
 			                  <th>Description</th>
 			                  <th>Unit Price</th>
+												<th>Before Tax</th>
+												<th>Tax</th>
 			                  <th>Line Total</th>
 			                </tr>
 			              </thead>
@@ -118,7 +120,9 @@
 												@else
 													<td>{{ $val->qd_description }}</td>
 												@endif
-			                	<td>{{ 'Rp. '. number_format($val->qd_price, 2, ",", ".") }}</td>
+												<td>{{ 'Rp. '. number_format($val->qd_price, 2, ",", ".") }}</td>
+												<td>{{ 'Rp. '. number_format($val->qd_beforetax, 2, ",", ".") }}</td>
+												<td>{{ 'Rp. '. number_format($val->qd_tax, 2, ",", ".") }}</td>
 			                	<td>{{ 'Rp. '. number_format($val->qd_total, 2, ",", ".") }}</td>
 			                </tr>
 			                @endforeach
