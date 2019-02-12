@@ -387,36 +387,32 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Customer / Partner</h6>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                  <h5 class="card-title">Customer / Partner <span class="text-danger">*</span></h5>
 
                           <div class="row">
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>End Customer</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <textarea rows="1" name="si_end_customer" class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Installer</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <textarea rows="1" name="si_installer" class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Contact Data of Installer</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <textarea rows="1" name="si_contact_data_of_installer" class="form-control" placeholder="type something..."></textarea>
                               </div>
@@ -424,9 +420,6 @@
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -435,18 +428,14 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Installation Location</h6>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                  <h5 class="card-title">Installation Location <span class="text-danger">*</span></h5>
 
                           <div class="row">
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Country</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <select class="form-control form-control-sm select2" name="si_country">
                                   <option disabled selected>--Pilih--</option>
@@ -455,10 +444,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Province, State</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <select class="form-control form-control-sm select2" id="city" onchange="filtercity()" name="provinces">
                                   <option disabled selected>--Pilih--</option>
@@ -470,10 +459,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>City, Village, Town</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <select class="form-control form-control-sm select2" id="showcity" name="si_city">
                                   <option disabled selected>--Pilih--</option>
@@ -481,10 +470,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Longitude</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="text" name="si_longitude" class="form-control" placeholder="type something...">
@@ -493,10 +482,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Latitude</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="text" name="si_latitude" class="form-control" placeholder="type something...">
@@ -507,9 +496,6 @@
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -518,18 +504,14 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Installation Date</h6>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                  <h5 class="card-title">Installation Date <span class="text-danger">*</span></h5>
 
                           <div class="row">
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Date</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div id="datepicker-popup" class="input-group date datepicker">
                                     <input type="text" class="form-control .datepicker" name="si_installation_date" placeholder="dd-mm-yyyy">
@@ -542,9 +524,6 @@
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -553,38 +532,37 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Application Type</h6>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                  <h5 class="card-title">Application Type <span class="text-danger">*</span></h5>
 
                           <div class="row">
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Application</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_application" class="form-control" placeholder="type something..."></textarea>
+                                <select class="form-control select2" name="si_application" id="si_application">
+                                  <option value="" selected="">--Pilih--</option>
+                                  <option value="Drinking Water">Drinking Water</option>
+                                  <option value="Irrigation">Irrigation</option>
+                                  <option value="Swimming Pool">Swimming Pool</option>
+                                  <option value="Other">Other</option>
+                                </select>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Other Applications</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="2" name="si_other_application" class="form-control" placeholder="type something..."></textarea>
+                                <textarea rows="2" name="si_other_application" id="si_other_application" class="form-control" readonly="" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -593,18 +571,14 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">For Drinking Water Projects</h6>
+                  <h5 class="card-title">For Drinking Water Projects</h5>
 
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                          <div class="row" id="div-waterproject">
 
-                          <div class="row">
-
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>How many people are supplied from the system?</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_many_people" class="form-control" min="0" placeholder="0">
@@ -613,10 +587,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>How many animals are supplied by the system?</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_many_animal" class="form-control" min="0" placeholder="0">
@@ -625,10 +599,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>What type of animals does the system supply?</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <textarea rows="1" name="si_type_animal" class="form-control" placeholder="type something..."></textarea>
                               </div>
@@ -636,9 +610,6 @@
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -647,32 +618,29 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">For Irrigation Projects</h6>
+                  <h5 class="card-title">For Irrigation Projects</h5>
 
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
 
-                          <div class="row">
+                          <div class="row" id="div-irrigationproject">
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>What crop is grown?</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <textarea rows="1" name="si_crop_grown" class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>What area of land is irrigated?</label>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <input type="number" name="si_area" class="form-control" placeholder="0" min="0">
                               </div>
                             </div>
-                            <div class="col-md-5 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-5 col-sm-4 col-xs-12">
 
                               <div class="alamraya-form-radio-group">
                                 <label>
@@ -690,9 +658,6 @@
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -701,23 +666,20 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">For Swimming Pool Filtration Projects</h6>
+                  <h5 class="card-title">For Swimming Pool Filtration Projects</h5>
 
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
 
-                          <div class="row">
+                          <div class="row" id="div-swimmingpool">
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Pool size</label>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <input type="number" name="si_pool_size" class="form-control" placeholder="0" min="0">
                               </div>
                             </div>
-                            <div class="col-md-5 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-5 col-sm-4 col-xs-12">
 
                               <div class="alamraya-form-radio-group">
                                 <label>
@@ -733,19 +695,19 @@
 
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Pool type</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <textarea rows="1" name="si_pool_type" class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Additional Information</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <textarea rows="3" name="si_additional_information" class="form-control" placeholder="type something..."></textarea>
                               </div>
@@ -753,9 +715,6 @@
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -764,74 +723,132 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Pump System</h6>
+                  <h5 class="card-title">Pump System <span class="text-danger">*</span></h5>
 
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
 
                           <div class="row">
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Pump System(s) Type</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_pump_type" class="form-control" placeholder="type something..."></textarea>
+                                {{-- <textarea rows="1" name="si_pump_type" class="form-control" placeholder="type something..."></textarea> --}}
+                                <select class="form-control select2" name="si_pump_type" id="si_pump_type">
+                                  <option value="" selected="" disabled="">--Pilih--</option>
+                                  <option value="Surface">Surface</option>
+                                  <option value="Submersible">Submersible</option>
+                                </select>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Pump System(s) Pump</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_pump_pump" class="form-control" placeholder="type something..."></textarea>
+                                {{-- <textarea rows="1" name="si_pump_pump" class="form-control" placeholder="type something..."></textarea> --}}
+                                <select class="form-control select2" name="si_pump_pump">
+                                  <option value="" selected="" disabled="">--Pilih--</option>
+                                </select>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Pump System(s) Controller</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_pump_controller" class="form-control" placeholder="type something..."></textarea>
+                                {{-- <textarea rows="1" name="si_pump_controller" class="form-control" placeholder="type something..."></textarea> --}}
+                                <select class="form-control select2" name="si_pump_controller">
+                                  <option value="" selected="" disabled="">--Pilih--</option>
+                                </select>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Controller Serial Number</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
-                              <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_controller_serial_number" class="form-control" placeholder="type something..."></textarea>
+                            <div class="col-md-9 col-sm-8 col-xs-12">
+                              <div class="row">
+
+                                <div class="col-md-3 col-sm-3 col-12">
+                                  <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control" readonly="" name="">
+                                  </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-12">
+                                  <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control" readonly="" name="">
+                                  </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-12">
+                                  <div class="form-group form-group-sm">
+                                    {{-- <textarea rows="1" name="si_controller_serial_number" class="form-control" placeholder="type something..."></textarea> --}}
+                                    <input type="text" class="form-control" name="si_controller_serial_number">
+                                  </div>
+                                </div>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Motor / EC Drive Serial Number</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
-                              <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_motor_serial_number" class="form-control" placeholder="type something..."></textarea>
+                            <div class="col-md-9 col-sm-8 col-xs-12">
+                              <div class="row">
+
+                                <div class="col-md-3 col-sm-3 col-12">
+                                  <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control" readonly="" name="">
+                                  </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-12">
+                                  <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control" readonly="" name="">
+                                  </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-12">
+                                  <div class="form-group form-group-sm">
+                                    {{-- <textarea rows="1" name="si_motor_serial_number" class="form-control" placeholder="type something..."></textarea> --}}
+                                    <input type="text" class="form-control" name="si_motor_serial_number">
+                                  </div>
+                                </div>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Pump End Serial Number</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
-                              <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_pump_end_serial_number" class="form-control" placeholder="type something..."></textarea>
+                            <div class="col-md-9 col-sm-8 col-xs-12">
+                              <div class="row">
+
+                                <div class="col-md-3 col-sm-3 col-12">
+                                  <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control" readonly="" name="">
+                                  </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-12">
+                                  <div class="form-group form-group-sm">
+                                    <input type="text" class="form-control" readonly="" name="">
+                                  </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-12">
+                                  <div class="form-group form-group-sm">
+                                    {{-- <textarea rows="1" name="si_pump_end_serial_number" class="form-control" placeholder="type something..."></textarea> --}}
+                                    <input type="text" class="form-control" name="si_pump_end_serial_number">
+                                  </div>
+                                </div>
                               </div>
                             </div>
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </div>
             </div>
@@ -839,23 +856,24 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Installation Details</h6>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                  <h5 class="card-title">Installation Details <span class="text-danger">*</span></h5>
 
                           <div class="row">
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Total dynamic head</label>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <input type="number" name="si_total_dynamic_head" class="form-control" placeholder="0" min="0">
+                                <div class="input-group">
+                                  <input type="number" name="si_total_dynamic_head" class="form-control" placeholder="0" min="0">
+                                  <span class="input-group-addon bg-primary border-primary text-white">
+                                    m
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                            <div class="col-md-5 col-sm-4 col-xs-12 alamraya-no-padding">
+                            {{-- <div class="col-md-5 col-sm-4 col-xs-12">
 
                               <div class="alamraya-form-radio-group">
                                 <label>
@@ -866,12 +884,12 @@
                                 </label>
                               </div>
 
-                            </div>
+                            </div> --}}
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Static head</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_static_head" class="form-control" min="0" placeholder="0">
@@ -880,10 +898,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Daily flow rate</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_daily_flow_rate" class="form-control" min="0" placeholder="0">
@@ -892,19 +910,19 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Water source</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <textarea rows="1" name="si_water_source" class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Pipe length</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_pipe_lenght" class="form-control" min="0" placeholder="0">
@@ -913,10 +931,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Pipe diameter</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_pipe_diameter" class="form-control" min="0" placeholder="0">
@@ -925,10 +943,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Cable length</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_cable_lenght" class="form-control" min="0" placeholder="0">
@@ -937,19 +955,24 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Type of water storage</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_type_of_water_storage" class="form-control" placeholder="type something..."></textarea>
+                                {{-- <textarea rows="1" name="si_type_of_water_storage" class="form-control" placeholder="type something..."></textarea> --}}
+                                <select class="form-control select2" name="si_type_of_water_storage" id="si_type_of_water_storage">
+                                  <option value="" selected="" disabled="">--Pilih--</option>
+                                  <option value="Surface">Surface</option>
+                                  <option value="Submercible">Submercible</option>
+                                </select>
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-3 col-sm-4 col-xs-12">
                               <label>Size of water storage</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_size_of_water_storage" class="form-control" min="0" placeholder="0">
@@ -958,59 +981,63 @@
                               </div>
                             </div>
 
-                            <div class="col-md-12 col-sm-12 col-xs-12 alamraya-no-padding">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                               <div class="pull-left">
-                                <h6 class="text-muted alamraya-small-text">Below only for surface pumps</h6>
+                                <h5 class="text-muted alamraya-small-text">Below only for surface pumps</h5>
                               </div>
+                              <hr>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
-                              <label>Suction head</label>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 alamraya-no-padding">
-                              <div class="form-group form-group-sm">
-                                <input type="number" name="si_suction_head" class="form-control" placeholder="0" min="0">
+                            <div class="col-12">
+                              <div class="row" id="div_surface">
+
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                  <label>Suction head</label>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                  <div class="form-group form-group-sm">
+                                    <input type="number" name="si_suction_head" class="form-control" placeholder="0" min="0">
+                                  </div>
+                                </div>
+                                <div class="col-md-5 col-sm-4 col-xs-12">
+
+                                  <div class="alamraya-form-radio-group">
+                                    <label>
+                                        <input type="radio" class="form_check_input" name="si_suction_head_satuan" value="M" checked/>&nbsp;m&nbsp;&nbsp;
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="form_check_input" name="si_suction_head_satuan" value="FT"/>&nbsp;ft&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+
+                                </div>
+
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                  <label>Inlet pipe size</label>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                  <div class="form-group form-group-sm">
+                                    <input type="number" name="si_itlet_pipe_size" class="form-control" placeholder="0" min="0">
+                                  </div>
+                                </div>
+                                <div class="col-md-5 col-sm-4 col-xs-12">
+
+                                  <div class="alamraya-form-radio-group">
+                                    <label>
+                                        <input type="radio" class="form_check_input" name="si_itlet_pipe_size_satuan" value="mm" checked/>&nbsp;mm&nbsp;&nbsp;
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="form_check_input" name="si_itlet_pipe_size_satuan" value="inch"/>&nbsp;inch&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+
+                                </div>
+
                               </div>
-                            </div>
-                            <div class="col-md-5 col-sm-4 col-xs-12 alamraya-no-padding">
-
-                              <div class="alamraya-form-radio-group">
-                                <label>
-                                    <input type="radio" class="form_check_input" name="si_suction_head_satuan" value="M" checked/>&nbsp;m&nbsp;&nbsp;
-                                </label>
-                                <label>
-                                    <input type="radio" class="form_check_input" name="si_suction_head_satuan" value="FT"/>&nbsp;ft&nbsp;&nbsp;
-                                </label>
-                              </div>
-
-                            </div>
-
-                            <div class="col-md-3 col-sm-4 col-xs-12 alamraya-no-padding">
-                              <label>Inlet pipe size</label>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 alamraya-no-padding">
-                              <div class="form-group form-group-sm">
-                                <input type="number" name="si_itlet_pipe_size" class="form-control" placeholder="0" min="0">
-                              </div>
-                            </div>
-                            <div class="col-md-5 col-sm-4 col-xs-12 alamraya-no-padding">
-
-                              <div class="alamraya-form-radio-group">
-                                <label>
-                                    <input type="radio" class="form_check_input" name="si_itlet_pipe_size_satuan" value="mm" checked/>&nbsp;mm&nbsp;&nbsp;
-                                </label>
-                                <label>
-                                    <input type="radio" class="form_check_input" name="si_itlet_pipe_size_satuan" value="inch"/>&nbsp;inch&nbsp;&nbsp;
-                                </label>
-                              </div>
-
                             </div>
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -1019,11 +1046,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">PV Generator</h6>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                  <h5 class="card-title">PV Generator <span class="text-danger">*</span></h5>
 
                           <div class="row">
 
@@ -1041,7 +1064,10 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_model_generator" class="form-control" placeholder="type something..."></textarea>
+                                {{-- <textarea rows="1" name="si_model_generator" class="form-control" placeholder="type something..."></textarea> --}}
+                                <select class="form-control select2" name="si_model_generator">
+                                  <option value="" selected="" disabled="">--Pilih--</option>
+                                </select>
                               </div>
                             </div>
 
@@ -1050,7 +1076,13 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_type_generator" class="form-control" placeholder="type something..."></textarea>
+                                {{-- <textarea rows="1" name="si_type_generator" class="form-control" placeholder="type something..."></textarea> --}}
+                                <select class="form-control select2" name="si_type_generator">
+                                  <option value="" selected="" disabled="">--Pilih--</option>
+                                  <option value="Polycrystallene">Polycrystallene</option>
+                                  <option value="Monocrystalline">Monocrystalline</option>
+                                  <option value="Amorphous Silicon">Amorphous Silicon</option>
+                                </select>
                               </div>
                             </div>
 
@@ -1059,7 +1091,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <input type="number" name="si_quantity_generator" class="form-control" placeholder="0" min="0">
+                                <input type="number" name="si_quantity_generator" id="si_quantity_generator" class="form-control" placeholder="0" min="0">
                               </div>
                             </div>
 
@@ -1068,7 +1100,11 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_power_each" class="form-control" placeholder="type something..."></textarea>
+                                <div class="input-group">
+                                  {{-- <textarea rows="1" name="si_power_each" class="form-control" placeholder="type something..."></textarea> --}}
+                                  <input type="number" class="form-control" min="0" name="si_power_each" id="si_power_each">
+                                  <span class="input-group-addon bg-primary border-primary text-white">Wp</span>
+                                </div>
                               </div>
                             </div>
 
@@ -1077,15 +1113,15 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_power_total" class="form-control" placeholder="type something..."></textarea>
+                                <div class="input-group">
+                                  {{-- <textarea rows="1" name="si_power_total" class="form-control" placeholder="type something..."></textarea> --}}
+                                  <input type="number" class="form-control" min="0" readonly="" name="si_power_total" id="si_power_total">
+                                  <span class="input-group-addon bg-primary border-primary text-white">Wp</span>
+                                </div>
                               </div>
                             </div>
 
                           </div>
-
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -1094,11 +1130,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Battery System</h6>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                  <h5 class="card-title">Battery System</h5>
 
                           <div class="row">
 
@@ -1116,7 +1148,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_capacity_battery" class="form-control" placeholder="type something..."></textarea>
+                                <input name="si_capacity_battery" class="form-control" placeholder="type something..." value="null">
                               </div>
                             </div>
 
@@ -1125,15 +1157,11 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_voltage_battery" class="form-control" placeholder="type something..."></textarea>
+                                <input name="si_voltage_battery" class="form-control" placeholder="type something..." value="null">
                               </div>
                             </div>
 
                           </div>
-
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -1142,7 +1170,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">CHECKLIST PARTS OF LORENTZ SYSTEM</h6>
+                  <h5 class="card-title">CHECKLIST PARTS OF LORENTZ SYSTEM</h5>
                   <div class="row">
                     <div class="col-md-12 justify-content-center">
 
@@ -1157,10 +1185,6 @@
 
                     </div>
                   </div>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
 
                           <div class="row">
 
@@ -1183,10 +1207,6 @@
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </div>
             </div>
@@ -1194,11 +1214,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">PV Mounting System</h6>
-
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
+                  <h5 class="card-title">PV Mounting System</h5>
 
                           <div class="row">
 
@@ -1207,7 +1223,8 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                 <textarea rows="1" name="si_manufaktur_system" class="form-control" placeholder="type something..."></textarea>
+                                 {{-- <textarea rows="1" name="si_manufaktur_system" class="form-control" placeholder="type something..."></textarea> --}}
+                                 <input type="text" class="form-control" name="si_manufaktur_system" value="custom" name="">
                               </div>
                             </div>
 
@@ -1216,7 +1233,12 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                 <textarea rows="1" name="si_type_system" class="form-control" placeholder="type something..."></textarea>
+                                 {{-- <textarea rows="1" name="si_type_system" class="form-control" placeholder="type something..."></textarea> --}}
+                                <select class="form-control select2" name="si_type_system">
+                                  <option value="" selected="" disabled="">--Pilih--</option>
+                                  <option value="Ground Mount">Ground Mount</option>
+                                  <option value="Roof Mount">Roof Mount</option>
+                                </select>
                               </div>
                             </div>
 
@@ -1225,7 +1247,8 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_model_system" class="form-control" placeholder="type something..."></textarea>
+                                {{-- <textarea rows="1" name="si_model_system" class="form-control" placeholder="type something..."></textarea> --}}
+                                <input type="text" class="form-control" name="si_model_system" value="custom">
                               </div>
                             </div>
 
@@ -1240,9 +1263,6 @@
 
                           </div>
 
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -1251,11 +1271,8 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="card-title">Usage of Data and Illustrations</h6>
+                  <h5 class="card-title">Usage of Data and Illustrations</h5>
 
-                  <div class=" grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
 
                           <div class="row">
 
@@ -1278,7 +1295,7 @@
                             </div>
 
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                              <label>Your Name</label>
+                              <label>Your Name <span class="text-danger">*</span></label>
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
@@ -1287,7 +1304,7 @@
                             </div>
 
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                              <label>Signature</label>
+                              <label>Signature <span class="text-danger">*</span></label>
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
@@ -1301,7 +1318,7 @@
                             </div>
 
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                              <label>Email Address</label>
+                              <label>Email Address <span class="text-danger">*</span></label>
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
@@ -1310,10 +1327,6 @@
                             </div>
 
                           </div>
-
-                      </div>
-                    </div>
-                  </div>
 
                 </div>
               </div>
@@ -1663,5 +1676,119 @@ $(document).on('click', '.btn-scrollbottom', function(){
         }
      });
    }
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    // Application
+
+    var ini, div_swimmingpool, div_irrigationproject, div_waterproject, si_other_application, si_application;
+
+        si_application            = $('#si_application');
+        div_swimmingpool          = $('#div-swimmingpool');
+        div_irrigationproject     = $('#div-irrigationproject');
+        div_waterproject          = $('#div-waterproject');
+        si_other_application      = $('#si_other_application');
+
+    // si_application.select2('destroy');
+    si_other_application.attr('readonly', true);
+    div_swimmingpool.find(':input').attr('readonly', true);
+    div_irrigationproject.find(':input').attr('readonly', true);
+    div_waterproject.find(':input').attr('readonly', true);
+
+    $('#si_application').change(function(){
+
+        ini                       = $(this);
+
+        if (ini.val() === 'Drinking Water') {
+
+          si_other_application.attr('readonly', true);
+          div_swimmingpool.find(':input').attr('readonly', true);
+          div_irrigationproject.find(':input').attr('readonly', true);
+          div_waterproject.find(':input').attr('readonly', false);
+
+        } else if(ini.val() === 'Irrigation'){
+
+          si_other_application.attr('readonly', true);
+          div_swimmingpool.find(':input').attr('readonly', true);
+          div_irrigationproject.find(':input').attr('readonly', false);
+          div_waterproject.find(':input').attr('readonly', true);
+
+        } else if(ini.val() === 'Swimming Pool'){
+
+          si_other_application.attr('readonly', true);
+          div_swimmingpool.find(':input').attr('readonly', false);
+          div_irrigationproject.find(':input').attr('readonly', true);
+          div_waterproject.find(':input').attr('readonly', true);
+
+        } else if(ini.val() === 'Other'){
+
+          si_other_application.attr('readonly', false);
+          div_swimmingpool.find(':input').attr('readonly', true);
+          div_irrigationproject.find(':input').attr('readonly', true);
+          div_waterproject.find(':input').attr('readonly', true);
+
+        } else {
+
+          si_other_application.attr('readonly', true);
+          div_swimmingpool.find(':input').attr('readonly', true);
+          div_irrigationproject.find(':input').attr('readonly', true);
+          div_waterproject.find(':input').attr('readonly', true);
+
+        }
+
+
+    });
+
+    // End Application
+
+    // Type Water Storage
+
+    var si_type_of_water_storage, div_surface;
+
+    si_type_of_water_storage    = $('#si_type_of_water_storage');
+    div_surface                 = $('#div_surface');
+
+    div_surface.find(':input').attr('readonly', true);
+
+    si_type_of_water_storage.change(function(){
+      var ini = $(this);
+
+      if(ini.val() === 'Surface'){
+        div_surface.find(':input').attr('readonly', false);
+
+      } else if(ini.val() === 'Submercible')
+        div_surface.find(':input').attr('readonly', true);
+
+
+    });
+
+    // End Type Water Storage
+
+    // PV Generator
+
+    var si_quantity_generator, si_power_each, si_power_total, total_wp;
+
+    $('#si_quantity_generator, #si_power_each').on('keyup blur focus', function(){
+
+      si_quantity_generator   = $('#si_quantity_generator').val();
+      si_power_each           = $('#si_power_each').val();
+      si_power_total           = $('#si_power_total');
+
+      if (si_quantity_generator === '') {
+        si_quantity_generator   = 1;
+      }
+      if (si_power_each === '') {
+        si_power_each   = 1;
+      }
+
+      total_wp = si_power_each * si_quantity_generator;
+
+      si_power_total.val(total_wp);
+
+    });
+
+    //End PV Generator
+  }); 
 </script>
 @endsection
