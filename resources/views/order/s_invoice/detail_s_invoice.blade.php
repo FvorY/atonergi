@@ -101,6 +101,8 @@
                   <th>Item</th>
                   <th>Unit</th>
                   <th>Price</th>
+                  <th>Line Before Tax</th>
+                  <th>Tax</th>
                   <th>Line Total</th>
                 </tr>
               </thead>
@@ -113,6 +115,14 @@
                     <td>
                       <div class="pull-left">Rp.</div>
                       <div class="pull-right">{{number_format($value->qd_price,2,',','.')}}</div>
+                    </td>
+                    <td>
+                      <div class="pull-left">Rp.</div>
+                      <div class="pull-right">{{number_format($value->qd_beforetax,2,',','.')}}</div>
+                    </td>
+                    <td>
+                      <div class="pull-left">Rp.</div>
+                      <div class="pull-right">{{number_format($value->qd_tax,2,',','.')}}</div>
                     </td>
                     <td>
                       <div class="pull-left">Rp.</div>

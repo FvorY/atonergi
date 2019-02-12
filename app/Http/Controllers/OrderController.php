@@ -10,7 +10,7 @@ use DB;
 use carbon\carbon;
 use Session;
 use App\mMember;
-use Illuminate\Support\Facades\Crypt;
+use Crypt;
 use Response;
 use PDF;
 use App\Http\Controllers\logController;
@@ -506,9 +506,16 @@ class OrderController extends Controller
                               }
                             }
 
+                            $print = '';
+                            if ((int)$data->q_dp != 0) {
+                              $print = '<a href="'.route('print_tandaterimakasih').'?id='.Crypt::encrypt($data->q_id).'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>';
+                            } else {
+                              $print = '';
+                            }
+
                             return '<div class="btn-group">'.
                               $proses.
-                              '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
+                              $print.
                               $approved.
                             '</div>';
                         })
@@ -1301,14 +1308,14 @@ class OrderController extends Controller
         return redirect('error-404');
       }
       $data = DB::table('d_quotation')
-                ->join('d_sales_order', 'so_ref', '=', 'q_nota')
-                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->leftjoin('d_sales_order', 'so_ref', '=', 'q_nota')
+                ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
                 ->where('q_id',$request->id)
-                ->first();
+                ->first();                
 
       $data_dt = DB::table('d_quotation_dt')
-                     ->join('m_item','i_code','=','qd_item')
-                     ->join('d_unit', 'u_id', '=', 'i_unit')
+                     ->leftjoin('m_item','i_code','=','qd_item')
+                     ->leftjoin('d_unit', 'u_id', '=', 'i_unit')
                      ->where('qd_id',$data->q_id)
                      ->get();
 
@@ -1317,7 +1324,77 @@ class OrderController extends Controller
       return view('order.proforma_invoice.print_proformainvoice', compact('data', 'data_dt', 'term'));
     }
 
-    public function print_tandaterimakasih(){
-      return view('order.pembayarandeposit.print_tandaterimakasih');
+    public function print_tandaterimakasih(Request $request){
+      $data = DB::table('d_quotation')
+                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->where('q_id', decrypt($request->id))
+                ->first();
+
+      $terbilang = 'Uang Senilai ' . 'Rp. '. number_format($data->q_dp, 2, ",", ".") . '('.$this->penyebut((int)$data->q_dp).' Rupiah )';
+
+      $terbilang1 = '';
+      $terbilang2 = '';
+      $terbilang3 = '';
+      $terbilang4 = '';
+      $terbilang5 = '';
+      if (strlen($terbilang) > 87) {
+        $terbilang1 = substr($terbilang, 87);
+        $terbilang = substr($terbilang, 0, 87);
+      }
+
+      if ($terbilang1 != "") {
+        if (strlen($terbilang1) > 73) {
+          $terbilang2 = substr($terbilang1, 73);
+        }
+      }
+
+      if ($terbilang2 != "") {
+        if (strlen($terbilang2) > 73) {
+          $terbilang3 = substr($terbilang2, 73);
+        }
+      }
+
+      if ($terbilang3 != "") {
+        if (strlen($terbilang3) > 73) {
+          $terbilang4 = substr($terbilan3, 73);
+        }
+      }
+
+      if ($terbilang4 != "") {
+        if (strlen($terbilang4) > 73) {
+          $terbilang5 = substr($terbilan4, 73);
+        }
+      }
+
+
+      return view('order.pembayarandeposit.print_tandaterimakasih', compact('data', 'terbilang', 'terbilang1', 'terbilang2', 'terbilang3', 'terbilang4', 'terbilang5'));
     }
+
+    public function penyebut($nilai) {
+		$nilai = abs($nilai);
+		$huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+		$temp = "";
+		if ($nilai < 12) {
+			$temp = " ". $huruf[$nilai];
+		} else if ($nilai <20) {
+			$temp = $this->penyebut($nilai - 10). " Belas";
+		} else if ($nilai < 100) {
+			$temp = $this->penyebut($nilai/10)." Puluh". $this->penyebut($nilai % 10);
+		} else if ($nilai < 200) {
+			$temp = " Seratus" . $this->penyebut($nilai - 100);
+		} else if ($nilai < 1000) {
+			$temp = $this->penyebut($nilai/100) . " Ratus" . $this->penyebut($nilai % 100);
+		} else if ($nilai < 2000) {
+			$temp = " Seribu" . $this->penyebut($nilai - 1000);
+		} else if ($nilai < 1000000) {
+			$temp = $this->penyebut($nilai/1000) . " Ribu" . $this->penyebut($nilai % 1000);
+		} else if ($nilai < 1000000000) {
+			$temp = $this->penyebut($nilai/1000000) . " Juta" . $this->penyebut($nilai % 1000000);
+		} else if ($nilai < 1000000000000) {
+			$temp = $this->penyebut($nilai/1000000000) . " Milyar" . $this->penyebut(fmod($nilai,1000000000));
+		} else if ($nilai < 1000000000000000) {
+			$temp = $this->penyebut($nilai/1000000000000) . " Trilyun" . $this->penyebut(fmod($nilai,1000000000000));
+		}
+		return $temp;
+	}
 }
