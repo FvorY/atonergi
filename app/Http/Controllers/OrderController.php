@@ -61,6 +61,15 @@ class OrderController extends Controller
                      ->where('qd_id',$request->id)
                      ->get();
 
+       for ($i=0; $i < count($data); $i++) {
+         $tmp = DB::table('d_payment_order')
+                   ->where('po_ref', $data->q_nota)
+                   ->sum('po_total');
+
+         $data->q_update_by = $tmp;
+       }
+       
+
       return view('order.s_invoice.print_salesinvoice', compact('data','data_dt'));
     }
     public function datatable_so()
@@ -1137,11 +1146,20 @@ class OrderController extends Controller
               ->get();
 
               for ($i=0; $i < count($data); $i++) {
+                $tmp = DB::table('d_payment_order')
+                          ->where('po_ref', $data[$i]->q_nota)
+                          ->sum('po_total');
+
+                $data[$i]->q_update_by = $tmp;
+
+                $bayar = $data[$i]->q_update_by + $data[$i]->q_dp;
+
                 DB::table('d_quotation')
                       ->where('q_id', $data[$i]->q_id)
                       ->update([
-                        'q_remain' => $data[$i]->q_total - $data[$i]->q_dp
+                        'q_remain' => $data[$i]->q_total - $bayar
                       ]);
+
               }
 
                       // return $data;
@@ -1180,8 +1198,11 @@ class OrderController extends Controller
                                       ->addColumn('dp', function ($data) {
                                           return 'Rp. '. number_format($data->q_dp, 2, ",", ".");
                                       })
+                                      ->addColumn('q_update_by', function ($data) {
+                                          return 'Rp. '. number_format($data->q_update_by, 2, ",", ".");
+                                      })
                                       ->addColumn('remain', function ($data) {
-                                          return 'Rp. '. number_format(($data->q_total - $data->q_dp), 2, ",", ".");
+                                          return 'Rp. '. number_format(($data->q_remain), 2, ",", ".");
                                       })
                                       ->rawColumns(['aksi', 'pi', 'detail','histori','total','dp','remain'])
                                       ->addIndexColumn()
@@ -1311,13 +1332,21 @@ class OrderController extends Controller
                 ->leftjoin('d_sales_order', 'so_ref', '=', 'q_nota')
                 ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
                 ->where('q_id',$request->id)
-                ->first();                
+                ->first();
 
       $data_dt = DB::table('d_quotation_dt')
                      ->leftjoin('m_item','i_code','=','qd_item')
                      ->leftjoin('d_unit', 'u_id', '=', 'i_unit')
                      ->where('qd_id',$data->q_id)
                      ->get();
+
+      for ($i=0; $i < count($data); $i++) {
+        $tmp = DB::table('d_payment_order')
+                  ->where('po_ref', $data->q_nota)
+                  ->sum('po_total');
+
+        $data->q_update_by = $tmp;
+      }
 
       $term = DB::table('m_printoutterm')->where('p_menu', 'PI')->first();
 

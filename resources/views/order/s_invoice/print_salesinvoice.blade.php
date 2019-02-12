@@ -296,7 +296,7 @@ table, td, th {
 								Rp.
 							</div>
 							<div class="float-right">
-								{{number_format($data->q_subtotal,2,',','.')}}
+								{{number_format($data->q_total,2,',','.')}}
 							</div>
 						</td>
 					</tr>
@@ -320,8 +320,7 @@ table, td, th {
 								Rp.
 							</div>
 							<div class="float-right">
-								<?php $paid = $data->q_subtotal - $data->q_dp ?>
-								{{number_format($paid,2,',','.')}}
+								{{number_format($data->q_update_by,2,',','.')}}
 							</div>
 						</td>
 					</tr>
@@ -376,7 +375,7 @@ table, td, th {
 				<table class="border-none" width="100%">
 					<thead>
 						<tr>
-							<th class="border-none"></th>
+							<th class="border-none"><img width="100" height="50" src="{{asset('assets/checked.jpg')}}"></th>
 							<th class="border-none">{{date('d M Y')}}</th>
 						</tr>
 					</thead>
@@ -386,7 +385,7 @@ table, td, th {
 							<td class="border-none">Date</td>
 						</tr>
 						<tr>
-							<td class="border-none"><img width="100" height="50" src="{{asset('assets/checked.jpg')}}"></td>
+							<td class="border-none"></td>
 							<td class="border-none"></td>
 						</tr>
 					</tbody>

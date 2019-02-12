@@ -330,7 +330,7 @@ class ProjectController extends Controller
                   ->where('si_schedule', $request->id)
                   ->leftjoin('m_signature', 's_id', '=', 'si_signature')
                   ->get();
-                  
+
         $quotation = DB::table('d_schedule_checklist')
                       ->join('m_item', 'i_code', '=', 'sc_item')
                       ->where('sc_schedule', $request->id)
@@ -866,6 +866,24 @@ class ProjectController extends Controller
                     }
                 }
 
+                for ($i=0; $i < count($accin); $i++) {
+
+                  $id = DB::table('d_accessories')->max('a_id')+1;
+
+                  $tmp = DB::table('d_sales_order')
+                            ->where('so_nota', $request->d_so)
+                            ->first();
+
+                  DB::table('d_accessories')
+                        ->insert([
+                          'a_id' => $id,
+                          'a_so' => $tmp->so_id,
+                          'a_acc' => $request->accin[$i],
+                          'a_description' => $request->desc[$i],
+                          'a_qty' => $request->qty[$i]
+                        ]);
+                }
+
             logController::inputlog('Pengiriman Barang', 'Insert', $finalkode);
 
         DB::commit();
@@ -1073,5 +1091,5 @@ class ProjectController extends Controller
     }
     public function print_suratjalan(){
       return view('project.suratjalan.print_suratjalan');
-    }    
+    }
 }

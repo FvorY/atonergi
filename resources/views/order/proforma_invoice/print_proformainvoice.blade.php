@@ -296,7 +296,7 @@ table, td, th {
 								Rp.
 							</div>
 							<div class="float-right">
-								{{number_format($data->q_subtotal,2,',','.')}}
+								{{number_format($data->q_total,2,',','.')}}
 							</div>
 						</td>
 					</tr>
@@ -320,7 +320,7 @@ table, td, th {
 								Rp.
 							</div>
 							<div class="float-right">
-								{{number_format($data->q_total,2,',','.')}}
+								{{number_format($data->q_update_by,2,',','.')}}
 							</div>
 						</td>
 					</tr>

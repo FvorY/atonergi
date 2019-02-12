@@ -28,7 +28,8 @@
 										<th>Customer</th>
 							      <th>Total Bill</th>
 										<th>DP</th>
-										<th>Remain</th>							      
+										<th>Paid</th>
+										<th>Remain</th>
 							      <th>Action</th>
 							    </tr>
 							  </thead>
@@ -74,7 +75,7 @@ $(document).ready(function(){
               },
               {
                  targets: 4,
-                 className: 'center'
+                 className: 'right'
               },
               {
                  targets: 5,
@@ -88,6 +89,7 @@ $(document).ready(function(){
 				{data: 'c_name', name: 'c_name'},
 				{data: 'total', name: 'total'},
         {data: 'dp', name: 'dp'},
+				{data: 'q_update_by', name: 'q_update_by'},
         {data: 'remain', name: 'remain'},
         {data: 'aksi', name: 'aksi'},
       ]

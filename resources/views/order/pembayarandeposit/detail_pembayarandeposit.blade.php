@@ -223,12 +223,7 @@
 @section('extra_script')
 <script type="text/javascript">
 
-	$('#amount').maskMoney(
-		{
-			precision : 3,
-			thousands:'.',
-		}
-	);
+$('#amount').mask('000.000.000.000.000', {reverse: true});
 
 	$('.pilihpembayaran').click(function(){
 		var dp = $('#dp').val();
