@@ -18,6 +18,7 @@
       <div class="modal-body">
         <form class="row form_quote">
           {{ csrf_field() }}
+          <input type="hidden" name="totaltax">
           <div class="col-md-8 col-sm-12 col-xs-12">
             <div class="row">
               <div class="col-md-3 col-sm-6 col-xs-12">

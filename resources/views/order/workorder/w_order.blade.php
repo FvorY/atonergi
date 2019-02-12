@@ -113,22 +113,7 @@ function printing(id) {
           [
             '<button style="background-color:#32CD32;">Print</button>',
             function (instance, toast) {
-
-            $.ajax({
-    			      url:"{{ url('/order/workorder/print_workorder') }}",
-    			      data:{id},
-    			      success:function(data){
-    			      	var table = $('#table_quote').DataTable();
-        				table.ajax.reload();
-                  		var win = window.open();
-                		win.document.write(data);
-    			      },error:function(){
-    		      		iziToast.warning({
-    			            icon: 'fa fa-info',
-    			            message: 'Terjadi Kesalahan!',
-    			        });
-    			      }
-    				});
+              window.open("{{ url('/order/workorder/print_workorder') }}"+"/"+id )
 
             }
           ],

@@ -226,7 +226,13 @@ class QuotationController extends Controller
           $data->i_sell_price = $data->i_sell_price * $currency[$i]->cu_value;
           $data->i_lower_price = $data->i_lower_price * $currency[$i]->cu_value;
         }
+        if (stristr($data->i_code, 'BRG')) {
+          $data->i_active = 'BRG';
+        } else {
+          $data->i_active = 'BJS';
+        }
       }
+
       return response()->json(['data'=>$data,'item'=>$item]);
 
   }
@@ -246,6 +252,11 @@ class QuotationController extends Controller
         if ($data->i_currency_id == $currency[$i]->cu_code) {
           $data->i_sell_price = $data->i_sell_price * $currency[$i]->cu_value;
           $data->i_lower_price = $data->i_lower_price * $currency[$i]->cu_value;
+        }
+        if (stristr($data->i_code, 'BRG')) {
+          $data->i_active = 'BRG';
+        } else {
+          $data->i_active = 'BJS';
         }
       }
 
@@ -293,7 +304,7 @@ class QuotationController extends Controller
                   'q_id'              => $id,
                   'q_nota'            => $quote,
                   'q_subtotal'        => filter_var($req->subtotal,FILTER_SANITIZE_NUMBER_INT),
-                  'q_tax'             => filter_var($req->tax,FILTER_SANITIZE_NUMBER_INT),
+                  'q_tax'             => filter_var($req->totaltax,FILTER_SANITIZE_NUMBER_INT),
                   'q_total'           => filter_var($req->total,FILTER_SANITIZE_NUMBER_INT),
                   'q_remain'          => filter_var($req->total,FILTER_SANITIZE_NUMBER_INT),
                   'q_customer'        => $req->customer,
@@ -321,7 +332,7 @@ class QuotationController extends Controller
                   'qh_dt'              => $h_id,
                   'qh_status'          => 2,
                 ]);
-
+          
       for ($i=0; $i < count($req->item_name); $i++) {
 
 
@@ -334,6 +345,8 @@ class QuotationController extends Controller
                   'qd_description' => $req->description[$i],
                   'qd_price'       => filter_var($req->unit_price[$i],FILTER_SANITIZE_NUMBER_INT),
                   'qd_total'       => filter_var($req->line_total[$i],FILTER_SANITIZE_NUMBER_INT),
+                  'qd_beforetax'   => filter_var($req->beforetax[$i],FILTER_SANITIZE_NUMBER_INT),
+                  'qd_tax'         => filter_var($req->qd_tax[$i],FILTER_SANITIZE_NUMBER_INT),
                   'qd_update_by'   => Auth::user()->m_name,
 
                 ]);
@@ -537,6 +550,15 @@ class QuotationController extends Controller
           }
         }
       }
+
+      for ($i=0; $i < count($data_dt); $i++) {
+        if (stristr($data_dt[$i]->i_code, 'BRG')) {
+          $data_dt[$i]->i_active = 'BRG';
+        } else {
+          $data_dt[$i]->i_active = 'BJS';
+        }
+      }
+
       $now = carbon::now()->format('d-m-Y');
       return view('quotation/q_quotation/edit_quotation',compact('customer','marketing','now','item','data','data_dt','id','type_product'));
     }else{

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Print Quotation</title>
+	<title>Print Pembayaran Deposit</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -194,7 +194,7 @@ h1,h2,h3,h4,h5,h6{
 }
 table {
     border-collapse: collapse;
-    
+
 }
 
 table, td, th {
@@ -216,7 +216,7 @@ table, td, th {
 	border-left: 5px solid yellow;
 }
 .header-right p{
-	
+
 	text-align: right;
 }
 .header-right h1,
@@ -379,7 +379,7 @@ table.border-none > tbody > tr > td{
 }
 .dotted {
 	position: relative;
-	height: 35px;	
+	height: 25px;
 	border-bottom: 1px #333 dotted !important;
 }
 .text-group{
@@ -446,14 +446,14 @@ table.border-none > tbody > tr > td{
 				<div class="col-6">
 					<table class="border-none float-right" width="50%">
 						<tr class="bold">
-							<td>No :</td>
-							<td>123456</td>
+							<td>No : {{$data->q_nota}}</td>
+							<td></td>
 						</tr>
 					</table>
 				</div>
 				<div class="col-12">
 					<h1 class="text-underline">TANDA TERIMA</h1>
-					
+
 				</div>
 
 				<div class="col-12">
@@ -462,44 +462,43 @@ table.border-none > tbody > tr > td{
 							<td width="25%">Telah diterima dari/oleh</td>
 							<td width="1%">:</td>
 							<td>
-								<div class="dotted w-100"></div>
+								<div class="dotted w-100"> {{$data->c_name}}</div>
 							</td>
 						</tr>
 						<tr valign="bottom">
 							<td>BERUPA</td>
 							<td>:</td>
 							<td>
-								<div class="dotted w-100"></div>
+								<div class="dotted w-100">{{$terbilang}}</div>
+							</td>
+						</tr>
+							<tr>
+							<td colspan="3">
+								<div class="dotted w-100">{{$terbilang1}}</div>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="3">
-								<div class="dotted w-100"></div>
-								
+								<div class="dotted w-100">{{$terbilang2}}</div>
+
 							</td>
 						</tr>
 						<tr>
 							<td colspan="3">
-								<div class="dotted w-100"></div>
-								
+								<div class="dotted w-100">{{$terbilang3}}</div>
+
 							</td>
 						</tr>
 						<tr>
 							<td colspan="3">
-								<div class="dotted w-100"></div>
-								
+								<div class="dotted w-100">{{$terbilang4}}</div>
+
 							</td>
 						</tr>
 						<tr>
 							<td colspan="3">
-								<div class="dotted w-100"></div>
-								
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3">
-								<div class="dotted w-100"></div>
-								
+								<div class="dotted w-100">{{$terbilang5}}</div>
+
 							</td>
 						</tr>
 					</table>
@@ -508,9 +507,10 @@ table.border-none > tbody > tr > td{
 					<table class="border-none" width="100%">
 						<tr>
 							<td align="center">
+								{{Carbon\Carbon::now('Asia/Jakarta')->format('d F Y')}}
 								<div class="text-group">
 									<span class="text-group-addon">
-										Sidoarjo, 
+										Sidoarjo,
 									</span>................................................
 								</div>
 							</td>

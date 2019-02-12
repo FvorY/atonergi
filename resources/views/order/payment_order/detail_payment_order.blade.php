@@ -111,6 +111,8 @@
 						      <th>Unit</th>
 						      <th>Description</th>
 						      <th>Unit Price</th>
+									<th>Line Before Tax</th>
+									<th>Tax</th>
 						      <th>Line Total</th>
 						    </tr>
 						  </thead>
@@ -121,7 +123,9 @@
 						    	<td>{{ $val->qd_qty }}</td>
 						    	<td>{{ $val->i_unit }}</td>
 						    	<td>{{ $val->qd_description }}</td>
-						    	<td>{{ 'Rp. '. number_format($val->qd_price, 2, ",", ".") }}</td>
+									<td>{{ 'Rp. '. number_format($val->qd_price, 2, ",", ".") }}</td>
+									<td>{{ 'Rp. '. number_format($val->qd_beforetax, 2, ",", ".") }}</td>
+									<td>{{ 'Rp. '. number_format($val->qd_tax, 2, ",", ".") }}</td>
 						    	<td>{{ 'Rp. '. number_format($val->qd_total, 2, ",", ".") }}</td>
 						    </tr>
 						    @endforeach

@@ -32,6 +32,7 @@
         <div class="row">
           <form class="row form_quote">
           {{ csrf_field() }}
+          <input type="hidden" name="totaltax" value="{{$data->q_tax}}">
           <div class="col-md-6 col-sm-8 col-xs-8">
             <div class="row">
               <div class="col-md-3 col-sm-6 col-xs-12">
@@ -248,7 +249,7 @@
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
                   <div class="form-group">
-                    <input style="text-align: right;" type="text" class="form-control form-control-sm" value="{{ number_format($data->q_tax, 0, ",", ".") }}" name="tax" id="tax">
+                    <input style="text-align: right;" type="text" readonly class="form-control form-control-sm" name="tax" id="tax">
                   </div>
                 </div>
                 <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
@@ -363,23 +364,34 @@ function hitung_dpp() {
 
 
 function qty(p) {
-  var par     = $(p).parents('tr');
-  var unit_price  = $(par).find('.unit_price').val();
-  unit_price      = unit_price.replace(/[^0-9\-]+/g,"")*1;
-  var qty       = $(par).find('.jumlah').val();
+	var par  		= $(p).parents('tr');
+	var unit_price  = $(par).find('.unit_price').val();
+	unit_price 	    = unit_price.replace(/[^0-9\-]+/g,"")*1;
+	var qty 	    = $(par).find('.jumlah').val();
+	var tmpitem = $(par).find('.tmpitem').val();
+
+	var total_price = unit_price * qty;
+
+	if (tmpitem == 'BRG') {
+
+		var beforetax = total_price / 1.1;
+
+		var tax = parseInt(total_price) - parseInt(beforetax);
+
+	} else {
+		var tmp = data.data.i_sell_price * q_qty.val();
+
+		var beforetax = total_price / 2.5;
+
+		var tax = parseInt(total_price) - parseInt(beforetax);
+	}
+
+	$(par).find('.tax').val(parseInt(tax));
+	$(par).find('.beforetax').val(parseInt(beforetax));
 
     $(par).find('.line_total').val(accounting.formatMoney(unit_price * qty, "", 0, ".",','));
     hitung_dpp();
-}
-
-function unit_price(p){
-  var par     = $(p).parents('tr');
-  var qty  = $(par).find('.jumlah').val();
-  var unit_price       = $(par).find('.unit_price').val();
-  unit_price      = unit_price.replace(/[^0-9\-]+/g,"")*1;
-
-    $(par).find('.line_total').val(accounting.formatMoney(unit_price * qty, "", 0, ".",','));
-    hitung_dpp();
+		synctax();
 }
 
 function edit_item(p) {
@@ -465,7 +477,6 @@ q_qty.keypress(function(e) {
       data:{item,market},
       dataType:'json',
       success:function(data){
-        console.log(data);
         var temp;
 
         for (var i = 0; i < data.item.length; i++) {
@@ -481,8 +492,7 @@ q_qty.keypress(function(e) {
                '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
                '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
 
-               '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
-               '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
+               '<input type="text" name="unit_price[]" onkeyup="unitprice(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+data.data.i_active+'">',
 
                '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
                '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
@@ -781,6 +791,9 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
     var unit_price = '{{ $val->qd_price }}';
   	var low_price = '{{ $val->i_lower_price }}';
   	var line_total = '{{ $val->qd_total }}';
+    var beforetax = '{{ $val->qd_beforetax }}';
+    var tmpitem = '{{ $val->i_active }}';
+    var tax = '{{ $val->qd_tax }}';
   	var jumlah = '{{ $val->qd_qty }}';
     var item = '{{ $val->qd_item }}';
   	var u_unit = '{{ $val->u_unit }}';
@@ -790,7 +803,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
         '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ u_unit +'">',
         '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+deskripsi+'">',
 
-        '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(unit_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width">'+
+        '<input type="text" name="unit_price[]" onkeyup="unitprice(this)" value="'+accounting.formatMoney(unit_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+tmpitem+'">'+
         '<input type="hidden" readonly value="'+low_price+'" class="lower_price form-control input-sm min-width">',
 
         '<input type="text" value="'+accounting.formatMoney(unit_price*jumlah, "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
@@ -812,6 +825,54 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 	// hitung_dpp();
 
 @endforeach
+
+function synctax(){
+  var values = [];
+  var selectedVal;
+  $(".tax").each(function(i, sel){
+      selectedVal = $(sel).val();
+      selectedVal = selectedVal.replace(/[^0-9\-]+/g,"");
+      values.push(selectedVal);
+  });
+
+  var total = values.reduce(getSum);
+  $('input[name=totaltax]').val(total);
+}
+
+function getSum(total, num) {
+return parseInt(total) + parseInt(num);
+}
+
+function unitprice(p){
+  var par     = $(p).parents('tr');
+  var qty  = $(par).find('.jumlah').val();
+  var unit_price       = $(par).find('.unit_price').val();
+  unit_price      = unit_price.replace(/[^0-9\-]+/g,"")*1;
+	var tmpitem = $(par).find('.tmpitem').val();
+
+	var total_price = unit_price * qty;
+
+	if (tmpitem == 'BRG') {
+
+		var beforetax = total_price / 1.1;
+
+		var tax = parseInt(total_price) - parseInt(beforetax);
+
+	} else {
+		var tmp = data.data.i_sell_price * q_qty.val();
+
+		var beforetax = total_price / 2.5;
+
+		var tax = parseInt(total_price) - parseInt(beforetax);
+	}
+
+	$(par).find('.tax').val(parseInt(tax));
+	$(par).find('.beforetax').val(parseInt(beforetax));
+
+    $(par).find('.line_total').val(accounting.formatMoney(unit_price * qty, "", 0, ".",','));
+    hitung_dpp();
+		synctax();
+}
 
 </script>
 @endsection

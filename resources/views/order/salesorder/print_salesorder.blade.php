@@ -253,6 +253,8 @@ table, td, th {
 				<th class="border-none" width="10%">Unit</th>
 				<th class="border-none">Description</th>
 				<th class="border-none">Unit Price</th>
+				<th class="border-none">Before Tax</th>
+				<th class="border-none">Tax</th>
 				<th class="border-none">Line Total</th>
 			</tr>
 		</thead>
@@ -274,6 +276,22 @@ table, td, th {
 					</div>
 					<div class="float-right">
 						{{ number_format($b->qd_price, 2, ",", ".") }}
+					</div>
+				</td>
+				<td>
+					<div class="float-left">
+						Rp.
+					</div>
+					<div class="float-right">
+						{{ number_format($b->qd_beforetax, 2, ",", ".") }}
+					</div>
+				</td>
+				<td>
+					<div class="float-left">
+						Rp.
+					</div>
+					<div class="float-right">
+						{{ number_format($b->qd_tax, 2, ",", ".") }}
 					</div>
 				</td>
 				<td>
@@ -312,10 +330,26 @@ table, td, th {
 
 					</div>
 				</td>
+				<td>
+					<div class="float-left">
+
+					</div>
+					<div class="float-right">
+
+					</div>
+				</td>
+				<td>
+					<div class="float-left">
+
+					</div>
+					<div class="float-right">
+
+					</div>
+				</td>
 			</tr>
 			@endforeach
 			<tr class="none-background-color">
-				<td class="border-none" colspan="5"></td>
+				<td class="border-none" colspan="7"></td>
 				<td class="border-none text-right">Total</td>
 				<td>
 					<div class="float-left">

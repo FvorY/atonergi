@@ -10,7 +10,7 @@ use DB;
 use carbon\carbon;
 use Session;
 use App\mMember;
-use Illuminate\Support\Facades\Crypt;
+use Crypt;
 use Response;
 use PDF;
 use App\Http\Controllers\logController;
@@ -485,18 +485,37 @@ class OrderController extends Controller
         // return $data;
         return Datatables::of($data)
                         ->addColumn('aksi', function ($data) {
+                            $cek = DB::table('d_paydeposit')
+                                      ->where('p_qo', $data->q_id)
+                                      ->count();
+
+                            $proses = '';
                             $approved = '';
-                            if (Auth::user()->m_jabatan == 'MANAGER') {
-                              if ($data->q_approved == 'N') {
-                                $approved = '<button type="button" class="btn btn-success" title="Approve" onclick="approve('.$data->q_id.')"><em class="fa fa-check"> </em></button>';
+                            if ($cek == 0) {
+                              if ((int)$data->q_remain != 0) {
+                                $proses = '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
+                              } else {
+                                $proses = '';
+                              }
+                            } else {
+                              $proses = '';
+                              if (Auth::user()->m_jabatan == 'MANAGER') {
+                                  $approved = '<button type="button" class="btn btn-success" title="Approve" onclick="approve('.$data->q_id.')"><em class="fa fa-check"> </em></button>';
                               } else {
                                 $approved = '';
                               }
                             }
-                            
+
+                            $print = '';
+                            if ((int)$data->q_dp != 0) {
+                              $print = '<a href="'.route('print_tandaterimakasih').'?id='.Crypt::encrypt($data->q_id).'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>';
+                            } else {
+                              $print = '';
+                            }
+
                             return '<div class="btn-group">'.
-                            '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
-                              '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
+                              $proses.
+                              $print.
                               $approved.
                             '</div>';
                         })
@@ -652,21 +671,83 @@ class OrderController extends Controller
         }
     }
 
-    public function save_deposit(request $req)
-    {
-      if (!mMember::akses('PEMBAYARAN DEPOSIT', 'tambah')) {
-        return redirect('error-404');
+    public function save_deposit(Request $req){
+      DB::beginTransaction();
+      try {
+
+        $cek = DB::table('d_paydeposit')
+                  ->where('p_qo', $req->id)
+                  ->count();
+
+        if ($cek == 0) {
+          $id = DB::table('d_paydeposit')->max('p_id')+1;
+
+          DB::table('d_paydeposit')
+                ->insert([
+                  'p_id' => $id,
+                  'p_qo' => $req->id,
+                  'p_so' => $req->so_nota,
+                  'p_wo' => $req->wo_nota,
+                  'p_note' => $req->nota1,
+                  'p_type' => $req->payment_type,
+                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
+                  'p_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                  'p_method' => $req->pay_method,
+                  'p_note2' => $req->nota2,
+                  'p_account' => $req->akun,
+                  'p_date' => carbon::parse($req->date)->format('Y-m-d'),
+                  'p_insert' => Carbon::now('Asia/Jakarta'),
+                  'p_insert_by' => Auth::user()->m_name,
+                ]);
+        } else {
+          DB::table('d_paydeposit')
+                ->where('p_qo', $req->id)
+                ->update([
+                  'p_so' => $req->so_nota,
+                  'p_wo' => $req->wo_nota,
+                  'p_note' => $req->nota1,
+                  'p_type' => $req->payment_type,
+                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
+                  'p_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                  'p_method' => $req->pay_method,
+                  'p_note2' => $req->nota2,
+                  'p_account' => $req->akun,
+                  'p_date' => carbon::parse($req->date)->format('Y-m-d'),
+                  'p_insert' => Carbon::now('Asia/Jakarta'),
+                  'p_insert_by' => Auth::user()->m_name,
+                ]);
+        }
+
+        DB::commit();
+        return response()->json(['status' => 1]);
+      } catch (Exception $e) {
+        DB::rollback();
+        return response()->json(['status' => 2]);
       }
+
+    }
+
+    public function approve_deposit(request $req)
+    {
         return DB::transaction(function() use ($req) {
 
             $data = DB::table('d_quotation')
                       ->where('q_id',$req->id)
                       ->first();
+
+            $paydeposit = DB::table('d_paydeposit')
+                            ->where('p_qo', $req->id)
+                            ->first();
+
+            DB::table('d_paydeposit')
+                            ->where('p_qo', $req->id)
+                            ->delete();
+
             // SALES ORDER
             $cari = DB::table('d_sales_order')
-                      ->where('so_nota',$req->so_nota)
+                      ->where('so_nota',$paydeposit->p_so)
                       ->first();
-            $nota = $req->so_nota;
+            $nota = $paydeposit->p_so;
             if ($nota != '') {
                 if ($cari == null) {
                     $id = DB::table('d_sales_order')
@@ -677,18 +758,18 @@ class OrderController extends Controller
                                 'so_id'         => $id,
                                 'so_nota'       => $nota,
                                 'so_ref'        => $data->q_nota,
-                                'so_note'       => $req->nota1,
-                                'so_type'       => $req->payment_type,
-                                'so_amount'     => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
-                                'so_remain'     => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
-                                'so_method'     => $req->pay_method,
-                                'so_note2'      => $req->nota2,
-                                'so_account'    => $req->akun,
+                                'so_note'       => $paydeposit->p_note,
+                                'so_type'       => $paydeposit->p_type,
+                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'so_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'so_method'     => $paydeposit->p_method,
+                                'so_note2'      => $paydeposit->p_note2,
+                                'so_account'    => $paydeposit->p_account,
                                 'so_status'     => 'Released',
-                                'so_date'       => carbon::parse($req->date)->format('Y-m-d'),
+                                'so_date'       => carbon::parse($paydeposit->p_date)->format('Y-m-d'),
                                 'so_update_at'  => carbon::now(),
-                                'so_update_by'  => Auth::user()->m_name,
-                                'so_create_by'  => Auth::user()->m_name,
+                                'so_update_by'  => $paydeposit->p_insert_by,
+                                'so_create_by'  => $paydeposit->p_insert_by,
                               ]);
 
                 }else{
@@ -697,17 +778,17 @@ class OrderController extends Controller
                               ->update([
                                 'so_nota'       => $nota,
                                 'so_ref'        => $data->q_nota,
-                                'so_note'       => $req->nota1,
-                                'so_type'       => $req->payment_type,
-                                'so_amount'     => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
-                                'so_remain'     => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
-                                'so_method'     => $req->pay_method,
-                                'so_note2'      => $req->nota2,
-                                'so_account'    => $req->akun,
+                                'so_note'       => $paydeposit->p_note,
+                                'so_type'       => $paydeposit->p_type,
+                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'so_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'so_method'     => $paydeposit->p_method,
+                                'so_note2'      => $paydeposit->p_note2,
+                                'so_account'    => $paydeposit->p_account,
                                 'so_status'     => 'Released',
-                                'so_date'       => carbon::parse($req->date)->format('Y-m-d'),
+                                'so_date'       => carbon::parse($paydeposit->p_date)->format('Y-m-d'),
                                 'so_update_at'  => carbon::now(),
-                                'so_update_by'  => Auth::user()->m_name,
+                                'so_update_by'  => $paydeposit->p_insert_by,
                               ]);
 
                 }
@@ -717,7 +798,7 @@ class OrderController extends Controller
             $cari = DB::table('d_work_order')
                       ->where('wo_nota',$req->so_nota)
                       ->first();
-            $nota = $req->wo_nota;
+            $nota = $paydeposit->p_wo;
 
             if ($nota != '') {
                 if ($cari == null) {
@@ -729,36 +810,36 @@ class OrderController extends Controller
                                 'wo_id'         => $id,
                                 'wo_nota'       => $nota,
                                 'wo_ref'        => $data->q_nota,
-                                'wo_note'       => $req->nota1,
-                                'wo_type'       => $req->payment_type,
-                                'wo_amount'     => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
-                                'wo_remain'     => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
-                                'wo_method'     => $req->pay_method,
-                                'wo_note2'      => $req->nota2,
-                                'wo_account'    => $req->akun,
+                                'wo_note'       => $paydeposit->p_note,
+                                'wo_type'       => $paydeposit->p_type,
+                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'wo_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'wo_method'     => $paydeposit->p_method,
+                                'wo_note2'      => $paydeposit->p_note2,
+                                'wo_account'    => $paydeposit->p_account,
                                 'wo_status'     => 'Released',
-                                'wo_date'       => carbon::parse($req->date)->format('Y-m-d'),
+                                'wo_date'       => carbon::parse($paydeposit->p_date)->format('Y-m-d'),
                                 'wo_update_at'  => carbon::now(),
-                                'wo_update_by'  => Auth::user()->m_name,
-                                'wo_create_by'  => Auth::user()->m_name,
+                                'wo_update_by'  => $paydeposit->p_insert_by,
+                                'wo_create_by'  => $paydeposit->p_insert_by,
                               ]);
                 }else{
                     $save = DB::table('d_work_order')
-                              ->where('wo_nota',$req->wo_nota)
+                              ->where('wo_nota',$paydeposit->p_wo)
                               ->update([
                                 'wo_nota'       => $nota,
                                 'wo_ref'        => $data->q_nota,
-                                'wo_note'       => $req->nota1,
-                                'wo_type'       => $req->payment_type,
-                                'wo_amount'     => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
-                                'wo_remain'     => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
-                                'wo_method'     => $req->pay_method,
-                                'wo_note2'      => $req->nota2,
-                                'wo_account'    => $req->akun,
+                                'wo_note'       => $paydeposit->p_nota,
+                                'wo_type'       => $paydeposit->p_type,
+                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'wo_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'wo_method'     => $paydeposit->p_method,
+                                'wo_note2'      => $paydeposit->p_note2,
+                                'wo_account'    => $paydeposit->p_account,
                                 'wo_status'     => 'Released',
-                                'wo_date'       => carbon::parse($req->date)->format('Y-m-d'),
+                                'wo_date'       => carbon::parse($paydeposit->p_date)->format('Y-m-d'),
                                 'wo_update_at'  => carbon::now(),
-                                'wo_update_by'  => Auth::user()->m_name,
+                                'wo_update_by'  => $paydeposit->p_insert_by,
                               ]);
                 }
             }
@@ -768,9 +849,34 @@ class OrderController extends Controller
             $update = DB::table('d_quotation')
                         ->where('q_id',$req->id)
                         ->update([
-                            'q_dp'     => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
-                            'q_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                            'q_dp'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                            'q_remain' => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                            'q_approved' => 'Y'
                         ]);
+
+                  if ((int)$req->remain == 0) {
+                    $id = DB::table('d_sales_invoice')->max('si_id')+1;
+                    $bulan = date('m');
+                    $tahun = date('Y');
+                    $cari_nota = DB::select("SELECT  substring(max(si_nota),4,3) as id from d_sales_invoice
+                                                    WHERE MONTH(si_date) = '$bulan'
+                                                    AND YEAR(si_date) = '$tahun'");
+                    $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+
+                    $index = (integer)$cari_nota[0]->id + 1;
+                    $index = str_pad($index, 3, '0', STR_PAD_LEFT);
+
+                    $notasi = 'SI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+
+
+                    DB::table('d_sales_invoice')
+                        ->insert([
+                          'si_id' => $id,
+                          'si_ref' => $data->q_nota,
+                          'si_nota' => $notasi,
+                          'si_date' => Carbon::now('Asia/Jakarta')
+                        ]);
+                  }
 
             logController::inputlog('Pembayaran Deposit', 'Insert', '');
             return response()->json(['status' => 1]);
@@ -1202,14 +1308,14 @@ class OrderController extends Controller
         return redirect('error-404');
       }
       $data = DB::table('d_quotation')
-                ->join('d_sales_order', 'so_ref', '=', 'q_nota')
-                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->leftjoin('d_sales_order', 'so_ref', '=', 'q_nota')
+                ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
                 ->where('q_id',$request->id)
-                ->first();
+                ->first();                
 
       $data_dt = DB::table('d_quotation_dt')
-                     ->join('m_item','i_code','=','qd_item')
-                     ->join('d_unit', 'u_id', '=', 'i_unit')
+                     ->leftjoin('m_item','i_code','=','qd_item')
+                     ->leftjoin('d_unit', 'u_id', '=', 'i_unit')
                      ->where('qd_id',$data->q_id)
                      ->get();
 
@@ -1218,7 +1324,77 @@ class OrderController extends Controller
       return view('order.proforma_invoice.print_proformainvoice', compact('data', 'data_dt', 'term'));
     }
 
-    public function print_tandaterimakasih(){
-      return view('order.pembayarandeposit.print_tandaterimakasih');
+    public function print_tandaterimakasih(Request $request){
+      $data = DB::table('d_quotation')
+                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->where('q_id', decrypt($request->id))
+                ->first();
+
+      $terbilang = 'Uang Senilai ' . 'Rp. '. number_format($data->q_dp, 2, ",", ".") . '('.$this->penyebut((int)$data->q_dp).' Rupiah )';
+
+      $terbilang1 = '';
+      $terbilang2 = '';
+      $terbilang3 = '';
+      $terbilang4 = '';
+      $terbilang5 = '';
+      if (strlen($terbilang) > 87) {
+        $terbilang1 = substr($terbilang, 87);
+        $terbilang = substr($terbilang, 0, 87);
+      }
+
+      if ($terbilang1 != "") {
+        if (strlen($terbilang1) > 73) {
+          $terbilang2 = substr($terbilang1, 73);
+        }
+      }
+
+      if ($terbilang2 != "") {
+        if (strlen($terbilang2) > 73) {
+          $terbilang3 = substr($terbilang2, 73);
+        }
+      }
+
+      if ($terbilang3 != "") {
+        if (strlen($terbilang3) > 73) {
+          $terbilang4 = substr($terbilan3, 73);
+        }
+      }
+
+      if ($terbilang4 != "") {
+        if (strlen($terbilang4) > 73) {
+          $terbilang5 = substr($terbilan4, 73);
+        }
+      }
+
+
+      return view('order.pembayarandeposit.print_tandaterimakasih', compact('data', 'terbilang', 'terbilang1', 'terbilang2', 'terbilang3', 'terbilang4', 'terbilang5'));
     }
+
+    public function penyebut($nilai) {
+		$nilai = abs($nilai);
+		$huruf = array("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas");
+		$temp = "";
+		if ($nilai < 12) {
+			$temp = " ". $huruf[$nilai];
+		} else if ($nilai <20) {
+			$temp = $this->penyebut($nilai - 10). " Belas";
+		} else if ($nilai < 100) {
+			$temp = $this->penyebut($nilai/10)." Puluh". $this->penyebut($nilai % 10);
+		} else if ($nilai < 200) {
+			$temp = " Seratus" . $this->penyebut($nilai - 100);
+		} else if ($nilai < 1000) {
+			$temp = $this->penyebut($nilai/100) . " Ratus" . $this->penyebut($nilai % 100);
+		} else if ($nilai < 2000) {
+			$temp = " Seribu" . $this->penyebut($nilai - 1000);
+		} else if ($nilai < 1000000) {
+			$temp = $this->penyebut($nilai/1000) . " Ribu" . $this->penyebut($nilai % 1000);
+		} else if ($nilai < 1000000000) {
+			$temp = $this->penyebut($nilai/1000000) . " Juta" . $this->penyebut($nilai % 1000000);
+		} else if ($nilai < 1000000000000) {
+			$temp = $this->penyebut($nilai/1000000000) . " Milyar" . $this->penyebut(fmod($nilai,1000000000));
+		} else if ($nilai < 1000000000000000) {
+			$temp = $this->penyebut($nilai/1000000000000) . " Trilyun" . $this->penyebut(fmod($nilai,1000000000000));
+		}
+		return $temp;
+	}
 }
