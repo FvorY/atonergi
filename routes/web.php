@@ -111,6 +111,9 @@ Route::post('/master/ttd/simpan', 'MasterController@simpanttd');
 Route::get('/master/ttd/hapus', 'MasterController@hapusttd');
 Route::get('/master/ttd/update', 'MasterController@updatettd');
 Route::post('/master/ttd/update', 'MasterController@updatettd');
+Route::get('/master/ekspedisi/ekspedisi', 'MasterController@ekspedisi')->name('ekspedisi');
+Route::get('/master/ekspedisi/tambah_ekspedisi', 'MasterController@tambah_ekspedisi')->name('tambah_ekspedisi');
+
 // Quotation
 Route::get('/quotation/q_quotation/q_quotation', 'QuotationController@q_quotation')->name('q_quotation');
 Route::get('/quotation/q_quotation/datatable', 'QuotationController@quote_datatable')->name('quote_datatable');
@@ -236,6 +239,9 @@ Route::get('/project/pengirimanbarang/ubah', 'ProjectController@ubah');
 Route::get('/project/pengirimanbarang/perbarui', 'ProjectController@perbarui');
 Route::get('/project/pengirimanbarang/setting', 'ProjectController@setting');
 Route::get('/project/pengirimanbarang/prosespengirimanbarang/{id}', 'ProjectController@prosespengirimanbarang');
+Route::get('/project/suratjalan/suratjalan', 'ProjectController@suratjalan')->name('suratjalan');
+Route::get('/project/suratjalan/tambah_suratjalan', 'ProjectController@tambah_suratjalan')->name('tambah_suratjalan');
+Route::get('/project/suratjalan/print_suratjalan', 'ProjectController@print_suratjalan')->name('print_suratjalan');
 
 // Pompa
 Route::get('/projectmp/pmp_dokumentasi/pmp_dokumentasi', 'PompaController@pmp_dokumentasi');

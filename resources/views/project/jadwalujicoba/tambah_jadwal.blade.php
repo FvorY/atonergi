@@ -389,7 +389,7 @@
                 <div class="card-body">
                   <h6 class="card-title">Customer / Partner</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -437,7 +437,7 @@
                 <div class="card-body">
                   <h6 class="card-title">Installation Location</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -520,7 +520,7 @@
                 <div class="card-body">
                   <h6 class="card-title">Installation Date</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -555,7 +555,7 @@
                 <div class="card-body">
                   <h6 class="card-title">Application Type</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -595,7 +595,7 @@
                 <div class="card-body">
                   <h6 class="card-title">For Drinking Water Projects</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -649,7 +649,7 @@
                 <div class="card-body">
                   <h6 class="card-title">For Irrigation Projects</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -703,7 +703,7 @@
                 <div class="card-body">
                   <h6 class="card-title">For Swimming Pool Filtration Projects</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -766,7 +766,7 @@
                 <div class="card-body">
                   <h6 class="card-title">Pump System</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -841,7 +841,7 @@
                 <div class="card-body">
                   <h6 class="card-title">Installation Details</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -1021,7 +1021,7 @@
                 <div class="card-body">
                   <h6 class="card-title">PV Generator</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -1096,7 +1096,7 @@
                 <div class="card-body">
                   <h6 class="card-title">Battery System</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -1158,7 +1158,7 @@
                     </div>
                   </div>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -1196,7 +1196,7 @@
                 <div class="card-body">
                   <h6 class="card-title">PV Mounting System</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 
@@ -1253,7 +1253,7 @@
                 <div class="card-body">
                   <h6 class="card-title">Usage of Data and Illustrations</h6>
 
-                  <div class="col-lg-12 grid-margin stretch-card">
+                  <div class=" grid-margin stretch-card">
                     <div class="card">
                       <div class="card-body">
 

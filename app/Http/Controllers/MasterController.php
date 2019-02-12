@@ -801,4 +801,14 @@ public function edit_bank(request $req)
             rmdir($dirPath);
         }
 
+        public function ekspedisi()
+        {
+            return view('master.ekspedisi.ekspedisi');
+        }
+
+        public function tambah_ekspedisi()
+        {
+            return view('master.ekspedisi.tambah_ekspedisi');
+        }
+
 }

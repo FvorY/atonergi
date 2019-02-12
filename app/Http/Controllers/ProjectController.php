@@ -1065,4 +1065,13 @@ class ProjectController extends Controller
         }
         rmdir($dirPath);
     }
+    public function suratjalan(){
+      return view('project.suratjalan.suratjalan');
+    }
+    public function tambah_suratjalan(){
+      return view('project.suratjalan.tambah_suratjalan');
+    }
+    public function print_suratjalan(){
+      return view('project.suratjalan.print_suratjalan');
+    }    
 }
