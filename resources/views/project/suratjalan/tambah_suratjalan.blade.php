@@ -25,9 +25,11 @@
 
                       <div class="col-md-9 col-sm-8 col-xs-12">
                         <div class="form-group">
-                          <select class="form-control input-sm select2" id="select-so">
+                          <select class="form-control input-sm select2" id="select-so" name="do">
                             <option value="" selected="" disabled="">--Pilih--</option>
-                            <option value="1">ini-nomor-so-123</option>
+                            @foreach ($do as $key => $value)
+                              <option value="{{$value->d_id}}">{{$value->d_do}}</option>
+                            @endforeach
                           </select>
                         </div>
                       </div>
@@ -45,11 +47,18 @@
 
                           <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                              <select class="form-control form-control-sm select2">
+                              <select class="form-control form-control-sm select2" name="ekspedisi" onchange="eksup()">
                                 <option value="" disabled="" selected="">--Pilih--</option>
+                                @foreach ($ekspedisi as $key => $value)
+                                  <option value="{{$value->e_id}}">{{$value->e_name}}</option>
+                                @endforeach
                               </select>
                             </div>
                           </div>
+
+                          @foreach ($ekspedisi as $key => $value)
+                            <input type="hidden" name="eksaddress" id="eksaddress{{$value->e_id}}" value="{{$value->e_address}}">
+                          @endforeach
 
                           <div class="col-md-6 col-sm-12">
                             <label>Expedition Address</label>
@@ -57,7 +66,7 @@
 
                           <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                              <textarea class="form-control" rows="5" readonly="" name=""></textarea>
+                              <textarea class="form-control" rows="5" readonly="" name="eksaddress"></textarea>
                             </div>
                           </div>
 
@@ -74,17 +83,7 @@
 
                           <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                              <input type="text" class="form-control form-control-sm" readonly="" name="">
-                            </div>
-                          </div>
-
-                          <div class="col-md-6 col-sm-12">
-                            <label>Order By</label>
-                          </div>
-
-                          <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                              <input type="text" class="form-control form-control-sm" readonly="" name="">
+                              <input type="text" class="form-control form-control-sm" readonly="" name="customer">
                             </div>
                           </div>
 
@@ -94,7 +93,7 @@
 
                           <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                              <textarea class="form-control" readonly="" name=""></textarea>
+                              <textarea class="form-control" readonly="" name="cusaddress"></textarea>
                             </div>
                           </div>
 
@@ -113,11 +112,11 @@
                             </tr>
                           </thead>
                           <tbody>
-                            
+
                           </tbody>
                         </table>
                       </div>
-                      
+
                     </div>
 
 
@@ -151,21 +150,21 @@ $(document).ready(function(){
     if (ini.val() !== '') {
       divso.removeClass('d-none');
 
-      table.row.add([
-        '<input type="text" class="form-control form-control-sm" readonly="" value="Pompa Air" value="">',
-        '<input type="text" class="form-control form-control-sm" readonly="" value="10" value="">',
-        '<input type="text" class="form-control form-control-sm" readonly="" value="Pcs" value="">'
-        ]).draw();
-      table.row.add([
-        '<input type="text" class="form-control form-control-sm" readonly="" value="Pompa Pasir" value="">',
-        '<input type="text" class="form-control form-control-sm" readonly="" value="10" value="">',
-        '<input type="text" class="form-control form-control-sm" readonly="" value="Pcs" value="">'
-        ]).draw();
-      table.row.add([
-        '<input type="text" class="form-control form-control-sm" readonly="" value="Pompa Api" value="">',
-        '<input type="text" class="form-control form-control-sm" readonly="" value="10" value="">',
-        '<input type="text" class="form-control form-control-sm" readonly="" value="Pcs" value="">'
-        ]).draw();
+      $.ajax({
+        type: 'get',
+        data: {do:ini.val()},
+        dataType: 'json',
+        url: baseUrl + '/project/suratjalan/getdo',
+        success : function(response){
+                for (var i = 0; i < response.length; i++) {
+                  table.row.add([
+                    '<input type="text" class="form-control form-control-sm" readonly="" value="'+response[i].i_name+'">',
+                    '<input type="text" class="form-control form-control-sm" readonly="" value="'+response[i].qd_qty+'">',
+                    '<input type="text" class="form-control form-control-sm" readonly="" value="'+response[i].u_unit+'">'
+                    ]).draw();
+                }
+        }
+      })
 
       counter_strike__battlefield++;
     } else {
@@ -174,5 +173,14 @@ $(document).ready(function(){
     }
   });
 });
+
+function eksup(){
+  var eks = $('#select-so');
+
+  var val = eks.val();
+  var address = eks.find('option[value='+val+']').attr('address');
+
+  console.log(eks.find('option[value='+val+']').data('address'));
+}
 </script>
 @endsection

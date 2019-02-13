@@ -1118,12 +1118,37 @@ class ProjectController extends Controller
       return view('project.suratjalan.suratjalan', compact('data'));
     }
     public function tambah_suratjalan(){
-      return view('project.suratjalan.tambah_suratjalan');
+      $do = DB::table('d_delivery')
+                ->where('d_suratjalan', 'N')
+                ->get();
+
+      $ekspedisi = DB::table('m_ekspedisi')
+                      ->get();
+
+      return view('project.suratjalan.tambah_suratjalan', compact('do', 'ekspedisi'));
     }
     public function print_suratjalan(){
       return view('project.suratjalan.print_suratjalan');
     }
-    public function print_checklistform(){
-      return view('project.pengirimanbarang.print_checklistform');
+
+    public function getdo(Request $request){
+      $delivery = DB::table('d_delivery')
+                        ->where('d_id', $request->do)
+                        ->first();
+
+      $so = DB::table('d_sales_order')
+              ->where('so_nota', $delivery->d_so)
+              ->first();
+
+      $data = DB::table('d_quotation')
+                ->join('d_quotation_dt', 'qd_id', '=', 'q_id')
+                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->join('m_item', 'i_code', '=', 'qd_item')
+                ->join('d_unit', 'u_id', '=', 'i_unit')
+                ->where('q_nota', $so->so_ref)
+                ->where('qd_item', 'LIKE', '%BRG%')
+                ->get();
+
+      return response()->json($data);
     }
 }
