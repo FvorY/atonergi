@@ -302,7 +302,7 @@
 									<td>@{{ data.ak_id }}</td>
 
 									<td class="text-right">
-										@{{ (data.saldo_awal < 0) ? '('+humanizePrice()+')' : humanizePrice(data.saldo_awal) }}
+										@{{ (data.saldo_awal < 0) ? '('+humanizePrice(data.saldo_awal)+')' : humanizePrice(data.saldo_awal) }}
 									</td>
 
 									<td class="text-right">
