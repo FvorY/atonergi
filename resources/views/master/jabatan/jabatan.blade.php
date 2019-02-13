@@ -171,7 +171,7 @@ function hapus(id) {
                       if (response.status == 'berhasil') {
                         iziToast.success({
                           icon: 'fas fa-check-circle',
-                          message: 'Data Telah Tersimpan!',
+                          message: 'Data Telah Dihapus!',
                         });
                         table.ajax.reload();
                       } else {

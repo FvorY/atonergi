@@ -47,7 +47,7 @@
 
                           <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                              <select class="form-control form-control-sm select2" name="ekspedisi" onchange="eksup()">
+                              <select class="form-control form-control-sm select2" name="ekspedisi" id="ekspedisi" onchange="eksup()">
                                 <option value="" disabled="" selected="">--Pilih--</option>
                                 @foreach ($ekspedisi as $key => $value)
                                   <option value="{{$value->e_id}}">{{$value->e_name}}</option>
@@ -163,6 +163,9 @@ $(document).ready(function(){
                     '<input type="text" class="form-control form-control-sm" readonly="" value="'+response[i].u_unit+'">'
                     ]).draw();
                 }
+
+              $('input[name=customer]').val(response[0].c_name);
+              $('textarea[name=cusaddress]').val(response[0].c_address);
         }
       })
 
@@ -175,12 +178,13 @@ $(document).ready(function(){
 });
 
 function eksup(){
-  var eks = $('#select-so');
+  var eks = $('#ekspedisi');
 
   var val = eks.val();
-  var address = eks.find('option[value='+val+']').attr('address');
+  console.log(val);
+  var address = $('#eksaddress'+val).val();
 
-  console.log(eks.find('option[value='+val+']').data('address'));
+  $('textarea[name=eksaddress]').val(address);
 }
 </script>
 @endsection

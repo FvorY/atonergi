@@ -76,7 +76,7 @@ function update(id){
       if (response.status == 'berhasil') {
         iziToast.success({
             icon: 'fa fa-trash',
-            message: 'Berhasil Disimpan!',
+            message: 'Berhasil Diupdate!',
         });
         setTimeout(function () {
           window.location.href = "{{route('ekspedisi')}}";
