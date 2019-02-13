@@ -19,16 +19,15 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Tambah Master Data Ekspedisi</h4>
-
+            <form id="formdata">
             <div class="row">
-
               <div class="col-md-3 col-sm-4 col-12">
                 <label>Expedition Name</label>
               </div>
 
               <div class="col-md-9 col-sm-8 col-12 ">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-sm" name="">
+                  <input type="text" class="form-control form-control-sm" name="name">
                 </div>
               </div>
 
@@ -38,18 +37,28 @@
 
               <div class="col-md-9 col-sm-8 col-12 ">
                 <div class="form-group">
-                  <textarea class="form-control" name=""></textarea>
+                  <textarea class="form-control" name="address"></textarea>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-4 col-12">
+                <label>Expedition Phone Number</label>
+              </div>
+
+              <div class="col-md-9 col-sm-8 col-12 ">
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-sm" name="telp">
                 </div>
               </div>
             </div>
-            
+          </form>
             <div class="w-100 text-right">
-              <button class="btn btn-primary" type="button">Simpan</button>
+              <button class="btn btn-primary" onclick="simpan()" type="button">Simpan</button>
               <a href="#" class="btn btn-secondary">Kembali</a>
             </div>
           </div>
         </div>
-        
+
     </div>
   </div>
 </div>
@@ -57,8 +66,26 @@
 @endsection
 @section('extra_script')
 <script>
-$(document).ready(function(){
-  
-});
+function simpan(){
+  $.ajax({
+    type: 'get',
+    data: $('#formdata').serialize(),
+    dataType: 'json',
+    url : "{{route('simpan_ekspedisi')}}",
+    success : function(response){
+      if (response.status == 'berhasil') {
+        iziToast.success({
+            icon: 'fa fa-trash',
+            message: 'Berhasil Disimpan!',
+        });
+      } else {
+        iziToast.warning({
+            icon: 'fa fa-info',
+            message: 'Periksa kembali data anda!',
+        });
+      }
+    }
+  });
+}
 </script>
 @endsection

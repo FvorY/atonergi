@@ -26,19 +26,33 @@
                     <thead class="bg-gradient-info">
                       <tr>
                         <th style="width: 10%">No</th>
-                        <th style="width: 40%">Nama Ekspedisi</th>
-                        <th style="width: 40%">Alamat Ekspedisi</th>
+                        <th style="width: 30%">Nama Ekspedisi</th>
+                        <th style="width: 30%">Alamat Ekspedisi</th>
+                        <th style="width: 30%">No. Telepon</th>
                         <th style="width: 10%">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
-                      
+                      @foreach ($data as $key => $value)
+                        <tr>
+                          <td>{{$key + 1}}</td>
+                          <td>{{$value->e_name}}</td>
+                          <td>{{$value->e_address}}</td>
+                          <td>{{$value->e_telp}}</td>
+                          <td align="center">
+                            <div class="btn-group">
+                              <button type="button" onclick="edit({{$value->e_id}})" class="btn btn-info btn-lg" title="edit"><label class="fa fa-pencil-alt"></label></button>
+                              <button type="button" onclick="hapus({{$value->e_id}})" class="btn btn-danger btn-lg" title="hapus"><label class="fa fa-trash"></label></button>
+                            </div>
+                          </td>
+                        </tr>
+                      @endforeach
                     </tbody>
                 </table>
             </div>
           </div>
         </div>
-        
+
     </div>
   </div>
 </div>
