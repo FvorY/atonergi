@@ -1092,4 +1092,7 @@ class ProjectController extends Controller
     public function print_suratjalan(){
       return view('project.suratjalan.print_suratjalan');
     }
+    public function print_checklistform(){
+      return view('project.pengirimanbarang.print_checklistform');
+    }
 }

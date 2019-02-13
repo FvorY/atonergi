@@ -239,6 +239,7 @@ Route::get('/project/pengirimanbarang/ubah', 'ProjectController@ubah');
 Route::get('/project/pengirimanbarang/perbarui', 'ProjectController@perbarui');
 Route::get('/project/pengirimanbarang/setting', 'ProjectController@setting');
 Route::get('/project/pengirimanbarang/prosespengirimanbarang/{id}', 'ProjectController@prosespengirimanbarang');
+Route::get('/project/pengirimanbarang/checklistform/print', 'ProjectController@print_checklistform')->name('print_checklistform');
 Route::get('/project/suratjalan/suratjalan', 'ProjectController@suratjalan')->name('suratjalan');
 Route::get('/project/suratjalan/tambah_suratjalan', 'ProjectController@tambah_suratjalan')->name('tambah_suratjalan');
 Route::get('/project/suratjalan/print_suratjalan', 'ProjectController@print_suratjalan')->name('print_suratjalan');
