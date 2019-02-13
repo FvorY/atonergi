@@ -257,7 +257,7 @@ table, td, th {
 							<td>{{ $index+1 }}</td>
 							<td>{{ $seq->i_name }}</td>
 							<td>{{ $seq->podt_qty_approved }}</td>
-							<td>{{ $seq->i_unit }}</td>
+							<td>{{ $seq->u_unit }}</td>
 							<td>{{ $seq->i_description }}</td>
 							<td>
 							<div class="float-left">

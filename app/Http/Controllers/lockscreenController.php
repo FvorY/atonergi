@@ -12,6 +12,8 @@ use Auth;
 
 use App\mMember;
 
+use Session;
+
 use App\Http\Controllers\logController;
 
 class lockscreenController extends Controller

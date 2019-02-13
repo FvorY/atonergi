@@ -40,10 +40,13 @@ class penerimaan_barangController extends Controller
 	 {
       $list = DB::select("SELECT * from d_penerimaan_barang left join m_vendor on m_vendor.s_kode = d_penerimaan_barang.pb_vendor");
           // return $list;
+
       $data = collect($list);
 
       for ($i=0; $i <count($data) ; $i++) {
-      	$check_data_seq = DB::table('d_penerimaan_barang_dt')->where('pbdt_code','=',$data[$i]->pb_code)->get();
+      	$check_data_seq = DB::table('d_penerimaan_barang_dt')->where('pbdt_code','=',$data[$i]->pb_code)->sum('pbdt_qty_remains');
+
+				$data[$i]->pb_update_by = $check_data_seq;
       }
 
       // return $check_data_seq;
@@ -52,18 +55,25 @@ class penerimaan_barangController extends Controller
       return Datatables::of($data)
 
               ->addColumn('aksi', function ($data) {
+								if ((int)$data->pb_update_by != 0) {
                         return  '<div class="btn-group">'.
                                  '<button type="button" onclick="edit(this)" class="btn btn-info btn-sm" title="edit">'.
                                  '<label class="fa fa-pencil"></label></button>'.
                                 '</div>';
+								} else {
+									 	return '';
+								}
               })
               ->addColumn('detail', function ($data) {
 
                   return '<button data-toggle="modal" onclick="detail(this)"  class="btn btn-outline-primary btn-sm">Detail</button>';
               })
               ->addColumn('status', function ($data) {
-
-                  return '<span class="badge badge-warning badge-pill">In Process</span>';
+									if ((int)$data->pb_update_by == 0) {
+										return '<span class="badge badge-success badge-pill">Closed</span>';
+									} else {
+										return '<span class="badge badge-warning badge-pill">In Process</span>';
+									}
               })
               ->rawColumns(['aksi','detail','confirmed','status'])
           ->make(true);

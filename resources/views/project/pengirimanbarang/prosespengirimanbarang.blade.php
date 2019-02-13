@@ -92,14 +92,6 @@
 				            			</div>
 				            		</div>
 				            		<div class="col-md-6 col-sm-6 col-xs-12">
-				            			<label>Weight</label>
-				            		</div>
-				            		<div class="col-md-6 col-sm-6 col-xs-12">
-				            			<div class="form-group">
-				            				<input type="text" name="d_weight" class="form-control form-control-sm">
-				            			</div>
-				            		</div>
-				            		<div class="col-md-6 col-sm-6 col-xs-12">
 				            			<label>Shipping Charges</label>
 				            		</div>
 				            		<div class="col-md-6 col-sm-6 col-xs-12">
@@ -191,7 +183,6 @@
 											</tr>
 										</thead>
 										<tbody>
-
 										</tbody>
 									</table>
 								</div>
@@ -255,13 +246,25 @@
 			dataType: 'json',
 			url: baseUrl + '/project/pengirimanbarang/proses',
 			success : function(result){
-				iziToast.success({
-          icon: 'fa fa-check',
-          message: 'Berhasil Diproses!',
-        });
-        setTimeout(function () {
-                      window.location.href = baseUrl + '/project/pengirimanbarang/pengirimanbarang';
-                  }, 1000);
+				if (result.status == 'stock kurang') {
+					iziToast.warning({
+						icon: 'fa fa-times',
+						message: result.ket+'!',
+					});
+				} else if (result.status == 'gagal') {
+					iziToast.warning({
+						icon: 'fa fa-times',
+						message: 'Gagal!',
+					});
+				} else {
+					iziToast.success({
+	          icon: 'fa fa-check',
+	          message: 'Berhasil Diproses!',
+	        });
+					setTimeout(function () {
+	                      window.location.href = baseUrl + '/project/pengirimanbarang/pengirimanbarang';
+	                  }, 1000);
+				}
 			}
 		});
 	}

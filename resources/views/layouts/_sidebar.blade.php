@@ -205,6 +205,7 @@
                     Master Data Scoreboard
                     Master Data Ekspedisi
                     Master Print Out Term & Condition
+                    Master Ekspedisi
                   </span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-crosshairs-gps menu-icon"></i>
@@ -281,14 +282,15 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/scoreboard/*') ? 'active' : '' }}" href="{{url('master/scoreboard/index')}}">Master Scoreboard</a></li>
                   @endif
 
+                  @if( (int)$sidebar[58]->aktif == 1)
                   <li class="nav-item">
                     <a href="{{route('ekspedisi')}}" class="nav-link {{Request::is('master/ekspedisi/*') ? 'active' : ''}}">Master Data Ekspedisi</a>
                   </li>
-
-                  @if( (int)$sidebar[20]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('master/printout/*') ? 'active' : '' }}" href="{{url('master/printout/index')}}">Master Print Out Term & <br> Condition</a></li>
                   @endif
 
+                  @if( (int)$sidebar[57]->aktif == 1)
+                  <li class="nav-item"> <a class="nav-link {{Request::is('master/printout/*') ? 'active' : '' }}" href="{{url('master/printout/index')}}">Master Print Out Term & <br> Condition</a></li>
+                  @endif
                 </ul>
                 </div>
             </li>

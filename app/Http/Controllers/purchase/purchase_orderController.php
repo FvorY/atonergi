@@ -243,9 +243,9 @@ class purchase_orderController extends Controller
 
       DB::table('d_purchaseorder')->where('po_code','=',$request->id)->update(['po_print'=>'T']);
 
-      $print_header = DB::table('d_purchaseorder')->where('po_code','=',$request->id)->join('m_vendor','m_vendor.s_kode','=','d_purchaseorder.po_vendor')->first();
+      $print_header = DB::table('d_purchaseorder')->where('po_code','=',$request->id)->leftjoin('m_vendor','m_vendor.s_kode','=','d_purchaseorder.po_vendor')->first();
       json_encode($print_header);
-      $print_seq = DB::table('d_purchaseorder_dt')->where('podt_code','=',$request->id)->join('m_item','m_item.i_code','=','d_purchaseorder_dt.podt_item')->get();
+      $print_seq = DB::table('d_purchaseorder_dt')->where('podt_code','=',$request->id)->leftjoin('m_item','m_item.i_code','=','d_purchaseorder_dt.podt_item')->leftjoin('d_unit', 'u_id', '=', 'i_unit')->get();
 
       logController::inputlog('Purchase Order', 'Print', $request->id);
 

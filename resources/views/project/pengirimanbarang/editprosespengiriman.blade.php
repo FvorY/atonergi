@@ -77,7 +77,6 @@
 		                	</div>
 											<input type="hidden" name="d_so" value="{{$data[0]->so_nota}}">
 	                	</div>
-									</form>
 			              	<div class="col-md-6 col-sm-12 col-xs-12">
 			              		<div class="row">
 					              	<div class="col-md-6 col-sm-6 col-xs-12">
@@ -91,14 +90,6 @@
 						                            <i class="fa fa-calendar"></i>
 						                        </span>
 					                        </div>
-				            			</div>
-				            		</div>
-				            		<div class="col-md-6 col-sm-6 col-xs-12">
-				            			<label>Weight</label>
-				            		</div>
-				            		<div class="col-md-6 col-sm-6 col-xs-12">
-				            			<div class="form-group">
-				            				<input type="text" name="d_weight" class="form-control form-control-sm" value="{{$delivery[0]->d_weight}}">
 				            			</div>
 				            		</div>
 				            		<div class="col-md-6 col-sm-6 col-xs-12">
@@ -152,6 +143,57 @@
 	                  </table>
 	              </div>
 
+								<br>
+								<h3>Accessories</h3>
+								<div class="row" style="margin-top: 15px;border-top: 1px solid #98c3d1;padding-top:15px;border-bottom: 1px solid #98c3d1; margin-bottom: 15px;">
+									<div class="col-md-2 col-sm-6 col-xs-12">
+										<label>Accesories Name</label>
+									</div>
+									<div class="col-md-3 col-sm-12 col-xs-12">
+										<div class="form-group item_div">
+											<input type="text" class="form-control" name="acc" id="acc" value="">
+										</div>
+									</div>
+									<div class="col-md-1 col-sm-6 col-xs-12">
+										<label>Description</label>
+									</div>
+									<div class="col-md-3 col-sm-8 col-xs-12">
+										<div class="form-group">
+											<input type="text" class="form-control form-control-sm" name="acc_desc" id="acc_desc">
+										</div>
+									</div>
+									<div class="col-md-1 col-sm-6 col-xs-12">
+										<label>Qty</label>
+									</div>
+									<div class="col-md-2 col-sm-8 col-xs-12">
+										<div class="form-group">
+											<input type="number" class="form-control form-control-sm" name="acc_qty" id="acc_qty" title="Press Enter">
+										</div>
+									</div>
+								</div>
+								<div class="table-responsive">
+									<table class="table table-hover" id="acctable" cellspacing="0">
+										<thead class="bg-gradient-info">
+											<tr>
+												<th width="30%">Item</th>
+												<th width="10%">Description</th>
+												<th width="20%">QTY</th>
+												<th width="3%">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach ($acc as $key => $value)
+											<tr>													
+												<td><input type="text" readonly name="accin[]" class="form-control input-sm min-width" value="{{$value->a_acc}}"></td>
+												<td><input type="text" readonly name="desc[]" class="form-control input-sm min-width" value="{{$value->a_description}}"></td>
+												<td><input type="text" readonly name="qty[]" class="form-control input-sm min-width" value="{{$value->a_qty}}"></td>
+												<td><center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center></td>
+											</tr>
+											@endforeach
+										</tbody>
+									</table>
+								</div>
+								</form>
 	              <div class="row">
 	              	<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-top: 15px;">
 	              		<button class="btn btn-sm btn-info" onclick="perbarui()" type="button">Process</button>
@@ -166,6 +208,41 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
+var tableacc;
+
+$(document).ready(function(){
+	tableacc = $('#acctable').DataTable();
+});
+
+$('#acc_qty').keypress(function(e){
+	if(e.which == 13 || e.keyCode == 13){
+		var accname = $('#acc').val();
+		var accdesc = $('#acc_desc').val();
+		var accqty = $('#acc_qty').val();
+
+		if (accqty != 0) {
+				tableacc.row.add([
+					'<input type="text" readonly name="accin[]" class="form-control input-sm min-width" value="'+ accname +'">',
+					'<input type="text" readonly name="desc[]" class="form-control input-sm min-width" value="'+ accdesc +'">',
+					'<input type="text" readonly name="qty[]" class="form-control input-sm min-width" value="'+ accqty +'">',
+					'<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>',
+				]).draw(false);
+		}
+		$('#acc').val('');
+		$('#acc_desc').val('');
+		$('#acc_qty').val('');
+	}
+});
+
+$('#acctable tbody').on( 'click', '.delete', function () {
+	var tableacc       = $("#acctable").DataTable();
+
+		tableacc
+				.row( $(this).parents('tr') )
+				.remove()
+				.draw();
+});
+
 	$('.rp').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
 
 	function perbarui(){

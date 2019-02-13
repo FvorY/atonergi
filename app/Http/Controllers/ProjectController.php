@@ -757,7 +757,6 @@ class ProjectController extends Controller
             'd_do' => $finalkode,
             'd_status' => 'PD',
             'd_delivery_date' => Carbon::parse($request->d_delivery_date)->format('Y-m-d'),
-            'd_weight' => $request->d_weight,
             'd_shipping_charges' => $d_shipping_charges,
             'd_active' => 'Y',
             'd_insert' => Carbon::now('Asia/Jakarta')
@@ -792,9 +791,9 @@ class ProjectController extends Controller
                         ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
                         ->get();
 
-                    if (!empty($stock)) {
+                    if (empty($stock)) {
                         return response()->json([
-                          'status' => 'stpck kurang',
+                          'status' => 'stock kurang',
                           'ket' => 'Stock ' . $barang[$i]->i_code . '-' . $barang[$i]->i_name . 'kurang'
                         ]);
                     } else {
@@ -866,7 +865,7 @@ class ProjectController extends Controller
                     }
                 }
 
-                for ($i=0; $i < count($accin); $i++) {
+                for ($i=0; $i < count($request->accin); $i++) {
 
                   $id = DB::table('d_accessories')->max('a_id')+1;
 
@@ -928,7 +927,11 @@ class ProjectController extends Controller
                   ->where('d_active', 'Y')
                   ->get();
 
-      return view('project.pengirimanbarang.editprosespengiriman', compact('data','barang','delivery'));
+      $acc = DB::table('d_accessories')
+                ->where('a_so', $id)
+                ->get();
+
+      return view('project.pengirimanbarang.editprosespengiriman', compact('acc','data','barang','delivery'));
     }
     public function setting(Request $request){
       if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
@@ -1035,10 +1038,31 @@ class ProjectController extends Controller
           ->where('d_do', $request->nota)
           ->where('d_active', 'Y')
           ->update([
-            'd_delivery_date' => Carbon::parse($request->d_delivery_date)->format('Y-m-d'),
-            'd_weight' => $request->d_weight,
+            'd_delivery_date' => Carbon::parse($request->d_delivery_date)->format('Y-m-d'),            
             'd_shipping_charges' => $request->d_shipping_charges
           ]);
+
+          $so = DB::table('d_sales_order')->where('so_nota', $request->d_so)->first();
+
+          DB::table('d_accessories')->where('a_so', $so->so_id)->delete();
+
+          for ($i=0; $i < count($request->accin); $i++) {
+
+            $id = DB::table('d_accessories')->max('a_id')+1;
+
+            $tmp = DB::table('d_sales_order')
+                      ->where('so_nota', $request->d_so)
+                      ->first();
+
+            DB::table('d_accessories')
+                  ->insert([
+                    'a_id' => $id,
+                    'a_so' => $so->so_id,
+                    'a_acc' => $request->accin[$i],
+                    'a_description' => $request->desc[$i],
+                    'a_qty' => $request->qty[$i]
+                  ]);
+          }
 
           logController::inputlog('Pengiriman Barang', 'Update', $request->nota);
 
