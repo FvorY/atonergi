@@ -94,7 +94,6 @@ class periode_keuangan_controller extends Controller
 
     			$periode = strtotime("+1 month", $periode);
     			$id++;
-
     		}
 
 	    	DB::table('dk_periode_keuangan')->insert($bucket);

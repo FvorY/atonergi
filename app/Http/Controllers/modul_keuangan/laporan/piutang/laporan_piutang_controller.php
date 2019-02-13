@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\modul_keuangan\laporan\hutang;
+namespace App\Http\Controllers\modul_keuangan\laporan\piutang;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Export\excel\exporter as exporter;
-use App\Model\modul_keuangan\dk_payable as payable;
+use App\Model\modul_keuangan\dk_receivable as receivable;
 
 use DB;
 use Excel;
 use PDF;
 
-class laporan_hutang_controller extends Controller
+
+class laporan_piutang_controller extends Controller
 {
     public function index(){
-    	return view('modul_keuangan.laporan.hutang.index');
+    	return view('modul_keuangan.laporan.piutang.index');
     }
 
     public function dataResource(Request $request){
@@ -23,39 +24,41 @@ class laporan_hutang_controller extends Controller
     	$d1 = explode('/', $request->d1)[2].'-'.explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0];
     	$data = [];
 
-        $krediturSupplier = DB::table('sup_supplier')->select('id_supplier as id', 'nama_supplier as text')->get();
+        $krediturSupplier = DB::table('sup_customer')->select('id_cust as id', 'nama_cust as text')->get();
         $krediturKaryawan = [];
 
-    	if($request->type == "Hutang_Supplier"){
+        // return json_encode($krediturSupplier);
+
+    	if($request->type == "Piutang_Customer"){
                if($request->jenis == "rekap"){
                     // Laporan Type Rekap
                     
-                        // Sesuaikan Nama Table Supplier Dari Sini Bosss.
+                        // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = payable::where('py_chanel', 'Hutang_Supplier')
-                                    ->join('sup_supplier', 'dk_payable.py_kreditur', '=', 'sup_supplier.id_supplier')
-                                    ->distinct('py_kreditur')
+                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
+                                    ->distinct('rc_debitur')
                                     ->with([
-                                            'detailBySupplier' => function($query){
-                                                $query->where(DB::raw('(py_total_tagihan - py_sudah_dibayar)'), '!=', 0)
+                                            'detailByDebitur' => function($query){
+                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
                                                         ->select(
-                                                            'py_kreditur',
-                                                            'py_due_date',
-                                                             DB::raw('(py_total_tagihan - py_sudah_dibayar) as total_tagihan')
+                                                            'rc_debitur',
+                                                            'rc_due_date',
+                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
                                                         );
                                             }
                                     ]);
 
                         if(!$request->semua && $request->kreditur != ''){
-                            $sampler = $sampler->where('py_kreditur', $request->kreditur);
+                            $sampler = $sampler->where('rc_debitur', $request->kreditur);
                         }
 
                         $sampler = $sampler->select(
-                                                    'py_kreditur',
-                                                    'sup_supplier.nama_supplier',
-                                                    DB::raw('sum(py_total_tagihan - py_sudah_dibayar) as total_hutang')
+                                                    'rc_debitur',
+                                                    'sup_customer.nama_cust',
+                                                    DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('py_kreditur', 'sup_supplier.nama_supplier')
+                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
                                             ->get();
                                     
 
@@ -65,8 +68,8 @@ class laporan_hutang_controller extends Controller
 
                             $not = $first = $second = $third = $fourth = 0;
 
-                            foreach($hutang->detailBySupplier as $idx => $detail){
-                                $cek = date_diff(date_create($detail->py_due_date), date_create($d1));
+                            foreach($hutang->detailByDebitur as $idx => $detail){
+                                $cek = date_diff(date_create($detail->rc_due_date), date_create($d1));
                                 $flag = $cek->format("%R");
                                 $num = $cek->format("%a");
 
@@ -88,7 +91,7 @@ class laporan_hutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_supplier,
+                                "nama_supplier"          => $hutang->nama_cust,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "belum_jatuh_tempo"      => $not,
                                 "first"                  => $first,
@@ -101,34 +104,34 @@ class laporan_hutang_controller extends Controller
                         // Pastikan Sesuai
                }else{
                     // Laporan Type Detail
-                        // Sesuaikan Nama Table Supplier Dari Sini Bosss.
+                        // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = payable::where('py_chanel', 'Hutang_Supplier')
-                                    ->join('sup_supplier', 'dk_payable.py_kreditur', '=', 'sup_supplier.id_supplier')
-                                    ->distinct('py_kreditur')
+                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
+                                    ->distinct('rc_debitur')
                                     ->with([
-                                            'detailBySupplier' => function($query){
-                                                $query->where(DB::raw('(py_total_tagihan - py_sudah_dibayar)'), '!=', 0)
+                                            'detailByDebitur' => function($query){
+                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
                                                         ->select(
-                                                            'py_kreditur',
-                                                            'py_due_date',
-                                                            'py_ref_nomor',
-                                                            'py_tanggal',
-                                                             DB::raw('(py_total_tagihan - py_sudah_dibayar) as total_tagihan')
+                                                            'rc_debitur',
+                                                            'rc_due_date',
+                                                            'rc_ref_nomor',
+                                                            'rc_tanggal',
+                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
                                                         );
                                             }
                                     ]);
 
                         if(!$request->semua && $request->kreditur != ''){
-                            $sampler = $sampler->where('py_kreditur', $request->kreditur);
+                            $sampler = $sampler->where('rc_debitur', $request->kreditur);
                         }
 
                         $sampler = $sampler->select(
-                                                    'py_kreditur',
-                                                    'sup_supplier.nama_supplier',
-                                                    DB::raw('sum(py_total_tagihan - py_sudah_dibayar) as total_hutang')
+                                                    'rc_debitur',
+                                                    'sup_customer.nama_cust',
+                                                    DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('py_kreditur', 'sup_supplier.nama_supplier')
+                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
                                             ->get();
                                     
 
@@ -138,8 +141,8 @@ class laporan_hutang_controller extends Controller
 
                             $detailNota = [];
 
-                            foreach($hutang->detailBySupplier as $idx => $detail){
-                                $cek = date_diff(date_create($detail->py_due_date), date_create($d1));
+                            foreach($hutang->detailByDebitur as $idx => $detail){
+                                $cek = date_diff(date_create($detail->rc_due_date), date_create($d1));
                                 $flag = $cek->format("%R");
                                 $num = $cek->format("%a");
                                 $not = $first = $second = $third = $fourth = 0; 
@@ -160,9 +163,9 @@ class laporan_hutang_controller extends Controller
                                 }
 
                                 array_push($detailNota, [
-                                    "tanggal"                => $detail->py_tanggal,
-                                    "jatuh_tempo"            => $detail->py_due_date,
-                                    "nomor_referensi"        => $detail->py_ref_nomor,
+                                    "tanggal"                => $detail->rc_tanggal,
+                                    "jatuh_tempo"            => $detail->rc_due_date,
+                                    "nomor_referensi"        => $detail->rc_ref_nomor,
                                     "belum_jatuh_tempo"      => $not,
                                     "first"                  => $first,
                                     "second"                 => $second,
@@ -173,9 +176,9 @@ class laporan_hutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_supplier,
+                                "nama_supplier"          => $hutang->nama_cust,
                                 "total_hutang"           => $hutang->total_hutang,
-                                "id"                     => $hutang->py_kreditur,
+                                "id"                     => $hutang->rc_debitur,
                                 "detail"                 => $detailNota,
                             ];
                         }
@@ -185,7 +188,7 @@ class laporan_hutang_controller extends Controller
 
 
     	}else{
-    		return "hutang karyawan";
+    		return "Piutang Lain";
     	}
 
         return json_encode([
@@ -202,41 +205,43 @@ class laporan_hutang_controller extends Controller
         // return json_encode($request->all());
 
         $d1 = explode('/', $request->d1)[2].'-'.explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0];
-        $data = [];
+    	$data = [];
 
-        $krediturSupplier = DB::table('sup_supplier')->select('id_supplier as id', 'nama_supplier as text')->get();
+        $krediturSupplier = DB::table('sup_customer')->select('id_cust as id', 'nama_cust as text')->get();
         $krediturKaryawan = [];
 
-        if($request->type == "Hutang_Supplier"){
+        // return json_encode($krediturSupplier);
+
+    	if($request->type == "Piutang_Customer"){
                if($request->jenis == "rekap"){
                     // Laporan Type Rekap
                     
-                        // Sesuaikan Nama Table Supplier Dari Sini Bosss.
+                        // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = payable::where('py_chanel', 'Hutang_Supplier')
-                                    ->join('sup_supplier', 'dk_payable.py_kreditur', '=', 'sup_supplier.id_supplier')
-                                    ->distinct('py_kreditur')
+                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
+                                    ->distinct('rc_debitur')
                                     ->with([
-                                            'detailBySupplier' => function($query){
-                                                $query->where(DB::raw('(py_total_tagihan - py_sudah_dibayar)'), '!=', 0)
+                                            'detailByDebitur' => function($query){
+                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
                                                         ->select(
-                                                            'py_kreditur',
-                                                            'py_due_date',
-                                                             DB::raw('(py_total_tagihan - py_sudah_dibayar) as total_tagihan')
+                                                            'rc_debitur',
+                                                            'rc_due_date',
+                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
                                                         );
                                             }
                                     ]);
 
                         if(!$request->semua && $request->kreditur != ''){
-                            $sampler = $sampler->where('py_kreditur', $request->kreditur);
+                            $sampler = $sampler->where('rc_debitur', $request->kreditur);
                         }
 
                         $sampler = $sampler->select(
-                                                    'py_kreditur',
-                                                    'sup_supplier.nama_supplier',
-                                                    DB::raw('sum(py_total_tagihan - py_sudah_dibayar) as total_hutang')
+                                                    'rc_debitur',
+                                                    'sup_customer.nama_cust',
+                                                    DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('py_kreditur', 'sup_supplier.nama_supplier')
+                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
                                             ->get();
                                     
 
@@ -246,8 +251,8 @@ class laporan_hutang_controller extends Controller
 
                             $not = $first = $second = $third = $fourth = 0;
 
-                            foreach($hutang->detailBySupplier as $idx => $detail){
-                                $cek = date_diff(date_create($detail->py_due_date), date_create($d1));
+                            foreach($hutang->detailByDebitur as $idx => $detail){
+                                $cek = date_diff(date_create($detail->rc_due_date), date_create($d1));
                                 $flag = $cek->format("%R");
                                 $num = $cek->format("%a");
 
@@ -269,7 +274,7 @@ class laporan_hutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_supplier,
+                                "nama_supplier"          => $hutang->nama_cust,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "belum_jatuh_tempo"      => $not,
                                 "first"                  => $first,
@@ -282,34 +287,34 @@ class laporan_hutang_controller extends Controller
                         // Pastikan Sesuai
                }else{
                     // Laporan Type Detail
-                        // Sesuaikan Nama Table Supplier Dari Sini Bosss.
+                        // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = payable::where('py_chanel', 'Hutang_Supplier')
-                                    ->join('sup_supplier', 'dk_payable.py_kreditur', '=', 'sup_supplier.id_supplier')
-                                    ->distinct('py_kreditur')
+                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
+                                    ->distinct('rc_debitur')
                                     ->with([
-                                            'detailBySupplier' => function($query){
-                                                $query->where(DB::raw('(py_total_tagihan - py_sudah_dibayar)'), '!=', 0)
+                                            'detailByDebitur' => function($query){
+                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
                                                         ->select(
-                                                            'py_kreditur',
-                                                            'py_due_date',
-                                                            'py_ref_nomor',
-                                                            'py_tanggal',
-                                                             DB::raw('(py_total_tagihan - py_sudah_dibayar) as total_tagihan')
+                                                            'rc_debitur',
+                                                            'rc_due_date',
+                                                            'rc_ref_nomor',
+                                                            'rc_tanggal',
+                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
                                                         );
                                             }
                                     ]);
 
                         if(!$request->semua && $request->kreditur != ''){
-                            $sampler = $sampler->where('py_kreditur', $request->kreditur);
+                            $sampler = $sampler->where('rc_debitur', $request->kreditur);
                         }
 
                         $sampler = $sampler->select(
-                                                    'py_kreditur',
-                                                    'sup_supplier.nama_supplier',
-                                                    DB::raw('sum(py_total_tagihan - py_sudah_dibayar) as total_hutang')
+                                                    'rc_debitur',
+                                                    'sup_customer.nama_cust',
+                                                    DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('py_kreditur', 'sup_supplier.nama_supplier')
+                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
                                             ->get();
                                     
 
@@ -319,8 +324,8 @@ class laporan_hutang_controller extends Controller
 
                             $detailNota = [];
 
-                            foreach($hutang->detailBySupplier as $idx => $detail){
-                                $cek = date_diff(date_create($detail->py_due_date), date_create($d1));
+                            foreach($hutang->detailByDebitur as $idx => $detail){
+                                $cek = date_diff(date_create($detail->rc_due_date), date_create($d1));
                                 $flag = $cek->format("%R");
                                 $num = $cek->format("%a");
                                 $not = $first = $second = $third = $fourth = 0; 
@@ -341,9 +346,9 @@ class laporan_hutang_controller extends Controller
                                 }
 
                                 array_push($detailNota, [
-                                    "tanggal"                => $detail->py_tanggal,
-                                    "jatuh_tempo"            => $detail->py_due_date,
-                                    "nomor_referensi"        => $detail->py_ref_nomor,
+                                    "tanggal"                => $detail->rc_tanggal,
+                                    "jatuh_tempo"            => $detail->rc_due_date,
+                                    "nomor_referensi"        => $detail->rc_ref_nomor,
                                     "belum_jatuh_tempo"      => $not,
                                     "first"                  => $first,
                                     "second"                 => $second,
@@ -354,9 +359,9 @@ class laporan_hutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_supplier,
+                                "nama_supplier"          => $hutang->nama_cust,
                                 "total_hutang"           => $hutang->total_hutang,
-                                "id"                     => $hutang->py_kreditur,
+                                "id"                     => $hutang->rc_debitur,
                                 "detail"                 => $detailNota,
                             ];
                         }
@@ -365,13 +370,13 @@ class laporan_hutang_controller extends Controller
                }
 
 
-        }else{
-            return "hutang karyawan";
-        }
+    	}else{
+    		return "Piutang Lain";
+    	}
 
         // return json_encode($data);
 
-        return view('modul_keuangan.laporan.hutang.print.index', compact('data'));
+        return view('modul_keuangan.laporan.piutang.print.index', compact('data'));
     }
 
     public function pdf(Request $request){
@@ -379,43 +384,45 @@ class laporan_hutang_controller extends Controller
         // return json_encode($request->all());
 
         $d1 = explode('/', $request->d1)[2].'-'.explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0];
-        $data = [];
-        $stage = "";
+    	$data = [];
+    	$stage = '';
 
-        $krediturSupplier = DB::table('sup_supplier')->select('id_supplier as id', 'nama_supplier as text')->get();
+        $krediturSupplier = DB::table('sup_customer')->select('id_cust as id', 'nama_cust as text')->get();
         $krediturKaryawan = [];
 
-        if($request->type == "Hutang_Supplier"){
-               $stage = "Supplier";
+        // return json_encode($krediturSupplier);
+
+    	if($request->type == "Piutang_Customer"){
+    		   $stage = 'Customer';
                if($request->jenis == "rekap"){
                     // Laporan Type Rekap
                     
-                        // Sesuaikan Nama Table Supplier Dari Sini Bosss.
+                        // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = payable::where('py_chanel', 'Hutang_Supplier')
-                                    ->join('sup_supplier', 'dk_payable.py_kreditur', '=', 'sup_supplier.id_supplier')
-                                    ->distinct('py_kreditur')
+                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
+                                    ->distinct('rc_debitur')
                                     ->with([
-                                            'detailBySupplier' => function($query){
-                                                $query->where(DB::raw('(py_total_tagihan - py_sudah_dibayar)'), '!=', 0)
+                                            'detailByDebitur' => function($query){
+                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
                                                         ->select(
-                                                            'py_kreditur',
-                                                            'py_due_date',
-                                                             DB::raw('(py_total_tagihan - py_sudah_dibayar) as total_tagihan')
+                                                            'rc_debitur',
+                                                            'rc_due_date',
+                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
                                                         );
                                             }
                                     ]);
 
                         if(!$request->semua && $request->kreditur != ''){
-                            $sampler = $sampler->where('py_kreditur', $request->kreditur);
+                            $sampler = $sampler->where('rc_debitur', $request->kreditur);
                         }
 
                         $sampler = $sampler->select(
-                                                    'py_kreditur',
-                                                    'sup_supplier.nama_supplier',
-                                                    DB::raw('sum(py_total_tagihan - py_sudah_dibayar) as total_hutang')
+                                                    'rc_debitur',
+                                                    'sup_customer.nama_cust',
+                                                    DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('py_kreditur', 'sup_supplier.nama_supplier')
+                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
                                             ->get();
                                     
 
@@ -425,8 +432,8 @@ class laporan_hutang_controller extends Controller
 
                             $not = $first = $second = $third = $fourth = 0;
 
-                            foreach($hutang->detailBySupplier as $idx => $detail){
-                                $cek = date_diff(date_create($detail->py_due_date), date_create($d1));
+                            foreach($hutang->detailByDebitur as $idx => $detail){
+                                $cek = date_diff(date_create($detail->rc_due_date), date_create($d1));
                                 $flag = $cek->format("%R");
                                 $num = $cek->format("%a");
 
@@ -448,7 +455,7 @@ class laporan_hutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_supplier,
+                                "nama_supplier"          => $hutang->nama_cust,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "belum_jatuh_tempo"      => $not,
                                 "first"                  => $first,
@@ -461,34 +468,34 @@ class laporan_hutang_controller extends Controller
                         // Pastikan Sesuai
                }else{
                     // Laporan Type Detail
-                        // Sesuaikan Nama Table Supplier Dari Sini Bosss.
+                        // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = payable::where('py_chanel', 'Hutang_Supplier')
-                                    ->join('sup_supplier', 'dk_payable.py_kreditur', '=', 'sup_supplier.id_supplier')
-                                    ->distinct('py_kreditur')
+                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
+                                    ->distinct('rc_debitur')
                                     ->with([
-                                            'detailBySupplier' => function($query){
-                                                $query->where(DB::raw('(py_total_tagihan - py_sudah_dibayar)'), '!=', 0)
+                                            'detailByDebitur' => function($query){
+                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
                                                         ->select(
-                                                            'py_kreditur',
-                                                            'py_due_date',
-                                                            'py_ref_nomor',
-                                                            'py_tanggal',
-                                                             DB::raw('(py_total_tagihan - py_sudah_dibayar) as total_tagihan')
+                                                            'rc_debitur',
+                                                            'rc_due_date',
+                                                            'rc_ref_nomor',
+                                                            'rc_tanggal',
+                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
                                                         );
                                             }
                                     ]);
 
                         if(!$request->semua && $request->kreditur != ''){
-                            $sampler = $sampler->where('py_kreditur', $request->kreditur);
+                            $sampler = $sampler->where('rc_debitur', $request->kreditur);
                         }
 
                         $sampler = $sampler->select(
-                                                    'py_kreditur',
-                                                    'sup_supplier.nama_supplier',
-                                                    DB::raw('sum(py_total_tagihan - py_sudah_dibayar) as total_hutang')
+                                                    'rc_debitur',
+                                                    'sup_customer.nama_cust',
+                                                    DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('py_kreditur', 'sup_supplier.nama_supplier')
+                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
                                             ->get();
                                     
 
@@ -498,8 +505,8 @@ class laporan_hutang_controller extends Controller
 
                             $detailNota = [];
 
-                            foreach($hutang->detailBySupplier as $idx => $detail){
-                                $cek = date_diff(date_create($detail->py_due_date), date_create($d1));
+                            foreach($hutang->detailByDebitur as $idx => $detail){
+                                $cek = date_diff(date_create($detail->rc_due_date), date_create($d1));
                                 $flag = $cek->format("%R");
                                 $num = $cek->format("%a");
                                 $not = $first = $second = $third = $fourth = 0; 
@@ -520,9 +527,9 @@ class laporan_hutang_controller extends Controller
                                 }
 
                                 array_push($detailNota, [
-                                    "tanggal"                => $detail->py_tanggal,
-                                    "jatuh_tempo"            => $detail->py_due_date,
-                                    "nomor_referensi"        => $detail->py_ref_nomor,
+                                    "tanggal"                => $detail->rc_tanggal,
+                                    "jatuh_tempo"            => $detail->rc_due_date,
+                                    "nomor_referensi"        => $detail->rc_ref_nomor,
                                     "belum_jatuh_tempo"      => $not,
                                     "first"                  => $first,
                                     "second"                 => $second,
@@ -533,28 +540,30 @@ class laporan_hutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_supplier,
+                                "nama_supplier"          => $hutang->nama_cust,
                                 "total_hutang"           => $hutang->total_hutang,
-                                "id"                     => $hutang->py_kreditur,
+                                "id"                     => $hutang->rc_debitur,
                                 "detail"                 => $detailNota,
                             ];
                         }
 
                         // Pastikan Sesuai
                }
-        }else{
-            $stage = "Karyawan";
-            return "hutang karyawan";
-        }
+
+
+    	}else{
+    		$stage = 'Lain-lain';
+    		return "Piutang Lain";
+    	}
 
         // return json_encode($data);
 
-        $title = "Laporan_Hutang_".$stage."_".$request->jenis."_".$d1.".pdf";
+        $title = "Laporan_Piutang_".$stage."_".$request->jenis."_".$d1.".pdf";
 
-        $pdf = PDF::loadView('modul_keuangan.laporan.hutang.print.pdf', compact('data'));
+        $pdf = PDF::loadView('modul_keuangan.laporan.piutang.print.pdf', compact('data'));
         $pdf->setPaper('A4', 'landscape');
 
-        return $pdf->stream($title);
+        return $pdf->download($title);
     }
 
     public function excel(Request $request){
@@ -562,43 +571,45 @@ class laporan_hutang_controller extends Controller
         // return json_encode($request->all());
 
         $d1 = explode('/', $request->d1)[2].'-'.explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0];
-        $data = [];
-        $stage = "";
+    	$data = [];
+    	$stage = '';
 
-        $krediturSupplier = DB::table('sup_supplier')->select('id_supplier as id', 'nama_supplier as text')->get();
+        $krediturSupplier = DB::table('sup_customer')->select('id_cust as id', 'nama_cust as text')->get();
         $krediturKaryawan = [];
 
-        if($request->type == "Hutang_Supplier"){
-               $stage = "Supplier";
+        // return json_encode($krediturSupplier);
+
+    	if($request->type == "Piutang_Customer"){
+    		   $stage = 'Customer';
                if($request->jenis == "rekap"){
                     // Laporan Type Rekap
                     
-                        // Sesuaikan Nama Table Supplier Dari Sini Bosss.
+                        // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = payable::where('py_chanel', 'Hutang_Supplier')
-                                    ->join('sup_supplier', 'dk_payable.py_kreditur', '=', 'sup_supplier.id_supplier')
-                                    ->distinct('py_kreditur')
+                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
+                                    ->distinct('rc_debitur')
                                     ->with([
-                                            'detailBySupplier' => function($query){
-                                                $query->where(DB::raw('(py_total_tagihan - py_sudah_dibayar)'), '!=', 0)
+                                            'detailByDebitur' => function($query){
+                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
                                                         ->select(
-                                                            'py_kreditur',
-                                                            'py_due_date',
-                                                             DB::raw('(py_total_tagihan - py_sudah_dibayar) as total_tagihan')
+                                                            'rc_debitur',
+                                                            'rc_due_date',
+                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
                                                         );
                                             }
                                     ]);
 
                         if(!$request->semua && $request->kreditur != ''){
-                            $sampler = $sampler->where('py_kreditur', $request->kreditur);
+                            $sampler = $sampler->where('rc_debitur', $request->kreditur);
                         }
 
                         $sampler = $sampler->select(
-                                                    'py_kreditur',
-                                                    'sup_supplier.nama_supplier',
-                                                    DB::raw('sum(py_total_tagihan - py_sudah_dibayar) as total_hutang')
+                                                    'rc_debitur',
+                                                    'sup_customer.nama_cust',
+                                                    DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('py_kreditur', 'sup_supplier.nama_supplier')
+                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
                                             ->get();
                                     
 
@@ -608,8 +619,8 @@ class laporan_hutang_controller extends Controller
 
                             $not = $first = $second = $third = $fourth = 0;
 
-                            foreach($hutang->detailBySupplier as $idx => $detail){
-                                $cek = date_diff(date_create($detail->py_due_date), date_create($d1));
+                            foreach($hutang->detailByDebitur as $idx => $detail){
+                                $cek = date_diff(date_create($detail->rc_due_date), date_create($d1));
                                 $flag = $cek->format("%R");
                                 $num = $cek->format("%a");
 
@@ -631,7 +642,7 @@ class laporan_hutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_supplier,
+                                "nama_supplier"          => $hutang->nama_cust,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "belum_jatuh_tempo"      => $not,
                                 "first"                  => $first,
@@ -644,34 +655,34 @@ class laporan_hutang_controller extends Controller
                         // Pastikan Sesuai
                }else{
                     // Laporan Type Detail
-                        // Sesuaikan Nama Table Supplier Dari Sini Bosss.
+                        // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = payable::where('py_chanel', 'Hutang_Supplier')
-                                    ->join('sup_supplier', 'dk_payable.py_kreditur', '=', 'sup_supplier.id_supplier')
-                                    ->distinct('py_kreditur')
+                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
+                                    ->distinct('rc_debitur')
                                     ->with([
-                                            'detailBySupplier' => function($query){
-                                                $query->where(DB::raw('(py_total_tagihan - py_sudah_dibayar)'), '!=', 0)
+                                            'detailByDebitur' => function($query){
+                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
                                                         ->select(
-                                                            'py_kreditur',
-                                                            'py_due_date',
-                                                            'py_ref_nomor',
-                                                            'py_tanggal',
-                                                             DB::raw('(py_total_tagihan - py_sudah_dibayar) as total_tagihan')
+                                                            'rc_debitur',
+                                                            'rc_due_date',
+                                                            'rc_ref_nomor',
+                                                            'rc_tanggal',
+                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
                                                         );
                                             }
                                     ]);
 
                         if(!$request->semua && $request->kreditur != ''){
-                            $sampler = $sampler->where('py_kreditur', $request->kreditur);
+                            $sampler = $sampler->where('rc_debitur', $request->kreditur);
                         }
 
                         $sampler = $sampler->select(
-                                                    'py_kreditur',
-                                                    'sup_supplier.nama_supplier',
-                                                    DB::raw('sum(py_total_tagihan - py_sudah_dibayar) as total_hutang')
+                                                    'rc_debitur',
+                                                    'sup_customer.nama_cust',
+                                                    DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('py_kreditur', 'sup_supplier.nama_supplier')
+                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
                                             ->get();
                                     
 
@@ -681,8 +692,8 @@ class laporan_hutang_controller extends Controller
 
                             $detailNota = [];
 
-                            foreach($hutang->detailBySupplier as $idx => $detail){
-                                $cek = date_diff(date_create($detail->py_due_date), date_create($d1));
+                            foreach($hutang->detailByDebitur as $idx => $detail){
+                                $cek = date_diff(date_create($detail->rc_due_date), date_create($d1));
                                 $flag = $cek->format("%R");
                                 $num = $cek->format("%a");
                                 $not = $first = $second = $third = $fourth = 0; 
@@ -703,9 +714,9 @@ class laporan_hutang_controller extends Controller
                                 }
 
                                 array_push($detailNota, [
-                                    "tanggal"                => $detail->py_tanggal,
-                                    "jatuh_tempo"            => $detail->py_due_date,
-                                    "nomor_referensi"        => $detail->py_ref_nomor,
+                                    "tanggal"                => $detail->rc_tanggal,
+                                    "jatuh_tempo"            => $detail->rc_due_date,
+                                    "nomor_referensi"        => $detail->rc_ref_nomor,
                                     "belum_jatuh_tempo"      => $not,
                                     "first"                  => $first,
                                     "second"                 => $second,
@@ -716,26 +727,28 @@ class laporan_hutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_supplier,
+                                "nama_supplier"          => $hutang->nama_cust,
                                 "total_hutang"           => $hutang->total_hutang,
-                                "id"                     => $hutang->py_kreditur,
+                                "id"                     => $hutang->rc_debitur,
                                 "detail"                 => $detailNota,
                             ];
                         }
 
                         // Pastikan Sesuai
                }
-        }else{
-            $stage = "Karyawan";
-            return "hutang karyawan";
-        }
+
+
+    	}else{
+    		$stage = 'Lain-lain';
+    		return "Piutang Lain";
+    	}
 
         // return json_encode($data);
 
-        $title = "Laporan_Hutang_".$stage."_".$request->jenis."_".$d1.".xlsx";
+        $title = "Laporan_Piutang_".$stage."_".$request->jenis."_".$d1.".xlsx";
 
         // return view('modul_keuangan.laporan.jurnal.print.excel', compact('data'));
 
-        return Excel::download(new exporter('modul_keuangan.laporan.hutang.print.excel', $data), $title);
+        return Excel::download(new exporter('modul_keuangan.laporan.piutang.print.excel', $data), $title);
     }
 }

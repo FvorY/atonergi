@@ -43,7 +43,7 @@
                                                 <label class="modul-keuangan">Type Akun</label>
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <vue-select :name="'ak_type'" :id="'ak_type'" :options="type" :disabled="onUpdate" @input="typeChange"></vue-select>
                                             </div>
 
@@ -214,7 +214,7 @@
             <div class="layout" style="width: 70%">
                 <div class="top-popup" style="background: none;">
                     <span class="title">
-                        Data Group Akun Yang Sudah Dibuat
+                        Data Akun Yang Sudah Dibuat
                     </span>
 
                     <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
@@ -298,7 +298,7 @@
 
                 data_table_columns : [
                     {name: 'Nomor Akun', context: 'ak_id', width: '20%', childStyle: 'text-align: center'},
-                    {name: 'Nama Akun', context: 'ak_nama', width: '20%', childStyle: 'text-align: center'},
+                    {name: 'Nama Akun', context: 'ak_nama', width: '40%', childStyle: 'text-align: center'},
                     {name: 'Posisi Akun', context: 'ak_posisi', width: '20%', childStyle: 'text-align: center', override: function(e){
                         if(e == 'D')
                             return 'Debet';
@@ -307,7 +307,6 @@
                         else
                             return '-';
                     }},
-                    {name: 'Type Akun', context: 'ak_type', width: '20%', childStyle: 'text-align: center'},
                     {name: 'Aktif', context: 'ak_isactive', width: '20%', childStyle: 'text-align: center', override: function(e){
                         if(e === '1')
                             return '<i class="fa fa-check-square-o" style="color: #007E33;"></i>';
@@ -570,7 +569,7 @@
 
                     axios.get('{{ Route('akun.datatable') }}?type='+$('#ak_type').val())
                             .then((response) => {
-                                console.log(response.data);
+                                // console.log(response.data);
                                 if(response.data.length){
                                     this.list_data_table = response.data;
                                 }
@@ -596,13 +595,8 @@
                     this.singleData.ak_nama = conteks['ak_nama'];
                     this.singleData.ak_id = conteks['ak_id'];
 
-                    if(conteks['ak_type'] == 'detail'){
-                        $('#ak_posisi').val(conteks['ak_posisi']).trigger('change.select2');
-                        $('#ak_opening').val(conteks['ak_opening']);
-                        $('#ak_group_neraca').val(conteks['ak_group_neraca']).trigger('change.select2');
-                        $('#ak_group_lr').val(conteks['ak_group_lr']).trigger('change.select2');
-                        $('#ak_group_ak').val(conteks['ak_group_ak']).trigger('change.select2');
-                    }
+                    $('#ak_posisi').val(conteks['ak_posisi']).trigger('change.select2');
+                    $('#ak_opening').val(conteks['ak_opening']);
 
                     if(this.list_data_table[idx].ak_status == 'locked'){
                         this.locked = true;
