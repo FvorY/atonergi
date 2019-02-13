@@ -270,7 +270,7 @@ $('#amount').mask('000.000.000.000.000', {reverse: true});
 		if (amount < batas) {
 			iziToast.warning({
 	            icon: 'fa fa-info',
-	            message: 'Tidak boleh lebih dari '+tmppercent+'!',
+	            message: 'Tidak boleh kurang dari '+tmppercent+'!',
 	        });
 
 			$('#amount').val(accounting.formatMoney(batas,"", 0, ".",','));

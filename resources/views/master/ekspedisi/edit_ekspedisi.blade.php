@@ -27,7 +27,7 @@
 
               <div class="col-md-9 col-sm-8 col-12 ">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-sm" name="name">
+                  <input type="text" class="form-control form-control-sm" name="name" value="{{$data->e_name}}">
                 </div>
               </div>
 
@@ -37,7 +37,7 @@
 
               <div class="col-md-9 col-sm-8 col-12 ">
                 <div class="form-group">
-                  <textarea class="form-control" name="address"></textarea>
+                  <textarea class="form-control" name="address">{{$data->e_address}}</textarea>
                 </div>
               </div>
 
@@ -47,13 +47,13 @@
 
               <div class="col-md-9 col-sm-8 col-12 ">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-sm" name="telp">
+                  <input type="text" class="form-control form-control-sm" name="telp" value="{{$data->e_telp}}">
                 </div>
               </div>
             </div>
           </form>
             <div class="w-100 text-right">
-              <button class="btn btn-primary" onclick="simpan()" type="button">Simpan</button>
+              <button class="btn btn-primary" onclick="update({{$id}})" type="button">Simpan</button>
               <a href="{{route('ekspedisi')}}" class="btn btn-secondary">Kembali</a>
             </div>
           </div>
@@ -66,12 +66,12 @@
 @endsection
 @section('extra_script')
 <script>
-function simpan(){
+function update(id){
   $.ajax({
     type: 'get',
-    data: $('#formdata').serialize(),
+    data: $('#formdata').serialize()+'&id='+id,
     dataType: 'json',
-    url : "{{route('simpan_ekspedisi')}}",
+    url : "{{route('update_ekspedisi')}}",
     success : function(response){
       if (response.status == 'berhasil') {
         iziToast.success({

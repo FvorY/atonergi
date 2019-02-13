@@ -114,6 +114,9 @@ Route::post('/master/ttd/update', 'MasterController@updatettd');
 Route::get('/master/ekspedisi/ekspedisi', 'ekspedisiController@ekspedisi')->name('ekspedisi');
 Route::get('/master/ekspedisi/tambah_ekspedisi', 'ekspedisiController@tambah_ekspedisi')->name('tambah_ekspedisi');
 Route::get('/master/ekspedisi/simpan', 'ekspedisiController@simpan')->name('simpan_ekspedisi');
+Route::get('/master/ekspedisi/update', 'ekspedisiController@update')->name('update_ekspedisi');
+Route::get('/master/ekspedisi/hapus', 'ekspedisiController@hapus');
+Route::get('/master/ekspedisi/edit', 'ekspedisiController@edit');
 
 // Quotation
 Route::get('/quotation/q_quotation/q_quotation', 'QuotationController@q_quotation')->name('q_quotation');

@@ -1038,7 +1038,7 @@ class ProjectController extends Controller
           ->where('d_do', $request->nota)
           ->where('d_active', 'Y')
           ->update([
-            'd_delivery_date' => Carbon::parse($request->d_delivery_date)->format('Y-m-d'),            
+            'd_delivery_date' => Carbon::parse($request->d_delivery_date)->format('Y-m-d'),
             'd_shipping_charges' => $request->d_shipping_charges
           ]);
 
@@ -1108,7 +1108,14 @@ class ProjectController extends Controller
         rmdir($dirPath);
     }
     public function suratjalan(){
-      return view('project.suratjalan.suratjalan');
+      $data = DB::table('d_suratjalan')
+                ->join('d_delivery', 'd_id', '=', 's_do')
+                ->join('d_sales_order', 'so_nota', '=', 'd_so')
+                ->join('d_quotation', 'q_nota', '=', 'so_ref')
+                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->get();
+
+      return view('project.suratjalan.suratjalan', compact('data'));
     }
     public function tambah_suratjalan(){
       return view('project.suratjalan.tambah_suratjalan');

@@ -33,14 +33,16 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>00001</td>
-                                <td>ini-nomor-so-456</td>
-                                <td>Mike</td>
-                                <td>Jl. Mike</td>
-                                <td><button class="btn btn-info btn-sm btn-print" type="button" title="Print"><i class="fa fa-print"></i></button></td>
-                              </tr>
+                              @foreach ($data as $key => $value)
+                                <tr>
+                                  <td>{{$key + 1}}</td>
+                                  <td>{{$value->d_do}}</td>
+                                  <td>{{$value->d_so}}</td>
+                                  <td>{{$value->c_name}}</td>
+                                  <td>{{$value->c_address}}</td>
+                                  <td><button class="btn btn-info btn-sm btn-print" onclick="cetak({{$value->d_so}})" type="button" title="Print"><i class="fa fa-print"></i></button></td>
+                                </tr>
+                              @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -55,10 +57,10 @@
 <script>
 $(document).ready(function(){
   var table   = $('#table_data').DataTable();
-
-  $('#table_data tbody').on('click', '.btn-print', function(){
-    window.location.href='{{route('print_suratjalan')}}';
-  });
 });
+
+function cetak(id){
+  window.location.href='{{route('print_suratjalan')}}?id='+id;
+}
 </script>
 @endsection

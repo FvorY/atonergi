@@ -69,4 +69,60 @@ class ekspedisiController extends Controller
               ]);
             }
           }
+
+          public function hapus(Request $request){
+            DB::beginTransaction();
+            try {
+
+              DB::table('m_ekspedisi')->where('e_id', $request->id)->delete();
+
+              DB::commit();
+              return response()->json([
+                'status' => 'berhasil'
+              ]);
+            } catch (Exception $e) {
+              DB::rollback();
+              return response()->json([
+                'status' => 'gagal'
+              ]);
+            }
+
+          }
+
+          public function edit(Request $request){
+            $id = $request->id;
+
+            $data = DB::table('m_ekspedisi')
+                      ->where('e_id', $request->id)
+                      ->first();
+
+            return view('master/ekspedisi/edit_ekspedisi', compact('data', 'id'));
+          }
+
+          public function update(Request $request){
+            DB::beginTransaction();
+            try {
+
+              DB::table('m_ekspedisi')
+                ->where('e_id', $request->id)
+                ->update([
+                  'e_name' => $request->name,
+                  'e_address' => $request->address,
+                  'e_telp' => $request->telp,
+                  'e_update' => Carbon::now('Asia/Jakarta')
+                ]);
+
+              DB::commit();
+              return response()->json([
+                'status' => 'berhasil'
+              ]);
+            } catch (Exception $e) {
+              DB::rollback();
+              return response()->json([
+                'status' => 'gagal'
+              ]);
+            }
+
+          }
+
 }

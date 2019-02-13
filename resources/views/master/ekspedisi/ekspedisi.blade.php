@@ -41,7 +41,7 @@
                           <td>{{$value->e_telp}}</td>
                           <td align="center">
                             <div class="btn-group">
-                              <button type="button" onclick="edit({{$value->e_id}})" class="btn btn-info btn-lg" title="edit"><label class="fa fa-pencil-alt"></label></button>
+                              <button type="button" onclick="edit({{$value->e_id}})" class="btn btn-info btn-lg" title="edit"><label class="fa fa-pencil"></label></button>
                               <button type="button" onclick="hapus({{$value->e_id}})" class="btn btn-danger btn-lg" title="hapus"><label class="fa fa-trash"></label></button>
                             </div>
                           </td>
@@ -63,5 +63,68 @@
 $(document).ready(function(){
   var table   = $('#table_data').DataTable();
 });
+
+function hapus(id) {
+    iziToast.show({
+            overlay: true,
+            close: false,
+            timeout: 20000,
+            color: 'dark',
+            icon: 'fas fa-question-circle',
+            title: 'Important!',
+            message: 'Apakah Anda Yakin ?!',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+              [
+                '<button style="background-color:red;">Delete</button>',
+                function (instance, toast) {
+
+                  $.ajax({
+                    type: 'get',
+                    data: {id:id},
+                    dataType: 'json',
+                    url: baseUrl + '/master/ekspedisi/hapus',
+                    success : function(response){
+                      if (response.status == 'berhasil') {
+                        iziToast.success({
+                          icon: 'fas fa-check-circle',
+                          message: 'Data Telah Tersimpan!',
+                        });
+                        setTimeout(function () {
+                          window.location.reload();
+                        }, 100);
+                      } else {
+                        iziToast.warning({
+                          icon: 'fa fa-times',
+                          message: 'Terjadi Kesalahan!',
+                        });
+                      }
+                      },
+                      error:function(){
+                        iziToast.warning({
+                          icon: 'fa fa-times',
+                          message: 'Terjadi Kesalahan!',
+                        });
+                      }
+                  });
+
+                }
+              ],
+              [
+                '<button style="background-color:#44d7c9;">Cancel</button>',
+                function (instance, toast) {
+                  instance.hide({
+                    transitionOut: 'fadeOutUp'
+                  }, toast);
+                }
+              ]
+            ]
+          });
+  }
+
+  function edit(id){
+    window.location.href = baseUrl + '/master/ekspedisi/edit?id='+id;
+  }
 </script>
 @endsection
