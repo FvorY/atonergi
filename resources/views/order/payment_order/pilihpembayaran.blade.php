@@ -22,38 +22,6 @@
           </div>
 
           <div class="col-md-3 col-sm-6 col-xs-12">
-            <label>Paid to Account</label>
-          </div>
-          <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="form-group">
-              @if ($so != null or $wo != null)
-                <select class="form-control form-control-sm" name="akun">
-                    @if ($so!=null)
-                      <option @if ($so->so_type == 'Cash')
-                        selected=""
-                      @endif value="Cash">Cash</option>
-                      <option @if ($so->so_type == 'Deposit')
-                        selected=""
-                      @endif value="Deposit">Deposit</option>
-                    @else
-                      <option @if ($wo->wo_type == 'Cash')
-                        selected=""
-                      @endif>Cash</option>
-                      <option @if ($wo->wo_type == 'Deposit')
-                        selected=""
-                      @endif>Deposit</option>
-                    @endif
-                </select>
-              @else
-                <select class="form-control form-control-sm" name="akun">
-                  <option>Cash</option>
-                  <option>Deposit</option>
-                </select>
-              @endif
-            </div>
-          </div>
-
-          <div class="col-md-3 col-sm-6 col-xs-12">
             <label>Amount</label>
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
@@ -81,7 +49,7 @@
                     @if ($so!=null)
                       <option @if ($so->so_type == 'tunai')
                         selected=""
-                      @endif value="tunai">tunai</option>
+                      @endif value="tunai">Tunai</option>
                       <option @if ($so->so_type == 'Transfer')
                         selected=""
                       @endif value="Transfer">Transfer</option>
