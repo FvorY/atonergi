@@ -18,6 +18,7 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Tambah Surat Jalan</h4>
+                    <form id="formdata">
                     <div class="row">
                       <div class="col-md-3 col-sm-4 col-xs-12">
                         <label>Pilih No. SO</label>
@@ -27,8 +28,8 @@
                         <div class="form-group">
                           <select class="form-control input-sm select2" id="select-so" name="do">
                             <option value="" selected="" disabled="">--Pilih--</option>
-                            @foreach ($do as $key => $value)
-                              <option value="{{$value->d_id}}">{{$value->d_do}}</option>
+                            @foreach ($so as $key => $value)
+                              <option value="{{$value->so_nota}}">{{$value->so_nota}}</option>
                             @endforeach
                           </select>
                         </div>
@@ -40,6 +41,16 @@
                     <div class="row d-none" id="div-so">
                       <div class="col-md-6 col-sm-12">
                         <div class="row">
+
+                          <div class="col-md-6 col-sm-12">
+                            <label>No Surat Jalan</label>
+                          </div>
+
+                          <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                              <input type="text" class="form-control" name="nodo" readonly value="{{$finalkode}}">
+                            </div>
+                          </div>
 
                           <div class="col-md-6 col-sm-12">
                             <label>Expedition</label>
@@ -117,12 +128,43 @@
                         </table>
                       </div>
 
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+                          <label>Banyaknya</label>
+                        </div>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                          <div class="form-group item_div">
+                            <input type="text" class="form-control" name="banyaknya" id="banyaknya" value="">
+                          </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+                          <label>Nama Barang</label>
+                        </div>
+                        <div class="col-md-3 col-sm-8 col-xs-12">
+                          <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" name="itemname" id="itemname">
+                          </div>
+                        </div>
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover" cellspacing="0" id="tableinput">
+                          <thead class="bg-gradient-info">
+                            <tr>
+                              <th width="10%">Banyaknya</th>
+                              <th width="85%">Nama Barang</th>
+                              <th width="5%">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                          </tbody>
+                        </table>
+                      </div>
+
                     </div>
 
-
+                  </form>
                     <hr>
                     <div class="text-right w-100">
-                      <button class="btn btn-primary" type="button" id="btn-simpnanse">Simpan</button>
+                      <button class="btn btn-primary" type="button" onclick="simpan()">Simpan</button>
                       <a href="{{route('suratjalan')}}" class="btn btn-secondary">Kembali</a>
                     </div>
                   </div>
@@ -134,10 +176,11 @@
 @endsection
 @section('extra_script')
 <script>
+var table, counter_strike__battlefield, tableinput;
 $(document).ready(function(){
-  var table, counter_strike__battlefield;
 
   table = $('#table_barang').DataTable();
+  tableinput = $('#tableinput').DataTable();
   counter_strike__battlefield   = 0;
 
   $('#select-so').change(function(){
@@ -152,9 +195,9 @@ $(document).ready(function(){
 
       $.ajax({
         type: 'get',
-        data: {do:ini.val()},
+        data: {so:ini.val()},
         dataType: 'json',
-        url: baseUrl + '/project/suratjalan/getdo',
+        url: baseUrl + '/project/suratjalan/getso',
         success : function(response){
                 for (var i = 0; i < response.length; i++) {
                   table.row.add([
@@ -181,10 +224,66 @@ function eksup(){
   var eks = $('#ekspedisi');
 
   var val = eks.val();
-  console.log(val);
+
   var address = $('#eksaddress'+val).val();
 
   $('textarea[name=eksaddress]').val(address);
 }
+
+function simpan(){
+  $.ajax({
+    type: 'get',
+    data: $('#formdata').serialize(),
+    dataType: 'json',
+    url: baseUrl + '/project/suratjalan/simpansj',
+    success : function(response){
+      if (response.status == 'berhasil') {
+        iziToast.success({
+            icon: 'fa fa-trash',
+            message: 'Berhasil Disimpan!',
+        });
+        setTimeout(function () {
+          window.location.href = "{{route('suratjalan')}}";
+        }, 100);
+      } else if (true) {
+        iziToast.warning({
+          icon: 'fa fa-info',
+          message: 'No DO sudah digunakan!',
+        });
+      } else {
+        iziToast.warning({
+            icon: 'fa fa-info',
+            message: 'Periksa kembali data anda!',
+        });
+      }
+    }
+  });
+}
+
+$('#itemname').keypress(function(e){
+  if(e.which == 13 || e.keyCode == 13){
+    var itemname = $('#itemname').val();
+    var banyaknya = $('#banyaknya').val();
+
+    if (banyaknya != "" || itemname != "") {
+        tableinput.row.add([
+          '<input type="text" readonly name="banyakin[]" class="form-control input-sm min-width" value="'+ itemname +'">',
+          '<input type="text" readonly name="itemin[]" class="form-control input-sm min-width" value="'+ banyaknya +'">',
+          '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>',
+        ]).draw(false);
+    }
+    $('#itemname').val('');
+    $('#banyaknya').val('');
+  }
+});
+
+$('#tableinput tbody').on( 'click', '.delete', function () {
+  var tableacc       = $("#tableinput").DataTable();
+
+    tableacc
+        .row( $(this).parents('tr') )
+        .remove()
+        .draw();
+});
 </script>
 @endsection

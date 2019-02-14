@@ -194,7 +194,7 @@ h1,h2,h3,h4,h5,h6{
 }
 table {
     border-collapse: collapse;
-    
+
 }
 
 table tbody > tr > td,
@@ -217,7 +217,7 @@ table thead > tr > th {
 	border-left: 5px solid yellow;
 }
 .header-right p{
-	
+
 	text-align: right;
 }
 .header-right h1,
@@ -386,7 +386,7 @@ table.border-none > tbody > tr > td{
 }
 .dotted {
 	position: relative;
-	height: 35px;	
+	height: 35px;
 	border-bottom: 1px #333 dotted !important;
 }
 .text-group{
@@ -442,121 +442,129 @@ table.border-none > tbody > tr > td{
 {{-- <div class="div-width-background">
 
 	</div> --}}
-	<div class="div-width">
-		<div class="page-break">
+		<div class="div-width">
+			<div class="page-break">
+        @for ($x=0; $x < 2; $x++)
 
-			<div class="row">
-				<div class="col-6">
-					<img width="300px" class="img-wbb" height="80px" src="{{asset('assets/atonergi.png')}}">
-					<br>
-					<small style="display: block;width: 300px;text-align: center;">
-						Perum Juanda Regency Blok F-9<br>
-						Desa Sejati Kec. Pabean<br>
-						Sidoarjo (031) 99682814<br>
-						www.atonergi.com
-					</small>
-					<table class="border-none" width="300px">
-						<tbody>
+				<div class="row">
+					<div class="col-6">
+						<img width="300px" class="img-wbb" height="80px" src="{{asset('assets/atonergi.png')}}">
+						<br>
+						<small style="display: block;width: 300px;text-align: center;">
+							Perum Juanda Regency Blok F-9<br>
+							Desa Sejati Kec. Pabean<br>
+							Sidoarjo (031) 99682814<br>
+							www.atonergi.com
+						</small>
+						<table class="border-none" width="350px">
+							<tbody>
+								<tr>
+									<td valign="middle" width="60%">
+										<div>
+											<h2 style="text-align:left;margin-bottom: unset;text-decoration: underline;">Surat Jalan</h2>
+											<small style="display: block;text-align: left;">Faktur Menyusul</small>
+										</div>
+									</td>
+									<td valign="middle" class="tebal" width="100%">
+										No : {{$data[0]->s_code}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-6">
+						<table class="float-right" width="100%" cellpadding="10px">
+							<tbody valign="top" class="">
+								<tr class="min-50">
+									<td class="border-none-right" width="30%">Kepada Yth</td>
+									<td class="border-none-left border-none-right" width="1%">:</td>
+									<td class="border-none-left">{{$data[0]->e_name}}</td>
+								</tr>
+								<tr>
+									<td class="min-50 border-none-right" width="30%">Alamat</td>
+									<td class="border-none-left border-none-right" width="1%">:</td>
+									<td class="border-none-left">{{$data[0]->e_address}}</td>
+								</tr>
+								<tr class="min-50">
+									<td class="min-50 border-none-right" width="30%">Tujuan</td>
+									<td class="border-none-left border-none-right" width="1%">:</td>
+									<td class="border-none-left">{{$data[0]->c_address}}</td>
+								</tr>
+								<tr>
+									<td class="min-50 border-none-right" width="30%">PIC</td>
+									<td class="border-none-left border-none-right" width="1%">:</td>
+									<td class="border-none-left">{{$data[0]->c_name}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-12 mt-3">
+						Kami Kirimkan barang-barang di bawah ini dengan kendaraan ................................................. No .............................
+						<table width="100%" cellpadding="5px">
+							<thead style="font-weight: bold;" align="center">
+								<tr>
+									<th width="25%">Banyaknya</th>
+									<th>Nama Barang</th>
+								</tr>
+							</thead>
+							<tbody>
+								@for($i=0;$i<4;$i++)
+									@if (!empty($dt[$i]))
+										<tr>
+											<td align="center">{{$dt[$i]->sd_banyaknya}}</td>
+											<td>{{$dt[$i]->sd_barang}}</	td>
+										</tr>
+									@else
+										<tr>
+											<td align="center"> <br> </td>
+											<td> <br> </td>
+										</tr>
+									@endif
+								@endfor
+							</tbody>
+						</table>
+					</div>
+
+					<div class="float-left mt-3" style="margin-left: 50px;text-align: center;width: 20%">
+						<table class="border-none" width="100%">
 							<tr>
-								<td valign="middle" width="60%">
-									<div>
-										<h2 style="text-align:left;margin-bottom: unset;text-decoration: underline;">Surat Jalan</h2>
-										<small style="display: block;text-align: left;">Faktur Menyusul</small>
+								<td>Penerima</td>
+							</tr>
+							<tr>
+								<td style="height: 75px;" valign="bottom">
+									<div class="border-bottom" style="width: 100%">
+
 									</div>
 								</td>
-								<td valign="middle" class="tebal" align="center">
-									No : 00001
+							</tr>
+						</table>
+					</div>
+
+					<div class="float-right mt-3" style="margin-right: 50px;text-align: center;width: 20%">
+						<table class="border-none" width="100%">
+							<tr>
+								<td>Hormat Kami</td>
+							</tr>
+							<tr>
+								<td style="height: 75px;" valign="bottom">
+									<div class="border-bottom" style="width: 100%">
+
+									</div>
 								</td>
 							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-6">
-					<table class="float-right" width="100%" cellpadding="10px">
-						<tbody valign="top" class="">
-							<tr class="min-50">
-								<td class="border-none-right" width="30%">Kepada Yth</td>
-								<td class="border-none-left border-none-right" width="1%">:</td>
-								<td class="border-none-left">123456</td>
-							</tr>
-							<tr>
-								<td class="min-50 border-none-right" width="30%">Alamat</td>
-								<td class="border-none-left border-none-right" width="1%">:</td>
-								<td class="border-none-left">Jl. mike sby</td>
-							</tr>
-							<tr class="min-50">
-								<td class="min-50 border-none-right" width="30%">Tujuan</td>
-								<td class="border-none-left border-none-right" width="1%">:</td>
-								<td class="border-none-left">Jl. Charlie</td>
-							</tr>
-							<tr>
-								<td class="min-50 border-none-right" width="30%">PIC</td>
-								<td class="border-none-left border-none-right" width="1%">:</td>
-								<td class="border-none-left">Charlie</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="col-12 mt-3">
-					Kami Kirimkan barang-barang di bawah ini dengan kendaraan ................................................. No .............................
-					<table width="100%" cellpadding="5px">
-						<thead style="font-weight: bold;" align="center">
-							<tr>
-								<th width="25%">Banyaknya</th>
-								<th>Nama Barang</th>
-							</tr>
-						</thead>
-						<tbody>
-							@for($i=0;$i<5;$i++)
-								<tr>
-									<td align="center">4Q</td>
-									<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-									consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-									cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-									proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
-								</tr>
-							@endfor
-						</tbody>
-					</table>
+						</table>
+					</div>
+
 				</div>
 
-				<div class="float-left mt-3" style="margin-left: 50px;text-align: center;width: 20%">
-					<table class="border-none" width="100%">
-						<tr>
-							<td>Penerima</td>
-						</tr>
-						<tr>
-							<td style="height: 75px;" valign="bottom">
-								<div class="border-bottom" style="width: 100%">
-									
-								</div>
-							</td>
-						</tr>
-					</table>
-				</div>
+        <div style="margin-bottom:20px">
 
-				<div class="float-right mt-3" style="margin-right: 50px;text-align: center;width: 20%">
-					<table class="border-none" width="100%">
-						<tr>
-							<td>Hormat Kami</td>
-						</tr>
-						<tr>
-							<td style="height: 75px;" valign="bottom">
-								<div class="border-bottom" style="width: 100%">
-									
-								</div>
-							</td>
-						</tr>
-					</table>
-				</div>				
+        </div>
 
+        @endfor
 			</div>
-
-
 		</div>
-	</div>
+
 </body>
 <script type="text/javascript">
 	// window.print();

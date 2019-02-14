@@ -302,6 +302,10 @@ class ProjectController extends Controller
                 ->where('s_id', $request->id)
                 ->get();
 
+      $install = DB::table('d_schedule_install')
+                ->where('si_schedule', $request->id)
+                ->get();
+
       $image = DB::table('d_schedule_image')
                 ->where('si_schedule', $request->id)
                 ->get();
@@ -312,9 +316,16 @@ class ProjectController extends Controller
                 ->distinct('si_judul')
                 ->get();
 
-                logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description);
+        for ($x=0; $x < count($image); $x++) {
+          $image[$x]->si_update = DB::table('d_schedule_image')
+                                                ->where('si_schedule', $request->id)
+                                                ->where('si_judul', $image[$x]->si_judul)
+                                                ->count();
+        }
 
-      return view('project/jadwalujicoba/pdf_jadwal', compact('data', 'image', 'judul'));
+      logController::inputlog('Schedule Uji Coba Dan Dokumentasi', 'Print', $data[0]->s_title . ' ' . $data[0]->s_description);
+
+      return view('project/jadwalujicoba/pdf_jadwal', compact('data', 'install', 'image', 'judul'));
     }
     public function pdf_install(Request $request)
     {
@@ -1109,35 +1120,57 @@ class ProjectController extends Controller
     }
     public function suratjalan(){
       $data = DB::table('d_suratjalan')
-                ->join('d_delivery', 'd_id', '=', 's_do')
-                ->join('d_sales_order', 'so_nota', '=', 'd_so')
-                ->join('d_quotation', 'q_nota', '=', 'so_ref')
-                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->leftjoin('d_sales_order', 'so_nota', '=', 's_so')
+                ->leftjoin('d_quotation', 'q_nota', '=', 'so_ref')
+                ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
                 ->get();
 
       return view('project.suratjalan.suratjalan', compact('data'));
     }
     public function tambah_suratjalan(){
-      $do = DB::table('d_delivery')
-                ->where('d_suratjalan', 'N')
+      $so = DB::table('d_sales_order')
+                ->where('so_status', 'Printed')
                 ->get();
+
+      $querykode = DB::select(DB::raw("SELECT MAX(MID(s_code,4,3)) as counter FROM d_suratjalan"));
+
+      if (count($querykode) > 0) {
+          foreach($querykode as $k)
+            {
+              $tmp = ((int)$k->counter)+1;
+              $kode = sprintf("%02s", $tmp);
+            }
+      } else {
+        $kode = "001";
+      }
+
+
+      $finalkode = 'SJ-' . $kode . '/' . date('m') . date('Y');
 
       $ekspedisi = DB::table('m_ekspedisi')
                       ->get();
 
-      return view('project.suratjalan.tambah_suratjalan', compact('do', 'ekspedisi'));
+      return view('project.suratjalan.tambah_suratjalan', compact('ekspedisi', 'finalkode', 'so'));
     }
-    public function print_suratjalan(){
-      return view('project.suratjalan.print_suratjalan');
+    public function print_suratjalan(Request $request){
+      $data = DB::table('d_suratjalan')
+                ->leftjoin('d_sales_order', 'so_nota', '=', 's_so')
+                ->leftjoin('d_quotation', 'q_nota', '=', 'so_ref')
+                ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
+                ->leftjoin('m_ekspedisi', 'e_id', '=', 's_ekspedisi')
+                ->where('s_id', $request->id)
+                ->get();
+
+      $dt = DB::table('d_suratjalan_dt')
+                ->where('sd_suratjalan', $data[0]->s_id)
+                ->get();
+
+      return view('project.suratjalan.print_suratjalan', compact('data', 'dt'));
     }
 
-    public function getdo(Request $request){
-      $delivery = DB::table('d_delivery')
-                        ->where('d_id', $request->do)
-                        ->first();
-
+    public function getso(Request $request){
       $so = DB::table('d_sales_order')
-              ->where('so_nota', $delivery->d_so)
+              ->where('so_nota', $request->so)
               ->first();
 
       $data = DB::table('d_quotation')
@@ -1150,5 +1183,57 @@ class ProjectController extends Controller
                 ->get();
 
       return response()->json($data);
+    }
+
+    public function simpansj(Request $request){
+      DB::beginTransaction();
+      try {
+
+        $cek = DB::table('d_suratjalan')
+                  ->where('s_code', $request->nodo)
+                  ->count();
+
+        if ($cek != 0) {
+          return response()->json([
+            'status' => 'digunakan'
+          ]);
+        } else {
+          $id = DB::table('d_suratjalan')->max('s_id')+1;
+
+          DB::table('d_suratjalan')
+                ->insert([
+                  's_id' => $id,
+                  's_code' => $request->nodo,
+                  's_so' => $request->do,
+                  's_ekspedisi' => $request->ekspedisi,
+                  's_insert' => Carbon::now('Asia/Jakarta')
+                ]);
+
+          for ($i=0; $i < count($request->banyakin); $i++) {
+            $dt = DB::table('d_suratjalan_dt')->max('sd_id')+1;
+
+            DB::table('d_suratjalan_dt')
+                  ->insert([
+                    'sd_id' => $dt,
+                    'sd_suratjalan' => $id,
+                    'sd_banyaknya' => $request->banyakin[$i],
+                    'sd_barang' => $request->itemin[$i],
+                    'sd_insert' => Carbon::now('Asia/Jakarta'),
+                    'sd_update' => Carbon::now('Asia/Jakarta')
+                  ]);
+          }
+        }
+
+        DB::commit();
+        return response()->json([
+          'status' => 'berhasil'
+        ]);
+      } catch (Exception $e) {
+        DB::rollback();
+        return response()->json([
+          'status' => 'gagal'
+        ]);
+      }
+
     }
 }

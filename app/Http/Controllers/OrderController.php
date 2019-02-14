@@ -502,7 +502,11 @@ class OrderController extends Controller
                             $proses = '';
                             $approved = '';
                             if ($cek == 0) {
-                                $proses = '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';                              
+                              if ($data->q_approved == "N") {
+                                $proses = '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
+                              } else {
+                                $proses = '';
+                              }
                             } else {
                               $proses = '';
                               if (Auth::user()->m_jabatan == 'MANAGER') {

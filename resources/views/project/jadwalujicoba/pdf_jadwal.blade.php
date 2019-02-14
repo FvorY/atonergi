@@ -256,9 +256,9 @@
 
 		<div class="div-width">
 			<h1 class="block text-center grey">
-				@php
-					echo $data[0]->s_title;
-				@endphp
+				REPORT DOKUMENTASI <br>
+				INSTALATION PUMP	<br>
+				LORENTZ {{$install[0]->si_pump_controller}} {{$install[0]->si_pump_pump}}
 			</h1>
 			<div class="grey m-auto w-50percent">
 <pre>
@@ -275,6 +275,8 @@ echo $data[0]->s_description;
 		</div>
 
 	</div>
+
+	<?php $count = 0; ?>
 	@foreach ($judul as $key => $x)
 		<div class="div-page-break-after">
 			<div class="div-width">
@@ -284,9 +286,32 @@ echo $data[0]->s_description;
 				<div class="row text-center">
 					@foreach ($image as $key => $z)
 						@if ($z->si_judul == $x->si_judul)
-							<div class="col-6 mb-2">
-								<img width="300px" height="300px" src="{{url('/') . '/' . $z->si_image}}">
-							</div>
+							@if ($z->si_update == 1)
+								<center>
+									<div class="col-6 mb-2" style="margin-right:130px;">
+									<img width="500px" height="600px" src="{{url('/') . '/' . $z->si_image}}">
+									</div>
+								</center>
+							@elseif ($z->si_update == 2)
+								<div class="col-6 mb-2">
+									<img width="310px" height="500px" src="{{url('/') . '/' . $z->si_image}}">
+								</div>
+							@elseif ($z->si_update == 3)
+								<?php $count += 1; ?>
+								@if ($count == 3)
+									<center><div class="col-6 mb-2">
+										<img width="450px" height="350px" src="{{url('/') . '/' . $z->si_image}}">
+									</div></center>
+								@else
+									<div class="col-6 mb-2">
+										<img width="300px" height="300px" src="{{url('/') . '/' . $z->si_image}}">
+									</div>
+								@endif
+							@elseif ($z->si_update == 4)
+								<div class="col-6 mb-2">
+									<img width="300px" height="300px" src="{{url('/') . '/' . $z->si_image}}">
+								</div>
+							@endif
 						@endif
 					@endforeach
 				</div>

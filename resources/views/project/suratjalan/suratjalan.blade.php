@@ -25,7 +25,7 @@
                             <thead class="bg-gradient-info">
                               <tr>
                                 <th width="1%">No</th>
-                                <th width="" title="Surat Jalan">Delivery Order</th>
+                                <th width="" title="Surat Jalan">Surat Jalan</th>
                                 <th width="">SO</th>
                                 <th>Customer</th>
                                 <th>Customer Address</th>
@@ -36,11 +36,11 @@
                               @foreach ($data as $key => $value)
                                 <tr>
                                   <td>{{$key + 1}}</td>
-                                  <td>{{$value->d_do}}</td>
-                                  <td>{{$value->d_so}}</td>
+                                  <td>{{$value->s_code}}</td>
+                                  <td>{{$value->s_so}}</td>
                                   <td>{{$value->c_name}}</td>
                                   <td>{{$value->c_address}}</td>
-                                  <td><button class="btn btn-info btn-sm btn-print" onclick="cetak({{$value->d_so}})" type="button" title="Print"><i class="fa fa-print"></i></button></td>
+                                  <td align="center"><button class="btn btn-info btn-sm btn-print" onclick="cetak({{$value->s_id}})" type="button" title="Print"><i class="fa fa-print"></i></button></td>
                                 </tr>
                               @endforeach
                             </tbody>

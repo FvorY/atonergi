@@ -245,7 +245,8 @@ Route::get('/project/pengirimanbarang/setting', 'ProjectController@setting');
 Route::get('/project/pengirimanbarang/prosespengirimanbarang/{id}', 'ProjectController@prosespengirimanbarang');
 Route::get('/project/pengirimanbarang/checklistform/print', 'ProjectController@print_checklistform')->name('print_checklistform');
 Route::get('/project/suratjalan/suratjalan', 'ProjectController@suratjalan')->name('suratjalan');
-Route::get('/project/suratjalan/getdo', 'ProjectController@getdo');
+Route::get('/project/suratjalan/getso', 'ProjectController@getso');
+Route::get('/project/suratjalan/simpansj', 'ProjectController@simpansj');
 Route::get('/project/suratjalan/tambah_suratjalan', 'ProjectController@tambah_suratjalan')->name('tambah_suratjalan');
 Route::get('/project/suratjalan/print_suratjalan', 'ProjectController@print_suratjalan')->name('print_suratjalan');
 
