@@ -508,11 +508,12 @@ class OrderController extends Controller
                                 $proses = '';
                               }
                             } else {
-                              $proses = '';
                               if (Auth::user()->m_jabatan == 'MANAGER') {
+                                $proses = '';
                                   $approved = '<button type="button" class="btn btn-success" title="Approve" onclick="approve('.$data->q_id.')"><em class="fa fa-check"> </em></button>';
                               } else {
                                 $approved = '';
+                                $proses = '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
                               }
                             }
 
@@ -688,6 +689,14 @@ class OrderController extends Controller
         $cek = DB::table('d_paydeposit')
                   ->where('p_qo', $req->id)
                   ->count();
+
+        $update = DB::table('d_quotation')
+                    ->where('q_id',$req->id)
+                    ->update([
+                        'q_dp'     => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
+                        'q_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
+                        'q_approved' => 'N'
+                    ]);
 
         if ($cek == 0) {
           $id = DB::table('d_paydeposit')->max('p_id')+1;

@@ -226,12 +226,12 @@
 $('#amount').mask('000.000.000.000.000', {reverse: true});
 
 	$('.pilihpembayaran').click(function(){
-		var dp = $('#dp').val();
-		dp     = dp.replace(/[^0-9\-]+/g,"")/100;
+		var total = $('#total_harga').val();
+		total     = total.replace(/[^0-9\-]+/g,"")/100;
 		var tmppercent = $('input[name=percent]').val();
 				tmppercent = tmppercent.replace(' %', '');
 
-		var percent = tmppercent / 100 * dp;
+		var percent = tmppercent / 100 * total;
 
 		$('#amount').val(accounting.formatMoney(percent,"", 0, ".",','));
 		$('#batasamount').val(percent);
