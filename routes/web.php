@@ -210,6 +210,7 @@ Route::get('/order/cekbarang/detail/{id}', 'OrderController@detailbarang');
 
     // Print Tanda Terima Kasih
     Route::get('/order/pembayarandeposit/print_tandaterimakasih', 'OrderController@print_tandaterimakasih')->name('print_tandaterimakasih');
+    Route::get('/order/proforma_invoice/printproformakasih', 'OrderController@printproformakasih');
 
 // Pilih After Order
 Route::get('/project/dokumentasi/dokumentasi', 'ProjectController@dokumentasi');

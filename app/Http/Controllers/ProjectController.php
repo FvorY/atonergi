@@ -1237,7 +1237,22 @@ class ProjectController extends Controller
       }
 
     }
-    public function print_checklistform(){
-      return view('project.pengirimanbarang.print_checklistform');
+    public function print_checklistform(Request $request){
+      $data = DB::table('d_sales_order')
+                  ->leftjoin('d_quotation', 'so_ref', '=', 'q_nota')
+                  ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
+                  ->leftjoin('d_delivery', 'd_so', '=', 'so_nota')
+                  ->where('so_id', $request->id)
+                  ->first();
+
+      $item = DB::table('d_quotation')->join('d_quotation_dt', 'qd_id', '=', 'q_id')
+                ->join('m_item', 'i_code', '=', 'qd_item')
+                ->where('q_nota', $data->so_ref)
+                ->where('qd_item', 'LIKE', '%BRG%')
+                ->get();
+
+      $acc = DB::table('d_accessories')->where('a_so', $request->id)->get();
+
+      return view('project.pengirimanbarang.print_checklistform', compact('data','item','acc'));
     }
 }

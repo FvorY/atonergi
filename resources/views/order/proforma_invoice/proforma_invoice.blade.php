@@ -89,7 +89,7 @@ $(document).ready(function(){
 				{data: 'c_name', name: 'c_name'},
 				{data: 'total', name: 'total'},
         {data: 'dp', name: 'dp'},
-				{data: 'q_update_by', name: 'q_update_by'},
+				{data: 'po_total', name: 'po_total'},
         {data: 'remain', name: 'remain'},
         {data: 'aksi', name: 'aksi'},
       ]
@@ -158,6 +158,12 @@ function hapus(id) {
 function printing(id){
 
   window.open('{{route('print_proforma_invoice')}}?id='+id,'_blank');
+
+}
+
+function printtanda(id){
+
+	window.open( baseUrl + '/order/proforma_invoice/printproformakasih?id='+id,'_blank');
 
 }
 </script>

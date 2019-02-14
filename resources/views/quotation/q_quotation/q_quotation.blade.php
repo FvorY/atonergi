@@ -249,20 +249,27 @@ function edit_item(p) {
 	var item   = $(par).find('.item_name').val();
 	var market = $('.marketing').val();
 
-	$.ajax({
-      url:baseUrl + '/quotation/q_quotation/edit_item',
-      data:{item,market},
-      dataType:'json',
-      success:function(data){
+	var itemname = [];
+	var selectedVal;
+	$(".item_name").each(function(i, sel){
+			selectedVal = $(sel).val();
+			itemname.push(selectedVal);
+	});
+	
+		$.ajax({
+	      url:baseUrl + '/quotation/q_quotation/edit_item',
+	      data:{item,market},
+	      dataType:'json',
+	      success:function(data){
 
-        $(par).find('.description').val(data.data.i_description);
-        $(par).find('.unit_item').val(data.data.u_unit);
-        $(par).find('.unit_price').val(accounting.formatMoney(data.data.i_sell_price, "", 0, ".",','));
-        $(par).find('.lower_price').val(data.data.i_lower_price);
-        $(par).find('.line_total').val(accounting.formatMoney(data.data.i_sell_price * qty, "", 0, ".",','));
-        hitung_dpp();
-      }
-    });
+	        $(par).find('.description').val(data.data.i_description);
+	        $(par).find('.unit_item').val(data.data.u_unit);
+	        $(par).find('.unit_price').val(accounting.formatMoney(data.data.i_sell_price, "", 0, ".",','));
+	        $(par).find('.lower_price').val(data.data.i_lower_price);
+	        $(par).find('.line_total').val(accounting.formatMoney(data.data.i_sell_price * qty, "", 0, ".",','));
+	        hitung_dpp();
+	      }
+	    });
 }
 
 
@@ -349,38 +356,58 @@ q_qty.keypress(function(e) {
 					var tax = parseInt(tmp) - parseInt(beforetax);
 				}
 
+				var itemname = [];
+				var selectedVal;
+				$(".item_name").each(function(i, sel){
+						selectedVal = $(sel).val();
+						itemname.push(selectedVal);
+				});
 
-      	var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
-         m_table.row.add( [
-            dropdown,
-            '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ q_qty.val() +'">',
+				var tmp = "no";
+				for (var i = 0; i < itemname.length; i++) {
+					if (itemname[i] == item) {
+						tmp = "yes";
+					}
+				}
 
-            '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
-            '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
+				console.log(tmp);
+				if (tmp == "yes") {
+					iziToast.warning({
+						icon: 'fa fa-times',
+						message: 'Sudah ada item yang sama!',
+					});
+				} else {
+					var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
+	         m_table.row.add( [
+	            dropdown,
+	            '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ q_qty.val() +'">',
 
-            '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+data.data.i_active+'">'+
-            '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
+	            '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
+	            '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
 
-            '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
-            '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
-        ] ).draw( false );
+	            '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+data.data.i_active+'">'+
+	            '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
 
-				$('.unit_price').maskMoney({thousands:'.', decimal:',', precision:0});
+	            '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
+	            '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
+	        ] ).draw( false );
+					$('.unit_price').maskMoney({thousands:'.', decimal:',', precision:0});
 
-        m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
-  			m_table.$('.item_name').select2();
-        x++;
-        q_qty.val('');
-        $('.item').val('0');
-  		$('.item').select2();
-			synctax();
+					m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
+					m_table.$('.item_name').select2();
+					x++;
+					q_qty.val('');
+					$('.item').val('0');
+				$('.item').select2();
+				synctax();
 
-  		$('.jumlah').keyup(function(){
-			var qty = $(this).val();
-			qty = qty.replace(/[A-Za-z$. ,-]/g, "");
-			$(this).val(qty);
-		})
-  		hitung_dpp();
+				$('.jumlah').keyup(function(){
+				var qty = $(this).val();
+				qty = qty.replace(/[A-Za-z$. ,-]/g, "");
+				$(this).val(qty);
+				})
+				hitung_dpp();
+				}
       }
     });
 

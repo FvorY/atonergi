@@ -951,7 +951,6 @@ class OrderController extends Controller
                           if ($data->q_remain != 0) {
                             return '<div class="btn-group">'.
                             '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
-                              '<a href="'.route('print_tandaterimakasih').'" class="btn btn-primary btn-sm" target="_blank"><i class="fa fa-print"></i></a>'.
                             '</div>';
                           }else{
                             return  '<span class="badge badge-pill badge-success">Paid Off</span>';
@@ -1149,28 +1148,11 @@ class OrderController extends Controller
     public function datatable_proforma_invoice()
     {
 
-    $data = DB::table('d_quotation')
-              ->join('m_customer', 'c_code', '=', 'q_customer')
-              ->where('q_status',1)
-              ->orderBy('q_id','DESC')
-              ->get();
-
-              for ($i=0; $i < count($data); $i++) {
-                $tmp = DB::table('d_payment_order')
-                          ->where('po_ref', $data[$i]->q_nota)
-                          ->sum('po_total');
-
-                $data[$i]->q_update_by = $tmp;
-
-                $bayar = $data[$i]->q_update_by + $data[$i]->q_dp;
-
-                DB::table('d_quotation')
-                      ->where('q_id', $data[$i]->q_id)
-                      ->update([
-                        'q_remain' => $data[$i]->q_total - $bayar
-                      ]);
-
-              }
+      $data = DB::table('d_payment_order')
+                    ->leftjoin('d_quotation', 'po_ref', '=', 'q_nota')
+                    ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
+                    ->orderBy('po_id','DESC')
+                    ->get();
 
                       // return $data;
                       $data = collect($data);
@@ -1180,14 +1162,20 @@ class OrderController extends Controller
                                           $a =  '<div class="btn-group">';
 
                                           if (Auth::user()->akses('PROFORMA INVOICE','print')) {
-                                            $c = '<button type="button" onclick="printing(\''.$data->q_id.'\')" class="btn btn-warning btn-lg" title="edit">'.'<label class="fa fa-print"></label></button>';
+                                            $b = '<button type="button" onclick="printing(\''.$data->q_id.'\')" class="btn btn-warning btn-lg" title="Print Proforma Invoice">'.'<label class="fa fa-print"></label></button>';
+                                          } else {
+                                            $b = '';
+                                          }
+
+                                          if (Auth::user()->akses('PROFORMA INVOICE','print')) {
+                                            $c = '<button type="button" onclick="printtanda(\''.$data->q_id.'\')" class="btn btn-info btn-lg" title="Print Tanda Terima">'.'<label class="fa fa-print"></label></button>';
                                           } else {
                                             $c = '';
                                           }
 
                                             $d = '</div>';
 
-                                          return $a .  $c . $d;
+                                          return $a . $b . $c . $d;
                                       })
                                       ->addColumn('pi', function ($data) {
                                           $tmp = str_replace('QO', 'PI', $data->q_nota);
@@ -1208,11 +1196,11 @@ class OrderController extends Controller
                                       ->addColumn('dp', function ($data) {
                                           return 'Rp. '. number_format($data->q_dp, 2, ",", ".");
                                       })
-                                      ->addColumn('q_update_by', function ($data) {
-                                          return 'Rp. '. number_format($data->q_update_by, 2, ",", ".");
+                                      ->addColumn('po_total', function ($data) {
+                                          return 'Rp. '. number_format($data->po_total, 2, ",", ".");
                                       })
                                       ->addColumn('remain', function ($data) {
-                                          return 'Rp. '. number_format(($data->q_remain), 2, ",", ".");
+                                          return 'Rp. '. number_format(($data->q_total - ($data->q_dp + $data->po_total)), 2, ",", ".");
                                       })
                                       ->rawColumns(['aksi', 'pi', 'detail','histori','total','dp','remain'])
                                       ->addIndexColumn()
@@ -1315,6 +1303,7 @@ class OrderController extends Controller
                     ->join('d_quotation','q_nota','=','po_ref')
                     ->where('po_id',$req->id)
                     ->first();
+
           $hasil = $data->q_remain + $data->po_total;
 
           $update = DB::table('d_quotation')
@@ -1333,16 +1322,20 @@ class OrderController extends Controller
         });
     }
 
+
+
     public function print_proforma_invoice(Request $request)
     {
       if (!mMember::akses('PROFORMA INVOICE', 'print')) {
         return redirect('error-404');
       }
-      $data = DB::table('d_quotation')
-                ->leftjoin('d_sales_order', 'so_ref', '=', 'q_nota')
-                ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
-                ->where('q_id',$request->id)
-                ->first();
+
+      $data = DB::table('d_payment_order')
+                    ->leftjoin('d_quotation', 'po_ref', '=', 'q_nota')
+                    ->leftjoin('d_sales_order', 'so_ref', '=', 'q_nota')
+                    ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
+                    ->where('q_id',$request->id)
+                    ->first();
 
       $data_dt = DB::table('d_quotation_dt')
                      ->leftjoin('m_item','i_code','=','qd_item')
@@ -1370,6 +1363,55 @@ class OrderController extends Controller
                 ->first();
 
       $terbilang = 'Uang Senilai ' . 'Rp. '. number_format($data->q_dp, 2, ",", ".") . '('.$this->penyebut((int)$data->q_dp).' Rupiah )';
+
+      $terbilang1 = '';
+      $terbilang2 = '';
+      $terbilang3 = '';
+      $terbilang4 = '';
+      $terbilang5 = '';
+      if (strlen($terbilang) > 75) {
+        $terbilang1 = substr($terbilang, 75);
+        $terbilang = substr($terbilang, 0, 75);
+      }
+
+      if ($terbilang1 != "") {
+        if (strlen($terbilang1) > 86) {
+          $terbilang2 = substr($terbilang1, 86);
+        }
+      }
+
+      if ($terbilang2 != "") {
+        if (strlen($terbilang2) > 86) {
+          $terbilang3 = substr($terbilang2, 86);
+        }
+      }
+
+      if ($terbilang3 != "") {
+        if (strlen($terbilang3) > 86) {
+          $terbilang4 = substr($terbilan3, 86);
+        }
+      }
+
+      if ($terbilang4 != "") {
+        if (strlen($terbilang4) > 86) {
+          $terbilang5 = substr($terbilan4, 86);
+        }
+      }
+
+
+      return view('order.pembayarandeposit.print_tandaterimakasih', compact('data', 'terbilang', 'terbilang1', 'terbilang2', 'terbilang3', 'terbilang4', 'terbilang5'));
+    }
+
+    public function printproformakasih(Request $request){
+
+      $data = DB::table('d_payment_order')
+                    ->leftjoin('d_quotation', 'po_ref', '=', 'q_nota')
+                    ->leftjoin('d_sales_order', 'so_ref', '=', 'q_nota')
+                    ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
+                    ->where('q_id', $request->id)
+                    ->first();
+
+      $terbilang = 'Uang Senilai ' . 'Rp. '. number_format($data->po_total, 2, ",", ".") . '('.$this->penyebut((int)$data->po_total).' Rupiah )';
 
       $terbilang1 = '';
       $terbilang2 = '';
