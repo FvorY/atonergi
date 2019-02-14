@@ -941,7 +941,14 @@
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_pipe_diameter" class="form-control" min="0" placeholder="0">
-                                  <span class="input-group-addon bg-primary border-primary text-white">mm</span>
+                                  <div class="alamraya-form-radio-group">
+                                    <label>
+                                        <input type="radio" class="form_check_input" name="si_pipe_diameter_satuan" value="mm" checked/>&nbsp;mm&nbsp;&nbsp;
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="form_check_input" name="si_pipe_diameter_satuan" value="inch"/>&nbsp;inch&nbsp;&nbsp;
+                                    </label>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -1094,7 +1101,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <input type="number" name="si_quantity_generator" required id="si_quantity_generator" class="form-control" placeholder="0" min="0">
+                                <input type="number" name="si_quantity_generator" onkeyup="syncpowertotal()" required id="si_quantity_generator" class="form-control" placeholder="0" min="0">
                               </div>
                             </div>
 
@@ -1105,7 +1112,7 @@
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   {{-- <textarea rows="1" name="si_power_each" class="form-control" placeholder="type something..."></textarea> --}}
-                                  <input type="number" class="form-control" min="0" name="si_power_each" id="si_power_each">
+                                  <input type="number" class="form-control" min="0" onkeyup="syncpowertotal()" name="si_power_each" id="si_power_each">
                                   <span class="input-group-addon bg-primary border-primary text-white">Wp</span>
                                 </div>
                               </div>
@@ -1819,6 +1826,15 @@ $(document).on('click', '.btn-scrollbottom', function(){
     } else if (select == "Other") {
       $('.other').css('display', '');
     }
+  }
+
+  function syncpowertotal(){
+    var qty = $('#si_quantity_generator').val();
+    var each = $('#si_power_each').val();
+
+    var hasil = parseInt(qty) * parseInt(each);
+
+    $('#si_power_total').val(hasil);
   }
 
 </script>

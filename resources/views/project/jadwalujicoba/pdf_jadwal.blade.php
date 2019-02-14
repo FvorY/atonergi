@@ -262,11 +262,16 @@
 			</h1>
 			<div class="grey m-auto w-50percent">
 <pre>
-<h3>
-@php
-echo $data[0]->s_description;
-@endphp
-</h3>
+<h2>
+	NAMA DESA : {{$install[0]->si_city}}
+	PROVINSI : {{$install[0]->si_province}}
+	DATE PROJECT : {{$install[0]->si_installation_date}}
+	HEAD : {{$install[0]->si_total_dynamic_head}} {{$install[0]->si_total_dinamyc_satuan}}
+	DAILY OUTPUT : {{$install[0]->si_daily_flow_rate}} M3/DAY
+	PIPE : {{$install[0]->si_pipe_diameter}} {{$install[0]->si_pipe_diameter_satuan}}
+	SOLAR PANEL : {{$install[0]->si_power_total}} (@ {{$install[0]->si_power_each}} POLY) - {{$install[0]->si_quantity_generator}}
+	TECHNICIAN PIC : {{$install[0]->si_installer}}
+</h2>
 </pre>
 			</div>
 		</div>

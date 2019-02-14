@@ -216,6 +216,7 @@ class ProjectController extends Controller
                   'si_water_source' => $request->si_water_source,
                   'si_pipe_lenght' => $request->si_pipe_lenght,
                   'si_pipe_diameter' => $request->si_pipe_diameter,
+                  'si_pipe_diameter_satuan' => $request->si_pipe_diameter_satuan,
                   'si_cable_lenght' => $request->si_cable_lenght,
                   'si_type_of_water_storage' => $request->si_type_of_water_storage,
                   'si_size_of_water_storage' => $request->si_size_of_water_storagem,
