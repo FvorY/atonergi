@@ -267,8 +267,8 @@ $('#itemname').keypress(function(e){
 
     if (banyaknya != "" || itemname != "") {
         tableinput.row.add([
-          '<input type="text" readonly name="banyakin[]" class="form-control input-sm min-width" value="'+ itemname +'">',
           '<input type="text" readonly name="itemin[]" class="form-control input-sm min-width" value="'+ banyaknya +'">',
+          '<input type="text" readonly name="banyakin[]" class="form-control input-sm min-width" value="'+ itemname +'">',
           '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>',
         ]).draw(false);
     }

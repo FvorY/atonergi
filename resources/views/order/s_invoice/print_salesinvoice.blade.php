@@ -397,7 +397,7 @@ table, td, th {
 				<table class="border-none" width="100%">
 					<thead>
 						<tr>
-							<th class="border-none"><img width="100" height="50" src="{{asset('assets/checked.jpg')}}"></th>
+							<th class="border-none"></th>
 							<th class="border-none">{{date('d M Y')}}</th>
 						</tr>
 					</thead>
