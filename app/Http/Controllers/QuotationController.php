@@ -677,9 +677,12 @@ class QuotationController extends Controller
                     ->where('q_id',$req->q_id_status)
                     ->first();
 
+          $bulan = Carbon::now()->format('m');
+          $tahun = Carbon::now()->format('Y');
+
           $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
-                                          WHERE MONTH(po_date) = '$bulan'
-                                          AND YEAR(po_date) = '$tahun'");
+                                          WHERE MONTH(po_date) = '.$bulan.'
+                                          AND YEAR(po_date) = '.$tahun.'");
           $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
 
           $index = (integer)$cari_nota[0]->id + 1;
@@ -695,13 +698,13 @@ class QuotationController extends Controller
                       'po_id'         => $id,
                       'po_nota'       => $nota_po,
                       'po_ref'        => $data->q_nota,
-                      'po_note'       => $req->nota1,
-                      'po_type'       => $req->payment_type,
-                      'po_total'      => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
-                      'po_method'     => $req->pay_method,
-                      'po_note2'      => $req->nota2,
+                      'po_note'       => "",
+                      'po_type'       => "",
+                      'po_total'      => 0,
+                      'po_method'     => "",
+                      'po_note2'      => "",
                       'po_status'     => 'Released',
-                      'po_date'       => carbon::parse($req->dates)->format('Y-m-d'),
+                      'po_date'       => carbon::parse()->format('Y-m-d'),
                       'po_updated_at' => carbon::now(),
                       'po_created_at' => carbon::now(),
                       'po_updated_by' => Auth::user()->m_name,
