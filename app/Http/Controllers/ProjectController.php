@@ -802,8 +802,7 @@ class ProjectController extends Controller
                         ->where('sg_iditem', $barang[$i]->qd_item)
                         ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
                         ->get();
-
-                    dd($stock);
+                    
                     if (empty($stock)) {
                         return response()->json([
                           'status' => 'stock kurang',
