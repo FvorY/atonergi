@@ -924,7 +924,9 @@ class OrderController extends Controller
                             'po_ref'        => $data->q_nota,
                             'po_note'       => "",
                             'po_type'       => "",
+                            'po_dp'         => $data->q_dp,
                             'po_total'      => 0,
+                            'po_remain'     => $data->q_remain,
                             'po_method'     => "",
                             'po_note2'      => "",
                             'po_status'     => 'Released',
@@ -1115,6 +1117,14 @@ class OrderController extends Controller
                     ->where('q_id',$req->id)
                     ->first();
 
+          $hasil  = $data->q_remain - filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT);
+
+          $update = DB::table('d_quotation')
+                      ->where('q_id',$req->id)
+                      ->update([
+                          'q_remain' => $hasil
+                      ]);
+
           $save = DB::table('d_payment_order')
                     ->insert([
                       'po_id'         => $id,
@@ -1122,7 +1132,9 @@ class OrderController extends Controller
                       'po_ref'        => $data->q_nota,
                       'po_note'       => $req->nota1,
                       'po_type'       => $req->payment_type,
+                      'po_dp'         => $data->q_dp,
                       'po_total'      => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
+                      'po_remain'     => $data->q_remain,
                       'po_method'     => $req->pay_method,
                       'po_note2'      => $req->nota2,
                       'po_status'     => 'Released',
@@ -1132,14 +1144,6 @@ class OrderController extends Controller
                       'po_updated_by' => Auth::user()->m_name,
                       'po_created_by' => Auth::user()->m_name,
                     ]);
-
-          $hasil  = $data->q_remain - filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT);
-
-          $update = DB::table('d_quotation')
-                      ->where('q_id',$req->id)
-                      ->update([
-                          'q_remain' => $hasil
-                      ]);
 
                       if ((int)$hasil == 0) {
                         $id = DB::table('d_sales_invoice')->max('si_id')+1;
@@ -1227,13 +1231,13 @@ class OrderController extends Controller
                                           return 'Rp. '. number_format($data->q_total, 2, ",", ".");
                                       })
                                       ->addColumn('dp', function ($data) {
-                                          return 'Rp. '. number_format($data->q_dp, 2, ",", ".");
+                                          return 'Rp. '. number_format($data->po_dp, 2, ",", ".");
                                       })
                                       ->addColumn('po_total', function ($data) {
                                           return 'Rp. '. number_format($data->po_total, 2, ",", ".");
                                       })
                                       ->addColumn('remain', function ($data) {
-                                          return 'Rp. '. number_format(($data->q_total - ($data->q_dp + $data->po_total)), 2, ",", ".");
+                                          return 'Rp. '. number_format(($data->po_remain), 2, ",", ".");
                                       })
                                       ->rawColumns(['aksi', 'pi', 'detail','histori','total','dp','remain'])
                                       ->addIndexColumn()
