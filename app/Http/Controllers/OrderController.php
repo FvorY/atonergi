@@ -1134,7 +1134,7 @@ class OrderController extends Controller
                       'po_type'       => $req->payment_type,
                       'po_dp'         => $data->q_dp,
                       'po_total'      => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
-                      'po_remain'     => $data->q_remain,
+                      'po_remain'     => $hasil,
                       'po_method'     => $req->pay_method,
                       'po_note2'      => $req->nota2,
                       'po_status'     => 'Released',
