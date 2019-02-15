@@ -673,6 +673,10 @@ class QuotationController extends Controller
                         ]);
 
         if ($req->status == 1) {
+          $data = DB::table('d_quotation')
+                    ->where('q_id',$req->q_id_status)
+                    ->first();
+
           $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
                                           WHERE MONTH(po_date) = '$bulan'
                                           AND YEAR(po_date) = '$tahun'");
@@ -689,7 +693,7 @@ class QuotationController extends Controller
           $save = DB::table('d_payment_order')
                     ->insert([
                       'po_id'         => $id,
-                      'po_nota'       => $req->po_nota,
+                      'po_nota'       => $nota_po,
                       'po_ref'        => $data->q_nota,
                       'po_note'       => $req->nota1,
                       'po_type'       => $req->payment_type,
