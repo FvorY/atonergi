@@ -255,7 +255,7 @@ function edit_item(p) {
 			selectedVal = $(sel).val();
 			itemname.push(selectedVal);
 	});
-	
+
 		$.ajax({
 	      url:baseUrl + '/quotation/q_quotation/edit_item',
 	      data:{item,market},
@@ -269,7 +269,7 @@ function edit_item(p) {
 	        $(par).find('.line_total').val(accounting.formatMoney(data.data.i_sell_price * qty, "", 0, ".",','));
 	        hitung_dpp();
 	      }
-	    });
+	    });		
 }
 
 
@@ -370,7 +370,6 @@ q_qty.keypress(function(e) {
 					}
 				}
 
-				console.log(tmp);
 				if (tmp == "yes") {
 					iziToast.warning({
 						icon: 'fa fa-times',

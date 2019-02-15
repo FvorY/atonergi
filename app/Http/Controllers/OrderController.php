@@ -996,7 +996,6 @@ class OrderController extends Controller
                   ->where('q_id',$id)
                   ->first();
 
-
         $so = DB::table('d_quotation')
                   ->leftjoin('d_sales_order','q_nota','=','so_ref')
                   ->where('q_id',$id)
@@ -1088,7 +1087,6 @@ class OrderController extends Controller
                       'po_total'      => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
                       'po_method'     => $req->pay_method,
                       'po_note2'      => $req->nota2,
-                      'po_account'    => $req->akun,
                       'po_status'     => 'Released',
                       'po_date'       => carbon::parse($req->dates)->format('Y-m-d'),
                       'po_updated_at' => carbon::now(),
@@ -1269,8 +1267,7 @@ class OrderController extends Controller
                       'po_type'       => $req->payment_type,
                       'po_total'      => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
                       'po_method'     => $req->pay_method,
-                      'po_note2'      => $req->nota2,
-                      'po_account'    => $req->akun,
+                      'po_note2'      => $req->nota2,                      
                       'po_status'     => 'Released',
                       'po_date'       => carbon::parse($req->dates)->format('Y-m-d'),
                       'po_updated_at' => carbon::now(),
