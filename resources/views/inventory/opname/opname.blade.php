@@ -25,7 +25,7 @@
 						</div>
 						@endif
 						<div class="table-responsive">
-							<table class="table table-hover data-table" cellspacing="0">
+							<table class="table table-hover data-table" id="table_opname" cellspacing="0">
 							  <thead class="bg-gradient-info">
 							    <tr>
 							      <th>No</th>
@@ -41,6 +41,7 @@
 											<td>{{$value->so_code}}</td>
 											<td>{{Carbon\Carbon::parse($value->so_bulan)->format('d-m-Y')}}</td>
 											<td align="center">
+												<button class="btn btn-print btn-info" type="button" title="Print"><i class="fa fa-print"></i></button>
 												<button type="button" class="btn btn-primary" name="button" onclick="detail({{$value->so_id}})" title="Detail"> <i class="fa fa-folder"></i> </button>
 											</td>
 										</tr>
@@ -91,6 +92,9 @@
 @section('extra_script')
 
 <script type="text/javascript">
+	$('#table_opname tbody').on('click', '.btn-print', function(){
+		window.open('{{route('print_opname')}}', '_blank');
+	});
 
 	function create(){
 		window.location = ('{{ route('create_stockopname') }}')

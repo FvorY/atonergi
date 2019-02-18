@@ -495,6 +495,7 @@ Route::get('inventory/stockgudang/detail_stockgudang', 'inventory\stock_gudangCo
 //Stock Opname
 Route::get('inventory/opname/opname', 'inventory\stock_opnameController@stockopname')->name('stockopname');
 Route::get('inventory/opname/detail', 'inventory\stock_opnameController@detail');
+Route::get('inventory/opname/print', 'inventory\stock_opnameController@print_opname')->name('print_opname');
 Route::get('inventory/create_opname/create_opname', 'inventory\stock_opnameController@create_stockopname')->name('create_stockopname');
 Route::get('inventory/create_opname/cari_stockopname', 'inventory\stock_opnameController@cari_stockopname')->name('cari_stockopname');
 Route::get('inventory/create_opname/save_stockopname', 'inventory\stock_opnameController@save_stockopname')->name('save_stockopname');

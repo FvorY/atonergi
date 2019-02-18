@@ -269,4 +269,8 @@ class stock_opnameController extends Controller
 
    }
 
+   public function print_opname(){
+    return view('inventory.opname.print_opname');
+   }
+
 }
