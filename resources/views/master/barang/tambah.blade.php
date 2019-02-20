@@ -11,132 +11,162 @@
           <form id="simpan_barang">
 
             <input type="hidden" value="{{csrf_token()}}" name="_token">
+
             <div class="row">
-              <div class="col-md-3 col-sm-4 col-xs-12">
-                    <label class="tebal">Item Name</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <input type="text"  class="form-control form-control-sm huruf_besar" name="item_name">
-                    <input type="hidden"  class="form-control form-control-sm kode_barang huruf_besar" name="kode_barang">
+
+              <div class="col-lg-6 col-md-12">
+
+                <div class="row">
+
+                  <div class="col-lg-6 col-sm-4 col-xs-12">
+                        <label class="tebal">Item Name</label>
+                  </div>
+                  <div class="col-lg-6 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                        <input type="text"  class="form-control form-control-sm huruf_besar" name="item_name">
+                        <input type="hidden"  class="form-control form-control-sm kode_barang huruf_besar" name="kode_barang">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-sm-4 col-xs-12">
+                      <label class="tebal">Type</label>
+                  </div>
+                  <div class="col-lg-6 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                        <select class="form-control" name="type_barang">
+                          <option value="">--Select Type--</option>
+                          @foreach($type_barang as $tipe)
+                            <option value="{{$tipe['it_code']}}">{{$tipe['it_code']}} || {{$tipe['it_name']}}</option>
+                          @endforeach
+
+                        </select>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-sm-4 col-xs-12">
+                        <label class="tebal">Weight</label>
+                  </div>
+                  <div class="col-lg-6 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                        <input type="text"  class="form-control hanya_angka form-control-sm weight" name="weight">
+                    </div>
+                  </div>
+
+
+
+                  <div class="col-lg-6 col-sm-4 col-xs-12">
+
+                        <label class="tebal">Min Stock</label>
+
+                  </div>
+                  <div class="col-lg-6 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                        <input type="text" class="form-control hanya_angka form-control-sm min_stock" name="min_stock">
+                    </div>
+                  </div>
+
+
+                  <div class="col-lg-6 col-sm-4 col-xs-12">
+                      <label class="tebal">Unit#</label>
+                  </div>
+                  <div class="col-lg-6 col-sm-8 col-xs-12">
+                    <div class="form-group">
+                        <select class="unit" name="unit">
+                          @foreach($unit as $i)
+                            <option value="{{$i->u_id}}">{{$i->u_unit}}</option>
+                          @endforeach
+                        </select>
+                    </div>
+                  </div>
+
                 </div>
-              </div>
-              <div class="col-md-3 col-sm-4 col-xs-12">
-                  <label class="tebal">Currency</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12" style="width: 100%">
-                <div class="form-group">
-                    <select class="form-control currency" name="currency">
-                      @foreach($currency as $val)
-                        <option @if ($val->cu_code == 'IDR')
-                          selected=""
-                        @endif value="{{$val->cu_code}}">{{$val->cu_code}} || {{$val->cu_name}}</option>
-                      @endforeach
 
-                    </select>
+
+
+              </div>
+
+
+                <div class="col-lg-6 col-sm-12">
+
+                  <div class="row">
+                  {{-- 
+                    <div class="col-lg-6 col-sm-4 col-xs-12">
+                        <label class="tebal">Currency</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-xs-12" style="width: 100%">
+                      <div class="form-group">
+                          <select class="form-control currency" name="currency">
+                            @foreach($currency as $val)
+                              <option @if ($val->cu_code == 'IDR')
+                                selected=""
+                              @endif value="{{$val->cu_code}}">{{$val->cu_code}} || {{$val->cu_name}}</option>
+                            @endforeach
+
+                          </select>
+                      </div>
+                    </div> --}}
+
+
+
+
+                    <div class="col-lg-6 col-sm-4 col-xs-12">
+                          <label class="tebal">Sell Price</label>
+
+                          <label class="pull-right"><input type="radio" name="sell_price_currency" value="idr">IDR</label>
+                          <label class="pull-right mr-3-custom"><input type="radio" name="sell_price_currency" value="usd">USD</label>
+
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                          <input type="text"  class="form-control hanya_angka form-control-sm sell_price" name="sell_price" maxlength="20" required="">
+                      </div>
+                      
+                    </div>
+
+
+
+
+                   <div class="col-lg-6 col-sm-4 col-xs-12">
+                        <label class="tebal">Lower Price</label>
+
+                          <label class="pull-right"><input type="radio" name="lower_price_currency" value="idr">IDR</label>
+                          <label class="pull-right mr-3-custom"><input type="radio" name="lower_price_currency" value="usd">USD</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                          <input type="text"  class="form-control hanya_angka form-control-sm lower_price" name="lower_price" maxlength="20" required="">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-4 col-xs-12">
+                      <label class="tebal">Price</label>
+
+                          <label class="pull-right"><input type="radio" name="price_currency" value="idr">IDR</label>
+                          <label class="pull-right mr-3-custom"><input type="radio" name="price_currency" value="usd">USD</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                          <input type="text"  class="form-control hanya_angka form-control-sm price" name="price" maxlength="20" required="">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-4 col-xs-12">
+                        <label class="tebal">Category</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                          <select class="category" name="category">
+                            <option value="">--Select Type--</option>
+                            <option value="Barang Jual">Barang Jual</option>
+                            <option value="Aksesoris instalasi">Aksesoris instalasi</option>
+                            <option value="Lain - Lain">Lain - Lain</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+                
 
-              <div class="col-md-3 col-sm-4 col-xs-12">
-                  <label class="tebal">Type</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <select class="form-control" name="type_barang">
-                      <option value="">--Select Type--</option>
-                      @foreach($type_barang as $tipe)
-                        <option value="{{$tipe['it_code']}}">{{$tipe['it_code']}} || {{$tipe['it_name']}}</option>
-                      @endforeach
-
-                    </select>
-                </div>
-              </div>
-
-
-
-
-              <div class="col-md-3 col-sm-4 col-xs-12">
-                    <label class="tebal">Sell Price</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <input type="text"  class="form-control hanya_angka form-control-sm sell_price" name="sell_price" maxlength="20" required="">
-                </div>
-              </div>
-
-
-
-
-
-              <div class="col-md-3 col-sm-4 col-xs-12">
-                    <label class="tebal">Weight</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <input type="text"  class="form-control hanya_angka form-control-sm weight" name="weight">
-                </div>
-              </div>
-
-
-             <div class="col-md-3 col-sm-4 col-xs-12">
-                    <label class="tebal">Lower Price</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <input type="text"  class="form-control hanya_angka form-control-sm lower_price" name="lower_price" maxlength="20" required="">
-                </div>
-              </div>
-
-
-
-              <div class="col-md-3 col-sm-4 col-xs-12">
-
-                    <label class="tebal">Min Stock</label>
-
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <input type="text" class="form-control hanya_angka form-control-sm min_stock" name="min_stock">
-                </div>
-              </div>
-
-
-              <div class="col-md-3 col-sm-4 col-xs-12">
-                <label class="tebal">Price</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <input type="text"  class="form-control hanya_angka form-control-sm price" name="price" maxlength="20" required="">
-                </div>
-              </div>
-
-             {{-- PRICE --}}
-              <div class="col-md-3 col-sm-4 col-xs-12">
-                  <label class="tebal">Unit#</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <select class="unit" name="unit">
-                      @foreach($unit as $i)
-                        <option value="{{$i->u_id}}">{{$i->u_unit}}</option>
-                      @endforeach
-                    </select>
-                </div>
-              </div>
-
-              <div class="col-md-3 col-sm-4 col-xs-12">
-                  <label class="tebal">Category</label>
-              </div>
-              <div class="col-md-3 col-sm-8 col-xs-12">
-                <div class="form-group">
-                    <select class="category" name="category">
-                      <option value="">--Select Type--</option>
-                      <option value="Barang Jual">Barang Jual</option>
-                      <option value="Aksesoris instalasi">Aksesoris instalasi</option>
-                      <option value="Lain - Lain">Lain - Lain</option>
-                    </select>
-                </div>
-              </div>
 
               <div class="col-md-3 col-sm-4 col-xs-12">
 
