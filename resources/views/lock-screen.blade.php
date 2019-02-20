@@ -59,8 +59,11 @@
   <!-- endinject -->
 </body>
 
-<script type="text/javascript">
-  window.onbeforeunload = function() { return "Your work will be lost."; };
-</script>
+  <script type="text/javascript">
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+    };
+  </script>
 
 </html>
