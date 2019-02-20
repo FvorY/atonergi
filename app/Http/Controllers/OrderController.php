@@ -735,6 +735,9 @@ class OrderController extends Controller
 
     public function approve_deposit(request $req)
     {
+
+        // return json_encode($req->all());
+
         return DB::transaction(function() use ($req) {
 
             $data = DB::table('d_quotation')
@@ -753,7 +756,9 @@ class OrderController extends Controller
             $cari = DB::table('d_sales_order')
                       ->where('so_nota',$paydeposit->p_so)
                       ->first();
+
             $nota = $paydeposit->p_so;
+
             if ($nota != '') {
                 if ($cari == null) {
                     $id = DB::table('d_sales_order')
@@ -859,6 +864,9 @@ class OrderController extends Controller
                             'q_remain' => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                             'q_approved' => 'Y'
                         ]);
+
+            return filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100;
+
 
                   if ((int)$req->remain == 0) {
                     $id = DB::table('d_sales_invoice')->max('si_id')+1;
