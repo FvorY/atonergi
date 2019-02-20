@@ -172,7 +172,7 @@
                       <select class="form-control form-control-sm" id="rp_kodeitem">
                         <option selected="" value="">- Pilih -</option>
                         @foreach ($item as $i)
-                          <option value="{{ $i->i_code }}" data-name="{{ $i->i_name }}" data-price="{{ $i->i_price }}"
+                          <option value="{{ $i->i_code }}" data-name="{{ $i->i_name }}" data-unit="{{$i->u_unit}}" data-price="{{ $i->i_price }}"
                             @if ($i->sg_qty != null)
                               data-qty="{{ $i->sg_qty }}"
                             @else
@@ -220,7 +220,7 @@
                           <td><input type="text" class="form-control form-control-sm min-width readonly" name="podt_name[]" value="{{ $seq->i_name }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width2 right format_money readonly qty" value="{{ $seq->podt_qty }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width2 right format_money qty_approved_value"  onkeyup="hitung_qty(this)" name="podt_qty[]" value="{{ $seq->podt_qty_approved }}"></td>
-                          <td><input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="{{ $seq->i_unit }}"></td>
+                          <td><input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="{{ $seq->u_unit }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width right format_money readonly unit_price" name="podt_unit_price[]" value="{{ number_format($seq->podt_unit_price,0,',','.') }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width right format_money total_price readonly" name="podt_price[]" onchange="hitung_total(this)" value="{{ number_format($seq->podt_price,0,',','.') }}"></td>
                           <td><input type="checkbox" name="podt_ppn[]" class="ppn" onchange="ppn_10(this)">10%</td>
@@ -331,7 +331,7 @@
             '<input type="text" id="podt_name[]"    name="podt_name[]"   class="form-control input-sm min-width readonly" value="'+ rp_kodeitem.find(':selected').data('name') +'">',
             '<input type="text" id="podt_qty_requested[]"   class="form-control input-sm min-width right readonly " value="'+rp_qty.val()+'">',
             '<input type="text" id="podt_qty[]"     name="podt_qty[]"    class="form-control input-sm min-width right readonly qty_approved_value qty" onkeyup="hitung_qty(this)" value="'+rp_qty.val()+'">',
-            '<input type="number" id="jumlah[]"     name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty "  value="'+ accounting.formatMoney(rp_qty.val(),"",0,'.',',') +'">',
+            '<input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="'+rp_kodeitem.find(':selected').data('unit')+'">',
             '<input type="text" id="podt_unit_price[]"   name="podt_unit_price[]"    class="form-control input-sm min-width right readonly unit_price" value="'+ accounting.formatMoney(rp_kodeitem.find(':selected').data('price'),"",0,'.',',') +'">',
             '<input type="text" id="podt_price[]"   name="podt_price[]"    class="form-control input-sm min-width right readonly total_price " value="'+ accounting.formatMoney(total,"",0,'.',',') +'">',
             '<td><input type="checkbox" name="podt_ppn[]" class="ppn" onchange="ppn_10(this)">10%</td>',
@@ -356,6 +356,11 @@
         });
         $("input[name='ro_qty_header']").val(accounting.formatMoney(total_qty,"",0,'.',','));
 
+        var tax =  $('#po_tax').val();
+        tax = tax.replace(/[^0-9\-]+/g,"");
+        hitung_tax = parseInt(total_price)+parseInt(tax);
+        $('#total_net').val(accounting.formatMoney(hitung_tax,"",0,'.',','));
+
         rp_item.focus();
         rp_item.val('');
         rp_kodeitem.val('').trigger('change');
@@ -366,26 +371,43 @@
 
 
     $('#t72a tbody').on( 'click', '.delete', function () {
+
         table
             .row($(this).parents('tr'))
             .remove()
             .draw();
 
         var parents = $(this).parents('tr');
-        var total_price_seq = $(parents).find('.total_price').val();
-        var total_qty_seq = $(parents).find('.total_qty').val();
-        var total_price_header = $("input[name='ro_total_header']").val();
-        var total_qty_header = $("input[name='ro_qty_header']").val();
+        var total_price = $('#po_subtotal').val();
+          total_price = total_price.replace(/[^0-9\-]+/g,"");
+        var ppn_value = $(parents).find('.ppn');
+        if (ppn_value.prop('checked') == true) {
+          var hitung = parseInt(total_price)*(10/parseInt(100));
 
-        total_price_header = total_price_header.replace(/[^0-9\-]+/g,"");
-        total_qty_header = total_qty_header.replace(/[^0-9\-]+/g,"");
-        total_price_seq = total_price_seq.replace(/[^0-9\-]+/g,"");
-        total_qty_seq = total_qty_seq.replace(/[^0-9\-]+/g,"");
+        }else if(ppn_value.prop('checked') == false){
+          var hitung = 0;
 
-        var kurang_total = parseInt(total_price_header)-parseInt(total_price_seq);
-        var kurang_qty = parseInt(total_qty_header)-parseInt(total_qty_seq);
-        $("input[name='ro_total_header']").val(accounting.formatMoney(kurang_total,"",0,'.',','));
-        $("input[name='ro_qty_header']").val(accounting.formatMoney(kurang_qty,"",0,'.',','));
+        }
+
+        var total_price = 0;
+        $('.total_price').each(function(){
+          var total = $(this).val();
+          total = total.replace(/[^0-9\-]+/g,"");
+          total_price += parseInt(total);
+        });
+
+        $("input[name='po_subtotal']").val(accounting.formatMoney(total_price,"",0,'.',','));
+
+        var tmp =  $('#po_tax').val();
+        tmp = tmp.replace(/[^0-9\-]+/g,"");
+        var tmp1 = parseInt(tmp) - parseInt(hitung);
+
+        $('#po_tax').val(tmp1);
+
+        var tax =  $('#po_tax').val();
+        tax = tax.replace(/[^0-9\-]+/g,"");
+        hitung_tax = parseInt(total_price)+parseInt(tax);
+        $('#total_net').val(accounting.formatMoney(hitung_tax,"",0,'.',','));
 
     });
 
@@ -498,14 +520,12 @@
         var hitung = parseInt(total)+parseInt(hitung);
 
         $('#po_tax').val(hitung);
-        alert('if');
       }else if($('.ppn').prop('checked') == false){
         var hitung = parseInt(total_price)*(10/parseInt(100));
         var total  = $('#po_tax').val();
         var hitung = parseInt(total)-parseInt(hitung);
 
         $('#po_tax').val(hitung);
-        alert('else');
       }
     }
 

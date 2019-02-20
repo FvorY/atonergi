@@ -759,8 +759,12 @@ class ProjectController extends Controller
 
         $finalkode = 'DO-' . $kode . '/' . date('m') . date('Y');
 
-        $d_shipping_charges = str_replace('Rp. ', '', $request->d_shipping_charges);
-        $d_shipping_charges = str_replace('.', '', $d_shipping_charges);
+        if ($request->d_shipping_charges == "") {
+          $d_shipping_charges = 0;
+        } else {
+          $d_shipping_charges = str_replace('Rp. ', '', $request->d_shipping_charges);
+          $d_shipping_charges = str_replace('.', '', $d_shipping_charges);
+        }
 
         DB::table('d_delivery')
           ->insert([
@@ -802,7 +806,7 @@ class ProjectController extends Controller
                         ->where('sg_iditem', $barang[$i]->qd_item)
                         ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
                         ->get();
-                    
+
                     if (empty($stock)) {
                         return response()->json([
                           'status' => 'stock kurang',

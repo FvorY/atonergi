@@ -372,10 +372,23 @@
         var total_price_seq = $(parents).find('.total_price').val();
         var total = $("#dbldt_subtotal").val();
         var total_net = $("#total_net").val();
-
         total_price_seq = total_price_seq.replace(/[^0-9\-]+/g,"");
         total = total.replace(/[^0-9\-]+/g,"");
         total_net = total_net.replace(/[^0-9\-]+/g,"");
+
+        var ppn_value = $(parents).find('.ppn');
+        if (ppn_value.prop('checked') == true) {
+          var hitung = parseInt(total_price_seq)*(10/parseInt(100));
+
+        }else if(ppn_value.prop('checked') == false){
+          var hitung = 0;
+
+        }        
+
+        var tmp =  $('#dbldt_tax').val();
+        tmp = tmp.replace(/[^0-9\-]+/g,"");
+        var tmp1 = parseInt(tmp) - parseInt(hitung);
+        $('#dbldt_tax').val(tmp1);
 
 
         var kurang_total = parseInt(total)-parseInt(total_price_seq);

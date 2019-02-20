@@ -239,18 +239,40 @@
         qty = qty.replace(/[^0-9\-]+/g,"");
         harga_1 = harga_1.replace(/[^0-9\-]+/g,"");
 
-        var total = parseInt(harga_1)*parseInt(qty);
-        table.row.add( [
-            '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly" readonly value="'+ rp_kodeitem.val() +'">',
-            '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ rp_kodeitem.find(':selected').data('name') +'">',
-            '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(rp_kodeitem.find(':selected').data('price'),"",0,'.',',') +'">',
-            '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
-            '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(rp_qty.val(),"",0,'.',',') +'">',
-            '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ rp_kodeitem.find(':selected').data('qty') +'">',
-            '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
-        ] ).draw( false );
 
-        x++;
+        var itemname = [];
+        var selectedVal;
+        $(".itemkode").each(function(i, sel){
+            selectedVal = $(sel).val();
+            itemname.push(selectedVal);
+        });
+
+        var tmp = "no";
+        for (var i = 0; i < itemname.length; i++) {
+          if (itemname[i] == rp_kodeitem.val()) {
+            tmp = "yes";
+          }
+        }
+
+        if (tmp == "yes") {
+          iziToast.warning({
+            icon: 'fa fa-times',
+            message: 'Sudah ada item yang sama!',
+          });
+        } else {
+          var total = parseInt(harga_1)*parseInt(qty);
+          table.row.add( [
+              '<input type="text" id="item_kode[]" name="ro_item_seq[]" class="form-control input-sm min-width readonly itemkode" readonly value="'+ rp_kodeitem.val() +'">',
+              '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ rp_kodeitem.find(':selected').data('name') +'">',
+              '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(rp_kodeitem.find(':selected').data('price'),"",0,'.',',') +'">',
+              '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
+              '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(rp_qty.val(),"",0,'.',',') +'">',
+              '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ rp_kodeitem.find(':selected').data('qty') +'">',
+              '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
+          ] ).draw( false );
+
+          x++;
+        }
 
         $('.rp').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
 
@@ -374,7 +396,7 @@ function detail(parm) {
                 if (data[i].rodt_qty_approved != 0) {
                     array_nama += '<td align="right"><input type="text"  name="approved[]" onkeyup="qty(this)" readonly value="'+data[i].rodt_qty_approved+'" class="form-control right qty_approved_value hanya_angka"></td>';
                 }else{
-                    array_nama += '<td align="right"><input type="text"  name="approved[]"  onkeyup="qty(this)" value="'+0+'" class="form-control right qty_approved_value hanya_angka"></td>';
+                    array_nama += '<td align="right"><input type="text"  name="approved[]"  onkeyup="qty(this)" value="'+data[i].rodt_qty+'" class="form-control right qty_approved_value hanya_angka"></td>';
                 }
 
               array_nama += '</tr>';
@@ -637,7 +659,7 @@ function hapus(parm){
             var qtygudang = response.dataseq[i].sg_qty;
           }
           tables.row.add( [
-            '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly" readonly value="'+ response.dataseq[i].rodt_barang +'">',
+            '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly itemkode" readonly value="'+ response.dataseq[i].rodt_barang +'">',
             '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ response.dataseq[i].i_name +'">',
             '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(response.dataseq[i].rodt_unit_price,"",0,'.',',') +'">',
             '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(response.dataseq[i].rodt_price,"",0,'.',',') +'">',
@@ -684,18 +706,40 @@ function hapus(parm){
       qty = qty.replace(/[^0-9\-]+/g,"");
       harga_1 = harga_1.replace(/[^0-9\-]+/g,"");
 
-      var total = parseInt(harga_1)*parseInt(qty);
-      tables.row.add( [
-          '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly" readonly value="'+ rp_kodeitems.val() +'">',
-          '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ rp_kodeitems.find(':selected').data('name') +'">',
-          '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(rp_kodeitems.find(':selected').data('price'),"",0,'.',',') +'">',
-          '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
-          '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(rp_qtys.val(),"",0,'.',',') +'">',
-          '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ rp_kodeitems.find(':selected').data('qty') +'">',
-          '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
-      ] ).draw( false );
+      var itemname = [];
+      var selectedVal;
+      $(".itemkode").each(function(i, sel){
+          selectedVal = $(sel).val();
+          itemname.push(selectedVal);
+      });
 
-      x++;
+      var tmp = "no";
+      for (var i = 0; i < itemname.length; i++) {
+        if (itemname[i] == rp_kodeitems.val()) {
+          tmp = "yes";
+        }
+      }
+
+      if (tmp == "yes") {
+        iziToast.warning({
+          icon: 'fa fa-times',
+          message: 'Sudah ada item yang sama!',
+        });
+      } else {
+        var total = parseInt(harga_1)*parseInt(qty);
+        tables.row.add( [
+            '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly itemkode" readonly value="'+ rp_kodeitems.val() +'">',
+            '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ rp_kodeitems.find(':selected').data('name') +'">',
+            '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(rp_kodeitems.find(':selected').data('price'),"",0,'.',',') +'">',
+            '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
+            '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(rp_qtys.val(),"",0,'.',',') +'">',
+            '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ rp_kodeitems.find(':selected').data('qty') +'">',
+            '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
+        ] ).draw( false );
+
+        x++;
+      }
+
 
       $('.rp').maskMoney({prefix:'Rp. ', thousands:'.', decimal:',', precision:0});
 
@@ -811,6 +855,14 @@ function update(){
        async: false
      });
 }
+
+$("#tambah").on("hidden.bs.modal", function(){
+    close();
+});
+
+$("#edit").on("hidden.bs.modal", function(){
+    close();
+});
 
 
 </script>

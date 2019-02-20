@@ -251,7 +251,7 @@ table, td, th {
 						<th class="border-none" width="30%">Line Total</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody>					
 					@foreach ($print_seq as $index => $seq)
 						<tr>
 							<td>{{ $index+1 }}</td>

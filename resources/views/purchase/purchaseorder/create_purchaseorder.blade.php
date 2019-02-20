@@ -28,7 +28,7 @@
           <div class="card">
             <form id="form-save">
               <div class="card-body">
-                <h4 class="card-title">Tambah Purchase Order</h4>                
+                <h4 class="card-title">Tambah Purchase Order</h4>
 
                 <div class="row">
 
@@ -163,10 +163,8 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="row" style="margin-top: 15px;border-top: 1px solid #98c3d1;padding-top:15px;border-bottom: 1px solid #98c3d1; margin-bottom: 15px;">
                   <div class="col-md-3 col-sm-6 col-xs-12">
-
                     <label>Item</label>
                   </div>
                   <div class="col-md-3 col-sm-6 col-xs-12">
@@ -174,7 +172,7 @@
                       <select class="form-control form-control-sm" id="rp_kodeitem">
                         <option selected="" value="">- Pilih -</option>
                         @foreach ($item as $i)
-                          <option value="{{ $i->i_code }}" data-name="{{ $i->i_name }}" data-price="{{ $i->i_price }}"
+                          <option value="{{ $i->i_code }}" data-name="{{ $i->i_name }}" data-unit="{{$i->u_unit}}" data-price="{{ $i->i_price }}"
                             @if ($i->sg_qty != null)
                               data-qty="{{ $i->sg_qty }}"
                             @else
@@ -222,7 +220,7 @@
                           <td><input type="text" class="form-control form-control-sm min-width readonly" name="podt_name[]" value="{{ $seq->i_name }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width2 right format_money readonly qty" value="{{ $seq->rodt_qty }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width2 right format_money qty_approved_value"  onkeyup="hitung_qty(this)" name="podt_qty[]" value="{{ $seq->rodt_qty_approved }}"></td>
-                          <td><input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="{{ $seq->i_unit }}"></td>
+                          <td><input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="{{ $seq->u_unit }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width right format_money readonly unit_price" name="podt_unit_price[]" value="{{ number_format($seq->rodt_unit_price,0,',','.') }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width right format_money total_price readonly" name="podt_price[]" onchange="hitung_total(this)" value="{{ number_format($seq->rodt_price,0,',','.') }}"></td>
                           <td><input type="checkbox" name="podt_ppn[]" class="ppn" onchange="ppn_10(this)">10%</td>
@@ -333,7 +331,7 @@
             '<input type="text" id="podt_name[]"    name="podt_name[]"   class="form-control input-sm min-width readonly" value="'+ rp_kodeitem.find(':selected').data('name') +'">',
             '<input type="text" id="podt_qty_requested[]"   class="form-control input-sm min-width right readonly " value="'+rp_qty.val()+'">',
             '<input type="text" id="podt_qty[]"     name="podt_qty[]"    class="form-control input-sm min-width right readonly qty_approved_value qty" onkeyup="hitung_qty(this)" value="'+rp_qty.val()+'">',
-            '<input type="number" id="jumlah[]"     name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty "  value="'+ accounting.formatMoney(rp_qty.val(),"",0,'.',',') +'">',
+            '<input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="'+rp_kodeitem.find(':selected').data('unit')+'">',
             '<input type="text" id="podt_unit_price[]"   name="podt_unit_price[]"    class="form-control input-sm min-width right readonly unit_price" value="'+ accounting.formatMoney(rp_kodeitem.find(':selected').data('price'),"",0,'.',',') +'">',
             '<input type="text" id="podt_price[]"   name="podt_price[]"    class="form-control input-sm min-width right readonly total_price " value="'+ accounting.formatMoney(total,"",0,'.',',') +'">',
             '<td><input type="checkbox" name="podt_ppn[]" class="ppn" onchange="ppn_10(this)">10%</td>',
@@ -348,7 +346,8 @@
           total = total.replace(/[^0-9\-]+/g,"");
           total_price += parseInt(total);
         });
-        $("input[name='ro_total_header']").val(accounting.formatMoney(total_price,"",0,'.',','));
+
+        $("input[name='po_subtotal']").val(accounting.formatMoney(total_price,"",0,'.',','));
 
         var total_qty = 0;
         $('.total_qty').each(function(){
@@ -356,7 +355,13 @@
           total = total.replace(/[^0-9\-]+/g,"");
           total_qty += parseInt(total);
         });
+
         $("input[name='ro_qty_header']").val(accounting.formatMoney(total_qty,"",0,'.',','));
+
+        var tax =  $('#po_tax').val();
+        tax = tax.replace(/[^0-9\-]+/g,"");
+        hitung_tax = parseInt(total_price)+parseInt(tax);
+        $('#total_net').val(accounting.formatMoney(hitung_tax,"",0,'.',','));
 
         rp_item.focus();
         rp_item.val('');
@@ -374,20 +379,36 @@
             .draw();
 
         var parents = $(this).parents('tr');
-        var total_price_seq = $(parents).find('.total_price').val();
-        var total_qty_seq = $(parents).find('.total_qty').val();
-        var total_price_header = $("input[name='ro_total_header']").val();
-        var total_qty_header = $("input[name='ro_qty_header']").val();
+        var total_price = $('#po_subtotal').val();
+          total_price = total_price.replace(/[^0-9\-]+/g,"");
+        var ppn_value = $(parents).find('.ppn');
+        if (ppn_value.prop('checked') == true) {
+          var hitung = parseInt(total_price)*(10/parseInt(100));
 
-        total_price_header = total_price_header.replace(/[^0-9\-]+/g,"");
-        total_qty_header = total_qty_header.replace(/[^0-9\-]+/g,"");
-        total_price_seq = total_price_seq.replace(/[^0-9\-]+/g,"");
-        total_qty_seq = total_qty_seq.replace(/[^0-9\-]+/g,"");
+        }else if(ppn_value.prop('checked') == false){
+          var hitung = 0;
 
-        var kurang_total = parseInt(total_price_header)-parseInt(total_price_seq);
-        var kurang_qty = parseInt(total_qty_header)-parseInt(total_qty_seq);
-        $("input[name='ro_total_header']").val(accounting.formatMoney(kurang_total,"",0,'.',','));
-        $("input[name='ro_qty_header']").val(accounting.formatMoney(kurang_qty,"",0,'.',','));
+        }
+
+        var total_price = 0;
+        $('.total_price').each(function(){
+          var total = $(this).val();
+          total = total.replace(/[^0-9\-]+/g,"");
+          total_price += parseInt(total);
+        });
+
+        $("input[name='po_subtotal']").val(accounting.formatMoney(total_price,"",0,'.',','));
+
+        var tmp =  $('#po_tax').val();
+        tmp = tmp.replace(/[^0-9\-]+/g,"");
+        var tmp1 = parseInt(tmp) - parseInt(hitung);
+
+        $('#po_tax').val(tmp1);
+
+        var tax =  $('#po_tax').val();
+        tax = tax.replace(/[^0-9\-]+/g,"");
+        hitung_tax = parseInt(total_price)+parseInt(tax);
+        $('#total_net').val(accounting.formatMoney(hitung_tax,"",0,'.',','));
 
     });
 
@@ -507,6 +528,18 @@
 
         $('#po_tax').val(hitung);
       }
+
+      //HITUNG SUBTOTAL DAN TOTAL NET PADA TABLE
+      var total_price = 0;
+      $('.total_price').each(function(){
+        var total = $(this).val();
+        total = total.replace(/[^0-9\-]+/g,"");
+        total_price += parseInt(total);
+      });
+
+      var total = total_price + hitung;
+
+      $("#total_net").val(accounting.formatMoney(total,"",0,'.',','));
     }
 
 

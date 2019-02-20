@@ -70,6 +70,7 @@ class QuotationController extends Controller
  	{
  		$data = DB::table('d_quotation')
                   ->orderBy('q_id','DESC')
+                  ->leftjoin('d_marketing', 'mk_id', '=', 'q_marketing')
                   ->get();
 
 

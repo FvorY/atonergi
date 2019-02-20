@@ -74,7 +74,7 @@
 							      <th>Quote#</th>
 							      <th>Customer Item</th>
 							      <th>Customer</th>
-							      <th>Kota</th>
+							      <th>Marketing</th>
 							      <th>Total</th>
 							      <th>Status</th>
 							      <th>History Status</th>
@@ -129,7 +129,7 @@ $(document).ready(function(){
             {data: 'q_nota', name: 'q_nota'},
             {data: 'detail', name: 'detail'},
             {data: 'customer', name: 'customer'},
-            {data: 'q_ship_to', name: 'q_ship_to'},
+            {data: 'mk_name', name: 'mk_name'},
             {data: 'total', name: 'total'},
             {data: 'status', name: 'status'},
             {data: 'histori', name: 'histori'},
@@ -269,7 +269,7 @@ function edit_item(p) {
 	        $(par).find('.line_total').val(accounting.formatMoney(data.data.i_sell_price * qty, "", 0, ".",','));
 	        hitung_dpp();
 	      }
-	    });		
+	    });
 }
 
 
