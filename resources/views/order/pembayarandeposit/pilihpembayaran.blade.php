@@ -61,7 +61,7 @@
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
               @if ($so != null or $wo != null)
-                <select class="form-control form-control-sm" name="pay_method">
+                <select class="form-control form-control-sm pay_method" name="pay_method">
                     @if ($so!=null)
                       <option @if ($so->so_type == 'tunai')
                         selected=""
@@ -79,7 +79,7 @@
                     @endif
                 </select>
               @else
-                <select class="form-control form-control-sm" name="pay_method">
+                <select class="form-control form-control-sm pay_method" name="pay_method">
                   <option value="tunai">Tunai</option>
                   <option value="transfer">Transfer</option>
                 </select>
