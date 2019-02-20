@@ -71,6 +71,9 @@
   <script src="{{asset('assets/validetta/validetta.js')}}"></script>
   <script src="{{asset('assets/validetta/validetta.min.js')}}"></script>
 
+  <script src="{{asset('assets/validation/jquery.validate.min.js')}}"></script>
+  <script src="{{asset('assets/validation/jquery.validate.js')}}"></script>
+
   <!-- Light galery -->
   <script src="{{asset('assets/lightgallery/js/lightgallery-all.min.js')}}"></script>
 

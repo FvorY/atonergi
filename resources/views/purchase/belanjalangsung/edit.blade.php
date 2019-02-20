@@ -254,7 +254,7 @@
                     </div>
                     <div class="col-md-2 col-sm-12 col-xs-12">
                       <div class="form-group">
-                        <input type="text" class="form-control form-control-sm right format_money dbldt_tax" name="dbldt_tax" value="0" id="dbldt_tax" value="{{number_format($dbl[0]->dbl_tax,0,',','.')}}">
+                        <input type="text" class="form-control form-control-sm right format_money dbldt_tax" name="dbldt_tax" id="dbldt_tax" value="{{number_format($dbl[0]->dbl_tax,0,',','.')}}">
                       </div>
                     </div>
                     <div class="offset-md-8 col-md-2 col-sm-12 col-xs-12">
@@ -387,26 +387,35 @@
         .remove()
         .draw();
 
+          var parents = $(this).parents('tr');
 
-        var parents = $(this).parents('tr');
+          var total_price_seq = $(parents).find('.total_price').val();
+          var total = $("#dbldt_subtotal").val();
+          var total_net = $("#total_net").val();
+          total_price_seq = total_price_seq.replace(/[^0-9\-]+/g,"");
+          total = total.replace(/[^0-9\-]+/g,"");
+          total_net = total_net.replace(/[^0-9\-]+/g,"");
 
-        var total_price_seq = $(parents).find('.total_price').val();
-        var total = $("#dbldt_subtotal").val();
-        var total_net = $("#total_net").val();
+          var ppn_value = $(parents).find('.ppn');
+          if (ppn_value.prop('checked') == true) {
+            var hitung = parseInt(total_price_seq)*(10/parseInt(100));
 
-        total_price_seq = total_price_seq.replace(/[^0-9\-]+/g,"");
-        total = total.replace(/[^0-9\-]+/g,"");
-        total_net = total_net.replace(/[^0-9\-]+/g,"");
+          }else if(ppn_value.prop('checked') == false){
+            var hitung = 0;
 
+          }
 
-        var kurang_total = parseInt(total)-parseInt(total_price_seq);
-        var total_net = parseInt(total)-parseInt(total_price_seq);
-
-        $("#dbldt_subtotal").val(accounting.formatMoney(kurang_total,"",0,'.',','));
-        $("#total_net").val(accounting.formatMoney(total_net,"",0,'.',','));
-
+          var tmp =  $('#dbldt_tax').val();
+          tmp = tmp.replace(/[^0-9\-]+/g,"");
+          var tmp1 = parseInt(tmp) - parseInt(hitung);
+          $('#dbldt_tax').val(tmp1);
 
 
+          var kurang_total = parseInt(total)-parseInt(total_price_seq);
+          var total_net = parseInt(total)-parseInt(total_price_seq);
+
+          $("#dbldt_subtotal").val(accounting.formatMoney(kurang_total,"",0,'.',','));
+          $("#total_net").val(accounting.formatMoney(total_net,"",0,'.',','));
     } );
 
 

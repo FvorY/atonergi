@@ -101,7 +101,7 @@
 			        		<tr>
 				            <td>{{ $key + 1 }}</td>
 				            <td><input type="hidden" class="form-control form-control-sm po_item" value="{{ $a->i_code }}" name="po_item[]">{{$a->i_code}} - {{ $a->i_name }}</td>
-				            <td><input type="hidden" class="form-control form-control-sm" value="{{ $a->podt_unit_price }}" name="po_harga[]">{{ $a->i_unit }}</td>
+				            <td><input type="hidden" class="form-control form-control-sm" value="{{ $a->podt_unit_price }}" name="po_harga[]">{{ $a->u_unit }}</td>
 				            <td><input type="text" class="format_money_kosongan form-control form-control-sm qty_approved{{$key}} right readonly" value="{{ $a->podt_qty_approved }}" name="qty_approved[]"></td>
 				            <td><input type="text" class="format_money_kosongan form-control form-control-sm qty_received{{$key}} right" onkeyup="dinamis({{$key}})" onkeypress="return isNumberKey(event)" name="qty_received[]"></td>
 				            <td><input type="hidden" class="format_money_kosongan form-control form-control-sm qty_remain_temp right readonly" value="{{ $a->podt_qty_approved }}" name="">
@@ -214,7 +214,7 @@ function centang(){
 		sent = $('.qty_approved'+id).val();
 		received = $('.qty_received'+id).val();
 
-	if (received > sent) {
+	if (parseInt(received) > parseInt(sent)) {
 		iziToast.warning({
 			icon: 'fa fa-times',
 			message: 'Tidak boleh melebihi amount sent!',

@@ -266,33 +266,33 @@
           <!-- Start Row -->
           <div class="row" id="form-dokumentasi">
 
-
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-
+                  <b>Note : Yang bertanda <span class="text-danger">*</span> harus terisi</b>
+                </div>
+                <div class="card-body">
 
                     <div class="row">
 
                       <div class="col-md-3 col-sm-4 col-xs-12">
-                        <label>Report Title</label>
+                        <label>Report Title <span class="text-danger">*</span></label>
                       </div>
 
                       <div class="col-md-9 col-sm-8 col-xs-12">
                         <div class="form-group form-group-sm">
-                          <textarea rows="3" name="judul_laporan" class="form-control"></textarea>
+                          <textarea rows="3" name="judul_laporan" class="form-control" required></textarea>
                         </div>
                       </div>
 
                       <div class="col-md-3 col-sm-4 col-xs-12">
-                        <label>Report Description</label>
+                        <label>Report Description <span class="text-danger">*</span></label>
                       </div>
                       <div class="col-md-9 col-sm-8 col-xs-12">
                         <div class="form-group form-group-sm">
-                          <textarea rows="3" name="deskripsi_laporan" class="form-control"></textarea>
+                          <textarea rows="3" name="deskripsi_laporan" class="form-control" required></textarea>
                         </div>
                       </div>
-
 
                     </div>
 
@@ -308,12 +308,12 @@
                   <div class="row" id="form-gambar-1">
 
                     <div class="col-md-3 col-sm-4 col-xs-12">
-                      <label>Title</label>
+                      <label>Title <span class="text-danger">*</span></label>
                     </div>
 
                     <div class="col-md-9 col-sm-8 col-xs-12">
                       <div class="form-group form-group-sm">
-                        <input type="text" class="form-control jumlahjudul judul0" onkeyup="judul(0)" name="judul[]">
+                        <input type="text" class="form-control jumlahjudul judul0" onkeyup="judul(0)" name="judul[]" required>
                       </div>
                     </div>
 
@@ -325,7 +325,7 @@
 
                         <div class="col-md-12">
                           <div class="form-group">
-                            <input type="file" class="form-control form-control-sm uploadimage" name="image1" accept="image/*">
+                            <input type="file" class="form-control form-control-sm uploadimage" name="image1" accept="image/*" required>
                             <input type="hidden" class="title0" name="title[]">
                           </div>
                         </div>
@@ -387,6 +387,9 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
+                  <b>Note : Yang bertanda <span class="text-danger">*</span> harus terisi</b>
+                </div>
+                <div class="card-body">
                   <h5 class="card-title">Customer / Partner <span class="text-danger">*</span></h5>
 
                           <div class="row">
@@ -396,7 +399,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_end_customer" class="form-control" placeholder="type something..."></textarea>
+                                <textarea rows="1" name="si_end_customer" required class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
@@ -405,7 +408,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_installer" class="form-control" placeholder="type something..."></textarea>
+                                <textarea rows="1" name="si_installer" required class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
@@ -414,7 +417,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_contact_data_of_installer" class="form-control" placeholder="type something..."></textarea>
+                                <textarea rows="1" name="si_contact_data_of_installer" required class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
@@ -437,7 +440,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <select class="form-control form-control-sm select2" name="si_country">
+                                <select class="form-control form-control-sm select2" required name="si_country">
                                   <option disabled selected>--Pilih--</option>
                                   <option value="Indonesia">Indonesia</option>
                                 </select>
@@ -449,10 +452,10 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <select class="form-control form-control-sm select2" id="city" onchange="filtercity()" name="provinces">
+                                <select class="form-control form-control-sm select2" id="city" required onchange="filtercity()" name="provinces">
                                   <option disabled selected>--Pilih--</option>
                                   @foreach ($provinces as $key => $value)
-                                    <option id="{{$value->id}}" value="{{$value->id}}">{{$value->name}}</option>
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
                                   @endforeach
                                 </select>
                                 <input type="hidden" name="si_province">
@@ -464,7 +467,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <select class="form-control form-control-sm select2" id="showcity" name="si_city">
+                                <select class="form-control form-control-sm select2" id="showcity" required name="si_city">
                                   <option disabled selected>--Pilih--</option>
                                 </select>
                               </div>
@@ -476,7 +479,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
-                                  <input type="text" name="si_longitude" class="form-control" placeholder="type something...">
+                                  <input type="text" name="si_longitude" class="form-control" required placeholder="type something...">
                                   <span class="input-group-addon bg-primary border-primary text-white">East</span>
                                 </div>
                               </div>
@@ -488,7 +491,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
-                                  <input type="text" name="si_latitude" class="form-control" placeholder="type something...">
+                                  <input type="text" name="si_latitude" class="form-control" required placeholder="type something...">
                                   <span class="input-group-addon bg-primary border-primary text-white">South</span>
                                 </div>
                               </div>
@@ -514,7 +517,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div id="datepicker-popup" class="input-group date datepicker">
-                                    <input type="text" class="form-control .datepicker" name="si_installation_date" placeholder="dd-mm-yyyy">
+                                    <input type="text" class="form-control .datepicker" required name="si_installation_date" placeholder="dd-mm-yyyy">
                                     <div class="input-group-addon alamraya-input-group-addon">
                                       <span class="mdi mdi-calendar"></span>
                                     </div>
@@ -541,7 +544,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <select class="form-control select2" name="si_application" id="si_application">
+                                <select class="form-control select2" required name="si_application" id="si_application" onchange="application()">
                                   <option value="" selected="">--Pilih--</option>
                                   <option value="Drinking Water">Drinking Water</option>
                                   <option value="Irrigation">Irrigation</option>
@@ -551,10 +554,10 @@
                               </div>
                             </div>
 
-                            <div class="col-md-3 col-sm-4 col-xs-12">
+                            <div class="col-lg-12 grid-margin stretch-card other" style="display:none">
                               <label>Other Applications</label>
                             </div>
-                            <div class="col-md-9 col-sm-8 col-xs-12">
+                            <div class="col-md-9 col-sm-8 col-xs-12 other" style="display:none">
                               <div class="form-group form-group-sm">
                                 <textarea rows="2" name="si_other_application" id="si_other_application" class="form-control" readonly="" placeholder="type something..."></textarea>
                               </div>
@@ -568,7 +571,7 @@
               </div>
             </div>
 
-            <div class="col-lg-12 grid-margin stretch-card">
+            <div class="col-lg-12 grid-margin stretch-card" id="drinking" style="display:none">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">For Drinking Water Projects</h5>
@@ -615,7 +618,7 @@
               </div>
             </div>
 
-            <div class="col-lg-12 grid-margin stretch-card">
+            <div class="col-lg-12 grid-margin stretch-card" id="irigation" style="display:none">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">For Irrigation Projects</h5>
@@ -663,7 +666,7 @@
               </div>
             </div>
 
-            <div class="col-lg-12 grid-margin stretch-card">
+            <div class="col-lg-12 grid-margin stretch-card" id="swimming" style="display:none">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">For Swimming Pool Filtration Projects</h5>
@@ -734,7 +737,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 {{-- <textarea rows="1" name="si_pump_type" class="form-control" placeholder="type something..."></textarea> --}}
-                                <select class="form-control select2" name="si_pump_type" id="si_pump_type">
+                                <select class="form-control select2" required name="si_pump_type" id="si_pump_type">
                                   <option value="" selected="" disabled="">--Pilih--</option>
                                   <option value="Surface">Surface</option>
                                   <option value="Submersible">Submersible</option>
@@ -748,7 +751,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 {{-- <textarea rows="1" name="si_pump_pump" class="form-control" placeholder="type something..."></textarea> --}}
-                                <select class="form-control select2" name="si_pump_pump">
+                                <select class="form-control select2" required name="si_pump_pump">
                                   <option value="" selected="" disabled="">--Pilih--</option>
                                 </select>
                               </div>
@@ -760,7 +763,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 {{-- <textarea rows="1" name="si_pump_controller" class="form-control" placeholder="type something..."></textarea> --}}
-                                <select class="form-control select2" name="si_pump_controller">
+                                <select class="form-control select2" required name="si_pump_controller">
                                   <option value="" selected="" disabled="">--Pilih--</option>
                                 </select>
                               </div>
@@ -787,7 +790,7 @@
                                 <div class="col-md-6 col-sm-6 col-12">
                                   <div class="form-group form-group-sm">
                                     {{-- <textarea rows="1" name="si_controller_serial_number" class="form-control" placeholder="type something..."></textarea> --}}
-                                    <input type="text" class="form-control" name="si_controller_serial_number">
+                                    <input type="text" class="form-control" required name="si_controller_serial_number">
                                   </div>
                                 </div>
                               </div>
@@ -814,7 +817,7 @@
                                 <div class="col-md-6 col-sm-6 col-12">
                                   <div class="form-group form-group-sm">
                                     {{-- <textarea rows="1" name="si_motor_serial_number" class="form-control" placeholder="type something..."></textarea> --}}
-                                    <input type="text" class="form-control" name="si_motor_serial_number">
+                                    <input type="text" class="form-control" required name="si_motor_serial_number">
                                   </div>
                                 </div>
                               </div>
@@ -841,7 +844,7 @@
                                 <div class="col-md-6 col-sm-6 col-12">
                                   <div class="form-group form-group-sm">
                                     {{-- <textarea rows="1" name="si_pump_end_serial_number" class="form-control" placeholder="type something..."></textarea> --}}
-                                    <input type="text" class="form-control" name="si_pump_end_serial_number">
+                                    <input type="text" class="form-control" required name="si_pump_end_serial_number">
                                   </div>
                                 </div>
                               </div>
@@ -866,7 +869,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
-                                  <input type="number" name="si_total_dynamic_head" class="form-control" placeholder="0" min="0">
+                                  <input type="number" required name="si_total_dynamic_head" class="form-control" placeholder="0" min="0">
                                   <span class="input-group-addon bg-primary border-primary text-white">
                                     m
                                   </span>
@@ -892,7 +895,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
-                                  <input type="number" name="si_static_head" class="form-control" min="0" placeholder="0">
+                                  <input type="number" required name="si_static_head" class="form-control" min="0" placeholder="0">
                                   <span class="input-group-addon bg-primary border-primary text-white">m</span>
                                 </div>
                               </div>
@@ -904,7 +907,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
-                                  <input type="number" name="si_daily_flow_rate" class="form-control" min="0" placeholder="0">
+                                  <input type="number" required name="si_daily_flow_rate" class="form-control" min="0" placeholder="0">
                                   <span class="input-group-addon bg-primary border-primary text-white">m<sup>3</sup></span>
                                 </div>
                               </div>
@@ -938,7 +941,14 @@
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   <input type="number" name="si_pipe_diameter" class="form-control" min="0" placeholder="0">
-                                  <span class="input-group-addon bg-primary border-primary text-white">mm</span>
+                                  <div class="alamraya-form-radio-group">
+                                    <label>
+                                        <input type="radio" class="form_check_input" name="si_pipe_diameter_satuan" value="mm" checked/>&nbsp;mm&nbsp;&nbsp;
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="form_check_input" name="si_pipe_diameter_satuan" value="inch"/>&nbsp;inch&nbsp;&nbsp;
+                                    </label>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -1055,7 +1065,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_pv_module_manufacturer" class="form-control" placeholder="type something..."></textarea>
+                                <textarea rows="1" required name="si_pv_module_manufacturer" class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
@@ -1065,7 +1075,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 {{-- <textarea rows="1" name="si_model_generator" class="form-control" placeholder="type something..."></textarea> --}}
-                                <select class="form-control select2" name="si_model_generator">
+                                <select class="form-control required select2" name="si_model_generator">
                                   <option value="" selected="" disabled="">--Pilih--</option>
                                 </select>
                               </div>
@@ -1077,7 +1087,7 @@
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
                                 {{-- <textarea rows="1" name="si_type_generator" class="form-control" placeholder="type something..."></textarea> --}}
-                                <select class="form-control select2" name="si_type_generator">
+                                <select class="form-control select2" required name="si_type_generator">
                                   <option value="" selected="" disabled="">--Pilih--</option>
                                   <option value="Polycrystallene">Polycrystallene</option>
                                   <option value="Monocrystalline">Monocrystalline</option>
@@ -1091,7 +1101,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <input type="number" name="si_quantity_generator" id="si_quantity_generator" class="form-control" placeholder="0" min="0">
+                                <input type="number" name="si_quantity_generator" onkeyup="syncpowertotal()" required id="si_quantity_generator" class="form-control" placeholder="0" min="0">
                               </div>
                             </div>
 
@@ -1102,7 +1112,7 @@
                               <div class="form-group form-group-sm">
                                 <div class="input-group">
                                   {{-- <textarea rows="1" name="si_power_each" class="form-control" placeholder="type something..."></textarea> --}}
-                                  <input type="number" class="form-control" min="0" name="si_power_each" id="si_power_each">
+                                  <input type="number" class="form-control" min="0" onkeyup="syncpowertotal()" name="si_power_each" id="si_power_each">
                                   <span class="input-group-addon bg-primary border-primary text-white">Wp</span>
                                 </div>
                               </div>
@@ -1299,7 +1309,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_your_name" class="form-control" placeholder="type something..."></textarea>
+                                <textarea rows="1" name="si_your_name" required class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
@@ -1308,7 +1318,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <select class="form-control form-control-sm select2" name="si_signature">
+                                <select class="form-control form-control-sm select2" required name="si_signature">
                                   <option disabled selected>--Pilih--</option>
                                   @foreach ($signature as $key => $value)
                                     <option value="{{$value->s_id}}">{{$value->s_name}}</option>
@@ -1322,7 +1332,7 @@
                             </div>
                             <div class="col-md-9 col-sm-8 col-xs-12">
                               <div class="form-group form-group-sm">
-                                <textarea rows="1" name="si_email_address" class="form-control" placeholder="type something..."></textarea>
+                                <textarea rows="1" name="si_email_address" required class="form-control" placeholder="type something..."></textarea>
                               </div>
                             </div>
 
@@ -1383,7 +1393,7 @@
 
                   <div class="row">
                     <div class="col-lg-12">
-                      <button class="btn btn-info btn-sm m-2 btn-block btn-simpan" onclick="submit()" type="button">Save</button>
+                      <button class="btn btn-info btn-sm m-2 btn-block btn-simpan" onclick="simpan()" type="button">Save</button>
                       <button class="btn btn-secondary btn-sm m-2 btn-block btn-simpan prev-step" type="button">Prev</button>
                     </div>
 
@@ -1489,7 +1499,7 @@ counter += 1;
                 '<div class="row" id="form-gambar-'+int+'">'+
 
                   '<div class="col-md-3 col-sm-4 col-xs-12">'+
-                    '<label>Title</label>'+
+                    '<label>Title <span class="text-danger">*</span></label>'+
                   '</div>'+
 
                   '<div class="col-md-9 col-sm-8 col-xs-12">'+
@@ -1601,12 +1611,12 @@ $(document).on('click', '.btn-scrollbottom', function(){
    });
 
    $(".next-step").click(function (e) {
-       var $active = $('.wizard .nav-tabs .nav-item .active');
-       var $activeli = $active.parent("li");
+        var $active = $('.wizard .nav-tabs .nav-item .active');
+        var $activeli = $active.parent("li");
 
-       $($activeli).next().find('a[data-toggle="tab"]').removeClass("disabled");
-       $($activeli).next().find('a[data-toggle="tab"]').click();
-       $('html, body').animate({scrollTop:0}, 'slow');
+        $($activeli).next().find('a[data-toggle="tab"]').removeClass("disabled");
+        $($activeli).next().find('a[data-toggle="tab"]').click();
+        $('html, body').animate({scrollTop:0}, 'slow');
    });
 
 
@@ -1624,8 +1634,16 @@ $(document).on('click', '.btn-scrollbottom', function(){
      var hasil = $('.judul'+id).val();
      $('.title'+id).val(hasil);
    }
-   function submit(){
-     $('#form').submit();
+
+   function simpan(){
+     if ($('#form').validate()) {
+       iziToast.warning({
+         icon: 'fa fa-times',
+         message: 'Lengkapi Data Anda!',
+       });
+     } else {
+       $('#form').submit();
+     }
    }
 
    function tampil(){
@@ -1660,7 +1678,7 @@ $(document).on('click', '.btn-scrollbottom', function(){
 
    function filtercity(){
      var hasil = $('#city').val();
-     var text = $('#'+hasil).text();
+     var text = $('#city').find('option[value='+hasil+']').text();
      $('input[name=si_province]').val(text);
      var html = '<option disabled selected>--Pilih--</option>';
      $.ajax({
@@ -1789,6 +1807,35 @@ $(document).on('click', '.btn-scrollbottom', function(){
     });
 
     //End PV Generator
-  }); 
+  });
+
+  function application(){
+    var select = $('#si_application').val();
+
+    $('.other').css('display', 'none');
+    $('#drinking').css('display', 'none');
+    $('#irigation').css('display', 'none');
+    $('#swimming').css('display', 'none');
+
+    if (select == "Swimming Pool") {
+      $('#swimming').css('display', '');
+    } else if (select == "Drinking Water") {
+      $('#drinking').css('display', '');
+    } else if (select == "Irrigation") {
+      $('#irigation').css('display', '');
+    } else if (select == "Other") {
+      $('.other').css('display', '');
+    }
+  }
+
+  function syncpowertotal(){
+    var qty = $('#si_quantity_generator').val();
+    var each = $('#si_power_each').val();
+
+    var hasil = parseInt(qty) * parseInt(each);
+
+    $('#si_power_total').val(hasil);
+  }
+
 </script>
 @endsection

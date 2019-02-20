@@ -70,6 +70,7 @@ class QuotationController extends Controller
  	{
  		$data = DB::table('d_quotation')
                   ->orderBy('q_id','DESC')
+                  ->leftjoin('d_marketing', 'mk_id', '=', 'q_marketing')
                   ->get();
 
 
@@ -332,7 +333,7 @@ class QuotationController extends Controller
                   'qh_dt'              => $h_id,
                   'qh_status'          => 2,
                 ]);
-          
+
       for ($i=0; $i < count($req->item_name); $i++) {
 
 
@@ -671,6 +672,48 @@ class QuotationController extends Controller
                         ->update([
                           'q_status' => $req->status,
                         ]);
+
+        if ($req->status == 1) {
+          $data = DB::table('d_quotation')
+                    ->where('q_id',$req->q_id_status)
+                    ->first();
+
+          $bulan = Carbon::now()->format('m');
+          $tahun = Carbon::now()->format('Y');
+
+          $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
+                                          WHERE MONTH(po_date) = '.$bulan.'
+                                          AND YEAR(po_date) = '.$tahun.'");
+          $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+
+          $index = (integer)$cari_nota[0]->id + 1;
+          $index = str_pad($index, 3, '0', STR_PAD_LEFT);
+
+          $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+
+          $id = DB::table('d_payment_order')
+              ->max('po_id')+1;
+
+          $save = DB::table('d_payment_order')
+                    ->insert([
+                      'po_id'         => $id,
+                      'po_nota'       => $nota_po,
+                      'po_ref'        => $data->q_nota,
+                      'po_note'       => "",
+                      'po_type'       => "",
+                      'po_dp'         => $data->q_dp,
+                      'po_total'      => 0,
+                      'po_remain'     => $data->q_remain,
+                      'po_method'     => "",
+                      'po_note2'      => "",
+                      'po_status'     => 'Released',
+                      'po_date'       => carbon::parse()->format('Y-m-d'),
+                      'po_updated_at' => carbon::now(),
+                      'po_created_at' => carbon::now(),
+                      'po_updated_by' => Auth::user()->m_name,
+                      'po_created_by' => Auth::user()->m_name,
+                    ]);
+        }
         return response()->json(['status' => 1]);
       }else{
         return response()->json(['status' => 2]);

@@ -88,7 +88,7 @@ class penerimaan_barangController extends Controller
 
 	 	$header_cari = DB::table('d_purchaseorder')->leftjoin('m_vendor','d_purchaseorder.po_vendor','=','m_vendor.s_kode')->where('po_code','=',$request->this_val)->where('po_status','=','F')->first();
 	 	json_encode($header_cari);
-	 	$seq_cari = DB::table('d_purchaseorder_dt')->leftjoin('m_item','m_item.i_code','=','d_purchaseorder_dt.podt_item')->where('podt_code','=',$request->this_val)->where('podt_status','=','F')->get();
+	 	$seq_cari = DB::table('d_purchaseorder_dt')->leftjoin('m_item','m_item.i_code','=','d_purchaseorder_dt.podt_item')->leftjoin('d_unit', 'u_id', '=', 'i_unit')->where('podt_code','=',$request->this_val)->where('podt_status','=','F')->get();
 
 	 	return view('inventory/penerimaan_barang/create_penerimaan_barang',compact("header_cari",'seq_cari'));
 	 }
@@ -416,7 +416,7 @@ class penerimaan_barangController extends Controller
 	 	$header_penerimaan = DB::table('d_penerimaan_barang')->leftjoin('m_vendor','d_penerimaan_barang.pb_vendor','=','m_vendor.s_kode')->where('pb_code','=',$request->id)->first();
 	 	json_encode($header_penerimaan);
 	 	$id = $request->id;
-	 	$seq_penerimaan = DB::table('d_penerimaan_barang_dt')->leftjoin('m_item','m_item.i_code','=','d_penerimaan_barang_dt.pbdt_item')->where('pbdt_qty_remains','!=','0')->where('pbdt_code','=',$request->id)->get();
+	 	$seq_penerimaan = DB::table('d_penerimaan_barang_dt')->leftjoin('m_item','m_item.i_code','=','d_penerimaan_barang_dt.pbdt_item')->leftjoin('d_unit', 'u_id', '=', 'i_unit')->where('pbdt_qty_remains','!=','0')->where('pbdt_code','=',$request->id)->get();
 
 	 	return view('inventory/penerimaan_barang/edit_penerimaan_barang',compact("header_penerimaan",'seq_penerimaan','id'));
 	 }

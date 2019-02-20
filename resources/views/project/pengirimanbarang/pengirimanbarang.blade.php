@@ -85,7 +85,7 @@
 										@if ($value->so_status_delivery == 'P')
 										<td>
 											<div class="btn-group">
-												<a title="Print Check List Form" href="{{route('print_checklistform')}}" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
+												<a title="Print Check List Form" href="{{route('print_checklistform')}}?id={{$value->so_id}}" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
 												<a href="{{url('project/pengirimanbarang/prosespengirimanbarang').'/'.$value->so_id}}" class="btn btn-info btn-sm" title="Process"><i class="fa fa-sign-in"></i></a>
 												<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
 											</div>
@@ -93,7 +93,7 @@
 										@elseif ($value->so_status_delivery == 'PD')
 										<td>
 											<div class="btn-group">
-												<a title="Print Check List Form" href="{{route('print_checklistform')}}" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
+												<a title="Print Check List Form" href="{{route('print_checklistform')}}?id={{$value->so_id}}" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
 												<button type="button" class="btn btn-info btn-sm" onclick="ubah({{$value->so_id}})" name="button" title="Edit"> <i class="fa fa-edit"></i> </button>
 												<button data-target="#edit" data-toggle="modal" data class="btn btn-warning btn-sm" onclick="edit({{$value->so_id}})" title="Isi Penerima"><i class="fa fa-user"></i></button>
 												<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
@@ -102,7 +102,7 @@
 										@elseif ($value->so_status_delivery == 'D')
 										<td>
 											<div class="btn-group">
-												<a title="Print Check List Form" href="{{route('print_checklistform')}}" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
+												<a title="Print Check List Form" href="{{route('print_checklistform')}}?id={{$value->so_id}}" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
 												<button class="btn btn-danger btn-sm" disabled="" type="button" onclick="hapus({{$value->so_id}})" title="Delete"><i class="fa fa-trash"></i></button>
 											</div>
 										</td>

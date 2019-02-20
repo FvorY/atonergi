@@ -210,6 +210,7 @@ Route::get('/order/cekbarang/detail/{id}', 'OrderController@detailbarang');
 
     // Print Tanda Terima Kasih
     Route::get('/order/pembayarandeposit/print_tandaterimakasih', 'OrderController@print_tandaterimakasih')->name('print_tandaterimakasih');
+    Route::get('/order/proforma_invoice/printproformakasih', 'OrderController@printproformakasih');
 
 // Pilih After Order
 Route::get('/project/dokumentasi/dokumentasi', 'ProjectController@dokumentasi');
@@ -245,7 +246,8 @@ Route::get('/project/pengirimanbarang/setting', 'ProjectController@setting');
 Route::get('/project/pengirimanbarang/prosespengirimanbarang/{id}', 'ProjectController@prosespengirimanbarang');
 Route::get('/project/pengirimanbarang/checklistform/print', 'ProjectController@print_checklistform')->name('print_checklistform');
 Route::get('/project/suratjalan/suratjalan', 'ProjectController@suratjalan')->name('suratjalan');
-Route::get('/project/suratjalan/getdo', 'ProjectController@getdo');
+Route::get('/project/suratjalan/getso', 'ProjectController@getso');
+Route::get('/project/suratjalan/simpansj', 'ProjectController@simpansj');
 Route::get('/project/suratjalan/tambah_suratjalan', 'ProjectController@tambah_suratjalan')->name('tambah_suratjalan');
 Route::get('/project/suratjalan/print_suratjalan', 'ProjectController@print_suratjalan')->name('print_suratjalan');
 
@@ -493,6 +495,7 @@ Route::get('inventory/stockgudang/detail_stockgudang', 'inventory\stock_gudangCo
 //Stock Opname
 Route::get('inventory/opname/opname', 'inventory\stock_opnameController@stockopname')->name('stockopname');
 Route::get('inventory/opname/detail', 'inventory\stock_opnameController@detail');
+Route::get('inventory/opname/print', 'inventory\stock_opnameController@print_opname')->name('print_opname');
 Route::get('inventory/create_opname/create_opname', 'inventory\stock_opnameController@create_stockopname')->name('create_stockopname');
 Route::get('inventory/create_opname/cari_stockopname', 'inventory\stock_opnameController@cari_stockopname')->name('cari_stockopname');
 Route::get('inventory/create_opname/save_stockopname', 'inventory\stock_opnameController@save_stockopname')->name('save_stockopname');

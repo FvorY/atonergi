@@ -6,7 +6,7 @@
 *{
 	font-family: arial;
 	text-align: center;
-	
+
 }
 table {
     border-collapse: collapse;
@@ -58,7 +58,7 @@ table, td, th {
 	content: "";
 	background-image: url("{{asset('assets/atonergi.png')}}");
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
 	position: absolute;
 	display: block;
 	z-index: -1;
@@ -66,7 +66,7 @@ table, td, th {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	opacity: 0.1; 
+	opacity: 0.1;
 }
 .top
 {
@@ -165,7 +165,7 @@ table, td, th {
 	</div>
 	<div class="page-break">
 		<div class="div-width">
-			
+
 			<div class="header-left">
 				<img width="300px" height="80px" src="{{asset('assets/atonergi.png')}}">
 			</div>
@@ -179,40 +179,40 @@ table, td, th {
 					<tbody>
 						<tr >
 							<td class="text-left border-none">Order By :</td>
-							<td class="text-left border-none">Alpha</td>
+							<td class="text-left border-none">{{$data->c_name}}</td>
 
 						</tr>
-						
+
 					</tbody>
 				</table>
-				
+
 			</div>
-			
+
 			<div class="header-right" style="margin-top: 15px;margin-bottom: 55px;">
 				<table class="border-none" width="100%">
 					<tbody>
 						<tr >
 							<td class="text-left border-none">Date : </td>
-							<td class="text-left border-none">April 14, 2018</td>
+							<td class="text-left border-none">{{Carbon\Carbon::parse($data->d_delivery_date)->format('F d, Y')}}</td>
 
 						</tr>
 						<tr>
 							<td class="text-left border-none">S.O#</td>
-							<td class="text-left border-none">A001</td>
+							<td class="text-left border-none">{{$data->so_nota}}</td>
 						</tr>
 						<tr>
 							<td class="text-left border-none">Customer ID</td>
-							<td class="text-left border-none">CUS/001</td>
+							<td class="text-left border-none">{{$data->q_customer}}</td>
 						</tr>
 						<tr>
 							<td class="text-left border-none">Checker</td>
-							<td class="text-left border-none">{{Auth::user()->name}}</td>
+							<td class="text-left border-none">{{Auth::user()->m_name}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			
-			<table class="border-none" id="print_checklistform" width="100%"">
+
+			<table class="border-none" id="print_checklistform" width="100%">
 				<thead>
 					<tr>
 						<th class="border-none" width="1%">No.</th>
@@ -224,23 +224,30 @@ table, td, th {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Cable</td>
-						<td>30</td>
-						<td>Kabel Hitam</td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Pompa Air</td>
-						<td>1</td>
-						<td>Pompa Merk Sanyo</td>
-						<td></td>
-						<td></td>
-					</tr>
-					@for($i = 0; $i<20;$i++)
+					<?php $count = 0 ?>
+					@foreach ($item as $aku)
+						{{ $count += 1}}
+						<tr>
+							<td>{{$count}}</td>
+							<td>{{$aku->i_name}}</td>
+							<td>{{$aku->qd_qty}}</td>
+							<td>{{$aku->i_description}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+					@endforeach
+					@foreach ($acc as $value)
+						{{ $count += 1}}
+						<tr>
+							<td>{{$count}}</td>
+							<td>{{$value->a_acc}}</td>
+							<td>{{(int)$value->a_qty}}</td>
+							<td>{{$value->a_description}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+					@endforeach
+					@for($i = 0; $i<10;$i++)
 					<tr>
 						<td class="blank"></td>
 						<td></td>

@@ -62,7 +62,7 @@
 								@foreach ($data as $key => $value)
 									<tr>
 										<td>{{$key + 1}}</td>
-										<td>{{Carbon\Carbon::parse($value->s_insert)->format('d-F-Y h:m:i:s')}}</td>
+										<td>{{Carbon\Carbon::parse($value->s_insert)->format('d-F-Y G:i:s')}}</td>
 										<td>{{$value->s_title}}</td>
 										<td align="center">
 											<div class="btn-group btn-group-sm">

@@ -99,6 +99,7 @@ class purchase_orderController extends Controller
 
             $data_seq = DB::table('d_requestorder_dt')
                             ->join('m_item','m_item.i_code','=','d_requestorder_dt.rodt_barang')
+                            ->leftjoin('d_unit', 'u_id', '=', 'i_unit')
                             ->where('rodt_status_po','=','F')
                             ->where('rodt_status','=','T')
                             ->whereIn('rodt_code',$request->check)
@@ -117,7 +118,7 @@ class purchase_orderController extends Controller
             $date = date('my');
             $nota = 'PO-'.$index.'/'.$request->vendor[0].'/'.$date;
 
-            $item = DB::table('m_item')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
+            $item = DB::table('m_item')->leftjoin('d_unit', 'u_id', '=', 'i_unit')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
 
             return view('purchase/purchaseorder/create_purchaseorder',compact('ro','data_header','data_seq','vendor','nota','no_ro','no_vendor','item'));
       }
@@ -139,10 +140,11 @@ class purchase_orderController extends Controller
                 ->where('po_code', $request->id)
                 ->get();
 
-      $item = DB::table('m_item')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
+      $item = DB::table('m_item')->leftjoin('d_unit', 'u_id', '=', 'i_unit')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
 
       $data_seq = DB::table('d_purchaseorder_dt')
                     ->join('m_item','m_item.i_code','=','podt_item')
+                    ->leftjoin('d_unit', 'u_id', '=', 'i_unit')
                     ->where('podt_code', $data[0]->po_code)
                     ->get();
 

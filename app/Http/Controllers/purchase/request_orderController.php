@@ -35,7 +35,7 @@ class request_orderController extends Controller
         $need = 0;
         $approved = 0;
         for ($i=0; $i < count($list); $i++) {
-          if ($list[$i]->ro_status_po == 'F') {
+          if ($list[$i]->ro_status_po == 'F' && $list[$i]->ro_status == 'F') {
             $need += 1;
           } else {
             $approved += 1;

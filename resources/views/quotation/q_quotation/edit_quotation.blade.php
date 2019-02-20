@@ -459,58 +459,97 @@ var q_qty         = $("#q_qty");
 
 var x = 1;
 q_qty.keypress(function(e) {
-  var m_table       = $("#apfsds").DataTable();
-  var market      = $('.marketing').val();
+	var m_table       = $("#apfsds").DataTable();
+	var market   	  = $('.marketing').val();
   if(e.which == 13 || e.keyCode == 13){
 
-    var item = $('.item').val();
+  	var item = $('.item').val();
 
-    if (item == '0') {
-      iziToast.warning({
+  	if (item == '0') {
+  		iziToast.warning({
             icon: 'fa fa-info',
             message: 'Item Harus Diisi!',
         });
         return false;
-    }
-    $.ajax({
+  	}
+  	$.ajax({
       url:baseUrl + '/quotation/q_quotation/append_item',
       data:{item,market},
       dataType:'json',
       success:function(data){
-        var temp;
+      	var temp;
 
-        for (var i = 0; i < data.item.length; i++) {
-          var temp1 = '<option value="'+data.item[i].i_code+'">'+data.item[i].i_code+' - '+data.item[i].i_name+'</option>';
-          temp += temp1;
-        }
-        var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
+      	for (var i = 0; i < data.item.length; i++) {
+      		var temp1 = '<option value="'+data.item[i].i_code+'">'+data.item[i].i_code+' - '+data.item[i].i_name+'</option>';
+      		temp += temp1;
+      	}
 
-            m_table.row.add( [
-               dropdown,
-               '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ q_qty.val() +'">',
+				if (data.data.i_active == 'BRG') {
+					var tmp = data.data.i_sell_price * q_qty.val();
 
-               '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
-               '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
+					var beforetax = tmp / 1.1;
 
-               '<input type="text" name="unit_price[]" onkeyup="unitprice(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+data.data.i_active+'">',
+					var tax = parseInt(tmp) - parseInt(beforetax);
 
-               '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
-               '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
-           ] ).draw( false );
+				} else {
+					var tmp = data.data.i_sell_price * q_qty.val();
 
-         m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
-         m_table.$('.item_name').select2();
-        x++;
-        q_qty.val('');
-        $('.item').val('0');
-      $('.item').select2();
+					var beforetax = tmp / 2.5;
 
-      {{-- $('.jumlah').keyup(function(){
-      var qty = $(this).val();
-      qty = qty.replace(/[A-Za-z$. ,-]/g, "");
-      $(this).val(qty);
-    }) --}}
-      hitung_dpp();
+					var tax = parseInt(tmp) - parseInt(beforetax);
+				}
+
+				var itemname = [];
+				var selectedVal;
+				$(".item_name").each(function(i, sel){
+						selectedVal = $(sel).val();
+						itemname.push(selectedVal);
+				});
+
+				var tmp = "no";
+				for (var i = 0; i < itemname.length; i++) {
+					if (itemname[i] == item) {
+						tmp = "yes";
+					}
+				}
+
+				if (tmp == "yes") {
+					iziToast.warning({
+						icon: 'fa fa-times',
+						message: 'Sudah ada item yang sama!',
+					});
+				} else {
+					var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
+	         m_table.row.add( [
+	            dropdown,
+	            '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ q_qty.val() +'">',
+
+	            '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ data.data.u_unit +'">',
+	            '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+data.data.i_description+'">',
+
+	            '<input type="text" name="unit_price[]" onkeyup="unit_price(this)" value="'+accounting.formatMoney(data.data.i_sell_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+data.data.i_active+'">'+
+	            '<input type="hidden" readonly value="'+data.data.i_lower_price+'" class="lower_price form-control input-sm min-width">',
+
+	            '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
+	            '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
+	        ] ).draw( false );
+					$('.unit_price').maskMoney({thousands:'.', decimal:',', precision:0});
+
+					m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
+					m_table.$('.item_name').select2();
+					x++;
+					q_qty.val('');
+					$('.item').val('0');
+				$('.item').select2();
+				synctax();
+
+				$('.jumlah').keyup(function(){
+				var qty = $(this).val();
+				qty = qty.replace(/[A-Za-z$. ,-]/g, "");
+				$(this).val(qty);
+				})
+				hitung_dpp();
+				}
       }
     });
 
