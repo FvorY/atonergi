@@ -9,7 +9,7 @@
           <img src="{{asset('assets/atonergi-mini.png')}}" alt="logo"/>
           <!-- <h1 style="margin:auto; ">A</h1> -->
         </a>
-      </div>
+      </div>      
       <div class="navbar-menu-wrapper d-flex align-items-stretch">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="mdi mdi-menu"></span>
