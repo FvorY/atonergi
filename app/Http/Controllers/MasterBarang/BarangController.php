@@ -82,13 +82,15 @@ class BarangController extends Controller
                 'i_price'       =>  (float)$request->price,
                 'i_sell_price'  =>  (float)$request->sell_price,
                 'i_lower_price' =>  (float)$request->lower_price,
+                'i_price_currency' => $request->price_currency,
+                'i_sell_currency' => $request->sell_price_currency,
+                'i_lower_currency' => $request->lower_price_currency,
                 'i_active'      =>  'Y',
                 'i_jenis'       =>  $request->category,
                 'i_type'        =>  $request->type_barang,
                 'i_minstock'    =>  $request->min_stock,
                 'i_image'       =>  $file_name,
                 'i_weight'      =>  $request->weight,
-                'i_currency_id' =>  $request->currency,
                 'i_description' =>  $request->description,
                 'i_insert_at'   =>  Carbon::now(),
                 'i_update_at'   =>  Carbon::now(),
@@ -135,8 +137,8 @@ class BarangController extends Controller
 
         if ($req->nota != null) {
            $data= DB::table('m_item')
-                ->leftjoin('m_currency','cu_code','=','i_currency_id')
                 ->join('d_unit','u_id','=','i_unit')
+                ->leftjoin('m_currency','cu_code','=','i_price_currency')
                 ->ORwhere('i_jenis','Barang Jual')
                 ->ORwhere('i_jenis','Aksesoris instalasi')
                 ->ORwhere('i_jenis','Lain - Lain')
@@ -145,8 +147,8 @@ class BarangController extends Controller
                 ->get();
         } else {
             $data= DB::table('m_item')
-                ->leftjoin('m_currency','cu_code','=','i_currency_id')
                 ->join('d_unit','u_id','=','i_unit')
+                ->leftjoin('m_currency','cu_code','=','i_price_currency')
                 ->ORwhere('i_jenis','Barang Jual')
                 ->ORwhere('i_jenis','Aksesoris instalasi')
                 ->ORwhere('i_jenis','Lain - Lain')
@@ -183,7 +185,7 @@ class BarangController extends Controller
 						})
 
                         ->addColumn('harga_rp', function ($barang){
-                            $harga = $barang->i_price *$barang->cu_value;
+                            $harga = $barang->i_price * $barang->cu_value;
                             return '<div class="float-left">'.'Rp .'.'</div>'.
                             '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
                         })
@@ -250,12 +252,14 @@ class BarangController extends Controller
                 'i_price'       =>  (float)$request->price,
                 'i_sell_price'  =>  (float)$request->sell_price,
                 'i_lower_price' =>  (float)$request->lower_price,
+                'i_price_currency' => $request->price_currency,
+                'i_sell_currency' => $request->sell_price_currency,
+                'i_lower_currency' => $request->lower_price_currency,
                 'i_active'      =>  'Y',
                 'i_jenis'       =>  $request->category,
                 'i_type'        =>  $request->type_barang,
                 'i_minstock'    =>  $request->min_stock,
                 'i_weight'      =>  $request->weight,
-                'i_currency_id' =>  $request->currency,
                 'i_description' =>  $request->description,
                 'i_insert_at'   =>  Carbon::now(),
                 'i_update_at'   =>  Carbon::now(),
@@ -269,7 +273,7 @@ class BarangController extends Controller
     {
 
           $data= DB::table('m_item')
-               ->leftjoin('m_currency','cu_code','=','i_currency_id')
+               ->leftjoin('m_currency','cu_code','=','i_price_currency')
                ->join('d_unit','u_id','=','i_unit')
                ->where('i_name', 'LIKE', '%'.$req->keyword.'%')
                ->where('i_jenis', 'Barang Jual')

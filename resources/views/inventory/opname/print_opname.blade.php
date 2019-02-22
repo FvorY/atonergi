@@ -6,7 +6,7 @@
 *{
 	font-family: arial;
 	text-align: center;
-	
+
 }
 table {
     border-collapse: collapse;
@@ -58,7 +58,7 @@ table, td, th {
 	content: "";
 	background-image: url("{{asset('assets/atonergi.png')}}");
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
 	position: absolute;
 	display: block;
 	z-index: -1;
@@ -66,7 +66,7 @@ table, td, th {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	opacity: 0.1; 
+	opacity: 0.1;
 }
 .top
 {
@@ -165,7 +165,7 @@ table, td, th {
 	</div>
 	<div class="page-break">
 		<div class="div-width">
-			
+
 			<div class="header-left">
 				<img width="300px" height="80px" src="{{asset('assets/atonergi.png')}}">
 			</div>
@@ -182,23 +182,23 @@ table, td, th {
 							<td class="text-left border-none">Alpha</td>
 
 						</tr>
-						
+
 					</tbody>
 				</table> --}}
-				
+
 			</div>
-			
+
 			<div class="header-right" style="margin-top: 15px;margin-bottom: 55px;">
 				<table class="border-none" width="100%">
 					<tbody>
 						<tr >
 							<td class="text-left border-none">Date Receipt: </td>
-							<td class="text-left border-none">April 14, 2018</td>
+							<td class="text-left border-none">{{Carbon\Carbon::parse($data[0]->so_bulan)->format('F d Y')}}</td>
 
 						</tr>
 						<tr>
 							<td class="text-left border-none">Kode Stock Opname#</td>
-							<td class="text-left border-none">A001</td>
+							<td class="text-left border-none">{{$data[0]->so_code}}</td>
 						</tr>
 						{{-- <tr>
 							<td class="text-left border-none">Customer ID</td>
@@ -206,13 +206,13 @@ table, td, th {
 						</tr> --}}
 						<tr>
 							<td class="text-left border-none">Checker</td>
-							<td class="text-left border-none">{{Auth::user()->name}}</td>
+							<td class="text-left border-none">{{Auth::user()->m_name}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			
-			<table class="border-none" id="print_checklistform" width="100%"">
+
+			<table class="border-none" id="print_checklistform" width="100%">
 				<thead>
 					<tr>
 						<th class="border-none" width="1%">No.</th>
@@ -224,23 +224,17 @@ table, td, th {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Cable</td>
-						<td>30</td>
-						<td>Kabel Hitam</td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Pompa Air</td>
-						<td>1</td>
-						<td>Pompa Merk Sanyo</td>
-						<td></td>
-						<td></td>
-					</tr>
-					@for($i = 0; $i<13;$i++)
+					@foreach ($data as $key => $value)
+						<tr>
+							<td>{{$key + 1}}</td>
+							<td>{{$value->i_name}}</td>
+							<td>{{$value->sodt_real}}</td>
+							<td>{{$value->i_description}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+					@endforeach
+					@for($i = 0; $i<5;$i++)
 						<tr>
 							<td class="blank"></td>
 							<td></td>

@@ -494,9 +494,14 @@
     })
   });
 
-  var timeout;
-  document.onmousemove = function(){
-    clearTimeout(timeout);
-    timeout = setTimeout(function(){ window.location.href = "{{url('/lockscreen')}}?url={{encrypt(url()->full())}}" }, 600000);
+  var lockscreen = '{{Session::get('lockscreen')}}';
+  if (lockscreen == 'yes') {
+    window.location.href = "{{url('/lockscreen')}}?url={{encrypt(url()->full())}}"
+  } else {
+    var timeout;
+    document.onmousemove = function(){
+      clearTimeout(timeout);
+      timeout = setTimeout(function(){ window.location.href = "{{url('/lockscreen')}}?url={{encrypt(url()->full())}}" }, 600000);
+    }
   }
 </script>

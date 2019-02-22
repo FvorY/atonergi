@@ -9,7 +9,21 @@
   .float-right{
     float:right;
   }
+  [class^="col-"]{
+    line-height: 2;
+  }
+  .mr-3-custom{
+    margin-right: 1rem;
+  }
 
+  [type="radio"]{
+    margin-right: .25rem;
+  }
+  @media (max-width: 992px){
+    .mr-3-custom{
+      margin-right: 0;
+    }
+  }
 </style>
 @endsection
 

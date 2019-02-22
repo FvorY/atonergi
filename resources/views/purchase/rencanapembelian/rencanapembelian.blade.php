@@ -235,6 +235,7 @@
       if(e.which == 13 || e.keyCode == 13){
         var qty = rp_qty.val();
         var harga_1 = rp_item.val();
+        var currency = rp_kodeitem.find(':selected').data('currency');
 
         qty = qty.replace(/[^0-9\-]+/g,"");
         harga_1 = harga_1.replace(/[^0-9\-]+/g,"");
@@ -264,8 +265,8 @@
           table.row.add( [
               '<input type="text" id="item_kode[]" name="ro_item_seq[]" class="form-control input-sm min-width readonly itemkode" readonly value="'+ rp_kodeitem.val() +'">',
               '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ rp_kodeitem.find(':selected').data('name') +'">',
-              '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(rp_kodeitem.find(':selected').data('price'),"",0,'.',',') +'">',
-              '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
+              '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="'+currency+'. '+ accounting.formatMoney(rp_kodeitem.find(':selected').data('price'),"",0,'.',',') +'">',
+              '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="'+currency+'. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
               '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(rp_qty.val(),"",0,'.',',') +'">',
               '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ rp_kodeitem.find(':selected').data('qty') +'">',
               '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
@@ -661,8 +662,8 @@ function hapus(parm){
           tables.row.add( [
             '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly itemkode" readonly value="'+ response.dataseq[i].rodt_barang +'">',
             '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ response.dataseq[i].i_name +'">',
-            '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(response.dataseq[i].rodt_unit_price,"",0,'.',',') +'">',
-            '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(response.dataseq[i].rodt_price,"",0,'.',',') +'">',
+            '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="'+response.dataseq[i].cu_symbol+'. '+ accounting.formatMoney(response.dataseq[i].rodt_unit_price,"",0,'.',',') +'">',
+            '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="'+response.dataseq[i].cu_symbol+'. '+ accounting.formatMoney(response.dataseq[i].rodt_price,"",0,'.',',') +'">',
             '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(response.dataseq[i].rodt_qty,"",0,'.',',') +'">',
             '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ qtygudang +'">',
             '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'
@@ -702,6 +703,7 @@ function hapus(parm){
     if(e.which == 13 || e.keyCode == 13){
       var qty = rp_qtys.val();
       var harga_1 = rp_items.val();
+      var currency = rp_items.find(':selected').data('currency');
 
       qty = qty.replace(/[^0-9\-]+/g,"");
       harga_1 = harga_1.replace(/[^0-9\-]+/g,"");
@@ -730,8 +732,8 @@ function hapus(parm){
         tables.row.add( [
             '<input type="text" id="item_kode[]"   name="ro_item_seq[]"    class="form-control input-sm min-width readonly itemkode" readonly value="'+ rp_kodeitems.val() +'">',
             '<input type="text" id="item_name[]"      class="form-control input-sm min-width readonly" value="'+ rp_kodeitems.find(':selected').data('name') +'">',
-            '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="Rp. '+ accounting.formatMoney(rp_kodeitems.find(':selected').data('price'),"",0,'.',',') +'">',
-            '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="Rp. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
+            '<input type="text" id="item_harga[]" onkeyup="item_satuan(this)" name="ro_unit_price_seq[]"    class="form-control input-sm min-width right readonly item_satuan rp"  value="'+response.dataseq[i].cu_symbol+'. '+ accounting.formatMoney(rp_kodeitems.find(':selected').data('price'),"",0,'.',',') +'">',
+            '<input type="text" id="item_harga[]"   name="ro_price_seq[]"  readonly  class="form-control input-sm min-width right readonly total_price " value="'+response.dataseq[i].cu_symbol+'. '+ accounting.formatMoney(total,"",0,'.',',') +'">',
             '<input type="number" id="jumlah[]"   name="ro_qty_seq[]"    class="form-control input-sm min-width right readonly total_qty " value="'+ accounting.formatMoney(rp_qtys.val(),"",0,'.',',') +'">',
             '<input type="text" id="unit_price[]"   name=""    class="form-control input-sm min-width right readonly" readonly  value="'+ rp_kodeitems.find(':selected').data('qty') +'">',
             '<center><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></center>'

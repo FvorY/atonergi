@@ -23,6 +23,7 @@ class lockscreenController extends Controller
     }
 
     public function lockscreen(Request $request){
+      Session::put(['lockscreen' => 'yes']);
       $url = decrypt($request->url);
 
       return view('lock-screen', compact('url'));
@@ -55,6 +56,7 @@ class lockscreenController extends Controller
                             ->first();
 
             if ($user_pass != null) {
+              Session::put(['lockscreen' => 'no']);
               return Redirect($request->url);
             }else{
               Session::flash('password','Password Yang Anda Masukan Salah!');

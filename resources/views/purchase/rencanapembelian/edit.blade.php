@@ -80,7 +80,7 @@
               <select class="form-control form-control-sm" id="rp_kodeitems">
                 <option selected="" value="">- Pilih -</option>
                 @foreach ($item as $i)
-                  <option value="{{ $i->i_code }}" data-name="{{ $i->i_name }}" data-price="{{ $i->i_price }}"
+                  <option value="{{ $i->i_code }}" data-currency="{{$i->cu_symbol}}" data-name="{{ $i->i_name }}" data-price="{{ $i->i_price }}"
                     @if ($i->sg_qty != null)
                       data-qty="{{ $i->sg_qty }}"
                     @else

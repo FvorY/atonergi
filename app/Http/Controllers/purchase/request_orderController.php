@@ -28,8 +28,7 @@ class request_orderController extends Controller
         $nota = 'RO-'.$index.'/'.$date;
 
         $vendor = DB::table('m_vendor')->get();
-        $item = DB::table('m_item')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
-
+        $item = DB::table('m_item')->leftjoin('m_currency','cu_code','=','i_price_currency')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
         $list = DB::select("SELECT * from d_requestorder join m_vendor on d_requestorder.ro_vendor = m_vendor.s_kode");
 
         $need = 0;
@@ -204,8 +203,10 @@ class request_orderController extends Controller
 
             $ro_price_header = str_replace('.','',$request->ro_total_header);
             $ro_price_header = str_replace('Rp ','',$ro_price_header);
+            $ro_price_header = str_replace('$ ','',$ro_price_header);
             $ro_qty_header = str_replace('.','',$request->ro_qty_header);
             $ro_qty_header = str_replace('Rp ','',$ro_qty_header);
+            $ro_qty_header = str_replace('$ ','',$ro_qty_header);
             $tanggal = date("Y-m-d h:i:s");
 
             $header = DB::table('d_requestorder')
@@ -223,10 +224,13 @@ class request_orderController extends Controller
             for ($i=0; $i < count($request->ro_item_seq); $i++) {
                 $unit_price_seq[$i] = str_replace('.','',$request->ro_unit_price_seq[$i]);
                 $unit_price_seq[$i] = str_replace('Rp ','',$unit_price_seq[$i]);
+                $unit_price_seq[$i] = str_replace('$ ','',$unit_price_seq[$i]);
                 $price_seq[$i] = str_replace('.','',$request->ro_price_seq[$i]);
                 $price_seq[$i] = str_replace('Rp ','',$price_seq[$i]);
+                $price_seq[$i] = str_replace('$ ','',$price_seq[$i]);
                 $qty_seq[$i] = str_replace('.','',$request->ro_qty_seq[$i]);
                 $qty_seq[$i] = str_replace('Rp ','',$qty_seq[$i]);
+                $qty_seq[$i] = str_replace('$ ','',$qty_seq[$i]);
 
                 $kode_seq = $kode_seq + 1;
 
@@ -271,6 +275,7 @@ class request_orderController extends Controller
 
         $dataseq = DB::table('d_requestorder_dt')
                     ->leftjoin('m_item', 'i_code', '=', 'rodt_barang')
+                    ->leftjoin('m_currency','cu_code','=','i_price_currency')
                     ->leftjoin('i_stock_gudang', 'sg_iditem', '=', 'rodt_barang')
                     ->where('rodt_code', $request->id)
                     ->get();
@@ -300,8 +305,10 @@ class request_orderController extends Controller
 
                 $ro_price_header = str_replace('.','',$request->ro_total_header);
                 $ro_price_header = str_replace('Rp ','',$ro_price_header);
+                $ro_price_header = str_replace('$ ','',$ro_price_header);
                 $ro_qty_header = str_replace('.','',$request->ro_qty_header);
                 $ro_qty_header = str_replace('Rp ','',$ro_qty_header);
+                $ro_qty_header = str_replace('$ ','',$ro_qty_header);
                 $tanggal = date("Y-m-d h:i:s");
 
                 $header = DB::table('d_requestorder')
@@ -321,10 +328,13 @@ class request_orderController extends Controller
                 for ($i=0; $i < count($request->ro_item_seq); $i++) {
                     $unit_price_seq[$i] = str_replace('.','',$request->ro_unit_price_seq[$i]);
                     $unit_price_seq[$i] = str_replace('Rp ','',$unit_price_seq[$i]);
+                    $unit_price_seq[$i] = str_replace('$ ','',$unit_price_seq[$i]);
                     $price_seq[$i] = str_replace('.','',$request->ro_price_seq[$i]);
                     $price_seq[$i] = str_replace('Rp ','',$price_seq[$i]);
+                    $price_seq[$i] = str_replace('$ ','',$price_seq[$i]);
                     $qty_seq[$i] = str_replace('.','',$request->ro_qty_seq[$i]);
                     $qty_seq[$i] = str_replace('Rp ','',$qty_seq[$i]);
+                    $qty_seq[$i] = str_replace('$ ','',$qty_seq[$i]);
 
                     $kode_seq = $kode_seq + 1;
 

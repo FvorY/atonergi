@@ -60,7 +60,7 @@
               <select class="form-control form-control-sm" name="ro_vendor_header" id="ro_vendor_header">
                 <option selected="" value="">- Pilih -</option>
                 @foreach ($vendor as $e)
-                  <option value="{{ $e->s_kode }}">{{ $e->s_company }} - {{ $e->s_name }} </option>
+                <option value="{{ $e->s_kode }}">{{ $e->s_company }} - {{ $e->s_name }} </option>
                 @endforeach
               </select>
             </div>
@@ -72,7 +72,6 @@
 
          <div class="row" style="margin-top: 15px;border-top: 1px solid #98c3d1;padding-top:15px;border-bottom: 1px solid #98c3d1; margin-bottom: 15px;">
           <div class="col-md-3 col-sm-6 col-xs-12">
-
             <label>Item</label>
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
@@ -80,7 +79,7 @@
               <select class="form-control form-control-sm" id="rp_kodeitem">
                 <option selected="" value="">- Pilih -</option>
                 @foreach ($item as $i)
-                  <option value="{{ $i->i_code }}" data-name="{{ $i->i_name }}" data-price="{{ $i->i_price }}"
+                  <option value="{{ $i->i_code }}" data-currency="{{$i->cu_symbol}}" data-name="{{ $i->i_name }}" data-price="{{ $i->i_price }}"
                     @if ($i->sg_qty != null)
                       data-qty="{{ $i->sg_qty }}"
                     @else

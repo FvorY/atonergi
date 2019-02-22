@@ -31,6 +31,7 @@
 							      <th>No</th>
 							      <th>Code</th>
 							      <th>Date</th>
+										<th>Status</th>
 							      <th>Action</th>
 							    </tr>
 							  </thead>
@@ -40,9 +41,14 @@
 											<td>{{$key + 1}}</td>
 											<td>{{$value->so_code}}</td>
 											<td>{{Carbon\Carbon::parse($value->so_bulan)->format('d-m-Y')}}</td>
+											@if ($value->so_status == 'Y')
+												<td> <label class="badge badge-primary">Approved</label> </td>
+											@else
+												<td> <label class="badge badge-warning">Need Approved</label> </td>
+											@endif
 											<td align="center">
-												<button class="btn btn-print btn-info" type="button" title="Print"><i class="fa fa-print"></i></button>
-												<button type="button" class="btn btn-primary" name="button" onclick="detail({{$value->so_id}})" title="Detail"> <i class="fa fa-folder"></i> </button>
+												<button class="btn btn-print btn-info" data-cetak="{{$value->so_id}}" type="button" title="Print"><i class="fa fa-print"></i></button>
+												<button type="button" class="btn btn-primary" name="button" onclick="detail({{$value->so_id}}, '{{$value->so_status}}')" title="Detail"> <i class="fa fa-folder"></i> </button>
 											</td>
 										</tr>
 									@endforeach
@@ -82,7 +88,8 @@
                           </table>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+													<button type="button" class="btn btn-primary" style="display:none" onclick="approve()" id="approve" name="button">Approve</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         </div>
                       </div>
                     </div>
@@ -93,22 +100,24 @@
 
 <script type="text/javascript">
 	$('#table_opname tbody').on('click', '.btn-print', function(){
-		window.open('{{route('print_opname')}}', '_blank');
+		var id = $(this).data('cetak');
+
+		window.open('{{route('print_opname')}}?id='+id, '_blank');
 	});
 
 	function create(){
 		window.location = ('{{ route('create_stockopname') }}')
 	}
 
-	function detail(id){
+	function detail(id, status){
 		var html = '';
+		var auth = "{{Auth::user()->m_jabatan}}";
 		$.ajax({
 			type: 'get',
 			data: {id:id},
 			dataType: 'json',
 			url : baseUrl + '/inventory/opname/detail',
 			success : function(result){
-				console.log(result);
 				for (var i = 0; i < result.length; i++) {
 					html += '<tr>'+
 									'<td>'+result[i].i_name+'</td>'+
@@ -118,10 +127,80 @@
 									'</tr>';
 				}
 				$('#showdetail').html(html);
+
+				if (auth == "MANAGER") {
+					if (status == 'N') {
+						$('#approve').attr('onclick', 'approve('+id+')');
+						$('#approve').css('display', '');
+					} else {
+						$('#approve').css('display', 'none');
+					}
+				}
+
 				$('#modaldetail').modal('show');
 			}
 		});
 	}
+
+	function approve(id) {
+	    iziToast.show({
+	            overlay: true,
+	            close: false,
+	            timeout: 20000,
+	            color: 'dark',
+	            icon: 'fas fa-question-circle',
+	            title: 'Important!',
+	            message: 'Apakah Anda Yakin ?!',
+	            position: 'center',
+	            progressBarColor: 'rgb(0, 255, 184)',
+	            buttons: [
+	              [
+	                '<button style="background-color:red;">Approve</button>',
+	                function (instance, toast) {
+
+	                  $.ajax({
+	                      url: baseUrl +'/inventory/opname/approve',
+	                      type:'get',
+	                      data: {id},
+	                      dataType:'json',
+	                      success:function(data){
+													if (data.status == 'berhasil') {
+														iziToast.success({
+														 icon: 'fa fa-check',
+														 message: 'Data Berhasil diapprove!',
+													 });
+													 window.location.reload();
+													} else {
+														iziToast.warning({
+														 icon: 'fa fa-times',
+														 message: 'Data gagal diapprove!',
+													 });
+													}
+	                      },
+	                      error:function(){
+	                        iziToast.warning({
+	                          icon: 'fa fa-times',
+	                          message: 'Terjadi Kesalahan!',
+	                        });
+	                      }
+	                  });
+
+	                }
+	              ],
+	              [
+	                '<button style="background-color:#44d7c9;">Cancel</button>',
+	                function (instance, toast) {
+	                  instance.hide({
+	                    transitionOut: 'fadeOutUp'
+	                  }, toast);
+	                }
+	              ]
+	            ]
+	          });
+
+	  }
+
+
 
 </script>
 
