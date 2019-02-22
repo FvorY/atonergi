@@ -5,167 +5,161 @@
 @section(modulSetting()['extraStyles'])
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.css') }}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/select2/dist/css/select2.min.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/select2/dist/css/select2.min.css') }}">
 
 @endsection
 
 
 @section('content')
-    <div class="content-wrapper" id="vue-component">
-      <div class="row">
-        <div class="col-lg-12">
-          <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb bg-info">
-              <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-              <li class="breadcrumb-item">Master</li>
-              <li class="breadcrumb-item" aria-current="page">Master Data Group Akun</li>
-              <li class="breadcrumb-item active" aria-current="page">Create</li>
-            </ol>
-          </nav>
-        </div>
+    <div class="col-md-12" style="background: none;" id="vue-component">
+    	<div class="col-md-12">
+    		<div class="row">
+    			<div class="col-md-6 content-title">
+    				Tambah Data Group Akun
+    			</div>
 
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Input Master Data Group Akun</h4>
-                <div class="table-responsive" style="border-top: 1px solid #eee; padding-top: 20px;">
-                    <form id="data-form" v-cloak>
-                        <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" readonly name="ag_id" v-model="singleData.ag_id">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-7" style="background: none;">
+    			<div class="col-md-6 text-right form-status">
+    				<span v-if="stat == 'standby'" v-cloak>
+                        <i class="fa fa-exclamation"></i> &nbsp; Pastikan Data Terisi Dengan Benar            
+                    </span>
 
-                                    <div class="row mt-form">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Nomor Group</label>
-                                        </div>
+                    <div class="loader" v-if="stat == 'loading'" v-cloak>
+                       <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
+                    </div>
+    			</div>
+    		</div>	
+    	</div>
 
-                                        <div class="col-md-7">
-                                            <input type="text" name="ag_nomor" class="form-control modul-keuangan" placeholder="Di Isi Oleh Sistem" readonly v-model="singleData.ag_nomor">
-                                        </div>
+    	<div class="col-md-12 table-content">
+            <form id="data-form" v-cloak>
+                <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" readonly name="ag_id" v-model="singleData.ag_id">
+                <div class="row">
+                    <div class="col-md-6" style="background: none;">
 
-                                        <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
-                                            <i class="fa fa-search" title="Cari Group Berdasarkan Nomor dan Type Group"></i>
-                                        </div>
+                        <div class="row mt-form">
+                            <div class="col-md-3">
+                                <label class="modul-keuangan">Nomor Group</label>
+                            </div>
 
-                                        <div class="col-md-1 form-info-icon link" @click="formReset" v-if="onUpdate">
-                                            <i class="fa fa-times" title="Bersihkan Pencarian" style="color: #CC0000;"></i>
-                                        </div>
-                                    </div>
+                            <div class="col-md-7">
+                                <input type="text" name="ag_nomor" class="form-control modul-keuangan" placeholder="Di Isi Oleh Sistem" readonly v-model="singleData.ag_nomor">
+                            </div>
 
-                                    <div class="row mt-form">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Type Group</label>
-                                        </div>
+                            <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
+                                <i class="fa fa-search" title="Cari Group Berdasarkan Nomor dan Type Group"></i>
+                            </div>
 
-                                        <div class="col-md-4">
-                                            <vue-select :name="'ag_type'" :id="'ag_type'" :options="type" :disabled="onUpdate" @input="typeChange"></vue-select>
-                                        </div>
+                            <div class="col-md-1 form-info-icon link" @click="formReset" v-if="onUpdate">
+                                <i class="fa fa-times" title="Bersihkan Pencarian" style="color: #CC0000;"></i>
+                            </div>
+                        </div>
 
-                                        <div class="col-md-3">
-                                            <vue-select :name="'ag_kelompok'" :id="'ag_kelompok'" :options="jenis" @input="kelompokChange"></vue-select>
-                                        </div>
+                        <div class="row mt-form">
+                            <div class="col-md-3">
+                                <label class="modul-keuangan">Type Group</label>
+                            </div>
 
-                                        <div class="col-md-1 form-info-icon" title="Parameter Type Group Digunakan Untuk Pencarian Data">
-                                            <i class="fa fa-info-circle"></i>
-                                        </div>
-                                    </div>
+                            <div class="col-md-4">
+                                <vue-select :name="'ag_type'" :id="'ag_type'" :options="type" :disabled="onUpdate" @input="typeChange"></vue-select>
+                            </div>
 
-                                    <div class="row mt-form" v-if="!nullSubclass">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Sub Class</label>
-                                        </div>
+                            <div class="col-md-3">
+                                <vue-select :name="'ag_kelompok'" :id="'ag_kelompok'" :options="jenis" @input="kelompokChange"></vue-select>
+                            </div>
 
-                                        <div class="col-md-7">
-                                            <vue-select :name="'ag_subclass'" :id="'ag_subclass'" :options="subClass"></vue-select>
-                                        </div>
-                                    </div>
+                            <div class="col-md-1 form-info-icon" title="Parameter Type Group Digunakan Untuk Pencarian Data">
+                                <i class="fa fa-info-circle"></i>
+                            </div>
+                        </div>
 
-                                    <div class="row mt-form">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan">Nama Group *</label>
-                                        </div>
+                        <div class="row mt-form" v-if="!nullSubclass">
+                            <div class="col-md-3">
+                                <label class="modul-keuangan">Sub Class</label>
+                            </div>
 
-                                        <div class="col-md-7">
-                                            <input type="text" name="ag_nama" class="form-control modul-keuangan" placeholder="contoh: Kas dan Setara Kas" v-model="singleData.ag_nama" title="Tidak Boleh Kosong">
-                                        </div>
-                                    </div>
+                            <div class="col-md-7">
+                                <vue-select :name="'ag_subclass'" :id="'ag_subclass'" :options="subClass"></vue-select>
+                            </div>
+                        </div>
 
-                                    <div class="row mt-form" v-if="locked">
-                                        <div class="col-md-3">
-                                            <label class="modul-keuangan"></label>
-                                        </div>
+                        <div class="row mt-form">
+                            <div class="col-md-3">
+                                <label class="modul-keuangan">Nama Group *</label>
+                            </div>
 
-                                        <div class="col-md-7">
-                                            <div class="modul-keuangan-alert primary" role="alert">
-                                              <i class="fa fa-info-circle"></i> &nbsp;&nbsp;Group Akun Dikunci. Tidak Bisa Dinonaktifkan
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="col-md-7">
+                                <input type="text" name="ag_nama" class="form-control modul-keuangan" placeholder="contoh: Kas dan Setara Kas" v-model="singleData.ag_nama" title="Tidak Boleh Kosong">
+                            </div>
+                        </div>
 
-                                </div>
+                        <div class="row mt-form" v-if="locked">
+                            <div class="col-md-3">
+                                <label class="modul-keuangan"></label>
+                            </div>
 
-                                <div class="col-md-5" style="border: 1px solid #eee; box-shadow: 0px 0px 10px #eee; border-radius: 5px; padding: 10px;">
-                                    <table class="table table-stripped table-mini">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="2">@{{ singleData.ag_type }}</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <tr v-for="view in loopView">
-                                                <td style="font-weight: bold; padding-left: 20px; border-top: 0px;">
-                                                    - &nbsp; @{{ view.text }} <br>
-
-                                                    <span style="padding-left: 30px; color: #777;" v-if="subClass.length">- &nbsp; Subclass</span><br>
-
-                                                    <span style="padding-left: 60px; color: #ccc;">-----------------------------------------</span><br>
-                                                    <span style="padding-left: 60px; color: #ccc;">-----------------------------------------</span><br>
-                                                    <span style="padding-left: 60px; color: #ccc;">-----------------------------------------</span><br>
-                                                </td>
-
-                                                <td class="text-right" style="font-weight: bold; padding-left: 20px; border-top: 0px;">
-                                                     <br>
-                                                    <span style="color: #ccc;">xxx.xxx.xxx,xx</span><br>
-                                                    <span style="color: #ccc;">xxx.xxx.xxx,xx</span><br>
-                                                    <span style="color: #ccc;">xxx.xxx.xxx,xx</span><br>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <div class="col-md-7">
+                                <div class="modul-keuangan-alert primary" role="alert">
+                                  <i class="fa fa-info-circle"></i> &nbsp;&nbsp;Group Akun Dikunci. Tidak Bisa Dinonaktifkan
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
-                            <div class="row"> 
-                                <div class="col-md-6">
-                                    <a href="{{ route('grup-akun.index') }}">
-                                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Group Akun</button>
-                                    </a>
-                                </div>
+                    </div>
 
-                                <div class="col-md-6 text-right">
-                                    <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
-                                    
-                                    <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && dataIsActive"><i class="fa fa-times"></i> &nbsp;Nonaktifkan</button>
+                    <div class="col-md-6" style="border: 1px solid #eee; box-shadow: 0px 0px 10px #eee; border-radius: 5px; padding: 10px;">
+                    	<table class="table table-stripped table-mini">
+                    		<thead>
+                    			<tr>
+                    				<th colspan="2">@{{ singleData.ag_type }}</th>
+                    			</tr>
+                    		</thead>
 
-                                    <button type="button" class="btn btn-success btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && !dataIsActive"><i class="fa fa-check-square-o"></i> &nbsp;Aktifkan</button>
+                    		<tbody>
+                    			<tr v-for="view in loopView">
+                    				<td style="font-weight: bold; padding-left: 20px; border-top: 0px;">
+                    					- &nbsp; @{{ view.text }} <br>
 
-                                    <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    					<span style="padding-left: 30px; color: #777;" v-if="subClass.length">- &nbsp; Subclass</span><br>
+
+                    					<span style="padding-left: 60px; color: #ccc;">-----------------------------------------</span><br>
+                    					<span style="padding-left: 60px; color: #ccc;">-----------------------------------------</span><br>
+                    					<span style="padding-left: 60px; color: #ccc;">-----------------------------------------</span><br>
+                    				</td>
+
+                    				<td class="text-right" style="font-weight: bold; padding-left: 20px; border-top: 0px;">
+                    					 <br>
+                    					<span style="color: #ccc;">xxx.xxx.xxx,xx</span><br>
+                    					<span style="color: #ccc;">xxx.xxx.xxx,xx</span><br>
+                    					<span style="color: #ccc;">xxx.xxx.xxx,xx</span><br>
+                    				</td>
+                    			</tr>
+                    		</tbody>
+                    	</table>
+                    </div>
                 </div>
-              </div>
-            </div>
-        </div>
-      </div>
+
+                <div class="row content-button">
+                    <div class="col-md-6">
+                        <a href="{{ route('grup-akun.index') }}">
+                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Group Akun</button>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 text-right">
+                        <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
+                        
+                        <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && dataIsActive"><i class="fa fa-times"></i> &nbsp;Nonaktifkan</button>
+
+                        <button type="button" class="btn btn-success btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && !dataIsActive"><i class="fa fa-check-square-o"></i> &nbsp;Aktifkan</button>
+
+                        <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
+                    </div>
+                </div>
+            </form>
+    	</div>
 
         <div class="ez-popup" id="data-popup">
             <div class="layout" style="width: 70%">
@@ -191,15 +185,15 @@
 	
 	<script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/vue_2_x.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/datatable.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/select.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/vue_2_x.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/datatable.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/select.component.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/wait.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/select2/dist/js/select2.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/validator/bootstrapValidator.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/axios_0_18_0/axios.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/wait.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/validator/bootstrapValidator.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
 
 	<script type="text/javascript">
 
@@ -579,7 +573,7 @@
                     this.list_data_table = [];
                     this.onAjaxLoading = true;
 
-                    axios.get('{{ Route('grup-akun.datatable') }}?type='+$('#ag_type').val()+'&kel='+$("#ag_kelompok").val())
+                    axios.get('{{ Request('/') }}/modul/keuangan/master/group-akun/datatable?type='+$('#ag_type').val()+'&kel='+$("#ag_kelompok").val())
                             .then((response) => {
                                 if(response.data.length){
                                     this.list_data_table = response.data;

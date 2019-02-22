@@ -4,126 +4,109 @@
 
 @section(modulSetting()['extraStyles'])
 
-	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/bootstrap_datatable_v_1_10_18/datatables.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
     
 @endsection
 
 
 @section('content')
-    <!-- partial -->
+    <div class="col-md-12" style="background: none;">
+    	<div class="col-md-12">
+    		<div class="row">
+    			<div class="col-md-6 content-title">
+    				Master Data Group Akun
+    			</div>
 
-<div class="content-wrapper">
-  <div class="row">
-    <div class="col-lg-12">
-      <nav aria-label="breadcrumb" role="navigation">
-        <ol class="breadcrumb bg-info">
-          <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-          <li class="breadcrumb-item">Master</li>
-          <li class="breadcrumb-item active" aria-current="page">Master Data Group Akun</li>
-        </ol>
-      </nav>
-    </div>
-
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Master Data Group Akun</h4>
-            {{-- @if (App\mMember::akses('MASTER DATA VENDOR', 'tambah')) --}}
-              <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
-                <a href="{{ route('grup-akun.create') }}">
-                        <button class="btn btn-info btn-sm">Tambah / Edit Data Group Akun</button>
+    			<div class="col-md-6 text-right">
+                    <a href="{{ route('grup-akun.create') }}">
+    				    <button class="btn btn-info btn-sm">Tambah / Edit Data Group Akun</button>
                     </a>
-              </div>
-            {{-- @endif --}}
+    			</div>
+    		</div>	
+    	</div>
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-stripped" id="data-sample">
-                    <thead>
-                        <tr>
-                            <th width="5%">No</th>
-                            <th width="30%">Nama Group</th>
-                            <th width="30%">Tipe Group</th>
-                            <th width="20%">Kelompok Group</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
+    	<div class="col-md-12 table-content">
+    		<table class="table table-bordered table-stripped" id="data-sample">
+    			<thead>
+    				<tr>
+    					<th width="5%">No</th>
+    					<th width="30%">Nama Group</th>
+    					<th width="30%">Tipe Group</th>
+                        <th width="20%">Kelompok Group</th>
+    					<th>Aksi</th>
+    				</tr>
+    			</thead>
 
-                    <tbody>
+    			<tbody>
 
-                        @foreach($data as $key => $group)
-                            
-                            <?php 
-                                $bg     = '#eee';
-                                $color  = '#aaa';
-
-                                if($group->ag_isactive == '1'){
-                                    $bg     = 'none';
-                                    $color  = 'none';
-                                }
-                            ?>
-
-                            <tr style="background: {{ $bg  }}; color: {{  $color }};">
-                                <td class="text-center">{{ ($key+1) }}</td>
-                                <td>{{ $group->ag_nama }}</td>
-                                <?php
-
-                                    $type = "Neraca / Balance Sheet";
-
-                                    switch($group->ag_type){
-                                        case "LR":
-                                            $type = "Laba Rugi / Revenue";
-                                            break;
-
-                                        case "A":
-                                            $type = "Arus Kas / Cashflow";
-                                            break;
-                                    }
-
-                                ?>
-                                <td>{{ $type }}</td>
-                                <td>{{ $group->ag_kelompok }}</td>
-                                <td class="text-center">
-                                    {{-- <button class="btn btn-secondary btn-sm" title="Edit Data Group">
-                                        <i class="fa fa-edit"></i>
-                                    </button> --}}
-
-                                    @if($group->ag_status == 'locked')
-                                        <button class="btn btn-default btn-sm" title="Group Sedang Dikunci" style="cursor: no-drop;">
-                                            <i class="fa fa-lock"></i>
-                                        </button>
-                                    @elseif($group->ag_isactive == '1')
-                                        <button class="btn btn-success btn-sm aktifkanGroup" title="Nonaktifkan" data-id="{{ $group->ag_id }}">
-                                            <i class="fa fa-check-square-o"></i>
-                                        </button>
-                                    @else
-                                        <button class="btn btn-danger btn-sm aktifkanGroup" title="Aktifkan" data-id="{{ $group->ag_id }}">
-                                            <i class="fa fa-square-o"></i>
-                                        </button>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
+                    @foreach($data as $key => $group)
                         
-                    </tbody>
-                </table>
-            </div>
-          </div>
-        </div>
-    </div>
-  </div>
-</div>
+                        <?php 
+                            $bg     = '#eee';
+                            $color  = '#aaa';
 
-<!-- content-wrapper ends -->
+                            if($group->ag_isactive == '1'){
+                                $bg     = 'none';
+                                $color  = 'none';
+                            }
+                        ?>
+
+                        <tr style="background: {{ $bg  }}; color: {{  $color }};">
+                            <td class="text-center">{{ ($key+1) }}</td>
+                            <td>{{ $group->ag_nama }}</td>
+                            <?php
+
+                                $type = "Neraca / Balance Sheet";
+
+                                switch($group->ag_type){
+                                    case "LR":
+                                        $type = "Laba Rugi / Revenue";
+                                        break;
+
+                                    case "A":
+                                        $type = "Arus Kas / Cashflow";
+                                        break;
+                                }
+
+                            ?>
+                            <td>{{ $type }}</td>
+                            <td>{{ $group->ag_kelompok }}</td>
+                            <td class="text-center">
+                                {{-- <button class="btn btn-secondary btn-sm" title="Edit Data Group">
+                                    <i class="fa fa-edit"></i>
+                                </button> --}}
+
+                                @if($group->ag_status == 'locked')
+                                    <button class="btn btn-default btn-sm" title="Group Sedang Dikunci" style="cursor: no-drop;">
+                                        <i class="fa fa-lock"></i>
+                                    </button>
+                                @elseif($group->ag_isactive == '1')
+                                    <button class="btn btn-success btn-sm aktifkanGroup" title="Nonaktifkan" data-id="{{ $group->ag_id }}">
+                                        <i class="fa fa-check-square-o"></i>
+                                    </button>
+                                @else
+                                    <button class="btn btn-danger btn-sm aktifkanGroup" title="Aktifkan" data-id="{{ $group->ag_id }}">
+                                        <i class="fa fa-square-o"></i>
+                                    </button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+    				
+    			</tbody>
+    		</table>
+    	</div>
+    </div>
 @endsection
 
 
 @section(modulSetting()['extraScripts'])
 	
 	<script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.js') }}"></script>
-	<script src="{{ asset('modul_keuangan/js/vendor/bootstrap_datatable_v_1_10_18/datatables.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/axios_0_18_0/axios.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
+	<script src="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
 
 	<script type="text/javascript">
 

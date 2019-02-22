@@ -97,7 +97,7 @@
 		    }
 
 		    #table-data{
-		    	font-size: 8pt;
+		    	font-size: 9pt;
 		    }
 
 		    #table-data td{
@@ -246,7 +246,8 @@
 				<div id="contentnya">
 
 					<?php 
-						$tanggal_1 = switchBulan(explode('/', $_GET['d1'])[2]).' '.explode('/', $_GET['d1'])[1];
+						$tanggal_1 = explode('/', $_GET['d1'])[0].' '.switchBulan(explode('/', $_GET['d1'])[1]).' '.explode('/', $_GET['d1'])[2];
+						$type = ($_GET['type'] == "Hutang_Supplier") ? 'Supplier' : 'Karyawan';
 					?>					
 
 					{{-- Judul Kop --}}
@@ -254,18 +255,18 @@
 						<table width="100%" border="0" style="border-bottom: 1px solid #333;" v-if="pageNow == 1" v-cloak>
 				          <thead>
 				            <tr>
-				              <th style="text-align: left; font-size: 14pt; font-weight: 600; padding-top: 10px;" colspan="2">Laporan Hutang Supplier</th>
+				              <th style="text-align: left; font-size: 14pt; font-weight: 600; padding-top: 10px;" colspan="2">Laporan Hutang {{ $type }} ({{ $_GET['jenis'] }})</th>
 				            </tr>
 
 				            <tr>
-				              <th style="text-align: left; font-size: 12pt; font-weight: 500" colspan="2">{{ jurnal()->companyName }}</th>
+				              <th style="text-align: left; font-size: 12pt; font-weight: 500" colspan="2">{{ jurnal()->companyName }} &nbsp;- {{ $cabang }}</th>
 				            </tr>
 
 				            <tr>
 				              <th style="text-align: left; font-size: 8pt; font-weight: 500; padding-bottom: 10px;">(Angka Disajikan Dalam Rupiah, Kecuali Dinyatakan Lain)</th>
 
 				              <th class="text-right" style="font-size: 8pt; font-weight: normal;">
-				              	<b>{{ $tanggal_1 }}</b>
+				              	<b>Per Tanggal {{ $tanggal_1 }}</b>
 				              </th>
 				            </tr>
 				          </thead>
@@ -274,30 +275,159 @@
 				    {{-- End Judul Kop --}}
 
 			    	<div style="padding-top: 20px;">
+			    		<template v-if="'{{ $_GET["jenis"] }}' == 'rekap'">
+							<table class="table" id="table-data" v-cloak>
 
-						<table class="table" id="table-data" v-cloak>
+								<thead>
+									<tr>
+										<th rowspan="2" width="2%">No</th>
+										<th rowspan="2" width="22%">Nama Kreditur</th>
+										<th rowspan="2" width="12%">Jumlah Hutang</th>
+										<th rowspan="2" width="12%">Belum Jatuh Tempo</th>
+										<th colspan="4">Sudah Jatuh Tempo</th>
+									</tr>
 
-							<thead>
-								<tr>
-									<th rowspan="2" width="5%">No</th>
-									<th rowspan="2" width="20%">Nama Kreditur</th>
-									<th rowspan="2" width="15%">Jumlah Hutang</th>
-									<th rowspan="2" width="15%">Belum Jatuh Tempo</th>
-									<th colspan="4" width="45%">Sudah Jatuh Tempo</th>
-								</tr>
+									<tr>
+										<th width="12%">0 - 30 Hari</th>
+										<th width="12%">30 - 60 Hari</th>
+										<th width="12%">60 - 90 Hari</th>
+										<th width="12%">> 90 Hari</th>
+									</tr>
+								</thead>
 
-								<tr>
-									<th>0-30 Hari</th>
-									<th>30-60 Hari</th>
-									<th>60-90 Hari</th>
-									<th>>90 Hari</th>
-								</tr>
-							</thead>
+								<tbody>
+									<template v-for="(data, idx) in dataPrint">
+										<tr>
+											<td style="text-align: center;">@{{ (idx+1) }}</td>
+											<td>@{{ data.nama_supplier }}</td>
+											<td style="text-align: right; font-weight: 600;">@{{ humanizePrice(data.total_hutang) }}</td>
+											<td style="text-align: right; font-weight: 600; color: #007E33;">@{{ humanizePrice(data.belum_jatuh_tempo) }}</td>
+											<td style="text-align: right; font-weight: 600; color: #CC0000;">@{{ humanizePrice(data.first) }}</td>
+											<td style="text-align: right; font-weight: 600; color: #CC0000;">@{{ humanizePrice(data.second) }}</td>
+											<td style="text-align: right; font-weight: 600; color: #CC0000;">@{{ humanizePrice(data.third) }}</td>
+											<td style="text-align: right; font-weight: 600; color: #CC0000;">@{{ humanizePrice(data.fourth) }}</td>
+										</tr>
+									</template>
+								</tbody>
+							</table>
 
-							<tbody>
-								
-							</tbody>
-						</table>
+							<table class="table" id="table-data" style="margin-top: 20px;">
+								<thead>
+									<tr>
+										<th width="25%" colspan="2" style="text-align: center;">
+											Total Seluruh Hutang
+										</th>
+
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtHutang) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtBelumJatuhTempo) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtFirst) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtSecond) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtThird) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtFourth) }}
+										</th>
+									</tr>
+								</thead>
+							</table>
+						</template>
+
+						<template v-if="'{{ $_GET["jenis"] }}' == 'detail'" v-cloak>
+							
+							<table class="table" id="table-data" v-for="(data, idx) in dataPrint" :style="(idx != 0) ? 'margin-top: 30px;' : ''">
+
+								<thead>
+									<tr>
+										<th colspan="9" style="background-color: white; border: 0px; color: #00695c; font-size: 12pt; padding-bottom: 10px;">
+											| @{{ data.nama_supplier }} |
+										</th>
+									</tr>
+									<tr>
+										<th width="2%">No</th>
+										<th width="12%">Tanggal</th>
+										<th width="12%">Tanggal Jatuh Tempo</th>
+										<th width="14%">Nomor Referensi</th>
+										<th width="12%">Belum Jatuh Tempo</th>
+										<th width="12%">0 - 30 Hari</th>
+										<th width="12%">30 - 60 Hari</th>
+										<th width="12%">60 - 90 Hari</th>
+										<th width="12%">> 90 Hari</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<template v-for="(detail, index) in data.detail">
+										<tr>
+											<td style="text-align: center;">@{{ index+1 }}</td>
+											<td style="text-align: center;">@{{ humanizeDate(detail.tanggal) }}</td>
+											<td style="text-align: center;">@{{ humanizeDate(detail.jatuh_tempo) }}</td>
+											<td style="text-align: center;">@{{ detail.nomor_referensi }}</td>
+											<td style="text-align: right; font-weight: 600;">@{{ humanizePrice(detail.belum_jatuh_tempo) }}</td>
+											<td style="text-align: right; font-weight: 600;">@{{ humanizePrice(detail.first) }}</td>
+											<td style="text-align: right; font-weight: 600;">@{{ humanizePrice(detail.second) }}</td>
+											<td style="text-align: right; font-weight: 600;">@{{ humanizePrice(detail.third) }}</td>
+											<td style="text-align: right; font-weight: 600;">@{{ humanizePrice(detail.fourth) }}</td>
+										</tr>
+									</template>
+								</tbody>
+
+								<tfoot>
+									<tr>
+										<td colspan="4" style="text-align: center; background-color: #eee; border: 1px solid #fff; font-weight: 600;">
+											Saldo @{{ data.nama_supplier }}
+										</td>
+										<td style="text-align: right; background-color: #eee; border: 1px solid #fff; font-weight: 600; color: #00695c;">
+											@{{ humanizePrice(saldoInfo.parrent[data.id].tot_belum_jatuh_tempo) }}
+										</td>
+										<td style="text-align: right; background-color: #eee; border: 1px solid #fff; font-weight: 600; color: #00695c;">
+											@{{ humanizePrice(saldoInfo.parrent[data.id].tot_first) }}
+										</td>
+										<td style="text-align: right; background-color: #eee; border: 1px solid #fff; font-weight: 600; color: #00695c;">
+											@{{ humanizePrice(saldoInfo.parrent[data.id].tot_second) }}
+										</td>
+										<td style="text-align: right; background-color: #eee; border: 1px solid #fff; font-weight: 600; color: #00695c;">
+											@{{ humanizePrice(saldoInfo.parrent[data.id].tot_third) }}
+										</td>
+										<td style="text-align: right; background-color: #eee; border: 1px solid #fff; font-weight: 600; color: #00695c;">
+											@{{ humanizePrice(saldoInfo.parrent[data.id].tot_fourth) }}
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+
+							<table class="table" id="table-data" style="margin-top: 30px;" v-if="nextDisabled" v-cloak>
+								<thead>
+									<tr>
+										<th colspan="4"> Total Seluruh Kreditur</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtBelumJatuhTempo) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtFirst) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtSecond) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtThird) }}
+										</th>
+										<th width="12%" style="text-align: right;">
+											@{{ humanizePrice(saldoInfo.gtFourth) }}
+										</th>
+									</tr>
+								</thead>
+							</table>
+
+						</template>
 
 					</div>
 				</div>
@@ -318,31 +448,28 @@
 	            <div class="layout" style="width: 35%; min-height: 250px;">
 	                <div class="top-popup" style="background: none;">
 	                    <span class="title">
-	                        Setting Laporan Buku Besar
+	                        Setting Laporan Hutang
 	                    </span>
 
 	                    <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
 	                </div>
 	                
 	                <div class="content-popup">
-	                	<form id="form-setting" method="get" action="{{ route('laporan.keuangan.buku_besar') }}">
+	                	<form id="form-setting" method="get" action="{{ route('laporan.keuangan.hutang') }}">
 	                	<input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
+	                	<input type="hidden" name="cab" value="{{ isset($_GET['cab']) ? $_GET['cab']: '' }}" readonly>
 	                    <div class="col-md-12">
 
 	                        <div class="row mt-form">
 	                            <div class="col-md-4">
-	                                <label class="modul-keuangan">Rentang Waktu</label>
+	                                <label class="modul-keuangan">Pilih Tanggal</label>
 	                            </div>
 
 	                            <div class="col-md-8">
 	                            	<table width="100%" border="0">
 	                            		<tr>
 	                            			<td>
-	                            				<vue-datepicker :name="'d1'" :id="'d1'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" :format="'mm/yyyy'" @input="d1Change" :styles="'font-size: 9pt;'"></vue-datepicker>
-	                            			</td>
-	                            			<td style="padding: 0px 10px;">-</td>
-	                            			<td>
-	                            				<vue-datepicker :name="'d2'" :id="'d2'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" :format="'mm/yyyy'" :styles="'font-size: 9pt;'"></vue-datepicker>
+	                            				<vue-datepicker :name="'d1'" :id="'d1'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" :format="'dd/mm/yyyy'" @input="d1Change" :styles="'font-size: 9pt;'"></vue-datepicker>
 	                            			</td>
 	                            		</tr>
 	                            	</table>
@@ -351,44 +478,44 @@
 
 	                        <div class="row mt-form">
 	                            <div class="col-md-4">
-	                                <label class="modul-keuangan">Akun Lawan</label>
+	                                <label class="modul-keuangan">Type Hutang</label>
 	                            </div>
 
 	                            <div class="col-md-7">
-	                                <vue-select :name="'lawan'" :id="'lawan'" :options="lawanAkun" :styles="'width:100%'"></vue-select>
+	                                <vue-select :name="'type'" :id="'type'" :options="type" :styles="'width:100%'" @input="typeChange"></vue-select>
 	                            </div>
 	                        </div>
 
 	                        <div class="row mt-form">
 	                            <div class="col-md-4">
-	                                <label class="modul-keuangan"></label>
+	                                <label class="modul-keuangan">Jenis Laporan</label>
 	                            </div>
 
 	                            <div class="col-md-7">
+	                                <vue-select :name="'jenis'" :id="'jenis'" :options="jenis" :styles="'width:100%'"></vue-select>
+	                            </div>
+	                        </div>
+
+	                        <div class="row mt-form">
+	                            {{-- <div class="col-md-3">
+	                                <label class="modul-keuangan"></label>
+	                            </div> --}}
+
+	                            <div class="col-md-12">
 	                                <input type="checkbox" name="semua" title="Centang Untuk Menambahkan Nilai Lebih Bayar Ke Akun Dana Titipan" v-model="semua">
 
-                                	<span style="font-size: 8pt; margin-left: 5px;">Tampilkan Semua Akun</span>
+                                	<span style="font-size: 8pt; margin-left: 5px;">Tampilkan Semua Kreditur Yang Memiliki Hutang</span>
 	                            </div>
 	                        </div>
 
 	                        <template v-if='!semua'>
 		                        <div class="row mt-form" style="border-top: 1px solid #eee; padding-top: 20px;">
 		                            <div class="col-md-4">
-		                                <label class="modul-keuangan">Pilih Akun</label>
+		                                <label class="modul-keuangan">Pilih Kreditur</label>
 		                            </div>
 
 		                            <div class="col-md-7">
-		                                <vue-select :name="'akun1'" :id="'akun1'" :options="akun" :styles="'width:100%'" @input="akunChange"></vue-select>
-		                            </div>
-		                        </div>
-
-		                        <div class="row mt-form">
-		                            <div class="col-md-4">
-		                                <label class="modul-keuangan">Sampai Akun</label>
-		                            </div>
-
-		                            <div class="col-md-7">
-		                                <vue-select :name="'akun2'" :id="'akun2'" :options="akun2" :styles="'width:100%'"></vue-select>
+		                                <vue-select :name="'kreditur'" :id="'kreditur'" :options="kreditur" :styles="'width:100%'"></vue-select>
 		                            </div>
 		                        </div>
 		                    </template>
@@ -408,6 +535,14 @@
 		                    	</div>
 		                    </div>
 	                    </div>
+
+	                    {{-- <div class="col-md-12" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 0px; background-color: #0099CC;">
+	                    	<div class="row">
+		                    	<div class="col-md-12" style="padding: 5px 10px; color: white; font-size: 8pt;">
+	                                <i class="fa fa-info-circle"></i> &nbsp;Laporan Hanya Menampilkan Kreditur Yang Memiliki Hutang. 
+	                            </div>
+		                    </div>
+	                    </div> --}}
 
 	                    </form>
 	                </div>
@@ -444,7 +579,7 @@
 			    				firstElement: 0,
 			    				dataPage: 1,
 			    				pageNow: 0,
-			    				rowsCount: 5,
+			    				rowsCount: ('{{ $_GET['jenis'] }}' == 'detail') ? 5 : 25,
 
 			    				nextDisabled: false,
 			    				previousDisabled: true,
@@ -455,17 +590,24 @@
 
 			    				// setting
 			    					semua: true,
-			    					akun: [],
-			    					akun2: [],
-			    					lawanAkun: [
+			    					supplier: [],
+			    					karyawan: [],
+			    					kreditur: [],
+			    					type: [
 			    						{
-			    							id: 'true',
-			    							text: 'Tampilkan Akun Lawan'
-			    						},
+			    							id: 'Hutang_Supplier',
+			    							text: 'Hutang Supplier'
+			    						}
+			    					],
 
+			    					jenis: [
 			    						{
-			    							id: 'false',
-			    							text: 'Jangan Tampilkan Akun Lawan'
+			    							id: 'rekap',
+			    							text: 'Rekapan Laporan'
+			    						},
+			    						{
+			    							id: 'detail',
+			    							text: 'Laporan Detail'
 			    						}
 			    					],
 			    			},
@@ -480,6 +622,8 @@
 				            	$('#loading-popup').ezPopup('show');
 
 				            	$('#d1').val('{{ $_GET['d1'] }}');
+				            	$('#type').val('{{ $_GET['type'] }}').trigger('change.select2');
+				            	$('#jenis').val('{{ $_GET['jenis'] }}').trigger('change.select2');
 
 				            	that = this;
 
@@ -508,25 +652,25 @@
 			                                	this.pageNow = 1;
 			                                }
 
-			                                if(response.data.akun.length > 0){
-			                                	this.akun = response.data.akun;
-			                                	this.akun2 = response.data.akun;
+			                                if(response.data.supplier.length > 0){
+			                                	this.supplier = response.data.supplier;
 			                                }
 
-			                                this.showLawan = (response.data.requestLawan == 'true') ? true : false;
+			                                if(response.data.karyawan.length > 0){
+			                                	this.karyawan = response.data.karyawan;
+			                                }
+
 			                                this.semua = (response.data.requestSemua == 'on') ? true : false;
 
 			                                if(!this.semua){
 
-
 			                                	setTimeout(function(){
-		                                			$('#akun1').val(response.data.akun1).trigger('change.select2');
-			                                		$('#akun2').val(response.data.akun2).trigger('change.select2');
+		                                			$('#kreditur').val(response.data.kreditur).trigger('change.select2');
 			                                	}, 0);
 
-		                                		this.akunChange(response.data.akun1);
 			                                }
 
+			                                this.typeChange($('#type').val());
 			                                $('#loading-popup').ezPopup('close');
 			                                this.calculatingDK();
 			                            })
@@ -538,29 +682,69 @@
 				            computed: {
 				            	saldoInfo: function(){
 				            		that = this;
-				            		var clock = []; var movement = 0
+				                	var dataParrent = {};
+				                	var gtHutang = gtBelumJatuhTempo = gtFirst = gtSecond = gtThird = gtFourth = 0;
 
-				                	$.each(this.dataPrint, function(a, b){
-				                		
-				                		var stack = [];
-				                		movement = b.ak_saldo_awal;
+				                	if('{{ $_GET['jenis'] }}' == 'detail'){
 
-				                		$.each(b.jurnal_detail, function(c, d){
-				                			if(d.jrdt_dk != b.ak_posisi)
-				                				movement -= d.jrdt_value;
-				                			else
-				                				movement += d.jrdt_value;
+				                		$.each(this.dataPrint, function(alpha, parrent){
+				                			
+				                			var totBelumJatuhTempo = totFirst = totSecond = totThird = totFourth = 0;
 
-				                			stack.push(movement)
-				                		})	
+				                			$.each(parrent.detail, function(beta, detail){
+				                				totBelumJatuhTempo += parseFloat(detail.belum_jatuh_tempo);
+				                				totFirst += parseFloat(detail.first);
+				                				totSecond += parseFloat(detail.second);
+				                				totThird += parseFloat(detail.third);
+				                				totFourth += parseFloat(detail.fourth);
+				                			})
 
-				                		clock.push(
-				                			{
-				                				saldoAwal 	: b.ak_saldo_awal,
-				                				saldo 		: stack
+				                			dataParrent[parrent.id] = {
+				                				tot_belum_jatuh_tempo 	: totBelumJatuhTempo,
+				                				tot_first 				: totFirst, 
+				                				tot_second 				: totSecond,
+				                				tot_third 				: totThird,
+				                				tot_fourth 				: totFourth
 				                			}
-				                		);
-				                	})
+
+				                			gtBelumJatuhTempo += totBelumJatuhTempo;
+				                			gtFirst += totFirst
+				                			gtSecond += totSecond;
+				                			gtThird += totThird;
+				                			gtFourth += totFourth;
+
+				                		})
+
+				                		var clock = {
+					                		parrent : dataParrent,
+					                		gtBelumJatuhTempo : gtBelumJatuhTempo,
+					                		gtFirst : gtFirst,
+					                		gtSecond : gtSecond,
+					                		gtThird : gtThird,
+					                		gtFourth : gtFourth
+					                	}
+
+				                	}else{
+				                		$.each(this.dataPrint, function(alpha, parrent){
+
+				                			gtHutang += parrent.total_hutang;
+				                			gtBelumJatuhTempo += parrent.belum_jatuh_tempo;
+				                			gtFirst += parrent.first;
+				                			gtSecond += parrent.second;
+				                			gtThird += parrent.third;
+				                			gtFourth += parrent.fourth;
+
+				                		})
+
+				                		var clock = {
+				                			gtHutang : gtHutang,
+					                		gtBelumJatuhTempo : gtBelumJatuhTempo,
+					                		gtFirst : gtFirst,
+					                		gtSecond : gtSecond,
+					                		gtThird : gtThird,
+					                		gtFourth : gtFourth
+					                	}
+				                	}
 
 				                	return clock;
 				            	}
@@ -626,7 +810,7 @@
 			                            stack: false
 									});
 
-				                    $('#pdfIframe').attr('src', '{{route('laporan.keuangan.buku_besar.print.pdf')}}?'+that.url.searchParams)
+				                    $('#pdfIframe').attr('src', '{{route('laporan.keuangan.hutang.print.pdf')}}?'+that.url.searchParams)
 
 				            	},
 
@@ -645,7 +829,7 @@
 			                            stack: false
 			                        });
 
-			                        $('#pdfIframe').attr('src', '{{route('laporan.keuangan.buku_besar.print.excel')}}?'+that.url.searchParams)
+			                        $('#pdfIframe').attr('src', '{{route('laporan.keuangan.hutang.print.excel')}}?'+that.url.searchParams)
 				            	},
 
 				            	print: function(evt){
@@ -663,13 +847,14 @@
 			                            stack: false
 			                        });
 
-				            		window.print();
+				            		// window.print();
 
-				            		// $('#pdfIframe').attr('src', '{{route('laporan.keuangan.buku_besar.print')}}?'+that.url.searchParams)
+				            		$('#pdfIframe').attr('src', '{{route('laporan.keuangan.hutang.print')}}?'+that.url.searchParams)
 				            	},
 
 				            	humanizePrice: function(alpha){
-				                  var bilangan = alpha.toString();
+				                  var kl = alpha.toString().replace('-', '');
+				                  bilangan = kl;
 				                  var commas = '00';
 
 
@@ -703,10 +888,11 @@
 				                	$('#d2').datepicker("setStartDate", e);
 				                },
 
-				                akunChange:function(e){
-				                	var ak2 = $.grep(this.akun, function(alpha){ return alpha.id >= e });
-
-				                	this.akun2 = ak2;
+				                typeChange: function(e){
+				                	if(e == "Hutang_Supplier")
+				                		this.kreditur = this.supplier;
+				                	else
+				                		this.kreditur = this.karyawan;
 				                },
 
 				                prosesLaporan: function(evt){

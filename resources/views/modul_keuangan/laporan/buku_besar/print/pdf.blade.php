@@ -16,7 +16,7 @@
 		</tr>
 
 		<tr>
-			<td>{{ jurnal()->companyName }}</td>
+			<td>{{ jurnal()->companyName }} &nbsp; - {{ $data['cabang'] }}</td>
 		</tr>
 
 		<tr>
@@ -36,7 +36,7 @@
 	<table width="100%" style="font-size: 9.5pt; {{ $margin  }}">
 		<tbody>
 			<tr>
-				<td class="head" colspan="8" style="background-color: #0099CC; color: white; padding: 10px;"> {{ $akun->ak_id.' - '.$akun->ak_nama }} </td>
+				<td class="head" colspan="8" style="background-color: #0099CC; color: white; padding: 10px;"> {{ $akun->ak_nomor.' - '.$akun->ak_nama }} </td>
 			</tr>
 
 			<tr>
@@ -70,7 +70,7 @@
 				<td style="text-align: center; padding: 2px 5px;"> - </td>
 				<td style="padding: 2px 5px;"> Saldo Awal {{ $tanggal_1 }} </td>
 				<td style="text-align: center; padding: 2px 5px;"> {{ $dk }} </td>
-				<td style="text-align: center; padding: 2px 5px;"> {{ $akun->ak_id }} </td>
+				<td style="text-align: center; padding: 2px 5px;"> {{ $akun->ak_nomor }} </td>
 				<td style="text-align: right; padding: 2px 5px;"> {{ ($dk == "D") ? number_format($akun->ak_saldo_awal, 2) : number_format(0, 2) }} </td>
 				<td style="text-align: right; padding: 2px 5px;"> {{ ($dk == "K") ? number_format($akun->ak_saldo_awal, 2) : number_format(0, 2) }} </td>
 				<td style="text-align: right; padding: 2px 5px;"> 
@@ -98,7 +98,7 @@
 					<td style="text-align: center; padding: 2px 5px; font-size: 8pt;"> {{  $akun->jurnal_detail[0]['jurnal']->jr_ref }} </td>
 					<td style="padding: 2px 5px;"> {{  $akun->jurnal_detail[0]['jurnal']->jr_keterangan }} </td>
 					<td style="text-align: center; padding: 2px 5px;"> {{  $akun->jurnal_detail[0]->jrdt_dk }} </td>
-					<td style="text-align: center; padding: 2px 5px;"> {{ $akun->jurnal_detail[0]->jrdt_akun }} </td>
+					<td style="text-align: center; padding: 2px 5px;"> {{ $akun->ak_nomor }} </td>
 					<td style="text-align: right; padding: 2px 5px;"> {{ ($akun->jurnal_detail[0]->jrdt_dk == "D") ? number_format($akun->jurnal_detail[0]->jrdt_value, 2) : number_format(0, 2) }} </td>
 					<td style="text-align: right; padding: 2px 5px;"> {{ ($akun->jurnal_detail[0]->jrdt_dk == "K") ? number_format($akun->jurnal_detail[0]->jrdt_value, 2) : number_format(0, 2) }} </td>
 					<td style="text-align: right; padding: 2px 5px;"> 
@@ -116,7 +116,7 @@
 								<td style="text-align: center; padding: 2px 5px; font-size: 8pt;"> {{  $akun->jurnal_detail[0]['jurnal']->jr_ref }} </td>
 								<td style="padding: 2px 5px;"> {{  $akun->jurnal_detail[0]['jurnal']->jr_keterangan }} </td>
 								<td style="text-align: center; padding: 2px 5px;"> {{  $detail->jrdt_dk }} </td>
-								<td style="text-align: center; padding: 2px 5px;"> {{ $detail->jrdt_akun }} </td>
+								<td style="text-align: center; padding: 2px 5px;"> {{ $detail->ak_nomor }} </td>
 								<td style="text-align: right; padding: 2px 5px;"> {{ ($detail->jrdt_dk == "D") ? number_format($detail->jrdt_value, 2) : number_format(0, 2) }} </td>
 								<td style="text-align: right; padding: 2px 5px;"> {{ ($detail->jrdt_dk == "K") ? number_format($detail->jrdt_value, 2) : number_format(0, 2) }} </td>
 								<td style="text-align: right; padding: 2px 5px;"> 

@@ -22,26 +22,42 @@
 		          	<div class="row">
 		          		
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a href="{{ url('modul/keuangan/transaksi/kas') }}" class="center text-success alamraya-choosing-panel">
-								<i class="fa fa-dollar icon-lg text-success"></i>
+							<a href="{{ route('transaksi.kas.index') }}" class="center text-primary alamraya-choosing-panel">
+								<i class="fa fa-money icon-lg text-primary"></i>
 								<div class="center">
-									<label>Transaksi Kas</label>
+									<label>&nbsp;Transaksi Kas&nbsp;</label>
 								</div>
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a href="{{ url('modul/keuangan/transaksi/bank') }}" class="center text-warning alamraya-choosing-panel">
-								<i class="fa fa-bank icon-lg text-warning"></i>
+							<a href="{{ route('transaksi.bank.index') }}" class="center text-warning alamraya-choosing-panel">
+								<i class="fa fa-book icon-lg text-warning"></i>
 								<div class="center">
-									<label>Transaksi Bank</label>
+									<label>&nbsp;Transaksi Bank&nbsp;</label>
 								</div>
 							</a>
 						</div>
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
-							<a href="{{ url('modul/keuangan/transaksi/memorial') }}" class="center text-danger alamraya-choosing-panel">
-								<i class="fa fa-suitcase icon-lg text-danger"></i>
+							<a href="{{ Route('transaksi.memorial.index') }}" class="center text-danger alamraya-choosing-panel">
+								<i class="fa fa-sticky-note icon-lg text-danger"></i>
 								<div class="center">
-									<label>Transaksi Memorial</label>
+									<label>&nbsp;Transaksi Memorial&nbsp;</label>
+								</div>
+							</a>
+						</div>
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center" style="margin-top: 10px;">
+							<a href="{{ Route('transaksi.penerimaan_piutang.index') }}" class="center text-success alamraya-choosing-panel">
+								<i class="fa fa-sign-in icon-lg text-success"></i>
+								<div class="center">
+									<label>Penerimaan Piutang</label>
+								</div>
+							</a>
+						</div>
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center" style="margin-top: 10px;">
+							<a href="{{ Route('transaksi.pelunasan_hutang.index') }}" class="center text-muted alamraya-choosing-panel">
+								<i class="fa fa-sign-out icon-lg text-muted"></i>
+								<div class="center">
+									<label>Pelunasan Hutang</label>
 								</div>
 							</a>
 						</div>

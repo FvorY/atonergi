@@ -4,38 +4,38 @@
 
 @section(modulSetting()['extraStyles'])
 
-	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/bootstrap_datatable_v_1_10_18/datatables.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
     
 @endsection
 
 
 @section('content')
-    <div class="content-wrapper">
+    <!-- partial -->
+    <div class="content-wrapper" id="vue-component">
       <div class="row">
         <div class="col-lg-12">
           <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb bg-info">
               <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-              <li class="breadcrumb-item">Master</li>
-              <li class="breadcrumb-item active" aria-current="page">Master Data Akun</li>
+              <li class="breadcrumb-item">master</li>
+              <li class="breadcrumb-item active" aria-current="page">Master Data Akun Keuangan</li>
             </ol>
           </nav>
         </div>
 
         <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Master Data Akun</h4>
-                {{-- @if (App\mMember::akses('MASTER DATA VENDOR', 'tambah')) --}}
-                  <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
+          <div class="card" style="padding: 0px;">
+            <div class="card-body" style="padding: 0px;">
+              <div class="table-responsive" style="padding: 0px;">
+                
+                <div class="col-md-6 offset-6 text-right" style="margin-top: 20px;">
                     <a href="{{ route('akun.create') }}">
                         <button class="btn btn-info btn-sm">Tambah / Edit Data Akun</button>
                     </a>
-                  </div>
-                {{-- @endif --}}
+                </div>
 
-                <div class="table-responsive">
+                <div class="col-md-12 table-content">
                     <table class="table table-bordered table-stripped" id="data-sample">
                         <thead>
                             <tr>
@@ -65,7 +65,7 @@
 
                                 <tr style="background: {{ $bg  }}; color: {{  $color }};">
                                     <td class="text-center">{{ ($key+1) }}</td>
-                                    <td>{{ $akun->ak_id }}</td>
+                                    <td class="text-center">{{ $akun->ak_nomor }}</td>
                                     <td>{{ $akun->ak_nama }}</td>
                                     <td>{{ $akun->kelompok }}</td>
 
@@ -106,18 +106,20 @@
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
+    <!-- content-wrapper ends -->
 @endsection
 
 
 @section(modulSetting()['extraScripts'])
 	
 	<script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.js') }}"></script>
-	<script src="{{ asset('modul_keuangan/js/vendor/bootstrap_datatable_v_1_10_18/datatables.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/axios_0_18_0/axios.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
+	<script src="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
 
 	<script type="text/javascript">
 

@@ -4,14 +4,15 @@
 
 @section(modulSetting()['extraStyles'])
 
-	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/bootstrap_datatable_v_1_10_18/datatables.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
     
 @endsection
 
 
 @section('content')
-    <div class="content-wrapper">
+    <!-- partial -->
+    <div class="content-wrapper" id="vue-component">
       <div class="row">
         <div class="col-lg-12">
           <nav aria-label="breadcrumb" role="navigation">
@@ -24,19 +25,17 @@
         </div>
 
         <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Data Golongan Aset</h4>
-
-                {{-- @if (App\mMember::akses('MASTER DATA VENDOR', 'tambah')) --}}
-                  <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
+          <div class="card" style="padding: 0px;">
+            <div class="card-body" style="padding: 0px;">
+              <div class="table-responsive" style="padding: 0px;">
+                
+                <div class="col-md-6 offset-6 text-right" style="margin-top: 20px;">
                     <a href="{{ route('group.aset.create') }}">
                         <button class="btn btn-info btn-sm">Tambah / Edit Data Group Aset</button>
                     </a>
-                  </div>
-                {{-- @endif --}}
+                </div>
 
-                <div class="table-responsive">
+                <div class="col-md-12 table-content">
                     <table class="table table-bordered table-stripped" id="data-sample">
                         <thead>
                             <tr>
@@ -90,9 +89,9 @@
                                     <td class="text-center" style="cursor: alias; color: #0099CC;" title="Masa Manfaat : {{ $group->ga_masa_manfaat }} Tahun | Persentase Saldo Menurun : {{ $group->ga_saldo_menurun }} % | Persentase Garis Lurus : {{ $group->ga_garis_lurus }} %">
                                         {{ $golongan }}
                                     </td>
-                                    <td class="text-center" style="cursor: alias; color: #0099CC;" title="{{ $group->nama_akun_harta }}">{{ $group->ga_akun_harta }}</td>
-                                    <td class="text-center" style="cursor: alias; color: #0099CC;" title="{{ $group->nama_akun_akumulasi }}">{{ $group->ga_akun_akumulasi }}</td>
-                                    <td class="text-center" style="cursor: alias; color: #0099CC;" title="{{ $group->nama_akun_beban }}">{{ $group->ga_akun_beban }}</td>
+                                    <td class="text-center" style="cursor: alias; color: #0099CC;" title="{{ $group->nama_akun_harta }}">{{ $group->nomor_akun_harta }}</td>
+                                    <td class="text-center" style="cursor: alias; color: #0099CC;" title="{{ $group->nama_akun_akumulasi }}">{{ $group->nomor_akun_akumulasi }}</td>
+                                    <td class="text-center" style="cursor: alias; color: #0099CC;" title="{{ $group->nama_akun_beban }}">{{ $group->nomor_akun_beban }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-success btn-sm deleteGroup" title="hapus group" data-id="{{ $group->ga_id }}">
                                             <i class="fa fa-eraser"></i>
@@ -107,18 +106,20 @@
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
+    <!-- content-wrapper ends -->
 @endsection
 
 
 @section(modulSetting()['extraScripts'])
 	
 	<script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.js') }}"></script>
-	<script src="{{ asset('modul_keuangan/js/vendor/bootstrap_datatable_v_1_10_18/datatables.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/axios_0_18_0/axios.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
+	<script src="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
 
 	<script type="text/javascript">
 

@@ -181,6 +181,10 @@
 			        </li>
 
 			        <li class="nav-item">
+			          	<i class="fa fa-clipboard" title="Tampilkan Neraca Lampiran" @click="openLampiran"></i>
+			        </li>
+
+			        <li class="nav-item">
 			          	<i class="fa fa-print" title="Print Laporan" @click="print"></i>
 			        </li>
 
@@ -250,7 +254,7 @@
 				            </tr>
 
 				            <tr>
-				              <th style="text-align: left; font-size: 12pt; font-weight: 500" colspan="2">{{ jurnal()->companyName }}</th>
+				              <th style="text-align: left; font-size: 12pt; font-weight: 500" colspan="2">{{ jurnal()->companyName }} &nbsp; - {{ $cabang }}</th>
 				            </tr>
 
 				            <tr>
@@ -590,6 +594,7 @@
 	                <div class="content-popup">
 	                	<form id="form-setting" method="get" action="{{ route('laporan.keuangan.neraca') }}">
 	                	<input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
+	                	<input type="hidden" readonly name="cab" value="{{ isset($_GET['cab']) ? $_GET['cab']: '' }}">
 	                    <div class="col-md-12">
 
 	                    	<div class="row mt-form">
@@ -775,7 +780,17 @@
 				            					var level2 = 0;
 
 				            					$.each(level_2.akun, function(idx4, akun){
-				            						level2 += parseFloat(akun.saldo_akhir);
+				            						if(level_1.hls_id == "1"){
+				            							if(akun.ak_posisi == 'D')
+				            								level2 += parseFloat(akun.saldo_akhir);
+				            							else
+				            								level2 += parseFloat(akun.saldo_akhir) * -1;
+				            						}else{
+				            							if(akun.ak_posisi == 'K')
+				            								level2 += parseFloat(akun.saldo_akhir);
+				            							else
+				            								level2 += parseFloat(akun.saldo_akhir) * -1;
+				            						}
 				            					})
 
 				            					subClass += parseFloat(level2);
@@ -906,6 +921,10 @@
 				            		window.print();
 
 				            		// $('#pdfIframe').attr('src', '{{route('laporan.keuangan.neraca.print')}}?'+that.url.searchParams)
+				            	},
+
+				            	openLampiran: function(evt){
+				            		window.open('{{route('laporan.keuangan.neraca_lampiran')}}?'+that.url.searchParams, '_blank');
 				            	},
 
 				            	humanizePrice: function(alpha){

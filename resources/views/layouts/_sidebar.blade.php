@@ -163,9 +163,11 @@
                 </a>
                 <div class="collapse {{Request::is('setting') ? 'show' : '' || Request::is('setting/*') ? 'show' : '' }}" id="setting">
                   <ul class="nav flex-column sub-menu">
-                    @if( (int)$sidebar[0]->aktif == 1)
-                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/jabatan') ? 'active' : '' || Request::is('setting/jabatan/*') ? 'active' : '' }}" href="{{url('setting/jabatan')}}">Setting Level Account</a></li>
-                    @endif
+
+                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/modul/keuangan/setting/klasifikasi-akun') ? 'active' : '' || Request::is('setting/modul/keuangan/setting/klasifikasi-akun/*') ? 'active' : '' }}" href="{{url('setting/modul/keuangan/setting/klasifikasi-akun')}}"">Klasifikasi Akun<span class="d-none">Setting</span></a></li>
+
+                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/modul/keuangan/setting/akun-penting') ? 'active' : '' || Request::is('setting/modul/keuangan/setting/akun-penting/*') ? 'active' : '' }}" href="{{url('setting/modul/keuangan/setting/akun-penting')}}"">Akun-Akun Penting<span class="d-none">Setting</span></a></li>
+
                     @if( (int)$sidebar[1]->aktif == 1)
                     <li class="nav-item"> <a class="nav-link {{Request::is('setting/akun') ? 'active' : '' || Request::is('setting/akun/*') ? 'active' : '' }}" href="{{url('setting/akun')}}">Setting Account </a></li>
                     @endif
@@ -531,23 +533,21 @@
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi-chart-areaspline menu-icon"></i>
               </a>
-              <div class="collapse {{Request::is('modul/keuangan/transaksi') ? 'show' : '' || Request::is('modul/keuangan/transaksi/*') ? 'show' : '' }}" id="finance">
+              <div class="collapse {{Request::is('modul/keuangan') ? 'show' : '' || Request::is('modul/keuangan/*') ? 'show' : '' }}" id="finance">
                 <ul class="nav flex-column sub-menu">
                   {{-- @if( (int)$sidebar[48]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('finance/costmanajemen/costmanajemen') ? 'active' : '' || Request::is('finance/costmanajemen/*') ? 'active' : '' }}" href="{{url('finance/costmanajemen/costmanajemen')}}">Cost Manajemen<span class="d-none">Finance</span></a></li>
                   @endif --}}
 
-                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/setting/klasifikasi-akun') ? 'active' : '' || Request::is('modul/keuangan/setting/klasifikasi-akun/*') ? 'active' : '' }}" href="{{url('modul/keuangan/setting/klasifikasi-akun')}}"">Klasifikasi Akun<span class="d-none">Finance</span></a></li>
-
                   @if( (int)$sidebar[49]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/transaksi') ? 'active' : '' || Request::is('modul/keuangan/transaksi/*') ? 'active' : '' }}" href="{{url('finance/bookkeeping/bookkeeping')}}"">Bookkeeping<span class="d-none">Finance</span></a></li>
+                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/bookkeeping/bookkeeping') ? 'active' : '' || Request::is('modul/keuangan/bookkeeping/bookkeeping/*') ? 'active' : '' }}" href="{{url('modul/keuangan/bookkeeping/bookkeeping')}}"">Bookkeeping<span class="d-none">Finance</span></a></li>
                   @endif
                   @if( (int)$sidebar[50]->aktif == 1)
 
-                  <li class="nav-item"> <a class="nav-link {{Request::is('finance/reporting/reporting') ? 'active' : '' || Request::is('finance/reporting/*') ? 'active' : '' }}" href="{{url('finance/reporting/reporting')}}">Reporting<span class="d-none">Finance</span></a></li>
+                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/reporting/reporting') ? 'active' : '' || Request::is('modul/keuangan/reporting/reporting/*') ? 'active' : '' }}" href="{{url('modul/keuangan/reporting/reporting')}}">Reporting<span class="d-none">Finance</span></a></li>
                   @endif
                   @if( (int)$sidebar[51]->aktif == 1)
-                  <li class="nav-item"> <a class="nav-link {{Request::is('finance/evaluating/evaluating') ? 'active' : '' || Request::is('finance/evaluating/*') ? 'active' : '' }}" href="{{url('finance/evaluating/evaluating')}}">Evaluating<span class="d-none">Finance</span></a></li>
+                  <li class="nav-item"> <a class="nav-link {{Request::is('modul/keuangan/evaluating/evaluating') ? 'active' : '' || Request::is('modul/keuangan/evaluating/evaluating/*') ? 'active' : '' }}" href="{{url('modul/keuangan/evaluating/evaluating')}}">Evaluating<span class="d-none">Finance</span></a></li>
                   @endif
                 </ul>
                 </div>

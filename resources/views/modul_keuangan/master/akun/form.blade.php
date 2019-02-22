@@ -1,50 +1,57 @@
 @extends('main')
 
-@section('title', 'Tambah Data Group Akun')
+@section('title', 'Tambah Data Akun')
 
 @section(modulSetting()['extraStyles'])
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.css') }}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/select2/dist/css/select2.min.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/select2/dist/css/select2.min.css') }}"> --}}
 
 @endsection
 
 
 @section('content')
+    <!-- partial -->
     <div class="content-wrapper" id="vue-component">
-      <div class="row">
-        <div class="col-lg-12">
-          <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb bg-info">
-              <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-              <li class="breadcrumb-item">Master</li>
-              <li class="breadcrumb-item active" aria-current="page">Master Akun</li>
-            </ol>
-          </nav>
-        </div>
+        <div class="col-lg-12 grid-margin stretch-card" style="padding: 0px;">
+          <div class="card" style="padding: 0px;">
+            <div class="card-body" style="padding: 0px;">
+              <div class="table-responsive" style="padding: 0px;">
+                <div class="col-md-12" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-6 content-title">
+                            Tambah Data Akun
+                        </div>
 
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Master Akun</h4>
+                        <div class="col-md-6 text-right form-status">
+                            <span v-if="stat == 'standby'" v-cloak>
+                                <i class="fa fa-exclamation"></i> &nbsp; Pastikan Data Terisi Dengan Benar            
+                            </span>
 
-                <div class="table-responsive" style="border-top: 1px solid #eee; padding-top: 20px;">
+                            <div class="loader" v-if="stat == 'loading'" v-cloak>
+                               <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+
+                <div class="col-md-12 table-content">
                     <form id="data-form" v-cloak>
                         <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" readonly name="ak_id" v-model="singleData.ak_id">
-                        {{-- <div class="row"> --}}
-                            <div class="col-md-12" style="background: none;">
+                        <div class="row">
+                            <div class="col-md-6" style="background: none;">
                                 <div class="row">
-                                    <div class="col-md-6 mt-form">
+                                    <div class="col-md-12 mt-form">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label class="modul-keuangan">Type Akun</label>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <vue-select :name="'ak_type'" :id="'ak_type'" :options="type" :disabled="onUpdate" @input="typeChange"></vue-select>
+                                                <vue-select :name="'ak_type'" :id="'ak_type'" :options="type" :disabled="onUpdate"></vue-select>
                                             </div>
 
                                             <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
@@ -57,41 +64,39 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 mt-form"></div>
-
-                                    <div class="col-md-6 mt-form">
+                                    <div class="col-md-12 mt-form">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label class="modul-keuangan">Kelompok Akun</label>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div class="col-md-7">
                                                 <vue-select :name="'ak_kelompok'" :id="'ak_kelompok'" :options="kelompok" :disabled="onUpdate" @input="kelompokChange" :search="true"></vue-select>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 mt-form">
+                                    <div class="col-md-12 mt-form">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label class="modul-keuangan">Nomor Akun *</label>
                                             </div>
 
                                             <div class="col-md-7">
                                                 <div class="input-group">
                                                   <div class="input-group-prepend modul-keuangan">
-                                                    <span style="padding-right: 10px; padding-top: 10px;">@{{ singleData.parrentId }}.</span>
+                                                    <span class="input-group-text" id="basic-addon1">@{{ singleData.parrentId }}.</span>
                                                   </div>
-
+                                                  &nbsp;&nbsp;
                                                   <input type="text" name="ak_nomor" class="form-control modul-keuangan" placeholder="contoh: 001" v-model="singleData.ak_nomor" title="Tidak Boleh Kosong, Hanya Angka" @keypress="onlyNumber" :readonly="onUpdate">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 mt-form">
+                                    <div class="col-md-12 mt-form">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label class="modul-keuangan">Nama Akun *</label>
                                             </div>
 
@@ -101,9 +106,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 mt-form" v-if="conteks == 'detail'">
+                                    <div class="col-md-12 mt-form" v-if="conteks == 'detail'">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label class="modul-keuangan">Posisi Debet/Kredit</label>
                                             </div>
 
@@ -113,9 +118,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 mt-form" v-if="conteks == 'detail'">
+                                    <div class="col-md-12 mt-form" v-if="conteks == 'detail'">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label class="modul-keuangan">Saldo Pembukaan</label>
                                             </div>
 
@@ -125,96 +130,105 @@
                                         </div>
                                     </div>
 
-                                    
+                                    @if(modulSetting()['support_cabang'])
+                                        <div class="col-md-12 mt-form">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label class="modul-keuangan"></label>
+                                                </div>
+
+                                                <div class="col-md-7">
+                                                    <input type="checkbox" name="resiprokal" title="Centang Untuk Menjadikan Akun Ini Sebagai Akun Resiprokal" v-model="resiprokal">
+
+                                                    <span style="font-size: 8pt; margin-left: 5px;">
+                                                        Akun Ini Termasuk Akun Resiprokal. &nbsp;
+                                                        <a href="https://www.google.com/search?q=akun+resiprokal&oq=akun+res&aqs=chrome.0.69i59j69i57j69i60l3j0.3851j0j7&sourceid=chrome&ie=UTF-8" target="_blank" title="Akun Resiprokal Adalah Akun-Akun Yang Nantinya Akan Dieliminasi Saat Penyusunan Laporan Keuangan Gabungan.">
+                                                           <i class="fa fa-info-circle"></i>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <div class="col-md-9" v-if="locked">
+                                        <div class="modul-keuangan-alert primary" role="alert" style="margin-top: 30px;">
+                                          <i class="fa fa-info-circle"></i> &nbsp;&nbsp;Akun Dikunci. Tidak Bisa Dinonaktifkan
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
-                            {{-- <div class="col-md-12 mt-form" style="background: none; border-top: 1px solid #eee; padding-top: 20px;" v-if="conteks == 'detail'">
-                                <div class="row">
+                            <div class="col-md-6">
 
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Neraca</label>
-                                            </div>
+                                <table class="table table-stripped table-bordered table-mini">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2" style="text-align: left; color: #0099CC; padding-left: 5px; font-size: 8pt;">
+                                                <i class="fa fa-arrow-right"></i> &nbsp;Data Akun Yang Sudah Disimpan &nbsp;<small style="color: #666;"> - Sesuai Dengan kelompok Akun Yang Dipilih</small>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
 
-                                            <div class="col-md-5">
-                                                <vue-select :name="'ak_group_neraca'" :id="'ak_group_neraca'" :options="groupNeraca"></vue-select>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div style="height: 300px; background: #fafafa; overflow-y: scroll; margin-top: 5px;">
+                                    <table class="table table-stripped table-bordered table-mini">
+                                        <thead>
+                                            <tr>
+                                                <th width="30%" style="font-size: 8pt;">Nomor Akun</th>
+                                                <th width="60%" style="font-size: 8pt;">Nama Akun</th>
+                                            </tr>
+                                        </thead>
 
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Laba Rugi</label>
-                                            </div>
+                                        <tbody>
+                                            <template v-for="data in listAkun">
+                                                <tr>
+                                                    <td style="text-align: center; font-size: 8pt;">@{{ data.nomor }}</td>
+                                                    <td style="text-align: left; font-size: 8pt;">@{{ data.text }}</td>
+                                                </tr>
+                                            </template>
 
-                                            <div class="col-md-5">
-                                                <vue-select :name="'ak_group_lr'" :id="'ak_group_lr'" :options="groupLabaRugi"></vue-select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 mt-form">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <label class="modul-keuangan" style="font-weight: bold; font-style: italic;">Relasi Arus Kas</label>
-                                            </div>
-
-                                            <div class="col-md-5">
-                                                <vue-select :name="'ak_group_ak'" :id="'ak_group_ak'" :options="groupArusKas"></vue-select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> --}}
-
-                            <div class="col-md-12">
-                                <div class="col-md-12" style="margin-top: 40px;" v-if="locked">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="modul-keuangan-alert primary" role="alert">
-                                              <i class="fa fa-info-circle"></i> &nbsp;&nbsp;Akun Dikunci. Tidak Bisa Dinonaktifkan
-                                            </div>
-                                        </div>
-                                    </div>
+                                            <template v-if="listAkun.length == 0">
+                                                <tr>
+                                                    <td colspan="2" style="text-align: center; font-size: 8pt;">Tidak Ada Data</td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        {{-- </div> --}}
+                        </div>
 
-                        <div class="col-md-12" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="{{ route('akun.index') }}">
-                                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Akun</button>
-                                    </a>
-                                </div>
+                        <div class="row content-button">
+                            <div class="col-md-6">
+                                <a href="{{ route('akun.index') }}">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Akun</button>
+                                </a>
+                            </div>
 
-                                <div class="col-md-6 text-right">
-                                    <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
+                            <div class="col-md-6 text-right">
+                                <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
 
-                                    <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && dataIsActive"><i class="fa fa-times"></i> &nbsp;Nonaktifkan</button>
+                                <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && dataIsActive"><i class="fa fa-times"></i> &nbsp;Nonaktifkan</button>
 
-                                    <button type="button" class="btn btn-success btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && !dataIsActive"><i class="fa fa-check-square-o"></i> &nbsp;Aktifkan</button>
+                                <button type="button" class="btn btn-success btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && !dataIsActive"><i class="fa fa-check-square-o"></i> &nbsp;Aktifkan</button>
 
-                                    <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
-                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
                             </div>
                         </div>
                     </form>
                 </div>
               </div>
             </div>
+          </div>
         </div>
-      </div>
-
+      
         <div class="ez-popup" id="data-popup">
             <div class="layout" style="width: 70%">
                 <div class="top-popup" style="background: none;">
                     <span class="title">
-                        Data Akun Yang Sudah Dibuat
+                        Data Akun Akun Yang Sudah Dibuat
                     </span>
 
                     <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
@@ -225,7 +239,7 @@
                 </div>
             </div>
         </div>
-
+        
     </div>
 @endsection
 
@@ -234,21 +248,21 @@
 	
 	<script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/vue_2_x.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/datatable.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/select.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/inputmask.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/vue_2_x.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/datatable.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/select.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/inputmask.component.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/wait.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/select2/dist/js/select2.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/inputmask/inputmask.jquery.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/validator/bootstrapValidator.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/axios_0_18_0/axios.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/wait.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/inputmask/inputmask.jquery.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/validator/bootstrapValidator.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
 
 	<script type="text/javascript">
 
-       function register_validator(){
+        function register_validator(){
             $('#data-form').bootstrapValidator({
                 feedbackIcons : {
                   valid : 'glyphicon glyphicon-ok',
@@ -284,7 +298,7 @@
             });
         }
 
-        var app = new Vue({
+		var app = new Vue({
             el: '#vue-component',
             data: {
                 stat: 'standby',
@@ -294,11 +308,12 @@
                 onUpdate: false,
                 locked: false,
                 dataIsActive: true,
+                resiprokal: false,
                 conteks: 'detail',
 
                 data_table_columns : [
-                    {name: 'Nomor Akun', context: 'ak_id', width: '20%', childStyle: 'text-align: center'},
-                    {name: 'Nama Akun', context: 'ak_nama', width: '40%', childStyle: 'text-align: center'},
+                    {name: 'Nomor Akun', context: 'ak_nomor', width: '20%', childStyle: 'text-align: center'},
+                    {name: 'Nama Akun', context: 'ak_nama', width: '40%', childStyle: 'text-align: left'},
                     {name: 'Posisi Akun', context: 'ak_posisi', width: '20%', childStyle: 'text-align: center', override: function(e){
                         if(e == 'D')
                             return 'Debet';
@@ -344,6 +359,8 @@
                 groupArusKas: [],
                 groupLabaRugi: [],
 
+                listAkun: [],
+
                 singleData: {
                     ak_id: '',
                     ak_nama: '',
@@ -368,6 +385,9 @@
                             this.kelompokDetail = response.data.akun_parrent;
                             this.kelompok = response.data.kelompok;
                             this.singleData.parrentId = response.data.kelompok[0].id
+
+                            this.kelompokChange(this.kelompok[0].id);
+
                           })
                           .catch((e) => {
                             alert('error '+e);
@@ -405,8 +425,10 @@
                                             hideAfter: 5000
                                         });
 
-                                        if(typeof response.data.akun_parrent !== 'undefined')
+                                        if(typeof response.data.akun_parrent !== 'undefined'){
                                             this.kelompokDetail = response.data.akun_parrent;
+                                            this.kelompokChange($('#ak_kelompok').val());
+                                        }
 
                                         this.formReset();
                                     }else{
@@ -453,8 +475,10 @@
                                             hideAfter: 5000
                                         });
 
-                                        if(typeof response.data.akun_parrent !== 'undefined')
+                                        if(typeof response.data.akun_parrent !== 'undefined'){
                                             this.kelompokDetail = response.data.akun_parrent;
+                                            this.kelompokChange($('#ak_kelompok').val());
+                                        }
 
                                         this.formReset();
                                     }else{
@@ -541,25 +565,8 @@
 
                 kelompokChange: function(e){
                     this.singleData.parrentId = e;
-                },
 
-                typeChange: function(e){
-                    if(e == 'detail'){
-                        this.conteks = 'detail';
-                        this.kelompok = this.kelompokDetail;
-                        this.singleData.placeholderNama = 'Contoh : Kas Kecil / Kas Besar';
-                    }else{
-                        this.conteks = 'parrent';
-                        this.kelompok = this.kelompokParrent;
-                        this.singleData.placeholderNama = 'Contoh : Kas / Bank / Piutang Usaha';
-                    }
-
-                    if(this.kelompok.length > 0)
-                        this.kelompokChange(this.kelompok[0]['id']);
-                    else
-                        this.singleData.parrentId = '?';
-
-                    this.formReset();
+                    this.listAkun = $.grep(this.kelompokDetail, function(x) { return x.nomor.substring(0, e.length) == e })
                 },
 
                 search: function(e){
@@ -591,9 +598,10 @@
 
                     $('#ak_kelompok').val(conteks['ak_kelompok']).trigger('change.select2');
 
-                    this.singleData.ak_nomor = conteks['ak_id'].substring(cek);
+                    this.singleData.ak_nomor = conteks['ak_nomor'].substring(cek);
                     this.singleData.ak_nama = conteks['ak_nama'];
                     this.singleData.ak_id = conteks['ak_id'];
+                    this.resiprokal = (conteks['ak_resiprokal'] == '1') ? true : false;
 
                     $('#ak_posisi').val(conteks['ak_posisi']).trigger('change.select2');
                     $('#ak_opening').val(conteks['ak_opening']);
@@ -607,6 +615,7 @@
                     }
 
                     this.onUpdate = true;
+                    this.kelompokChange(this.list_data_table[idx]['ak_kelompok']);
                     $('#data-popup').ezPopup('close');
                 },
 
@@ -620,12 +629,13 @@
                 formReset: function(){
                     this.singleData.ak_nomor = '';
                     this.singleData.ak_nama = '';
+                    this.resiprokal = false;
 
 
-                    if(this.kelompok.length > 0){
-                        $('#ak_kelompok').val(this.kelompok[0]['id']).trigger('change.select2');
-                        this.kelompokChange(this.kelompok[0]['id']);
-                    }
+                    // if(this.kelompok.length > 0){
+                    //     $('#ak_kelompok').val(this.kelompok[0]['id']).trigger('change.select2');
+                    //     this.kelompokChange(this.kelompok[0]['id']);
+                    // }
                     
                     if(this.groupNeraca.length > 0)
                         $('#ak_group_neraca').val(this.groupNeraca[0]['id']).trigger('change.select2');

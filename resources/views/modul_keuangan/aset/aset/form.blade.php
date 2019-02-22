@@ -5,43 +5,51 @@
 @section(modulSetting()['extraStyles'])
 
     <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.css') }}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/select2/dist/css/select2.min.css') }}"> --}}
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/datepicker/dist/datepicker.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/select2/dist/css/select2.min.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/datepicker/dist/datepicker.min.css') }}">
 
 @endsection
 
 
 @section('content')
+    <!-- partial -->
     <div class="content-wrapper" id="vue-component">
       <div class="row">
-        <div class="col-lg-12">
-          <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb bg-info">
-              <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-              <li class="breadcrumb-item">Manajemen Aset</li>
-              <li class="breadcrumb-item active" aria-current="page">Input Data Aset</li>
-            </ol>
-          </nav>
-        </div>
-
         <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Input Data Aset</h4>
+          <div class="card" style="padding: 0px;">
+            <div class="card-body" style="padding: 0px;">
+              <div class="table-responsive" style="padding: 0px;">
+                
+                <div class="col-md-12" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-6 content-title">
+                            Input Data Aset
+                        </div>
 
-            <form id="data-form" v-cloak>
+                        <div class="col-md-6 text-right form-status">
+                            <span v-if="stat == 'standby'" v-cloak>
+                                <i class="fa fa-exclamation"></i> &nbsp; Pastikan Data Terisi Dengan Benar            
+                            </span>
 
-                <div class="text-center" style="background: #ff4444; position: absolute; z-index: 1000; right: 2em; padding: 15px 5px 5px 5px; border-bottom-left-radius: 5px;" v-if="onUpdate">
-                    <i class="fa fa-eraser" style="color: white; cursor: pointer;" @click="confirmDelete" title="! Hapus Aset yang Dipilih"></i>
+                            <div class="loader" v-if="stat == 'loading'" v-cloak>
+                               <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
+                            </div>
+                        </div>
+                    </div>  
                 </div>
 
-                <div class="table-responsive">
-                    <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" readonly name="at_id" v-model="singleData.at_id">
+                <form id="data-form" v-cloak>
 
-                    <div class="col-md-12" style="border-top: 1px solid #eee; padding-top: 20px;">
+                    <div class="text-center" style="background: #ff4444; position: absolute; z-index: 1000; right: 2em; padding: 15px 5px 5px 5px; border-bottom-left-radius: 5px;" v-if="onUpdate">
+                        <i class="fa fa-eraser" style="color: white; cursor: pointer;" @click="confirmDelete" title="! Hapus Aset yang Dipilih"></i>
+                    </div>
+
+                    <div class="col-md-12 table-content">
+                        <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" readonly name="at_id" v-model="singleData.at_id">
+
                         <div class="row">
                             <div class="col-md-6" style="background: none;">
 
@@ -69,7 +77,7 @@
                                         <label class="modul-keuangan">Nama Aset *</label>
                                     </div>
 
-                                    <div class="col-md-7">
+                                    <div class="col-md-6">
                                         <input type="text" name="at_nama" class="form-control modul-keuangan" placeholder="contoh: Komputer Admin" v-model="singleData.at_nama" title="Tidak Boleh Kosong" :disabled="onUpdate">
                                     </div>
                                 </div>
@@ -79,7 +87,7 @@
                                         <label class="modul-keuangan">Tanggal Pembelian *</label>
                                     </div>
 
-                                    <div class="col-md-7">
+                                    <div class="col-md-6">
                                         <vue-datepicker :name="'at_tanggal_beli'" :id="'at_tanggal_beli'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" @input="tanggalChange" v-if="!onUpdate"></vue-datepicker>
 
                                         <input type="text" name="qwe" class="form-control modul-keuangan" placeholder="contoh: Komputer Admin" v-model="singleData.at_tanggal_beli" title="Tidak Boleh Kosong" :disabled="onUpdate" v-if="onUpdate">
@@ -91,7 +99,7 @@
                                         <label class="modul-keuangan">Kelompok Aset</label>
                                     </div>
 
-                                    <div class="col-md-7">
+                                    <div class="col-md-6">
                                         <vue-select :name="'at_golongan'" :id="'at_golongan'" :options="kelompokAset" @input="kelompokChange" :disabled="onUpdate"></vue-select>
                                     </div>
                                 </div>
@@ -101,7 +109,7 @@
                                         <label class="modul-keuangan">Metode Penyusutan</label>
                                     </div>
 
-                                    <div class="col-md-7">
+                                    <div class="col-md-6">
                                         <vue-select :name="'at_metode'" :id="'at_metode'" :options="metodePenyusutan" @input="metodeChange" :disabled="onUpdate"></vue-select>
                                     </div>
                                 </div>
@@ -111,7 +119,7 @@
                                         <label class="modul-keuangan">Harga Pembelian *</label>
                                     </div>
 
-                                    <div class="col-md-7">
+                                    <div class="col-md-6">
                                         <vue-inputmask :name="'at_harga_beli'" :id="'at_harga_beli'" v-if="!onUpdate"></vue-inputmask>
 
                                         <input type="text" id="at_harga_beli" name="asd" class="form-control modul-keuangan" placeholder="contoh: Komputer Admin" v-model="singleData.at_harga_beli" title="Tidak Boleh Kosong" :disabled="onUpdate" v-if="onUpdate" style="text-align: right;">
@@ -234,10 +242,8 @@
                                 </div> --}}
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-12" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
-                        <div class="row">
+                        <div class="row content-button">
                             <div class="col-md-6">
                                 <a href="{{ route('aset.index') }}">
                                     <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Aset</button>
@@ -253,272 +259,271 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="ez-popup" id="data-popup">
-                    <div class="layout" style="width: 70%">
-                        <div class="top-popup" style="background: none;">
-                            <span class="title">
-                                Data Grup Aset Yang Sudah Masuk
-                            </span>
+                    <div class="ez-popup" id="data-popup">
+                        <div class="layout" style="width: 70%">
+                            <div class="top-popup" style="background: none;">
+                                <span class="title">
+                                    Data Aset Yang Sudah Masuk
+                                </span>
 
-                            <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
-                        </div>
-                        
-                        <div class="content-popup">
-                            <vue-datatable :data_resource="list_data_table" :columns="data_table_columns" :selectable="true" :ajax_on_loading="onAjaxLoading" :index_column="'at_id'" @selected="dataSelected"></vue-datatable>
+                                <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
+                            </div>
+                            
+                            <div class="content-popup">
+                                <vue-datatable :data_resource="list_data_table" :columns="data_table_columns" :selectable="true" :ajax_on_loading="onAjaxLoading" :index_column="'at_id'" @selected="dataSelected"></vue-datatable>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="ez-popup" id="penyusutan-popup">
-                    <div class="layout" style="width: 70%">
-                        <div class="top-popup" style="background: none;">
-                            <span class="title">
-                                Detail Penyusutan Sesuai Dengan Inputan
-                            </span>
+                    <div class="ez-popup" id="penyusutan-popup">
+                        <div class="layout" style="width: 70%">
+                            <div class="top-popup" style="background: none;">
+                                <span class="title">
+                                    Detail Penyusutan Sesuai Dengan Inputan
+                                </span>
 
-                            <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
-                        </div>
-                        
-                        <div class="content-popup">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table width="100%">
-                                        <thead>
-                                            <tr>
-                                                <td class="text-left" width="30%" style="background: #eee; padding: 8px; font-size: 8pt; padding-left: 15px; font-weight: 600;">
-                                                    <i class="fa fa-arrow-right"></i> &nbsp; Tanggal Pembelian : @{{ singleData.at_tanggal_beli }}
-                                                </td>
+                                <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
+                            </div>
+                            
+                            <div class="content-popup">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <td class="text-left" width="30%" style="background: #eee; padding: 8px; font-size: 8pt; padding-left: 15px; font-weight: 600;">
+                                                        <i class="fa fa-arrow-right"></i> &nbsp; Tanggal Pembelian : @{{ singleData.at_tanggal_beli }}
+                                                    </td>
 
-                                                <td class="text-left" width="35%" style="background: #eee; padding: 8px; font-size: 8pt; font-weight: 600;">
-                                                    <i class="fa fa-arrow-right"></i> &nbsp; Metode Penyusutan : @{{ singleData.at_metode }}
-                                                </td>
+                                                    <td class="text-left" width="35%" style="background: #eee; padding: 8px; font-size: 8pt; font-weight: 600;">
+                                                        <i class="fa fa-arrow-right"></i> &nbsp; Metode Penyusutan : @{{ singleData.at_metode }}
+                                                    </td>
 
-                                                <td class="text-left" width="30%" style="background: #eee; padding: 8px; font-size: 8pt; font-weight: 600; padding-right: 15px;">
-                                                    <i class="fa fa-arrow-right"></i> &nbsp; Masa Manfaat : @{{ singleData.at_masa_manfaat }} Tahun
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                                                    <td class="text-left" width="30%" style="background: #eee; padding: 8px; font-size: 8pt; font-weight: 600; padding-right: 15px;">
+                                                        <i class="fa fa-arrow-right"></i> &nbsp; Masa Manfaat : @{{ singleData.at_masa_manfaat }} Tahun
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
 
-                                <div class="col-md-12" style="margin-top: 20px; max-height: 232px; overflow-y: scroll;">
-                                    <table class="table table-stripped table-mini" style="margin-bottom: 0px;">
-                                        <thead>
-                                            <tr>
-                                                <th width="10%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Tahun</th>
-                                                <th width="14%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Jumlah Bulan</th>
-                                                <th width="19%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Harga Perolehan</th>
-                                                <th width="19%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Biaya penyusutan</th>
-                                                <th width="19%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Akumulasi Penyusutan</th>
-                                                <th width="19%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Nilai Sisa (residu)</th>
-                                            </tr>
-                                        </thead>
+                                    <div class="col-md-12" style="margin-top: 20px; max-height: 232px; overflow-y: scroll;">
+                                        <table class="table table-stripped table-mini" style="margin-bottom: 0px;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="10%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Tahun</th>
+                                                    <th width="14%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Jumlah Bulan</th>
+                                                    <th width="19%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Harga Perolehan</th>
+                                                    <th width="19%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Biaya penyusutan</th>
+                                                    <th width="19%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Akumulasi Penyusutan</th>
+                                                    <th width="19%" style="border: 1px solid #eee; position: sticky; top: 0; background: #f9f9f9;">Nilai Sisa (residu)</th>
+                                                </tr>
+                                            </thead>
 
-                                        <tbody id="wrap">
-                                            <tr v-for="dataPenyusutan in penyusutan">
-                                                <td class="text-center" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
-                                                    @{{ dataPenyusutan.tahun }}
-                                                    <input type="hidden" name="ad_tahun[]" :value="dataPenyusutan.tahun" readonly>
-                                                </td>
+                                            <tbody id="wrap">
+                                                <tr v-for="dataPenyusutan in penyusutan">
+                                                    <td class="text-center" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
+                                                        @{{ dataPenyusutan.tahun }}
+                                                        <input type="hidden" name="ad_tahun[]" :value="dataPenyusutan.tahun" readonly>
+                                                    </td>
 
-                                                <td class="text-center" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
-                                                    @{{ dataPenyusutan.bulan }}
-                                                    <input type="hidden" name="ad_jumlah_bulan[]" :value="dataPenyusutan.bulan" readonly>
-                                                </td>
+                                                    <td class="text-center" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
+                                                        @{{ dataPenyusutan.bulan }}
+                                                        <input type="hidden" name="ad_jumlah_bulan[]" :value="dataPenyusutan.bulan" readonly>
+                                                    </td>
 
-                                                <td class="text-right" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
-                                                    @{{ dataPenyusutan.hargaPerolehan }}
-                                                </td>
+                                                    <td class="text-right" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
+                                                        @{{ dataPenyusutan.hargaPerolehan }}
+                                                    </td>
 
-                                                <td class="text-right" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
-                                                    @{{ dataPenyusutan.nilaiPenyusutan }}
-                                                    <input type="hidden" name="ad_penyusutan[]" :value="dataPenyusutan.nilaiPenyusutan" readonly>
-                                                </td>
+                                                    <td class="text-right" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
+                                                        @{{ dataPenyusutan.nilaiPenyusutan }}
+                                                        <input type="hidden" name="ad_penyusutan[]" :value="dataPenyusutan.nilaiPenyusutan" readonly>
+                                                    </td>
 
-                                                <td class="text-right" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
-                                                    @{{ dataPenyusutan.nilaiAkumulasi }}
-                                                </td>
+                                                    <td class="text-right" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
+                                                        @{{ dataPenyusutan.nilaiAkumulasi }}
+                                                    </td>
 
-                                                <td class="text-right" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
-                                                    @{{ dataPenyusutan.nilaiSisa }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                    <td class="text-right" :style="(dataPenyusutan.tahunIni) ? 'border: 1px solid #eee; background: #90caf9; color: white;' : 'border: 1px solid #eee;'">
+                                                        @{{ dataPenyusutan.nilaiSisa }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
 
-                                <div class="col-md-12" style="margin-top: 5px;">
-                                    <table class="table table-stripped table-mini" border="0" style="margin-bottom: 0px; margin-top: 5px;">
-                                        <thead>
-                                            <tr>
-                                                <td width="2%" style="border: 0px; padding: 2px 10px;">-</td>
-                                                <td style="border: 0px; padding: 2px 10px;">
-                                                    <small><b>Pastikan Data Perhitungan Penyusutan Ini Benar (nilai residu akhir 0)</b></small> 
-                                                </td>
-                                            </tr>
+                                    <div class="col-md-12" style="margin-top: 5px;">
+                                        <table class="table table-stripped table-mini" border="0" style="margin-bottom: 0px; margin-top: 5px;">
+                                            <thead>
+                                                <tr>
+                                                    <td width="2%" style="border: 0px; padding: 2px 10px;">-</td>
+                                                    <td style="border: 0px; padding: 2px 10px;">
+                                                        <small><b>Pastikan Data Perhitungan Penyusutan Ini Benar (nilai residu akhir 0)</b></small> 
+                                                    </td>
+                                                </tr>
 
-                                            <tr>
-                                                <td width="2%" style="border: 0px; padding: 2px 10px;">-</td>
-                                                <td style="border: 0px; padding: 2px 10px;">
-                                                    <small><b>Penyusutan Pertama Akan Dilakukan Sesuai Dengan Data Baris Berwarna Biru</b></small> 
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td width="2%" style="border: 0px; padding: 2px 10px;">-</td>
+                                                    <td style="border: 0px; padding: 2px 10px;">
+                                                        <small><b>Penyusutan Pertama Akan Dilakukan Sesuai Dengan Data Baris Berwarna Biru</b></small> 
+                                                    </td>
+                                                </tr>
 
-                                            <tr>
-                                                <td width="2%" style="border: 0px; padding: 2px 10px;">-</td>
-                                                <td style="border: 0px; padding: 2px 10px;">
-                                                    <small><b>Nantinya, Penyusutan Juga Akan Dilakukan Setiap Pergantian Periode (per bulan)</b></small> 
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                                                <tr>
+                                                    <td width="2%" style="border: 0px; padding: 2px 10px;">-</td>
+                                                    <td style="border: 0px; padding: 2px 10px;">
+                                                        <small><b>Nantinya, Penyusutan Juga Akan Dilakukan Setiap Pergantian Periode (per bulan)</b></small> 
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
 
-                                <div class="col-md-12 text-right" style="border-top: 1px solid #eee; margin-top: 10px; padding-top: 20px;">
-                                    <button type="button" class="btn btn-info btn-sm" @click="saving" :disabled="btnDisabled" v-if="!onUpdate">
-                                        <i class="fa fa-floppy-o"></i> &nbsp;Konfirmasi Simpan
-                                    </button>
+                                    <div class="col-md-12 text-right" style="border-top: 1px solid #eee; margin-top: 10px; padding-top: 20px;">
+                                        <button type="button" class="btn btn-info btn-sm" @click="saving" :disabled="btnDisabled" v-if="!onUpdate">
+                                            <i class="fa fa-floppy-o"></i> &nbsp;Konfirmasi Simpan
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="ez-popup" id="delete-confirmation-popup">
-                    <div class="layout" style="width: 40%; min-height: 200px;">
-                        <div class="top-popup" style="background: none;">
-                            <span class="title">
-                                Konfirmasi Hapus
-                            </span>
+                    <div class="ez-popup" id="delete-confirmation-popup">
+                        <div class="layout" style="width: 40%; min-height: 200px;">
+                            <div class="top-popup" style="background: none;">
+                                <span class="title">
+                                    Konfirmasi Hapus
+                                </span>
 
-                            {{-- <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span> --}}
-                        </div>
-                        
-                        <div class="content-popup">
-                            <div class="row" style="padding: 0px 15px;">
-                                <div class="col-md-2 text-center" style="padding: 10px 0px; background: #0099CC; ">
-                                    <i class="fa fa-exclamation-triangle" style="font-size: 32pt; color: #fff;"></i>
-                                </div>
-
-                                <div class="col-md-10" style="font-size: 9pt; color: #0099CC; background: white; border: 1px solid #0099CC; padding: 5px 10px;">
-                                    Apakah Anda Yakin, Data Aset Yang Dihapus Tidak Akan Bisa Dikembalikan. Menghapus Aset Juga Akan Menghapus Semua Jurnal Penyusutan Yang Telah Dibukukan !
-                                </div>
+                                {{-- <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span> --}}
                             </div>
+                            
+                            <div class="content-popup">
+                                <div class="row" style="padding: 0px 15px;">
+                                    <div class="col-md-2 text-center" style="padding: 10px 0px; background: #0099CC; ">
+                                        <i class="fa fa-exclamation-triangle" style="font-size: 32pt; color: #fff;"></i>
+                                    </div>
 
-                            <div class="row" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
-                                <div class="col-md-5">
-                                    <div class="loader" v-if="stat == 'loading'" v-cloak>
-                                       <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
+                                    <div class="col-md-10" style="font-size: 9pt; color: #0099CC; background: white; border: 1px solid #0099CC; padding: 5px 10px;">
+                                        Apakah Anda Yakin, Data Aset Yang Dihapus Tidak Akan Bisa Dikembalikan. Menghapus Aset Juga Akan Menghapus Semua Jurnal Penyusutan Yang Telah Dibukukan !
                                     </div>
                                 </div>
 
-                                <div class="col-md-7 text-right">
-                                    <button class="btn btn-info btn-sm" @click="close" :disabled="btnDisabled">Batal</button>
-                                    &nbsp;<button class="btn btn-danger btn-sm" @click="hapus" :disabled="btnDisabled">Saya Mengerti !</button>
+                                <div class="row" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
+                                    <div class="col-md-5">
+                                        <div class="loader" v-if="stat == 'loading'" v-cloak>
+                                           <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7 text-right">
+                                        <button class="btn btn-info btn-sm" @click="close" :disabled="btnDisabled">Batal</button>
+                                        &nbsp;<button class="btn btn-danger btn-sm" @click="hapus" :disabled="btnDisabled">Saya Mengerti !</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
 
-                <div class="ez-popup" id="jual-confirmation-popup">
-                    <div class="layout" style="width: 40%;">
-                        <div class="top-popup" style="background: none;">
-                            <span class="title">
-                                Konfirmasi Penjualan Aset
-                            </span>
+                    <div class="ez-popup" id="jual-confirmation-popup">
+                        <div class="layout" style="width: 40%;">
+                            <div class="top-popup" style="background: none;">
+                                <span class="title">
+                                    Konfirmasi Penjualan Aset
+                                </span>
 
-                            {{-- <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span> --}}
-                        </div>
-                        
-                        <div class="content-popup">
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table width="100%">
-                                        <thead>
-                                            <tr>
-                                                <td class="text-left"style="background: #eee; padding: 8px; font-size: 8pt; padding-left: 15px; font-weight: 600;">
-                                                    <i class="fa fa-arrow-right"></i> &nbsp; Detail Perhitungan Nilai Aset Yang Dipilih 
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                                {{-- <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span> --}}
                             </div>
+                            
+                            <div class="content-popup">
 
-                            <div class="row" style="margin-top: 20px;">
-                                <div class="col-md-12">
-                                    <table class="table table-stripped table-mini" style="margin-bottom: 0px;">
-                                        <thead>
-                                            <tr>
-                                                <th width="50%" style="border: 1px solid #eee;">Keterangan</th>
-                                                <th width="25%" style="border: 1px solid #eee;">Nominal</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-
-                                            <tr>
-                                                <td width="50%" style="border: 1px solid #eee;">-&nbsp; Nilai Perolehan Aset</td>
-                                                <td width="25%" class="text-right jurnalDebet" style="border: 1px solid #eee;">@{{ singleData.at_harga_beli }}</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td width="50%" style="border: 1px solid #eee;">-&nbsp; Nilai Akumulasi Penyusutan</td>
-                                                <td width="25%" class="text-right jurnalDebet" style="border: 1px solid #eee;">@{{ nilai_akumulasi }}</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td width="50%" style="border: 1px solid #eee;">-&nbsp; Nilai Buku</td>
-                                                <td width="25%" class="text-right jurnalDebet" style="border: 1px solid #eee;">@{{ singleData.at_nilai_sisa }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="row" style="margin-top: 5px;">
-                                <div class="col-md-12">
-                                    <table class="table table-stripped table-mini" border="0" style="margin-bottom: 0px; margin-top: 5px;">
-                                        <thead>
-                                            <tr>
-                                                <td width="2%" style="border: 0px; padding: 2px 10px;">-</td>
-                                                <td style="border: 0px; padding: 2px 10px;">
-                                                    <small><b>Segera Lakukan Transaksi Jurnal Apabila Aset Yang Dipilih Telah Resmi Di Jual.</b></small> 
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="row" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
-                                <div class="col-md-5">
-                                    <div class="loader" v-if="stat == 'loading'" v-cloak>
-                                       <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <td class="text-left"style="background: #eee; padding: 8px; font-size: 8pt; padding-left: 15px; font-weight: 600;">
+                                                        <i class="fa fa-arrow-right"></i> &nbsp; Detail Perhitungan Nilai Aset Yang Dipilih 
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
                                     </div>
                                 </div>
 
-                                <div class="col-md-7 text-right">
-                                    <button class="btn btn-info btn-sm" @click="closeJual" :disabled="btnDisabled">Batal</button>
-                                    &nbsp;<button class="btn btn-warning btn-sm" @click="jualConfirm" :disabled="btnDisabled">Konfirmasi Jual !</button>
+                                <div class="row" style="margin-top: 20px;">
+                                    <div class="col-md-12">
+                                        <table class="table table-stripped table-mini" style="margin-bottom: 0px;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50%" style="border: 1px solid #eee;">Keterangan</th>
+                                                    <th width="25%" style="border: 1px solid #eee;">Nominal</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                                <tr>
+                                                    <td width="50%" style="border: 1px solid #eee;">-&nbsp; Nilai Perolehan Aset</td>
+                                                    <td width="25%" class="text-right jurnalDebet" style="border: 1px solid #eee;">@{{ singleData.at_harga_beli }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td width="50%" style="border: 1px solid #eee;">-&nbsp; Nilai Akumulasi Penyusutan</td>
+                                                    <td width="25%" class="text-right jurnalDebet" style="border: 1px solid #eee;">@{{ nilai_akumulasi }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td width="50%" style="border: 1px solid #eee;">-&nbsp; Nilai Buku</td>
+                                                    <td width="25%" class="text-right jurnalDebet" style="border: 1px solid #eee;">@{{ singleData.at_nilai_sisa }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top: 5px;">
+                                    <div class="col-md-12">
+                                        <table class="table table-stripped table-mini" border="0" style="margin-bottom: 0px; margin-top: 5px;">
+                                            <thead>
+                                                <tr>
+                                                    <td width="2%" style="border: 0px; padding: 2px 10px;">-</td>
+                                                    <td style="border: 0px; padding: 2px 10px;">
+                                                        <small><b>Segera Lakukan Transaksi Jurnal Apabila Aset Yang Dipilih Telah Resmi Di Jual.</b></small> 
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
+                                    <div class="col-md-5">
+                                        <div class="loader" v-if="stat == 'loading'" v-cloak>
+                                           <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7 text-right">
+                                        <button class="btn btn-info btn-sm" @click="closeJual" :disabled="btnDisabled">Batal</button>
+                                        &nbsp;<button class="btn btn-warning btn-sm" @click="jualConfirm" :disabled="btnDisabled">Konfirmasi Jual !</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-            </form>
-
+                </form>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
+    <!-- content-wrapper ends -->
 @endsection
 
 
@@ -526,19 +531,19 @@
     
     <script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/vue_2_x.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/datatable.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/select.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/inputmask.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/datepicker.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/vue_2_x.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/datatable.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/select.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/inputmask.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/datepicker.component.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/wait.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/select2/dist/js/select2.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/validator/bootstrapValidator.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/axios_0_18_0/axios.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/inputmask/inputmask.jquery.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/datepicker/dist/datepicker.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/wait.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/validator/bootstrapValidator.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/inputmask/inputmask.jquery.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/datepicker/dist/datepicker.min.js') }}"></script>
 
     <script type="text/javascript">
 
@@ -647,20 +652,15 @@
                             if(response.data.golongan.length > 0){
                                 this.kelompokAset = response.data.golongan;
     
-                                this.singleData.at_akun_harta = response.data.golongan[0].ga_akun_harta+' - '+response.data.golongan[0].nama_akun_harta;
-                                this.singleData.at_akun_akumulasi = response.data.golongan[0].ga_akun_akumulasi+' - '+response.data.golongan[0].nama_akun_akumulasi;
-                                this.singleData.at_akun_beban = response.data.golongan[0].ga_akun_beban+' - '+response.data.golongan[0].nama_akun_beban;
+                                this.singleData.at_akun_harta = response.data.golongan[0].nomor_akun_harta+' - '+response.data.golongan[0].nama_akun_harta;
+                                this.singleData.at_akun_akumulasi = response.data.golongan[0].nomor_akun_akumulasi+' - '+response.data.golongan[0].nama_akun_akumulasi;
+                                this.singleData.at_akun_beban = response.data.golongan[0].nomor_akun_beban+' - '+response.data.golongan[0].nama_akun_beban;
 
                                 this.singleData.at_masa_manfaat = response.data.golongan[0].ga_masa_manfaat;
                                 if($('#at_metode').val() == 'GL')
                                     this.singleData.at_persentase = response.data.golongan[0].ga_garis_lurus;
                                 else
                                     this.singleData.at_persentase = response.data.golongan[0].ga_saldo_menurun;
-                            }
-
-                            if(response.data.akunKas.length > 0){
-                                this.akunKas = response.data.akunKas;
-                                this.singleData.at_akun_masukkan = this.akunKas[0].text;
                             }
 
                             this.akunPendapatan = response.data.akunPendapatan;
@@ -944,9 +944,9 @@
 
                     this.singleData.at_masa_manfaat = this.kelompokAset[idx].ga_masa_manfaat;
 
-                    this.singleData.at_akun_harta = this.kelompokAset[idx].ga_akun_harta+' - '+this.kelompokAset[idx].nama_akun_harta;
-                    this.singleData.at_akun_akumulasi = this.kelompokAset[idx].ga_akun_akumulasi+' - '+this.kelompokAset[idx].nama_akun_akumulasi;
-                    this.singleData.at_akun_beban = this.kelompokAset[idx].ga_akun_beban+' - '+this.kelompokAset[idx].nama_akun_beban;
+                    this.singleData.at_akun_harta = this.kelompokAset[idx].nomor_akun_harta+' - '+this.kelompokAset[idx].nama_akun_harta;
+                    this.singleData.at_akun_akumulasi = this.kelompokAset[idx].nomor_akun_harta+' - '+this.kelompokAset[idx].nama_akun_akumulasi;
+                    this.singleData.at_akun_beban = this.kelompokAset[idx].nomor_akun_harta+' - '+this.kelompokAset[idx].nama_akun_beban;
 
                     this.metodeChange($('#at_metode').val());
                 },

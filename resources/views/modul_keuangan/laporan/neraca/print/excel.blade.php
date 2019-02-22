@@ -11,7 +11,7 @@
 
 		<tr>
 			<td></td>
-			<td>{{ jurnal()->companyName }}</td>
+			<td>{{ jurnal()->companyName }} &nbsp; - {{ $data['cabang'] }}</td>
 		</tr>
 
 		<tr>
@@ -62,7 +62,10 @@
 												$dif = 0;
 
 												foreach($lvl_2->akun as $alpha => $akun){
-													$dif += $akun->saldo_akhir; 
+													if($akun->ak_posisi == "D")
+														$dif += $akun->saldo_akhir; 
+													else
+														$dif += ($akun->saldo_akhir * -1);
 												}
 
 												$totSubclass += $dif;
@@ -136,7 +139,10 @@
 												$dif = 0;
 
 												foreach($lvl_2->akun as $alpha => $akun){
-													$dif += $akun->saldo_akhir; 
+													if($akun->ak_posisi == "K")
+														$dif += $akun->saldo_akhir; 
+													else
+														$dif += ($akun->saldo_akhir * -1); 
 												}
 
 												$totSubclass += $dif;

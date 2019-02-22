@@ -1,255 +1,269 @@
 @extends('main')
 
-@section('title', 'Pelunasan Piutang')
+@section('title', 'Pelunasan Hutang')
 
 @section(modulSetting()['extraStyles'])
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/select2/dist/css/select2.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/datepicker/dist/datepicker.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/select2/dist/css/select2.min.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/datepicker/dist/datepicker.min.css') }}">
 
 @endsection
 
 
 @section('content')
-    <div class="col-md-12" style="background: none;" id="vue-component">
-    	<div class="col-md-12">
-    		<div class="row">
-    			<div class="col-md-6 content-title">
-    				Input Pelunasan Hutang
-    			</div>
+    <!-- partial -->
+    <div class="content-wrapper" id="vue-component">
+      <div class="row">
 
-    			<div class="col-md-6 text-right form-status">
-    				<span v-if="stat == 'standby'" v-cloak>
-                        <i class="fa fa-exclamation"></i> &nbsp; Pastikan Data Terisi Dengan Benar            
-                    </span>
-
-                    <div class="loader" v-if="stat == 'loading'" v-cloak>
-                       <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
-                    </div>
-    			</div>
-    		</div>	
-    	</div>
-
-    	<div class="col-md-12 table-content">
-            <form id="data-form" v-cloak>
-                <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" readonly name="rc_id" v-model="singleData.rc_id">
-                <div class="row">
-                    <div class="col-md-6" style="background: none;">
-
-                        <div class="row mt-form">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Nomor Pelunasan</label>
-                            </div>
-
-                            <div class="col-md-5">
-                                <input type="text" name="rc_nomor" class="form-control modul-keuangan" placeholder="Di Isi Oleh Sistem" readonly v-model="singleData.rc_nomor">
-                            </div>
-
-                            <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
-                                <i class="fa fa-search" title="Cari Penerimaan Berdasarkan Nomor, Jenis, dan Bulan"></i>
-                            </div>
-
-                            <div class="col-md-1 form-info-icon link" @click="formReset" v-if="onUpdate">
-                                <i class="fa fa-times" title="Bersihkan Pencarian" style="color: #CC0000;"></i>
-                            </div>
+        <div class="col-lg-12 grid-margin stretch-card" style="padding: 0px;">
+          <div class="card" style="padding: 0px;">
+            <div class="card-body" style="padding: 0px;">
+              <div class="table-responsive" style="padding: 0px;">
+                
+                <div class="col-md-12" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-6 content-title">
+                            Input Pelunasan Hutang
                         </div>
 
-                        <div class="row mt-form">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Jenis Hutang *</label>
-                            </div>
+                        <div class="col-md-6 text-right form-status">
+                            <span v-if="stat == 'standby'" v-cloak>
+                                <i class="fa fa-exclamation"></i> &nbsp; Pastikan Data Terisi Dengan Benar            
+                            </span>
 
-                            <div class="col-md-5">
-                                <vue-select :name="'rc_chanel'" :id="'rc_chanel'" :options="listChanel" @input="chanelChange"></vue-select>
-                            </div>
-
-                            <div class="col-md-1 form-info-icon" title="Parameter Jenis Piutang Digunakan Untuk Pencarian Data">
-                                <i class="fa fa-info-circle"></i>
+                            <div class="loader" v-if="stat == 'loading'" v-cloak>
+                               <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
                             </div>
                         </div>
-
-                        <div class="row mt-form">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Tgl Pelunasan *</label>
-                            </div>
-
-                            <div class="col-md-5">
-                                <vue-datepicker :name="'rc_tanggal_trans'" :id="'rc_tanggal_trans'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" @input="dateChange"></vue-datepicker>
-                            </div>
-
-                            <div class="col-md-1 form-info-icon" title="Parameter Bulan Pada Tanggal Juga Digunakan Untuk Pencarian Data">
-                                <i class="fa fa-info-circle"></i>
-                            </div>
-                        </div>
-
-                        <div class="row mt-form" style="border-top: 1px solid #eee; padding-top: 20px;">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Nomor Hutang *</label>
-                            </div>
-
-                            <div class="col-md-6">
-                                <input type="text" name="rc_sales" class="form-control modul-keuangan" placeholder="Pilih Nomor Hutang" v-model="singleData.rc_sales" title="Tidak Boleh Kosong" readonly style="cursor: copy; background: white;" @click="notaShow">
-                            </div>
-                        </div>
-
-                        <div class="row mt-form">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Ket. Transaksi *</label>
-                            </div>
-
-                            <div class="col-md-6">
-                                <input type="text" name="rc_keterangan" class="form-control modul-keuangan" placeholder="contoh: Penerimaan Piutang Atas Nota xxx" v-model="singleData.rc_keterangan" title="Tidak Boleh Kosong">
-                            </div>
-                        </div>
-
-                        <div class="row mt-form">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Jenis Pelunasan</label>
-                            </div>
-
-                            <div class="col-md-6">
-                                <vue-select :name="'jenis'" :id="'jenis'" :options="jenisPenerimaan" @input="jenisChange"></vue-select>
-                            </div>
-                        </div>
-
-                        <div class="row mt-form" v-if="jenis == 'C'">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Pilih Akun Kas</label>
-                            </div>
-
-                            <div class="col-md-6">
-                                <vue-select :name="'akun'" :id="'akunKas'" :options="akunKas" @input="akunChange"></vue-select>
-                            </div>
-                        </div>
-
-                        <div class="row mt-form" v-if="jenis == 'T'">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Pilih Akun Bank</label>
-                            </div>
-
-                            <div class="col-md-6">
-                                <vue-select :name="'akun'" :id="'bank'" :options="akunBank" @input="akunChange"></vue-select>
-                            </div>
-                        </div>
-
-                        <div class="row mt-form">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan">Nominal Pelunasan</label>
-                            </div>
-
-                            <div class="col-md-6">
-                                <vue-inputmask :name="'rc_value'" :id="'rc_value'" @input="nominalChange"></vue-inputmask>
-                            </div>
-                        </div>
-
-                        <div class="row mt-form">
-                            <div class="col-md-3">
-                                <label class="modul-keuangan"></label>
-                            </div>
-
-                            <div class="col-md-7" v-if="afterNote && lebih_bayar != '0.00' && this.singleData.akunTitipan != '???'">
-                                <input type="checkbox" name="dana_titipan" title="Centang Untuk Menambahkan Nilai Lebih Bayar Ke Akun Dana Titipan" v-model="titipan">
-
-                                <span style="font-size: 8pt; margin-left: 5px;">Masukkan Nilai Lebih Bayar Sebagai Akun Titipan</span>
-                            </div>
-
-                            <div class="col-md-7" v-if="afterNote && lebih_bayar != '0.00' && this.singleData.akunTitipan == '???'">    
-                                <i class="fa fa-exclamation-triangle" style="color: #0099CC;"></i>
-                                <span style="font-size: 8pt; margin-left: 5px;">Transaksi Jenis Ini Tidak Memiliki Akun Titipan.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6" style="background: none; padding: 5px; border:1px solid #eee;">
-                        <div class="col-md-12" style="padding: 0px; min-height: 170px; background: #f7f7f7; border: 0px solid #eee;">
-                            <table class="table table-stripped table-mini">
-                                <thead>
-                                    <td colspan="4" style="font-weight: 600; border-top: 0px; padding-top: 5px;">Detail Terkait Nota Yang Dipilih <small v-if="onUpdate">(sebelum dilakukan penerimaan)</small></td>
-                                </thead>
-                                <tbody id="wrap">
-                                    <tr>
-                                        <td class="text-center" width="10%">-</td>
-                                        <td width="58%">Total Tagihan</td>
-                                        <td width="6%">:</td>
-                                        <td width="26%" class="text-right" style="color: #ff4444; font-weight: bold">@{{ humanizePrice(singleData.total_tagihan) }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="text-center" style="border-top: 0px;">-</td>
-                                        <td style="border-top: 0px;">Nominal Yang Sudah Dibayar</td>
-                                        <td width="6%" style="border-top: 0px">:</td>
-                                        <td class="text-right" style="color: #00C851; font-weight: bold; border-top: 0px;">@{{ humanizePrice(singleData.sudah_dibayar) }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="text-center" style="font-size: 8pt;"><i class="fa fa-arrow-right"></i></td>
-                                        <td style="font-weight: 600;">Sisa Tagihan</td>
-                                        <td width="6%">:</td>
-                                        <td class="text-right" style="font-weight: bold;">@{{ humanizePrice(sisa_bayar) }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="col-md-12" style="padding: 0px; min-height: 170px; background: #f7f7f7; margin-top: 50px;">
-                            <table class="table table-stripped table-mini">
-                                <thead>
-                                    <td colspan="2" style="font-weight: 600; border: 1px solid #eee; border-left: 0px;">Detail Akun Keuangan Pada Jurnal</td>
-                                    <td class="text-center" style="font-weight: 600; border: 1px solid #eee;">Debet</td>
-                                    <td class="text-center" style="font-weight: 600; border: 1px solid #eee; border-right: 0px;">Kredit</td>
-                                </thead>
-                                <tbody id="wrap">
-                                    <tr>
-                                        <td class="text-center" width="10%" style="font-size: 8pt; border: 1px solid #eee; border-left: 0px;"><i class="fa fa-arrow-right"></i></td>
-                                        <td width="44%" style="border: 1px solid #eee;">@{{ singleData.akun }}</td>
-                                        <td width="22%" class="text-right" style="font-size: 8pt; border: 1px solid #eee;">0.00</td>
-                                        <td width="22%" class="text-right" style="font-size: 8pt; border: 1px solid #eee; border-right: 0px;">@{{ singleData.ak_1 }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="text-center" style="font-size: 8pt; border: 1px solid #eee; border-left: 0px;"><i class="fa fa-arrow-right"></i></td>
-                                        <td style="border: 1px solid #eee;">@{{ this.singleData.akunPiutang }}</td>
-                                        <td class="text-right" style="font-size: 8pt; border: 1px solid #eee;">@{{ singleData.ak_2 }}</td>
-                                        <td class="text-right" style="font-size: 8pt; border: 1px solid #eee; border-right: 0px;">
-                                            0.00
-                                        </td>
-                                    </tr>
-
-                                    <tr v-if="titipan">
-                                        <td class="text-center" style="font-size: 8pt; border: 1px solid #eee; border-left: 0px;"><i class="fa fa-arrow-right"></i></td>
-                                        <td style="border: 1px solid #eee;">@{{ this.singleData.akunTitipan }}</td>
-                                        <td class="text-right" style="font-size: 8pt; border: 1px solid #eee;">@{{ lebih_bayar }}</td>
-                                        <td class="text-right" style="font-size: 8pt; border: 1px solid #eee; border-right: 0px;">
-                                            0.00
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    </div>  
                 </div>
 
-                <div class="row content-button">
-                    <div class="col-md-6">
-                        {{-- <a href="{{ route('grup-akun.index') }}">
-                            <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Group Akun</button>
-                        </a> --}}
-                    </div>
+                <div class="col-md-12 table-content">
+                    <form id="data-form" v-cloak>
+                        <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" readonly name="rc_id" v-model="singleData.rc_id">
+                        <div class="row">
+                            <div class="col-md-6" style="background: none;">
 
-                    <div class="col-md-6 text-right">
-                        <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
-                        
-                        <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-times"></i> &nbsp;Hapus</button>
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Nomor Pelunasan</label>
+                                    </div>
 
-                        <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
-                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" name="rc_nomor" class="form-control modul-keuangan" placeholder="Di Isi Oleh Sistem" readonly v-model="singleData.rc_nomor">
+                                    </div>
+
+                                    <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
+                                        <i class="fa fa-search" title="Cari Penerimaan Berdasarkan Nomor, Jenis, dan Bulan"></i>
+                                    </div>
+
+                                    <div class="col-md-1 form-info-icon link" @click="formReset" v-if="onUpdate">
+                                        <i class="fa fa-times" title="Bersihkan Pencarian" style="color: #CC0000;"></i>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Jenis Hutang *</label>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <vue-select :name="'rc_chanel'" :id="'rc_chanel'" :options="listChanel" @input="chanelChange"></vue-select>
+                                    </div>
+
+                                    <div class="col-md-1 form-info-icon" title="Parameter Jenis Piutang Digunakan Untuk Pencarian Data">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Tgl Pelunasan *</label>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <vue-datepicker :name="'rc_tanggal_trans'" :id="'rc_tanggal_trans'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" @input="dateChange"></vue-datepicker>
+                                    </div>
+
+                                    <div class="col-md-1 form-info-icon" title="Parameter Bulan Pada Tanggal Juga Digunakan Untuk Pencarian Data">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form" style="border-top: 1px solid #eee; padding-top: 20px;">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Nomor Hutang *</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <input type="text" name="rc_sales" class="form-control modul-keuangan" placeholder="Pilih Nomor Hutang" v-model="singleData.rc_sales" title="Tidak Boleh Kosong" readonly style="cursor: copy; background: white;" @click="notaShow">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Ket. Transaksi *</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <input type="text" name="rc_keterangan" class="form-control modul-keuangan" placeholder="contoh: Penerimaan Piutang Atas Nota xxx" v-model="singleData.rc_keterangan" title="Tidak Boleh Kosong">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Jenis Pelunasan</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <vue-select :name="'jenis'" :id="'jenis'" :options="jenisPenerimaan" @input="jenisChange"></vue-select>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form" v-if="jenis == 'C'">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Pilih Akun Kas</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <vue-select :name="'akun'" :id="'akunKas'" :options="akunKas" @input="akunChange"></vue-select>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form" v-if="jenis == 'T'">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Pilih Akun Bank</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <vue-select :name="'akun'" :id="'bank'" :options="akunBank" @input="akunChange"></vue-select>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Nominal Pelunasan</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <vue-inputmask :name="'rc_value'" :id="'rc_value'" @input="nominalChange"></vue-inputmask>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan"></label>
+                                    </div>
+
+                                    <div class="col-md-7" v-if="afterNote && lebih_bayar != '0.00' && this.singleData.akunTitipan != '???'">
+                                        <input type="checkbox" name="dana_titipan" title="Centang Untuk Menambahkan Nilai Lebih Bayar Ke Akun Dana Titipan" v-model="titipan">
+
+                                        <span style="font-size: 8pt; margin-left: 5px;">Masukkan Nilai Lebih Bayar Sebagai Akun Titipan</span>
+                                    </div>
+
+                                    <div class="col-md-7" v-if="afterNote && lebih_bayar != '0.00' && this.singleData.akunTitipan == '???'">    
+                                        <i class="fa fa-exclamation-triangle" style="color: #0099CC;"></i>
+                                        <span style="font-size: 8pt; margin-left: 5px;">Transaksi Ini Tidak Memiliki Akun Titipan.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" style="background: none; padding: 5px; border:1px solid #eee;">
+                                <div class="col-md-12" style="padding: 0px; min-height: 170px; background: #f7f7f7; border: 0px solid #eee;">
+                                    <table class="table table-stripped table-mini">
+                                        <thead>
+                                            <td colspan="4" style="font-weight: 600; border-top: 0px; padding-top: 5px;">Detail Terkait Nota Yang Dipilih <small v-if="onUpdate">(sebelum dilakukan penerimaan)</small></td>
+                                        </thead>
+                                        <tbody id="wrap">
+                                            <tr>
+                                                <td class="text-center" width="10%">-</td>
+                                                <td width="58%">Total Tagihan</td>
+                                                <td width="6%">:</td>
+                                                <td width="26%" class="text-right" style="color: #ff4444; font-weight: bold">@{{ humanizePrice(singleData.total_tagihan) }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-center" style="border-top: 0px;">-</td>
+                                                <td style="border-top: 0px;">Nominal Yang Sudah Dibayar</td>
+                                                <td width="6%" style="border-top: 0px">:</td>
+                                                <td class="text-right" style="color: #00C851; font-weight: bold; border-top: 0px;">@{{ humanizePrice(singleData.sudah_dibayar) }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-center" style="font-size: 8pt;"><i class="fa fa-arrow-right"></i></td>
+                                                <td style="font-weight: 600;">Sisa Tagihan</td>
+                                                <td width="6%">:</td>
+                                                <td class="text-right" style="font-weight: bold;">@{{ humanizePrice(sisa_bayar) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-md-12" style="padding: 0px; min-height: 170px; background: #f7f7f7; margin-top: 50px;">
+                                    <table class="table table-stripped table-mini">
+                                        <thead>
+                                            <td colspan="2" style="font-weight: 600; border: 1px solid #eee; border-left: 0px;">Detail Akun Keuangan Pada Jurnal</td>
+                                            <td class="text-center" style="font-weight: 600; border: 1px solid #eee;">Debet</td>
+                                            <td class="text-center" style="font-weight: 600; border: 1px solid #eee; border-right: 0px;">Kredit</td>
+                                        </thead>
+                                        <tbody id="wrap">
+                                            <tr>
+                                                <td class="text-center" width="10%" style="font-size: 8pt; border: 1px solid #eee; border-left: 0px;"><i class="fa fa-arrow-right"></i></td>
+                                                <td width="44%" style="border: 1px solid #eee;">@{{ singleData.akun }}</td>
+                                                <td width="22%" class="text-right" style="font-size: 8pt; border: 1px solid #eee;">0.00</td>
+                                                <td width="22%" class="text-right" style="font-size: 8pt; border: 1px solid #eee; border-right: 0px;">@{{ singleData.ak_1 }}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-center" style="font-size: 8pt; border: 1px solid #eee; border-left: 0px;"><i class="fa fa-arrow-right"></i></td>
+                                                <td style="border: 1px solid #eee;">@{{ this.singleData.akunPiutang }}</td>
+                                                <td class="text-right" style="font-size: 8pt; border: 1px solid #eee;">@{{ singleData.ak_2 }}</td>
+                                                <td class="text-right" style="font-size: 8pt; border: 1px solid #eee; border-right: 0px;">
+                                                    0.00
+                                                </td>
+                                            </tr>
+
+                                            <tr v-if="titipan">
+                                                <td class="text-center" style="font-size: 8pt; border: 1px solid #eee; border-left: 0px;"><i class="fa fa-arrow-right"></i></td>
+                                                <td style="border: 1px solid #eee;">@{{ this.singleData.akunTitipan }}</td>
+                                                <td class="text-right" style="font-size: 8pt; border: 1px solid #eee;">@{{ lebih_bayar }}</td>
+                                                <td class="text-right" style="font-size: 8pt; border: 1px solid #eee; border-right: 0px;">
+                                                    0.00
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row content-button">
+                            <div class="col-md-6">
+                                {{-- <a href="{{ route('grup-akun.index') }}">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Group Akun</button>
+                                </a> --}}
+                            </div>
+
+                            <div class="col-md-6 text-right">
+                                <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
+                                
+                                <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-times"></i> &nbsp;Hapus</button>
+
+                                <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
-    	</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
         <div class="ez-popup" id="data-popup">
             <div class="layout" style="width: 70%">
@@ -284,6 +298,7 @@
         </div>
 
     </div>
+    <!-- content-wrapper ends -->
 @endsection
 
 
@@ -291,19 +306,19 @@
 	
 	<script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/vue_2_x.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/datatable.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/select.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/inputmask.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/datepicker.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/vue_2_x.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/datatable.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/select.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/inputmask.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/datepicker.component.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/wait.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/select2/dist/js/select2.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/validator/bootstrapValidator.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/axios_0_18_0/axios.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/inputmask/inputmask.jquery.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/datepicker/dist/datepicker.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/wait.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/validator/bootstrapValidator.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/inputmask/inputmask.jquery.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/datepicker/dist/datepicker.min.js') }}"></script>
 
 	<script type="text/javascript">
 

@@ -12,13 +12,21 @@
 
 	<?php 
 
+        // Cek Apakah Support Cabang;
+
+            $cabang = '';
+
+            if(modulSetting()['support_cabang'])
+                $cabang = '&cab='.modulSetting()['onLogin'];
+
+
         // jurnal
             $tanggal = date('Y-m').'-01';
 
             $tanggalFirst = date('d/m/Y', strtotime($tanggal));
             $tanggalNext = date('d/m/Y', strtotime("+1 months", strtotime($tanggal)));
 
-            $jurnalRequest = "_token=".csrf_token()."&d1=".$tanggalFirst."&d2=".$tanggalNext."&type=K&nama=true";
+            $jurnalRequest = "_token=".csrf_token()."&d1=".$tanggalFirst."&d2=".$tanggalNext."&type=K&nama=true".$cabang;
 
         // buku besar
             $bulan = date('Y-m');
@@ -26,16 +34,23 @@
             $bulanFirst = date('m/Y', strtotime($bulan));
             $bulanNext = date('m/Y', strtotime("+1 months", strtotime($bulan)));
 
-            $buku_besar = "_token=".csrf_token()."&d1=".$bulanFirst."&d2=".$bulanNext."&semua=on&lawan=true";
+            $buku_besar = "_token=".csrf_token()."&d1=".$bulanFirst."&d2=".$bulanNext."&semua=on&lawan=true".$cabang;
 
         // Neraca Saldo
-            $neraca_saldo = "_token=".csrf_token()."&d1=".$bulanFirst;
+            $neraca_saldo = "_token=".csrf_token()."&d1=".$bulanFirst.$cabang;
 
         // Neraca
-            $neraca = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=";
+            $neraca = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=".$cabang;
 
         // laba_rugi
-            $laba_rugi = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=";
+            $laba_rugi = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=".$cabang;
+
+
+        // hutang
+            $hutang = "_token=".csrf_token()."&d1=".date('d/m/Y')."&jenis=rekap&type=Hutang_Supplier&semua=on".$cabang;
+
+        // Piutang
+            $piutang = "_token=".csrf_token()."&d1=".date('d/m/Y')."&jenis=rekap&type=Piutang_Customer&semua=on".$cabang;
     ?>
 
 	<div class="row">
@@ -54,6 +69,7 @@
 		          <h4 class="card-title">Pilih Transaksi</h4>
 		          <br>
 		          	<div class="row">
+		          		
 		          		
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
 							<a href="{{ route('laporan.keuangan.jurnal_umum', $jurnalRequest) }}" class="center text-primary alamraya-choosing-panel">
@@ -100,6 +116,24 @@
 								<i class="fa fa-refresh icon-lg text-info"></i>
 								<div class="center">
 									<label>&nbsp;&nbsp;&nbsp; Arus Kas &nbsp;&nbsp;&nbsp;</label>
+								</div>
+							</a>
+						</div>
+
+						{{-- <div class="col-lg-4 grid-margin stretch-card justify-content-center">
+							<a href="{{ Route('laporan.keuangan.hutang', $hutang) }}" class="center text-info alamraya-choosing-panel">
+								<i class="fa fa-sign-out icon-lg text-info"></i>
+								<div class="center">
+									<label>&nbsp;&nbsp;&nbsp; Hutang &nbsp;&nbsp;&nbsp;</label>
+								</div>
+							</a>
+						</div> --}}
+
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
+							<a href="{{ Route('laporan.keuangan.piutang', $piutang) }}" class="center text-info alamraya-choosing-panel">
+								<i class="fa fa-sign-in icon-lg text-info"></i>
+								<div class="center">
+									<label>&nbsp;&nbsp;&nbsp; Piutang &nbsp;&nbsp;&nbsp;</label>
 								</div>
 							</a>
 						</div>

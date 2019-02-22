@@ -5,249 +5,277 @@
 @section(modulSetting()['extraStyles'])
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.css') }}">
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/select2/dist/css/select2.min.css') }}"> --}}
-    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendor/datepicker/dist/datepicker.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/select2/dist/css/select2.min.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/datepicker/dist/datepicker.min.css') }}">
 
 @endsection
 
 
 @section('content')
+    <!-- partial -->
     <div class="content-wrapper" id="vue-component">
       <div class="row">
-        <div class="col-lg-12">
-          <nav aria-label="breadcrumb" role="navigation">
-            <ol class="breadcrumb bg-info">
-              <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-              <li class="breadcrumb-item">Finance</li>
-              <li class="breadcrumb-item" aria-current="page">Bookkeping</li>
-              <li class="breadcrumb-item active" aria-current="page">Input Transaksi Kas</li>
-            </ol>
-          </nav>
-        </div>
 
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Input Transaksi Kas</h4>
+        <div class="col-lg-12 grid-margin stretch-card" style="padding: 0px;">
+          <div class="card" style="padding: 0px;">
+            <div class="card-body" style="padding: 0px;">
+              <div class="table-responsive" style="padding: 0px;">
 
+                <div class="col-md-12" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-6 content-title">
+                            Tambah Data Transaksi Kas
+                        </div>
 
-                <div class="table-responsive" style="border-top: 1px solid #eee; padding-top: 20px;">
+                        <div class="col-md-6 text-right form-status">
+                            <span v-if="stat == 'standby'" v-cloak>
+                                <i class="fa fa-exclamation"></i> &nbsp; Pastikan Data Terisi Dengan Benar            
+                            </span>
+
+                            <div class="loader" v-if="stat == 'loading'" v-cloak>
+                               <div class="loading"></div> &nbsp; <span>@{{ statMessage }}</span>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+
+                <div class="col-md-12 table-content">
                     <form id="data-form" v-cloak>
                         <input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" readonly name="tr_id" v-model="singleData.tr_id">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6" style="background: none;">
+                        <div class="row">
+                            <div class="col-md-6" style="background: none;">
 
-                                    <div class="row mt-form">
-                                        <div class="col-md-4">
-                                            <label class="modul-keuangan">Nomor Transaksi</label>
-                                        </div>
-
-                                        <div class="col-md-5">
-                                            <input type="text" name="tr_nomor" class="form-control modul-keuangan" placeholder="Di Isi Oleh Sistem" readonly v-model="singleData.tr_nomor">
-                                        </div>
-
-                                        <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
-                                            <i class="fa fa-search" title="Cari Group Berdasarkan Nomor dan Type Group"></i>
-                                        </div>
-
-                                        <div class="col-md-1 form-info-icon link" @click="formReset" v-if="onUpdate">
-                                            <i class="fa fa-times" title="Bersihkan Pencarian" style="color: #CC0000;"></i>
-                                        </div>
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Nomor Transaksi</label>
                                     </div>
 
-                                    <div class="row mt-form">
-                                        <div class="col-md-4">
-                                            <label class="modul-keuangan">Type Transaksi Kas</label>
-                                        </div>
-
-                                        <div class="col-md-5">
-                                            <vue-select :name="'tr_type'" :id="'tr_type'" :options="typeTransaksi" :disabled="onUpdate" @input="typeChange"></vue-select>
-                                        </div>
-
-                                        <div class="col-md-1 form-info-icon" title="Parameter Type Group Digunakan Untuk Pencarian Data">
-                                            <i class="fa fa-info-circle"></i>
-                                        </div>
+                                    <div class="col-md-5">
+                                        <input type="text" name="tr_nomor" class="form-control modul-keuangan" placeholder="Di Isi Oleh Sistem" readonly v-model="singleData.tr_nomor">
                                     </div>
 
-                                    <div class="row mt-form">
-                                        <div class="col-md-4">
-                                            <label class="modul-keuangan">Tanggal Transaksi *</label>
-                                        </div>
-
-                                        <div class="col-md-5">
-                                            <vue-datepicker :name="'tr_tanggal'" :id="'tr_tanggal'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" @input="dateChange"></vue-datepicker>
-                                        </div>
-
-                                        <div class="col-md-1 form-info-icon" title="Parameter Type Group Digunakan Untuk Pencarian Data">
-                                            <i class="fa fa-info-circle"></i>
-                                        </div>
+                                    <div class="col-md-1 form-info-icon link" @click="search" v-if="!onUpdate">
+                                        <i class="fa fa-search" title="Cari Group Berdasarkan Nomor dan Type Group"></i>
                                     </div>
 
-                                    <div class="row mt-form" style="border-top: 1px solid #eee; padding-top: 20px;">
-                                        <div class="col-md-4">
-                                            <label class="modul-keuangan">Ket. Transaksi *</label>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <input type="text" name="tr_nama" class="form-control modul-keuangan" :placeholder="singleData.placholderNama" v-model="singleData.tr_nama" title="Tidak Boleh Kosong">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-form">
-                                        <div class="col-md-4">
-                                            <label class="modul-keuangan">Pilih Akun Kas</label>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <vue-select :name="'akun_kas'" :id="'akun_kas'" :options="akunKas" @input="akunChange"></vue-select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-form">
-                                        <div class="col-md-4">
-                                            <label class="modul-keuangan">Nominal Transaksi</label>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <vue-inputmask :name="'tr_value'" :id="'tr_value'" @input="nominalChange"></vue-inputmask>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-form" v-if="locked">
-                                        <div class="col-md-4">
-                                            <label class="modul-keuangan"></label>
-                                        </div>
-
-                                        <div class="col-md-7">
-                                            <div class="modul-keuangan-alert primary" role="alert">
-                                              <i class="fa fa-info-circle"></i> &nbsp;&nbsp;Group Akun Dikunci. Tidak Bisa Dinonaktifkan
-                                            </div>
-                                        </div>
+                                    <div class="col-md-1 form-info-icon link" @click="formReset" v-if="onUpdate">
+                                        <i class="fa fa-times" title="Bersihkan Pencarian" style="color: #CC0000;"></i>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6" style="background: none; padding: 0px; padding-right: 10px;">
-                                    <div class="col-md-12" style="padding: 0px; min-height: 260px; background: #f7f7f7;">
-                                        <table class="table table-stripped table-bordered table-mini">
-                                            <thead>
-                                                <tr>
-                                                    <th width="8%">*</th>
-                                                    <th width="41%">Akun</th>
-                                                    <th width="22%">Debet</th>
-                                                    <th width="22%">Kredit</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody id="wrap">
-                                                <tr>
-                                                    <td class="text-center" style="padding:8px;">
-                                                        <i class="fa fa-lock" style="color: #3F729B;"></i>
-                                                    </td>
-
-                                                    <td style="padding: 8px;">
-                                                        <vue-select :name="'akun[]'" :id="'akunFirst'" :options="akunFirst" @input="typeChange"></vue-select>
-                                                    </td>
-
-                                                    <td class="text-right debet" style="padding: 13px 8px 0px 8px;">
-                                                        <vue-inputmask :name="'debet[]'" :id="'debetFirst'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px; background:white; cursor:no-drop;'" :readonly="true"></vue-inputmask>
-                                                    </td>
-
-                                                    <td class="text-right kredit" style="padding: 13px 8px 0px 8px;">
-                                                       <vue-inputmask :name="'kredit[]'" :id="'kreditFirst'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px; background:white; cursor:no-drop;'" :readonly="true"></vue-inputmask>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="text-center" style="padding:8px;">
-                                                        <i class="fa fa-lock" style="color: #3F729B;"></i>    
-                                                    </td>
-
-                                                    <td style="padding: 8px;">
-                                                        <vue-select :name="'akun[]'" :id="'akunSecond'" :options="akunLawan"></vue-select>
-                                                    </td>
-
-                                                    <td class="text-right debet" style="padding: 13px 8px 0px 8px;">
-                                                        <vue-inputmask :name="'debet[]'" :id="'debet_Second'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px; background:white;'" @input="splitValue"></vue-inputmask>
-                                                    </td>
-
-                                                    <td class="text-right kredit" style="padding: 13px 8px 0px 8px;">
-                                                       <vue-inputmask :name="'kredit[]'" :id="'kredit_Second'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px; background:white;'" @input="splitValue"></vue-inputmask>
-                                                    </td>
-                                                </tr>
-
-                                                <tr v-for="n in akunCount" id="cekWrap">
-                                                    <td class="text-center" style="padding: 8px;">
-                                                        <i class="fa fa-times" :id="'deleteAkun'+n" style="color: #ff4444; cursor: pointer;" @click="deleteAkun"></i>
-                                                    </td>
-
-                                                    <td style="padding: 8px;">
-                                                        <vue-select :name="'akun[]'" :id="'akun'+n" :options="akunLawan"></vue-select>
-                                                    </td>
-
-                                                    <td class="text-right debet" style="padding: 13px 8px 0px 8px;">
-                                                        <vue-inputmask :name="'debet[]'" :id="'debet_'+n" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px;'" @input="splitValue"></vue-inputmask>
-                                                    </td>
-
-                                                    <td class="text-right kredit" style="padding: 13px 8px 0px 8px;">
-                                                        <vue-inputmask :name="'kredit[]'" :id="'kredit_'+n" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px;'" @input="splitValue"></vue-inputmask>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Type Transaksi Kas</label>
                                     </div>
 
-                                    <div class="col-md-12" style="padding: 0px; margin-top: -10px">
+                                    <div class="col-md-5">
+                                        <vue-select :name="'tr_type'" :id="'tr_type'" :options="typeTransaksi" :disabled="onUpdate" @input="typeChange"></vue-select>
+                                    </div>
 
-                                        <table class="table table-stripped table-bordered table-mini">
+                                    <div class="col-md-1 form-info-icon" title="Parameter Type Group Digunakan Untuk Pencarian Data">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Tanggal Transaksi *</label>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <vue-datepicker :name="'tr_tanggal'" :id="'tr_tanggal'" :title="'Tidak Boleh Kosong'" :readonly="true" :placeholder="'Pilih Tanggal'" @input="dateChange"></vue-datepicker>
+                                    </div>
+
+                                    <div class="col-md-1 form-info-icon" title="Parameter Type Group Digunakan Untuk Pencarian Data">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div>
+                                </div>
+
+                                <template v-if="type == 'KK'">
+                                    <div class="row mt-form">
+                                        <div class="col-md-4">
+                                            <label class="modul-keuangan">Relasi Nota</label>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <vue-select :name="'relasiNota'" :id="'relasiNota'" :options="relasiNota" @input="relasiChange"></vue-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-form" v-if="notaShow">
+                                        <div class="col-md-4">
+                                            <label class="modul-keuangan">Pilih Nota</label>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <input type="text" name="nota" class="form-control modul-keuangan" placeholder="Klik Untuk Memilih Nota" readonly v-model="singleData.nota" style="cursor: copy; background: white;" @click="notaSearch">
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <div class="row mt-form" style="border-top: 1px solid #eee; padding-top: 20px;">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Ket. Transaksi *</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <input type="text" name="tr_nama" class="form-control modul-keuangan" :placeholder="singleData.placholderNama" v-model="singleData.tr_nama" title="Tidak Boleh Kosong">
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Pilih Akun Kas</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <vue-select :name="'akun_kas'" :id="'akun_kas'" :options="akunKas" @input="akunChange"></vue-select>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan">Nominal Transaksi</label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <vue-inputmask :name="'tr_value'" :id="'tr_value'" @input="nominalChange"></vue-inputmask>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-form" v-if="locked">
+                                    <div class="col-md-4">
+                                        <label class="modul-keuangan"></label>
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <div class="modul-keuangan-alert primary" role="alert">
+                                          <i class="fa fa-info-circle"></i> &nbsp;&nbsp;Group Akun Dikunci. Tidak Bisa Dinonaktifkan
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" style="background: none; padding: 0px; padding-right: 10px;">
+                                <div class="col-md-12" style="padding: 0px; min-height: 260px; background: #f7f7f7;">
+                                    <table class="table table-stripped table-bordered table-mini">
+                                        <thead>
                                             <tr>
-                                                <td width="8%" class="text-center" style="padding: 10px 5px 0px 5px;">
-                                                    <i class="fa fa-plus" style="color: #00C851; cursor: pointer;" @click="addAkun"></i>    
+                                                <th width="8%">*</th>
+                                                <th width="41%">Akun</th>
+                                                <th width="22%">Debet</th>
+                                                <th width="22%">Kredit</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody id="wrap">
+                                            <tr>
+                                                <td class="text-center" style="padding:8px;">
+                                                    <i class="fa fa-lock" style="color: #3F729B;"></i>
                                                 </td>
 
-                                                <td width="48%" style="background: #fff; font-weight: bold; font-style: italic; text-align: center;">Total Debit Kredit</td>
-
-                                                <td width="22%" style="background: #fff;">
-                                                     <vue-inputmask :id="'totalDebet'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px;'"></vue-inputmask>
+                                                <td style="padding: 8px;">
+                                                    <vue-select :name="'akun[]'" :id="'akunFirst'" :options="akunFirst" @input="typeChange"></vue-select>
                                                 </td>
 
-                                                <td width="22%" style="background: #fff;">
-                                                    <vue-inputmask :id="'totalKredit'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px;'"></vue-inputmask>
+                                                <td class="text-right debet" style="padding: 13px 8px 0px 8px;">
+                                                    <vue-inputmask :name="'debet[]'" :id="'debetFirst'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px; background:white; cursor:no-drop;'" :readonly="true"></vue-inputmask>
+                                                </td>
+
+                                                <td class="text-right kredit" style="padding: 13px 8px 0px 8px;">
+                                                   <vue-inputmask :name="'kredit[]'" :id="'kreditFirst'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px; background:white; cursor:no-drop;'" :readonly="true"></vue-inputmask>
                                                 </td>
                                             </tr>
-                                        </table>
-                                    </div>
+
+                                            <tr>
+                                                <td class="text-center" style="padding:8px;">
+                                                    <i class="fa fa-lock" style="color: #3F729B;"></i>    
+                                                </td>
+
+                                                <td style="padding: 8px;">
+                                                    <vue-select :name="'akun[]'" :id="'akunSecond'" :options="akunLawan"></vue-select>
+                                                </td>
+
+                                                <td class="text-right debet" style="padding: 13px 8px 0px 8px;">
+                                                    <vue-inputmask :name="'debet[]'" :id="'debet_Second'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px; background:white;'" @input="splitValue"></vue-inputmask>
+                                                </td>
+
+                                                <td class="text-right kredit" style="padding: 13px 8px 0px 8px;">
+                                                   <vue-inputmask :name="'kredit[]'" :id="'kredit_Second'" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px; background:white;'" @input="splitValue"></vue-inputmask>
+                                                </td>
+                                            </tr>
+
+                                            <tr v-for="n in akunCount" id="cekWrap">
+                                                <td class="text-center" style="padding: 8px;">
+                                                    <i class="fa fa-times" :id="'deleteAkun'+n" style="color: #ff4444; cursor: pointer;" @click="deleteAkun"></i>
+                                                </td>
+
+                                                <td style="padding: 8px;">
+                                                    <vue-select :name="'akun[]'" :id="'akun'+n" :options="akunLawan"></vue-select>
+                                                </td>
+
+                                                <td class="text-right debet" style="padding: 13px 8px 0px 8px;">
+                                                    <vue-inputmask :name="'debet[]'" :id="'debet_'+n" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px;'" @input="splitValue"></vue-inputmask>
+                                                </td>
+
+                                                <td class="text-right kredit" style="padding: 13px 8px 0px 8px;">
+                                                    <vue-inputmask :name="'kredit[]'" :id="'kredit_'+n" :css="'border: 0px; font-size: 9pt; height: 20px; padding-right: 0px;'" @input="splitValue"></vue-inputmask>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-md-12" style="padding: 0px; margin-top: -10px">
+
+                                    <table class="table table-stripped table-bordered table-mini">
+                                        <tr>
+                                            <td width="8%" class="text-center" style="padding: 10px 5px 0px 5px;">
+                                                <i class="fa fa-plus" style="color: #00C851; cursor: pointer;" @click="addAkun"></i>    
+                                            </td>
+
+                                            <td width="48%" style="background: #fff; font-weight: bold; font-style: italic; text-align: center;">Total Debit Kredit</td>
+
+                                            <td width="22%" style="background: #fff;">
+                                                 <vue-inputmask :id="'totalDebet'" :css="'border: 0px; font-size: 9pt; background: white; height: 20px; padding-right: 0px;'" :readonly="true"></vue-inputmask>
+                                            </td>
+
+                                            <td width="22%" style="background: #fff;">
+                                                <vue-inputmask :id="'totalKredit'" :css="'border: 0px; font-size: 9pt; background: white; height: 20px; padding-right: 0px;'" :readonly="true"></vue-inputmask>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12" style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    {{-- <a href="{{ route('transaksi.kas.index') }}">
-                                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Group Akun</button>
-                                    </a> --}}
-                                </div>
+                        <div class="row content-button">
+                            <div class="col-md-6">
+                               {{--  <a href="{{ route('grup-akun.index') }}">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-arrow-left" :disabled="btnDisabled"></i> &nbsp;Kembali Ke Halaman Data Group Akun</button>
+                                </a> --}}
+                            </div>
 
-                                <div class="col-md-6 text-right">
-                                    <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
-                                    
-                                    <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && dataIsActive"><i class="fa fa-times"></i> &nbsp;Hapus</button>
+                            <div class="col-md-6 text-right">
+                                <button type="button" class="btn btn-info btn-sm" @click="updateData" :disabled="btnDisabled" v-if="onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan Perubahan</button>
+                                
+                                <button type="button" class="btn btn-danger btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && dataIsActive"><i class="fa fa-times"></i> &nbsp;Hapus</button>
 
-                                    <button type="button" class="btn btn-success btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && !dataIsActive"><i class="fa fa-check-square-o"></i> &nbsp;Aktifkan</button>
+                                <button type="button" class="btn btn-success btn-sm" @click="deleteData" :disabled="btnDisabled" v-if="onUpdate && !dataIsActive"><i class="fa fa-check-square-o"></i> &nbsp;Aktifkan</button>
 
-                                    <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
-                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" @click="saveData" :disabled="btnDisabled" v-if="!onUpdate"><i class="fa fa-floppy-o"></i> &nbsp;Simpan</button>
                             </div>
                         </div>
                     </form>
                 </div>
               </div>
             </div>
+          </div>
         </div>
+
       </div>
 
         <div class="ez-popup" id="data-popup">
@@ -266,7 +294,24 @@
             </div>
         </div>
 
+        <div class="ez-popup" id="nota-popup">
+            <div class="layout" style="width: 60%">
+                <div class="top-popup" style="background: none;">
+                    <span class="title">
+                        Pilih Nota Dari Data Yang Telah Diinputkan
+                    </span>
+
+                    <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
+                </div>
+                
+                <div class="content-popup">
+                    <vue-datatable :data_resource="list_data_nota" :columns="nota_columns" :selectable="true" :ajax_on_loading="onAjaxLoading" :index_column="'id'" @selected="notaSelected"></vue-datatable>
+                </div>
+            </div>
+        </div>
+
     </div>
+    <!-- content-wrapper ends -->
 @endsection
 
 
@@ -274,19 +319,19 @@
 	
 	<script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/vue_2_x.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/datatable.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/select.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/inputmask.component.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/vue_2_x/components/datepicker.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/vue_2_x.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/datatable.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/select.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/inputmask.component.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/vue_2_x/components/datepicker.component.js') }}"></script>
 
-    <script src="{{ asset('modul_keuangan/js/vendor/wait_me_v_1_1/wait.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/toast/dist/jquery.toast.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/select2/dist/js/select2.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/validator/bootstrapValidator.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/axios_0_18_0/axios.min.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/inputmask/inputmask.jquery.js') }}"></script>
-    <script src="{{ asset('modul_keuangan/js/vendor/datepicker/dist/datepicker.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/wait_me_v_1_1/wait.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/validator/bootstrapValidator.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/inputmask/inputmask.jquery.js') }}"></script>
+    <script src="{{ asset('modul_keuangan/js/vendors/datepicker/dist/datepicker.min.js') }}"></script>
 
 	<script type="text/javascript">
 
@@ -336,10 +381,31 @@
                 onUpdate: false,
                 locked: false,
                 dataIsActive: true,
+                notaShow: false,
                 akunCount: 0,
                 type: 'KM',
 
                 data_table_columns : [],
+
+                nota_columns: [
+                    {name: 'Nomor Nota', context: 'id', width: '35%', childStyle: 'text-align: center;'},
+                    {name: 'Tanggal Transaksi Nota', context: 'tanggal', width: '30%', childStyle: 'text-align: center'},
+                    {name: 'Nominal Transaksi Nota', context: 'value', width: '35%', childStyle: 'text-align: right', override(e){
+                        return that.humanizePrice(e);
+                    }}
+                ],
+
+                relasiNota : [
+                    {
+                        id: 'null',
+                        text: 'Tidak Berelasi Dengan Nota'
+                    },
+
+                    {
+                        id: '1',
+                        text: 'Nota Belanja Langsung'
+                    }
+                ],
 
                 typeTransaksi : [
                     {
@@ -354,6 +420,7 @@
                 ],
 
                 list_data_table : [],
+                list_data_nota: [],
                 akunKas: [],
                 akunFirst: [],
                 akunLawan: [],
@@ -362,6 +429,7 @@
                     tr_nama: '',
                     tr_id: '',
                     tr_nomor: '',
+                    nota: '',
                     placholderNama: 'contoh: Setoran Modal Investor',
                 }
             },
@@ -634,14 +702,28 @@
                 typeChange: function(e){
                     this.type = e;
                     this.nominalChange({val: $('#tr_value').val(), id: null});
+                    that = this;
+
+                    if(e == 'KK'){
+                        setTimeout(function(){
+                            that.relasiChange($('#relasiNota').val());
+                        }, 0)
+                    }
                 },
 
                 akunChange: function(e){
-                    var idx = this.akunKas.findIndex(a => a.id === e);
+                    var idx = this.akunKas.findIndex(a => a.id == e);
                     this.akunFirst = [{
                         id      : this.akunKas[idx]['id'],
                         text    : this.akunKas[idx]['text']
                     }];
+                },
+
+                relasiChange: function(e){
+                    if(e != 'null')
+                        this.notaShow = true;
+                    else
+                        this.notaShow = false;
                 },
 
                 dateChange: function(e){
@@ -737,6 +819,29 @@
                     $('#data-popup').ezPopup('show');
                 },
 
+                notaSearch: function(e){
+                    e.preventDefault();
+
+                    this.list_data_nota = [];
+                    this.onAjaxLoading = true;
+
+                    axios.get('{{ Route('transaksi.kas.nota') }}?type='+$('#relasiNota').val())
+                            .then((response) => {
+                                // console.log(response.data);
+                                if(response.data.length){
+                                    this.list_data_nota = response.data;
+                                }
+                            })
+                            .then(() => {
+                                this.onAjaxLoading = false;
+                            })
+                            .catch((err) => {
+                                alert('Ups. Sistem Mengalami kesalahan. Message: '+err);
+                            })
+
+                    $('#nota-popup').ezPopup('show');
+                },
+
                 dataSelected: function(e){
                     var that = this; loopCount = 1;
                     this.stat = 'loading';
@@ -759,6 +864,13 @@
                     this.type = $('#tr_type').val();
 
                     setTimeout(function(){
+                        if(that.list_data_table[idx].tr_relasi_nota != null){
+                            $('#relasiNota').val(that.list_data_table[idx].tr_relasi_nota).trigger('change.select2');
+                            that.relasiChange(that.list_data_table[idx].tr_relasi_nota)
+                        }
+
+                        that.singleData.nota = that.list_data_table[idx].tr_nota;
+
                         $.each(that.list_data_table[idx].detail, function(i, n){
                             if(i == 0){
                                 $('#akun_kas').val(n.trdt_akun).trigger('change.select2');
@@ -808,6 +920,17 @@
 
                 },
 
+                notaSelected: function(e){
+                    var idx = this.list_data_nota.findIndex(alpha => alpha.id === e)
+                    var conteks = this.list_data_nota[idx];
+
+                    this.singleData.nota = conteks.id;
+                    $('#tr_value').val(conteks.value);
+                    this.nominalChange({val: $('#tr_value').val(), id: null});
+
+                    $('#nota-popup').ezPopup('close');
+                },
+
                 dataHover: function(e){
                     var idx = this.list_data_table.findIndex(a => a.tr_id === e);
                     this.akunCount = parseInt(this.list_data_table[idx].detail.length - 2);
@@ -841,10 +964,13 @@
                     
                     this.singleData.tr_nama = '';
                     this.singleData.tr_nomor = '';
+                    this.singleData.nota = '';
 
                     $('#tr_type').val('KM').trigger('change.select2');
                     $('#tr_tanggal').val('{{ date('d/m/Y') }}');
                     $('#tr_value').val(0);
+
+                    $('#relasiNota').val(this.relasiNota[0].id).trigger('change.select2');
 
                     if(this.akunKas.length >= 0){
                         $('#akun_kas').val(this.akunKas[0]['id']).trigger('change.select2');

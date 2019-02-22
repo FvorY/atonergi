@@ -14,8 +14,17 @@ use PDF;
 
 class laporan_piutang_controller extends Controller
 {
-    public function index(){
-    	return view('modul_keuangan.laporan.piutang.index');
+    public function index(Request $request){
+        $cabang = '';
+
+        if(modulSetting()['support_cabang']){
+            $cabang = DB::table(tabel()->cabang->nama)
+                                ->where(tabel()->cabang->kolom->id, $request->cab)
+                                ->select(tabel()->cabang->kolom->nama.' as nama')
+                                ->first()->nama;
+        }
+
+    	return view('modul_keuangan.laporan.piutang.index', compact('cabang'));
     }
 
     public function dataResource(Request $request){
@@ -24,7 +33,7 @@ class laporan_piutang_controller extends Controller
     	$d1 = explode('/', $request->d1)[2].'-'.explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0];
     	$data = [];
 
-        $krediturSupplier = DB::table('sup_customer')->select('id_cust as id', 'nama_cust as text')->get();
+        $krediturSupplier = DB::table('m_customer')->select('c_id as id', 'c_name as text')->get();
         $krediturKaryawan = [];
 
         // return json_encode($krediturSupplier);
@@ -35,19 +44,36 @@ class laporan_piutang_controller extends Controller
                     
                         // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
-                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
-                                    ->distinct('rc_debitur')
-                                    ->with([
-                                            'detailByDebitur' => function($query){
-                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
-                                                        ->select(
-                                                            'rc_debitur',
-                                                            'rc_due_date',
-                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
-                                                        );
-                                            }
-                                    ]);
+                        if(modulSetting()['support_cabang']){
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->where('rc_comp', $request->cab)
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }else{
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }
 
                         if(!$request->semua && $request->kreditur != ''){
                             $sampler = $sampler->where('rc_debitur', $request->kreditur);
@@ -55,10 +81,10 @@ class laporan_piutang_controller extends Controller
 
                         $sampler = $sampler->select(
                                                     'rc_debitur',
-                                                    'sup_customer.nama_cust',
+                                                    'm_customer.c_name',
                                                     DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
+                                            ->groupBy('rc_debitur', 'm_customer.c_name')
                                             ->get();
                                     
 
@@ -91,7 +117,7 @@ class laporan_piutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_cust,
+                                "nama_supplier"          => $hutang->c_name,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "belum_jatuh_tempo"      => $not,
                                 "first"                  => $first,
@@ -106,21 +132,40 @@ class laporan_piutang_controller extends Controller
                     // Laporan Type Detail
                         // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
-                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
-                                    ->distinct('rc_debitur')
-                                    ->with([
-                                            'detailByDebitur' => function($query){
-                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
-                                                        ->select(
-                                                            'rc_debitur',
-                                                            'rc_due_date',
-                                                            'rc_ref_nomor',
-                                                            'rc_tanggal',
-                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
-                                                        );
-                                            }
-                                    ]);
+                        if(modulSetting()['support_cabang']){
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->where('rc_comp', $request->cab)
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                'rc_ref_nomor',
+                                                                'rc_tanggal',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }else{
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                'rc_ref_nomor',
+                                                                'rc_tanggal',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }
 
                         if(!$request->semua && $request->kreditur != ''){
                             $sampler = $sampler->where('rc_debitur', $request->kreditur);
@@ -128,10 +173,10 @@ class laporan_piutang_controller extends Controller
 
                         $sampler = $sampler->select(
                                                     'rc_debitur',
-                                                    'sup_customer.nama_cust',
+                                                    'm_customer.c_name',
                                                     DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
+                                            ->groupBy('rc_debitur', 'm_customer.c_name')
                                             ->get();
                                     
 
@@ -176,7 +221,7 @@ class laporan_piutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_cust,
+                                "nama_supplier"          => $hutang->c_name,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "id"                     => $hutang->rc_debitur,
                                 "detail"                 => $detailNota,
@@ -207,10 +252,23 @@ class laporan_piutang_controller extends Controller
         $d1 = explode('/', $request->d1)[2].'-'.explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0];
     	$data = [];
 
-        $krediturSupplier = DB::table('sup_customer')->select('id_cust as id', 'nama_cust as text')->get();
+        $krediturSupplier = DB::table('m_customer')->select('c_id as id', 'c_name as text')->get();
         $krediturKaryawan = [];
 
         // return json_encode($krediturSupplier);
+
+        // Mengambil Cabang
+
+            $namaCabang = '';
+
+            if(modulSetting()['support_cabang']){
+                $namaCabang = DB::table(tabel()->cabang->nama)
+                                    ->where(tabel()->cabang->kolom->id, $request->cab)
+                                    ->select(tabel()->cabang->kolom->nama.' as nama')
+                                    ->first()->nama;
+            }
+
+        // Selesai Mengambil Cabang
 
     	if($request->type == "Piutang_Customer"){
                if($request->jenis == "rekap"){
@@ -218,19 +276,36 @@ class laporan_piutang_controller extends Controller
                     
                         // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
-                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
-                                    ->distinct('rc_debitur')
-                                    ->with([
-                                            'detailByDebitur' => function($query){
-                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
-                                                        ->select(
-                                                            'rc_debitur',
-                                                            'rc_due_date',
-                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
-                                                        );
-                                            }
-                                    ]);
+                        if(modulSetting()['support_cabang']){
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->where('rc_comp', $request->cab)
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }else{
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }
 
                         if(!$request->semua && $request->kreditur != ''){
                             $sampler = $sampler->where('rc_debitur', $request->kreditur);
@@ -238,10 +313,10 @@ class laporan_piutang_controller extends Controller
 
                         $sampler = $sampler->select(
                                                     'rc_debitur',
-                                                    'sup_customer.nama_cust',
+                                                    'm_customer.c_name',
                                                     DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
+                                            ->groupBy('rc_debitur', 'm_customer.c_name')
                                             ->get();
                                     
 
@@ -274,7 +349,7 @@ class laporan_piutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_cust,
+                                "nama_supplier"          => $hutang->c_name,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "belum_jatuh_tempo"      => $not,
                                 "first"                  => $first,
@@ -289,21 +364,40 @@ class laporan_piutang_controller extends Controller
                     // Laporan Type Detail
                         // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
-                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
-                                    ->distinct('rc_debitur')
-                                    ->with([
-                                            'detailByDebitur' => function($query){
-                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
-                                                        ->select(
-                                                            'rc_debitur',
-                                                            'rc_due_date',
-                                                            'rc_ref_nomor',
-                                                            'rc_tanggal',
-                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
-                                                        );
-                                            }
-                                    ]);
+                        if(modulSetting()['support_cabang']){
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->where('rc_comp', $request->cab)
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                'rc_ref_nomor',
+                                                                'rc_tanggal',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }else{
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                'rc_ref_nomor',
+                                                                'rc_tanggal',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }
 
                         if(!$request->semua && $request->kreditur != ''){
                             $sampler = $sampler->where('rc_debitur', $request->kreditur);
@@ -311,10 +405,10 @@ class laporan_piutang_controller extends Controller
 
                         $sampler = $sampler->select(
                                                     'rc_debitur',
-                                                    'sup_customer.nama_cust',
+                                                    'm_customer.c_name',
                                                     DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
+                                            ->groupBy('rc_debitur', 'm_customer.c_name')
                                             ->get();
                                     
 
@@ -359,7 +453,7 @@ class laporan_piutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_cust,
+                                "nama_supplier"          => $hutang->c_name,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "id"                     => $hutang->rc_debitur,
                                 "detail"                 => $detailNota,
@@ -369,14 +463,13 @@ class laporan_piutang_controller extends Controller
                         // Pastikan Sesuai
                }
 
-
-    	}else{
-    		return "Piutang Lain";
-    	}
+        }else{
+            return "Piutang Lain";
+        }
 
         // return json_encode($data);
 
-        return view('modul_keuangan.laporan.piutang.print.index', compact('data'));
+        return view('modul_keuangan.laporan.piutang.print.index', compact('data', 'namaCabang'));
     }
 
     public function pdf(Request $request){
@@ -387,31 +480,60 @@ class laporan_piutang_controller extends Controller
     	$data = [];
     	$stage = '';
 
-        $krediturSupplier = DB::table('sup_customer')->select('id_cust as id', 'nama_cust as text')->get();
+        $krediturSupplier = DB::table('m_customer')->select('c_id as id', 'c_name as text')->get();
         $krediturKaryawan = [];
 
         // return json_encode($krediturSupplier);
 
-    	if($request->type == "Piutang_Customer"){
-    		   $stage = 'Customer';
+    	// Mengambil Cabang
+
+            $namaCabang = '';
+
+            if(modulSetting()['support_cabang']){
+                $namaCabang = DB::table(tabel()->cabang->nama)
+                                    ->where(tabel()->cabang->kolom->id, $request->cab)
+                                    ->select(tabel()->cabang->kolom->nama.' as nama')
+                                    ->first()->nama;
+            }
+
+        // Selesai Mengambil Cabang
+
+        if($request->type == "Piutang_Customer"){
                if($request->jenis == "rekap"){
                     // Laporan Type Rekap
                     
                         // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
-                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
-                                    ->distinct('rc_debitur')
-                                    ->with([
-                                            'detailByDebitur' => function($query){
-                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
-                                                        ->select(
-                                                            'rc_debitur',
-                                                            'rc_due_date',
-                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
-                                                        );
-                                            }
-                                    ]);
+                        if(modulSetting()['support_cabang']){
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->where('rc_comp', $request->cab)
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }else{
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }
 
                         if(!$request->semua && $request->kreditur != ''){
                             $sampler = $sampler->where('rc_debitur', $request->kreditur);
@@ -419,10 +541,10 @@ class laporan_piutang_controller extends Controller
 
                         $sampler = $sampler->select(
                                                     'rc_debitur',
-                                                    'sup_customer.nama_cust',
+                                                    'm_customer.c_name',
                                                     DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
+                                            ->groupBy('rc_debitur', 'm_customer.c_name')
                                             ->get();
                                     
 
@@ -455,7 +577,7 @@ class laporan_piutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_cust,
+                                "nama_supplier"          => $hutang->c_name,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "belum_jatuh_tempo"      => $not,
                                 "first"                  => $first,
@@ -470,21 +592,40 @@ class laporan_piutang_controller extends Controller
                     // Laporan Type Detail
                         // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
-                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
-                                    ->distinct('rc_debitur')
-                                    ->with([
-                                            'detailByDebitur' => function($query){
-                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
-                                                        ->select(
-                                                            'rc_debitur',
-                                                            'rc_due_date',
-                                                            'rc_ref_nomor',
-                                                            'rc_tanggal',
-                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
-                                                        );
-                                            }
-                                    ]);
+                        if(modulSetting()['support_cabang']){
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->where('rc_comp', $request->cab)
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                'rc_ref_nomor',
+                                                                'rc_tanggal',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }else{
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                'rc_ref_nomor',
+                                                                'rc_tanggal',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }
 
                         if(!$request->semua && $request->kreditur != ''){
                             $sampler = $sampler->where('rc_debitur', $request->kreditur);
@@ -492,10 +633,10 @@ class laporan_piutang_controller extends Controller
 
                         $sampler = $sampler->select(
                                                     'rc_debitur',
-                                                    'sup_customer.nama_cust',
+                                                    'm_customer.c_name',
                                                     DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
+                                            ->groupBy('rc_debitur', 'm_customer.c_name')
                                             ->get();
                                     
 
@@ -540,7 +681,7 @@ class laporan_piutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_cust,
+                                "nama_supplier"          => $hutang->c_name,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "id"                     => $hutang->rc_debitur,
                                 "detail"                 => $detailNota,
@@ -550,17 +691,15 @@ class laporan_piutang_controller extends Controller
                         // Pastikan Sesuai
                }
 
-
-    	}else{
-    		$stage = 'Lain-lain';
-    		return "Piutang Lain";
-    	}
+        }else{
+            return "Piutang Lain";
+        }
 
         // return json_encode($data);
 
         $title = "Laporan_Piutang_".$stage."_".$request->jenis."_".$d1.".pdf";
 
-        $pdf = PDF::loadView('modul_keuangan.laporan.piutang.print.pdf', compact('data'));
+        $pdf = PDF::loadView('modul_keuangan.laporan.piutang.print.pdf', compact('data', 'namaCabang'));
         $pdf->setPaper('A4', 'landscape');
 
         return $pdf->download($title);
@@ -574,31 +713,60 @@ class laporan_piutang_controller extends Controller
     	$data = [];
     	$stage = '';
 
-        $krediturSupplier = DB::table('sup_customer')->select('id_cust as id', 'nama_cust as text')->get();
+        $krediturSupplier = DB::table('m_customer')->select('c_id as id', 'c_name as text')->get();
         $krediturKaryawan = [];
 
         // return json_encode($krediturSupplier);
 
-    	if($request->type == "Piutang_Customer"){
-    		   $stage = 'Customer';
+    	// Mengambil Cabang
+
+            $namaCabang = '';
+
+            if(modulSetting()['support_cabang']){
+                $namaCabang = DB::table(tabel()->cabang->nama)
+                                    ->where(tabel()->cabang->kolom->id, $request->cab)
+                                    ->select(tabel()->cabang->kolom->nama.' as nama')
+                                    ->first()->nama;
+            }
+
+        // Selesai Mengambil Cabang
+
+        if($request->type == "Piutang_Customer"){
                if($request->jenis == "rekap"){
                     // Laporan Type Rekap
                     
                         // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
-                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
-                                    ->distinct('rc_debitur')
-                                    ->with([
-                                            'detailByDebitur' => function($query){
-                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
-                                                        ->select(
-                                                            'rc_debitur',
-                                                            'rc_due_date',
-                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
-                                                        );
-                                            }
-                                    ]);
+                        if(modulSetting()['support_cabang']){
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->where('rc_comp', $request->cab)
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }else{
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }
 
                         if(!$request->semua && $request->kreditur != ''){
                             $sampler = $sampler->where('rc_debitur', $request->kreditur);
@@ -606,10 +774,10 @@ class laporan_piutang_controller extends Controller
 
                         $sampler = $sampler->select(
                                                     'rc_debitur',
-                                                    'sup_customer.nama_cust',
+                                                    'm_customer.c_name',
                                                     DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
+                                            ->groupBy('rc_debitur', 'm_customer.c_name')
                                             ->get();
                                     
 
@@ -642,7 +810,7 @@ class laporan_piutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_cust,
+                                "nama_supplier"          => $hutang->c_name,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "belum_jatuh_tempo"      => $not,
                                 "first"                  => $first,
@@ -657,21 +825,40 @@ class laporan_piutang_controller extends Controller
                     // Laporan Type Detail
                         // Sesuaikan Nama Table Customer Dari Sini Bosss.
 
-                        $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
-                                    ->join('sup_customer', 'dk_receivable.rc_debitur', '=', 'sup_customer.id_cust')
-                                    ->distinct('rc_debitur')
-                                    ->with([
-                                            'detailByDebitur' => function($query){
-                                                $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
-                                                        ->select(
-                                                            'rc_debitur',
-                                                            'rc_due_date',
-                                                            'rc_ref_nomor',
-                                                            'rc_tanggal',
-                                                             DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
-                                                        );
-                                            }
-                                    ]);
+                        if(modulSetting()['support_cabang']){
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->where('rc_comp', $request->cab)
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                'rc_ref_nomor',
+                                                                'rc_tanggal',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }else{
+                            $sampler = receivable::where('rc_chanel', 'Piutang_Customer')
+                                        ->join('m_customer', 'dk_receivable.rc_debitur', '=', 'm_customer.c_id')
+                                        ->distinct('rc_debitur')
+                                        ->with([
+                                                'detailByDebitur' => function($query){
+                                                    $query->where(DB::raw('(rc_total_tagihan - rc_sudah_dibayar)'), '!=', 0)
+                                                            ->select(
+                                                                'rc_debitur',
+                                                                'rc_due_date',
+                                                                'rc_ref_nomor',
+                                                                'rc_tanggal',
+                                                                 DB::raw('(rc_total_tagihan - rc_sudah_dibayar) as total_tagihan')
+                                                            );
+                                                }
+                                        ]);
+                        }
 
                         if(!$request->semua && $request->kreditur != ''){
                             $sampler = $sampler->where('rc_debitur', $request->kreditur);
@@ -679,10 +866,10 @@ class laporan_piutang_controller extends Controller
 
                         $sampler = $sampler->select(
                                                     'rc_debitur',
-                                                    'sup_customer.nama_cust',
+                                                    'm_customer.c_name',
                                                     DB::raw('sum(rc_total_tagihan - rc_sudah_dibayar) as total_hutang')
                                             )
-                                            ->groupBy('rc_debitur', 'sup_customer.nama_cust')
+                                            ->groupBy('rc_debitur', 'm_customer.c_name')
                                             ->get();
                                     
 
@@ -727,7 +914,7 @@ class laporan_piutang_controller extends Controller
                             }
 
                             $data[$key] = [
-                                "nama_supplier"          => $hutang->nama_cust,
+                                "nama_supplier"          => $hutang->c_name,
                                 "total_hutang"           => $hutang->total_hutang,
                                 "id"                     => $hutang->rc_debitur,
                                 "detail"                 => $detailNota,
@@ -737,11 +924,9 @@ class laporan_piutang_controller extends Controller
                         // Pastikan Sesuai
                }
 
-
-    	}else{
-    		$stage = 'Lain-lain';
-    		return "Piutang Lain";
-    	}
+        }else{
+            return "Piutang Lain";
+        }
 
         // return json_encode($data);
 

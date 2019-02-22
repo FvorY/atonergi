@@ -15,38 +15,37 @@
         </ol>
       </nav>
     </div>
+
   	<div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Master Data Vendor</h4>
-                    @if (App\mMember::akses('MASTER DATA VENDOR', 'tambah'))
-                      <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
-                      	<button type="button" class="btn btn-info" id="button_add" data-toggle="modal" data-target="#tambah-vendor"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
-                      </div>
-                    @endif
-                    <div class="table-responsive">
-        				        <table class="table table-hover" id="table-vendor" cellspacing="0">
-                            <thead class="bg-gradient-info">
-                              <tr>
-                                <th>Vendor kode</th>
-                                <th>Vendor Name</th>
-                                <th>PIC Name</th>
-                                <th>Birth Date</th>
-                                <th>Vendor Type</th>
-                                <th>Information</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Master Data Vendor</h4>
+          @if (App\mMember::akses('MASTER DATA VENDOR', 'tambah'))
+            <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
+            	<button type="button" class="btn btn-info" id="button_add" data-toggle="modal" data-target="#tambah-vendor"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Data</button>
+            </div>
+          @endif
+          <div class="table-responsive">
+			        <table class="table table-hover" id="table-vendor" cellspacing="0">
+                  <thead class="bg-gradient-info">
+                    <tr>
+                      <th>Vendor kode</th>
+                      <th>Vendor Name</th>
+                      <th>PIC Name</th>
+                      <th>Birth Date</th>
+                      <th>Vendor Type</th>
+                      <th>Information</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
 
-                            <tbody>
+                  <tbody>
 
-                            </tbody>
-
-
-                        </table>
-                    </div>
-                  </div>
-                </div>
+                  </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

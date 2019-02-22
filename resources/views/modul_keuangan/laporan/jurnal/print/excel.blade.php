@@ -32,11 +32,11 @@
 			<td></td>
 			@if($data['request']['nama'] == 'true')
 				<td colspan="7" style="background-color: none;">
-					<b>{{ jurnal()->companyName }}</b>
+					<b>{{ jurnal()->companyName }} &nbsp;- {{ $data['namaCabang'] }}</b>
 				</td>
 			@else
 				<td colspan="6" style="background-color: none;">
-					<b>{{ jurnal()->companyName }}</b>
+					<b>{{ jurnal()->companyName }} &nbsp;- {{ $data['namaCabang'] }}</b>
 				</td>
 			@endif
 		</tr>

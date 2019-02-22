@@ -15,6 +15,11 @@ Route::get('/', function () {
     return redirect('home');
 });
 
+Route::get('modul_keuangan/connection', function () {
+    return keuangan::connection()->version();
+});
+
+
 Route::group(['middleware' => 'guest'], function () {
 
     Route::get('/', function () {
@@ -279,9 +284,10 @@ Route::get('/manajemenaset/penyusutan/penyusutan', 'AsetController@penyusutan');
 Route::get('/manajemenaset/irventarisasi/irventarisasi', 'AsetController@irventarisasi');
 
 // FInance
-Route::get('/finance/reporting/reporting', 'FinanceController@reporting')->name('laporan.keuangan.index');
-Route::get('/finance/evaluating/evaluating', 'FinanceController@evaluating');
-Route::get('/finance/bookkeeping/bookkeeping', 'FinanceController@bookkeeping');
+Route::get('modul/keuangan/reporting/reporting', 'FinanceController@reporting')->name('laporan.keuangan.index');
+Route::get('modul/keuangan/evaluating/evaluating', 'FinanceController@evaluating');
+Route::get('modul/keuangan/bookkeeping/bookkeeping', 'FinanceController@bookkeeping');
+
 Route::get('/finance/bookkeeping/transaksi_bank', 'FinanceController@transaksi_bank');
 Route::get('/finance/bookkeeping/transaksi_memorial', 'FinanceController@transaksi_memorial');
 Route::get('/finance/costmanajemen/costmanajemen', 'FinanceController@costmanajemen');
@@ -647,81 +653,193 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
 
     // Route Keuangan Dirga
 
-        Route::get('modul_keuangan/connection', function () {
-            return keuangan::connection()->version();
-        });
-
         // periode keuangan
 
-             Route::post('modul/keuangan/periode/store', 'modul_keuangan\master\periode_keuangan\periode_keuangan_controller@save')->name('modul_keuangan.periode.save');
+            Route::post('modul/keuangan/periode/store', 'modul_keuangan\master\periode_keuangan\periode_keuangan_controller@save')->name('modul_keuangan.periode.save');
 
         // periode keuangan selesai
 
 
+        // klasifikasi akun
+
+                Route::get('setting/modul/keuangan/setting/klasifikasi-akun', [
+                    "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@index'
+                ])->name('setting.klasifikasi_akun.index');
+
+                Route::get('modul/keuangan/setting/klasifikasi-akun/form-resource', [
+                    "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@form_resource'
+                ])->name('setting.klasifikasi_akun.form_resource');
+
+                Route::post('modul/keuangan/setting/klasifikasi-akun/save/level_1', [
+                    "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@simpan_level_1'
+                ])->name('setting.klasifikasi_akun.simpan.level_1');
+
+                Route::post('modul/keuangan/setting/klasifikasi-akun/save/level_2', [
+                    "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@simpan_level_2'
+                ])->name('setting.klasifikasi_akun.simpan.level_2');
+
+                Route::post('modul/keuangan/setting/klasifikasi-akun/delete/level_2', [
+                    "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@hapus_level_2'
+                ])->name('setting.klasifikasi_akun.hapus.level_2');
+
+                Route::post('modul/keuangan/setting/klasifikasi-akun/save/subclass', [
+                    "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@simpan_subclass'
+                ])->name('setting.klasifikasi_akun.simpan.subclass');
+
+                Route::post('modul/keuangan/setting/klasifikasi-akun/delete/subclass', [
+                    "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@hapus_level_subclass'
+                ])->name('setting.klasifikasi_akun.hapus.subclass');
+
+        // klasifikasi akun
+
+
+        // klasifikasi akun
+
+                Route::get('setting/modul/keuangan/setting/akun-penting', [
+                    "uses"  => 'modul_keuangan\setting\akun_penting\akun_penting_controller@index'
+                ])->name('setting.akun_penting.index');
+
+                Route::get('modul/keuangan/setting/akun-penting/form-resource', [
+                    "uses"  => 'modul_keuangan\setting\akun_penting\akun_penting_controller@form_resource'
+                ])->name('setting.akun_penting.form_resource');
+
+                Route::post('modul/keuangan/setting/akun-penting/store', [
+                    "uses"  => 'modul_keuangan\setting\akun_penting\akun_penting_controller@store'
+                ])->name('setting.akun_penting.store');
+
+        // klasifikasi akun
+
+
         // Master Data Group Akun
 
-            Route::get('master/modul/keuangan/master/group-akun', [
+            Route::get('modul/keuangan/master/group-akun', [
                 "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@index'
             ])->name('grup-akun.index');
 
-            Route::get('master/modul/keuangan/master/group-akun/create', [
+            Route::get('modul/keuangan/master/group-akun/create', [
                 "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@create'
             ])->name('grup-akun.create');
 
-            Route::get('master/modul/keuangan/master/group-akun/datatable', [
+            Route::get('modul/keuangan/master/group-akun/datatable', [
                 "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@datatable'
             ])->name('grup-akun.datatable');
 
-            Route::get('master/modul/keuangan/master/group-akun/form_resource', [
+            Route::get('modul/keuangan/master/group-akun/form_resource', [
                 "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@form_resource'
             ])->name('grup-akun.form_resource');
 
-            Route::post('master/modul/keuangan/master/group-akun/store', [
+            Route::post('modul/keuangan/master/group-akun/store', [
                 "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@store'
             ])->name('grup-akun.store');
 
-            Route::post('master/modul/keuangan/master/group-akun/update', [
+            Route::post('modul/keuangan/master/group-akun/update', [
                 "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@update'
             ])->name('grup-akun.update');
 
-            Route::post('master/modul/keuangan/master/group-akun/delete', [
+            Route::post('modul/keuangan/master/group-akun/delete', [
                 "uses"  => 'modul_keuangan\master\group_akun\group_akun_controller@delete'
             ])->name('grup-akun.delete');
 
         //  Group Akun End
 
 
-        // Master Data Akun
+        // Master Data Akun 
 
             Route::get('master/modul/keuangan/master/akun', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@index'
             ])->name('akun.index');
 
-            Route::get('master/modul/keuangan/master/akun/create', [
+            Route::get('modul/keuangan/master/akun/create', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@create'
             ])->name('akun.create');
 
-            Route::get('master/modul/keuangan/master/akun/create/form-resource', [
+            Route::get('modul/keuangan/master/akun/create/form-resource', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@form_resource'
             ])->name('akun.form_resource');
 
-            Route::post('master/modul/keuangan/master/akun/store', [
+            Route::post('modul/keuangan/master/akun/store', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@store'
             ])->name('akun.store');
 
-            Route::get('master/modul/keuangan/master/akun/datatable', [
+            Route::get('modul/keuangan/master/akun/datatable', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@datatable'
             ])->name('akun.datatable');
 
-            Route::post('master/modul/keuangan/master/akun/update', [
+            Route::post('modul/keuangan/master/akun/update', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@update'
             ])->name('akun.update');
 
-            Route::post('master/modul/keuangan/master/akun/delete', [
+            Route::post('modul/keuangan/master/akun/delete', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@delete'
             ])->name('akun.delete');
 
         // Data Akun Selesai
+
+
+        // Master Data Akun Cabang 
+
+            Route::get('modul/keuangan/master/akun-cabang', [
+                "uses"  => 'modul_keuangan\master\akun_cabang\akun_cabang_controller@index'
+            ])->name('akun.cabang.index');
+
+            Route::get('modul/keuangan/master/akun-cabang/create', [
+                "uses"  => 'modul_keuangan\master\akun_cabang\akun_cabang_controller@create'
+            ])->name('akun.cabang.create');
+
+            Route::get('modul/keuangan/master/akun-cabang/create/form-resource', [
+                "uses"  => 'modul_keuangan\master\akun_cabang\akun_cabang_controller@form_resource'
+            ])->name('akun.cabang.form_resource');
+
+            Route::post('modul/keuangan/master/akun-cabang/store', [
+                "uses"  => 'modul_keuangan\master\akun_cabang\akun_cabang_controller@store'
+            ])->name('akun.cabang.store');
+
+            Route::get('modul/keuangan/master/akun-cabang/datatable', [
+                "uses"  => 'modul_keuangan\master\akun_cabang\akun_cabang_controller@datatable'
+            ])->name('akun.cabang.datatable');
+
+            Route::post('modul/keuangan/master/akun-cabang/update', [
+                "uses"  => 'modul_keuangan\master\akun_cabang\akun_cabang_controller@update'
+            ])->name('akun.cabang.update');
+
+            Route::post('modul/keuangan/master/akun-cabang/delete', [
+                "uses"  => 'modul_keuangan\master\akun_cabang\akun_cabang_controller@delete'
+            ])->name('akun.cabang.delete');
+
+        // Data Akun Cabang Selesai
+
+
+        // Master Data Transaksi 
+
+            Route::get('modul/keuangan/master/transaksi', [
+                "uses"  => 'modul_keuangan\master\transaksi\transaksi_controller@index'
+            ])->name('transaksi.index');
+
+            Route::get('modul/keuangan/master/transaksi/create', [
+                "uses"  => 'modul_keuangan\master\transaksi\transaksi_controller@create'
+            ])->name('transaksi.create');
+
+            Route::get('modul/keuangan/master/transaksi/create/form-resource', [
+                "uses"  => 'modul_keuangan\master\transaksi\transaksi_controller@form_resource'
+            ])->name('transaksi.form_resource');
+
+            Route::post('modul/keuangan/master/transaksi/store', [
+                "uses"  => 'modul_keuangan\master\transaksi\transaksi_controller@store'
+            ])->name('transaksi.store');
+
+            Route::get('modul/keuangan/master/transaksi/datatable', [
+                "uses"  => 'modul_keuangan\master\transaksi\transaksi_controller@datatable'
+            ])->name('transaksi.datatable');
+
+            Route::post('modul/keuangan/master/transaksi/update', [
+                "uses"  => 'modul_keuangan\master\transaksi\transaksi_controller@update'
+            ])->name('transaksi.update');
+
+            Route::post('modul/keuangan/master/transaksi/delete', [
+                "uses"  => 'modul_keuangan\master\transaksi\transaksi_controller@delete'
+            ])->name('transaksi.delete');
+
+        // Data Transaksi Selesai
 
 
         // Golongan Aset
@@ -815,6 +933,10 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
             Route::post('modul/keuangan/transaksi/kas/delete', [
                 "uses"  => 'modul_keuangan\transaksi\kas\transaksi_kas_controller@delete'
             ])->name('transaksi.kas.delete');
+
+            Route::get('modul/keuangan/transaksi/kas/get-nota', [
+                "uses"  => 'modul_keuangan\transaksi\kas\transaksi_kas_controller@getNota'
+            ])->name('transaksi.kas.nota');
 
         // Transaksi Kas Selesai
 
@@ -943,36 +1065,6 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
         // Pelunasan Hutang
 
 
-        // klasifikasi akun
-            Route::get('modul/keuangan/setting/klasifikasi-akun', [
-                "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@index'
-            ])->name('setting.klasifikasi_akun.index');
-
-            Route::get('modul/keuangan/setting/klasifikasi-akun/form-resource', [
-                "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@form_resource'
-            ])->name('setting.klasifikasi_akun.form_resource');
-
-            Route::post('modul/keuangan/setting/klasifikasi-akun/save/level_1', [
-                "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@simpan_level_1'
-            ])->name('setting.klasifikasi_akun.simpan.level_1');
-
-            Route::post('modul/keuangan/setting/klasifikasi-akun/save/level_2', [
-                "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@simpan_level_2'
-            ])->name('setting.klasifikasi_akun.simpan.level_2');
-
-            Route::post('modul/keuangan/setting/klasifikasi-akun/delete/level_2', [
-                "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@hapus_level_2'
-            ])->name('setting.klasifikasi_akun.hapus.level_2');
-
-            Route::post('modul/keuangan/setting/klasifikasi-akun/save/subclass', [
-                "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@simpan_subclass'
-            ])->name('setting.klasifikasi_akun.simpan.subclass');
-
-            Route::post('modul/keuangan/setting/klasifikasi-akun/delete/subclass', [
-                "uses"  => 'modul_keuangan\setting\klasifikasi_akun\klasifikasi_akun_controller@hapus_level_subclass'
-            ])->name('setting.klasifikasi_akun.hapus.subclass');
-
-
         // Laporan Keuangan
 
             // Route::get('modul/keuangan/laporan', function(){
@@ -1068,6 +1160,28 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
                 ])->name('laporan.keuangan.neraca.print.excel');
 
 
+            // laporan Neraca Lampiran
+                Route::get('modul/keuangan/laporan/neraca-lampiran', [
+                    'uses'  => 'modul_keuangan\laporan\neraca_lampiran\laporan_neraca_lampiran_controller@index'
+                ])->name('laporan.keuangan.neraca_lampiran');
+
+                Route::get('modul/keuangan/laporan/neraca-lampiran/data_resource', [
+                    'uses'  => 'modul_keuangan\laporan\neraca_lampiran\laporan_neraca_lampiran_controller@dataResource'
+                ])->name('laporan.keuangan.neraca_lampiran.data_resource');
+
+                Route::get('modul/keuangan/laporan/neraca-lampiran/print', [
+                    'uses'  => 'modul_keuangan\laporan\neraca_lampiran\laporan_neraca_lampiran_controller@print'
+                ])->name('laporan.keuangan.neraca_lampiran.print');
+
+                Route::get('modul/keuangan/laporan/neraca-lampiran/print/pdf', [
+                    'uses'  => 'modul_keuangan\laporan\neraca_lampiran\laporan_neraca_lampiran_controller@pdf'
+                ])->name('laporan.keuangan.neraca_lampiran.print.pdf');
+
+                Route::get('modul/keuangan/laporan/neraca-lampiran/print/excel', [
+                    'uses'  => 'modul_keuangan\laporan\neraca_lampiran\laporan_neraca_lampiran_controller@excel'
+                ])->name('laporan.keuangan.neraca_lampiran.print.excel');
+
+
             // laporan Laba Rugi
                 Route::get('modul/keuangan/laporan/laba_rugi', [
                     'uses'  => 'modul_keuangan\laporan\laba_rugi\laporan_laba_rugi_controller@index'
@@ -1111,119 +1225,183 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
                     'uses'  => 'modul_keuangan\laporan\arus_kas\laporan_arus_kas_controller@excel'
                 ])->name('laporan.keuangan.arus_kas.print.excel');
 
+
+            // laporan Hutang 
+                Route::get('modul/keuangan/laporan/hutang', [
+                    'uses'  => 'modul_keuangan\laporan\hutang\laporan_hutang_controller@index'
+                ])->name('laporan.keuangan.hutang');
+
+                Route::get('modul/keuangan/laporan/hutang/data_resource', [
+                    'uses'  => 'modul_keuangan\laporan\hutang\laporan_hutang_controller@dataResource'
+                ])->name('laporan.keuangan.hutang.data_resource');
+
+                Route::get('modul/keuangan/laporan/hutang/print', [
+                    'uses'  => 'modul_keuangan\laporan\hutang\laporan_hutang_controller@print'
+                ])->name('laporan.keuangan.hutang.print');
+
+                Route::get('modul/keuangan/laporan/hutang/print/pdf', [
+                    'uses'  => 'modul_keuangan\laporan\hutang\laporan_hutang_controller@pdf'
+                ])->name('laporan.keuangan.hutang.print.pdf');
+
+                Route::get('modul/keuangan/laporan/hutang/print/excel', [
+                    'uses'  => 'modul_keuangan\laporan\hutang\laporan_hutang_controller@excel'
+                ])->name('laporan.keuangan.hutang.print.excel');
+
+
+            // laporan Piutang 
+                Route::get('modul/keuangan/laporan/piutang', [
+                    'uses'  => 'modul_keuangan\laporan\piutang\laporan_piutang_controller@index'
+                ])->name('laporan.keuangan.piutang');
+
+                Route::get('modul/keuangan/laporan/piutang/data_resource', [
+                    'uses'  => 'modul_keuangan\laporan\piutang\laporan_piutang_controller@dataResource'
+                ])->name('laporan.keuangan.piutang.data_resource');
+
+                Route::get('modul/keuangan/laporan/piutang/print', [
+                    'uses'  => 'modul_keuangan\laporan\piutang\laporan_piutang_controller@print'
+                ])->name('laporan.keuangan.piutang.print');
+
+                Route::get('modul/keuangan/laporan/piutang/print/pdf', [
+                    'uses'  => 'modul_keuangan\laporan\piutang\laporan_piutang_controller@pdf'
+                ])->name('laporan.keuangan.piutang.print.pdf');
+
+                Route::get('modul/keuangan/laporan/piutang/print/excel', [
+                    'uses'  => 'modul_keuangan\laporan\piutang\laporan_piutang_controller@excel'
+                ])->name('laporan.keuangan.piutang.print.excel');
+
         // laporan Keuangan
 
+
         // Analisa Keuangan
+                
+                // Analisa Net Profitt OCF
+                    Route::get('modul/keuangan/analisa/npo', [
+                        'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@index'
+                    ])->name('analisa.keuangan.npo');
 
-            // Analisa Net Profitt OCF
-                Route::get('modul/keuangan/analisa/npo', [
-                    'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@index'
-                ])->name('analisa.keuangan.npo');
+                    Route::get('modul/keuangan/analisa/npo/data_resource', [
+                        'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@dataResource'
+                    ])->name('analisa.keuangan.npo.data_resource');
 
-                Route::get('modul/keuangan/analisa/npo/data_resource', [
-                    'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@dataResource'
-                ])->name('analisa.keuangan.npo.data_resource');
+                    Route::get('modul/keuangan/analisa/npo/print', [
+                        'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@print'
+                    ])->name('analisa.keuangan.npo.print');
 
-                Route::get('modul/keuangan/analisa/npo/print', [
-                    'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@print'
-                ])->name('analisa.keuangan.npo.print');
-
-                Route::get('modul/keuangan/analisa/npo/print/pdf', [
-                    'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@pdf'
-                ])->name('analisa.keuangan.npo.print.pdf');
-
-
-            // Analisa Net Profitt OCF
-                Route::get('modul/keuangan/analisa/hutang_piutang', [
-                    'uses'  => 'modul_keuangan\analisa\hutang_piutang\analisa_hutang_piutang_controller@index'
-                ])->name('analisa.keuangan.hutang_piutang');
-
-                Route::get('modul/keuangan/analisa/hutang_piutang/data_resource', [
-                    'uses'  => 'modul_keuangan\analisa\hutang_piutang\analisa_hutang_piutang_controller@dataResource'
-                ])->name('analisa.keuangan.hutang_piutang.data_resource');
-
-                Route::get('modul/keuangan/analisa/hutang_piutang/print', [
-                    'uses'  => 'modul_keuangan\analisa\hutang_piutang\analisa_hutang_piutang_controller@print'
-                ])->name('analisa.keuangan.hutang_piutang.print');
-
-                Route::get('modul/keuangan/analisa/hutang_piutang/print/pdf', [
-                    'uses'  => 'modul_keuangan\analisa\hutang_piutang\analisa_hutang_piutang_controller@pdf'
-                ])->name('analisa.keuangan.hutang_piutang.print.pdf');
+                    Route::get('modul/keuangan/analisa/npo/print/pdf', [
+                        'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@pdf'
+                    ])->name('analisa.keuangan.npo.print.pdf');
 
 
-            // Analisa Pertumbuhan Aset
-                Route::get('modul/keuangan/analisa/pertumbuhan_aset', [
-                    'uses'  => 'modul_keuangan\analisa\pertumbuhan_aset\analisa_pertumbuhan_aset_controller@index'
-                ])->name('analisa.keuangan.pertumbuhan_aset');
+                // Analisa Hutang Piutang
+                    Route::get('modul/keuangan/analisa/hutang_piutang', [
+                        'uses'  => 'modul_keuangan\analisa\hutang_piutang\analisa_hutang_piutang_controller@index'
+                    ])->name('analisa.keuangan.hutang_piutang');
 
-                Route::get('modul/keuangan/analisa/pertumbuhan_aset/data_resource', [
-                    'uses'  => 'modul_keuangan\analisa\pertumbuhan_aset\analisa_pertumbuhan_aset_controller@dataResource'
-                ])->name('analisa.keuangan.pertumbuhan_aset.data_resource');
+                    Route::get('modul/keuangan/analisa/hutang_piutang/data_resource', [
+                        'uses'  => 'modul_keuangan\analisa\hutang_piutang\analisa_hutang_piutang_controller@dataResource'
+                    ])->name('analisa.keuangan.hutang_piutang.data_resource');
 
-                Route::get('modul/keuangan/analisa/pertumbuhan_aset/print', [
-                    'uses'  => 'modul_keuangan\analisa\pertumbuhan_aset\analisa_pertumbuhan_aset_controller@print'
-                ])->name('analisa.keuangan.pertumbuhan_aset.print');
+                    Route::get('modul/keuangan/analisa/hutang_piutang/print', [
+                        'uses'  => 'modul_keuangan\analisa\hutang_piutang\analisa_hutang_piutang_controller@print'
+                    ])->name('analisa.keuangan.hutang_piutang.print');
 
-                Route::get('modul/keuangan/analisa/pertumbuhan_aset/print/pdf', [
-                    'uses'  => 'modul_keuangan\analisa\pertumbuhan_aset\analisa_pertumbuhan_aset_controller@pdf'
-                ])->name('analisa.keuangan.pertumbuhan_aset.print.pdf');
-
-
-            // Analisa Aset Terhadap Ekuitas
-                Route::get('modul/keuangan/analisa/aset_ekuitas', [
-                    'uses'  => 'modul_keuangan\analisa\aset_ekuitas\analisa_aset_ekuitas_controller@index'
-                ])->name('analisa.keuangan.aset_ekuitas');
-
-                Route::get('modul/keuangan/analisa/aset_ekuitas/data_resource', [
-                    'uses'  => 'modul_keuangan\analisa\aset_ekuitas\analisa_aset_ekuitas_controller@dataResource'
-                ])->name('analisa.keuangan.aset_ekuitas.data_resource');
-
-                Route::get('modul/keuangan/analisa/aset_ekuitas/print', [
-                    'uses'  => 'modul_keuangan\analisa\aset_ekuitas\analisa_aset_ekuitas_controller@print'
-                ])->name('analisa.keuangan.aset_ekuitas.print');
-
-                Route::get('modul/keuangan/analisa/aset_ekuitas/print/pdf', [
-                    'uses'  => 'modul_keuangan\analisa\aset_ekuitas\analisa_aset_ekuitas_controller@pdf'
-                ])->name('analisa.keuangan.aset_ekuitas.print.pdf');
+                    Route::get('modul/keuangan/analisa/hutang_piutang/print/pdf', [
+                        'uses'  => 'modul_keuangan\analisa\hutang_piutang\analisa_hutang_piutang_controller@pdf'
+                    ])->name('analisa.keuangan.hutang_piutang.print.pdf');
 
 
-            // Analisa Aset Terhadap Ekuitas
-                Route::get('modul/keuangan/analisa/common_size', [
-                    'uses'  => 'modul_keuangan\analisa\common_size\analisa_common_size_controller@index'
-                ])->name('analisa.keuangan.common_size');
+                // Analisa Pertumbuhan Aset
+                    Route::get('modul/keuangan/analisa/pertumbuhan_aset', [
+                        'uses'  => 'modul_keuangan\analisa\pertumbuhan_aset\analisa_pertumbuhan_aset_controller@index'
+                    ])->name('analisa.keuangan.pertumbuhan_aset');
 
-                Route::get('modul/keuangan/analisa/common_size/data_resource', [
-                    'uses'  => 'modul_keuangan\analisa\common_size\analisa_common_size_controller@dataResource'
-                ])->name('analisa.keuangan.common_size.data_resource');
+                    Route::get('modul/keuangan/analisa/pertumbuhan_aset/data_resource', [
+                        'uses'  => 'modul_keuangan\analisa\pertumbuhan_aset\analisa_pertumbuhan_aset_controller@dataResource'
+                    ])->name('analisa.keuangan.pertumbuhan_aset.data_resource');
 
-                Route::get('modul/keuangan/analisa/common_size/print', [
-                    'uses'  => 'modul_keuangan\analisa\common_size\analisa_common_size_controller@print'
-                ])->name('analisa.keuangan.common_size.print');
+                    Route::get('modul/keuangan/analisa/pertumbuhan_aset/print', [
+                        'uses'  => 'modul_keuangan\analisa\pertumbuhan_aset\analisa_pertumbuhan_aset_controller@print'
+                    ])->name('analisa.keuangan.pertumbuhan_aset.print');
 
-                Route::get('modul/keuangan/analisa/common_size/print/pdf', [
-                    'uses'  => 'modul_keuangan\analisa\common_size\analisa_common_size_controller@pdf'
-                ])->name('analisa.keuangan.common_size.print.pdf');
+                    Route::get('modul/keuangan/analisa/pertumbuhan_aset/print/pdf', [
+                        'uses'  => 'modul_keuangan\analisa\pertumbuhan_aset\analisa_pertumbuhan_aset_controller@pdf'
+                    ])->name('analisa.keuangan.pertumbuhan_aset.print.pdf');
 
 
-            // Analisa Cashflow
-                Route::get('modul/keuangan/analisa/cashflow', [
-                    'uses'  => 'modul_keuangan\analisa\cashflow\analisa_cashflow_controller@index'
-                ])->name('analisa.keuangan.cashflow');
+                // Analisa Aset Terhadap Ekuitas
+                    Route::get('modul/keuangan/analisa/aset_ekuitas', [
+                        'uses'  => 'modul_keuangan\analisa\aset_ekuitas\analisa_aset_ekuitas_controller@index'
+                    ])->name('analisa.keuangan.aset_ekuitas');
 
-                Route::get('modul/keuangan/analisa/cashflow/data_resource', [
-                    'uses'  => 'modul_keuangan\analisa\cashflow\analisa_cashflow_controller@dataResource'
-                ])->name('analisa.keuangan.cashflow.data_resource');
+                    Route::get('modul/keuangan/analisa/aset_ekuitas/data_resource', [
+                        'uses'  => 'modul_keuangan\analisa\aset_ekuitas\analisa_aset_ekuitas_controller@dataResource'
+                    ])->name('analisa.keuangan.aset_ekuitas.data_resource');
 
-                Route::get('modul/keuangan/analisa/cashflow/print', [
-                    'uses'  => 'modul_keuangan\analisa\cashflow\analisa_cashflow_controller@print'
-                ])->name('analisa.keuangan.cashflow.print');
+                    Route::get('modul/keuangan/analisa/aset_ekuitas/print', [
+                        'uses'  => 'modul_keuangan\analisa\aset_ekuitas\analisa_aset_ekuitas_controller@print'
+                    ])->name('analisa.keuangan.aset_ekuitas.print');
 
-                Route::get('modul/keuangan/analisa/cashflow/print/pdf', [
-                    'uses'  => 'modul_keuangan\analisa\cashflow\analisa_cashflow_controller@pdf'
-                ])->name('analisa.keuangan.cashflow.print.pdf');
+                    Route::get('modul/keuangan/analisa/aset_ekuitas/print/pdf', [
+                        'uses'  => 'modul_keuangan\analisa\aset_ekuitas\analisa_aset_ekuitas_controller@pdf'
+                    ])->name('analisa.keuangan.aset_ekuitas.print.pdf');
 
-    // Analisa Keuangan
 
+                // Analisa Common Size
+                    Route::get('modul/keuangan/analisa/common_size', [
+                        'uses'  => 'modul_keuangan\analisa\common_size\analisa_common_size_controller@index'
+                    ])->name('analisa.keuangan.common_size');
+
+                    Route::get('modul/keuangan/analisa/common_size/data_resource', [
+                        'uses'  => 'modul_keuangan\analisa\common_size\analisa_common_size_controller@dataResource'
+                    ])->name('analisa.keuangan.common_size.data_resource');
+
+                    Route::get('modul/keuangan/analisa/common_size/print', [
+                        'uses'  => 'modul_keuangan\analisa\common_size\analisa_common_size_controller@print'
+                    ])->name('analisa.keuangan.common_size.print');
+
+                    Route::get('modul/keuangan/analisa/common_size/print/pdf', [
+                        'uses'  => 'modul_keuangan\analisa\common_size\analisa_common_size_controller@pdf'
+                    ])->name('analisa.keuangan.common_size.print.pdf');
+
+
+                // Analisa Cashflow
+                    Route::get('modul/keuangan/analisa/cashflow', [
+                        'uses'  => 'modul_keuangan\analisa\cashflow\analisa_cashflow_controller@index'
+                    ])->name('analisa.keuangan.cashflow');
+
+                    Route::get('modul/keuangan/analisa/cashflow/data_resource', [
+                        'uses'  => 'modul_keuangan\analisa\cashflow\analisa_cashflow_controller@dataResource'
+                    ])->name('analisa.keuangan.cashflow.data_resource');
+
+                    Route::get('modul/keuangan/analisa/cashflow/print', [
+                        'uses'  => 'modul_keuangan\analisa\cashflow\analisa_cashflow_controller@print'
+                    ])->name('analisa.keuangan.cashflow.print');
+
+                    Route::get('modul/keuangan/analisa/cashflow/print/pdf', [
+                        'uses'  => 'modul_keuangan\analisa\cashflow\analisa_cashflow_controller@pdf'
+                    ])->name('analisa.keuangan.cashflow.print.pdf');
+
+
+                // Analisa Rasio Keuangan
+                    Route::get('modul/keuangan/analisa/rasio', [
+                        'uses'  => 'modul_keuangan\analisa\rasio\analisa_rasio_controller@index'
+                    ])->name('analisa.keuangan.rasio');
+
+                    Route::get('modul/keuangan/analisa/rasio/data_resource', [
+                        'uses'  => 'modul_keuangan\analisa\rasio\analisa_rasio_controller@dataResource'
+                    ])->name('analisa.keuangan.rasio.data_resource');
+
+                    Route::get('modul/keuangan/analisa/rasio/print', [
+                        'uses'  => 'modul_keuangan\analisa\rasio\analisa_rasio_controller@print'
+                    ])->name('analisa.keuangan.rasio.print');
+
+                    Route::get('modul/keuangan/analisa/rasio/print/pdf', [
+                        'uses'  => 'modul_keuangan\analisa\rasio\analisa_rasio_controller@pdf'
+                    ])->name('analisa.keuangan.rasio.print.pdf');
+
+        // Analisa keuangan
+        
     // End Route Dirga
+
 
 }); // End Route Groub middleware auth

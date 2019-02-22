@@ -135,6 +135,7 @@
 	          min-height: 700px;
 	          border-radius: 2px;
 	          margin: 0 auto;
+	          padding-bottom: 20px;
 	        }
 
 		</style>
@@ -202,9 +203,9 @@
 
 						    <div class="dropdown-divider"></div>
 
-						    <a class="dropdown-item" href="#" style="font-size: 10pt;" @click='downloadExcel'>
+						    {{-- <a class="dropdown-item" href="#" style="font-size: 10pt;" @click='downloadExcel'>
 						    	<i class="fa fa-file-excel-o" style="font-weight: bold;"></i> &nbsp; Download Excel
-						    </a>
+						    </a> --}}
 					    </div>
 			        </li>
 
@@ -262,7 +263,7 @@
 				            </tr>
 
 				            <tr>
-				              <th style="text-align: left; font-size: 12pt; font-weight: 500" colspan="2">{{ jurnal()->companyName }}</th>
+				              <th style="text-align: left; font-size: 12pt; font-weight: 500" colspan="2">{{ jurnal()->companyName }} &nbsp;- {{ $cabang }}</th>
 				            </tr>
 
 				            <tr>
@@ -282,7 +283,7 @@
 						<table class="table" id="table-data" v-for="(data, index) in dataPrint" :style="(index > 0) ? 'margin-top: 40px;' : '0px'" v-cloak>
 							<tbody>
 								<tr>
-									<th class="head" colspan="8" style="background-color: #0099CC; color: white; text-align: left;"> @{{ data.ak_id+" - "+data.ak_nama }} </th>
+									<th class="head" colspan="8" style="background-color: #0099CC; color: white; text-align: left;"> @{{ data.ak_nomor+" - "+data.ak_nama }} </th>
 								</tr>
 
 								<tr>
@@ -301,7 +302,7 @@
 									<td class="text-center">-</td>
 									<td>Saldo Awal @{{ humanizeDate(data.ak_periode) }}</td>
 									<td class="text-center" v-html="getDK(index)"></td>
-									<td class="text-center">1.001.01</td>
+									<td class="text-center">@{{ data.ak_nomor }}</td>
 									<td class="text-right">
 										@{{ (getDK(index) == 'D') ? humanizePrice(data.ak_saldo_awal) : humanizePrice(0) }}
 									</td>
@@ -325,7 +326,7 @@
 										<td class="text-center" style="font-weight: 650;">@{{ detail.jurnal.jr_ref }}</td>
 										<td style="font-weight: 650;">@{{ detail.jurnal.jr_keterangan }}</td>
 										<td class="text-center" style="font-weight: 650;">@{{ detail.jrdt_dk }}</td>
-										<td class="text-center" style="font-weight: 650;">@{{ detail.jrdt_akun }}</td>
+										<td class="text-center" style="font-weight: 650;">@{{ data.ak_nomor }}</td>
 										<td class="text-right" style="font-weight: 650;">
 											@{{ (detail.jrdt_dk == 'D') ? humanizePrice(detail.jrdt_value) : humanizePrice(0) }}
 										</td>
@@ -345,7 +346,7 @@
 											<td class="text-center">@{{ detail.jurnal.jr_ref }}</td>
 											<td>@{{ detail.jurnal.jr_keterangan }}</td>
 											<td class="text-center">@{{ lawan.jrdt_dk }}</td>
-											<td class="text-center">@{{ lawan.jrdt_akun }}</td>
+											<td class="text-center">@{{ lawan.ak_nomor }}</td>
 											<td class="text-right">
 												@{{ (lawan.jrdt_dk == 'D') ? humanizePrice(lawan.jrdt_value) : humanizePrice(0) }}
 											</td>
@@ -396,6 +397,7 @@
 	                <div class="content-popup">
 	                	<form id="form-setting" method="get" action="{{ route('laporan.keuangan.buku_besar') }}">
 	                	<input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
+	                	<input type="hidden" readonly name="cab" value="{{ isset($_GET['cab']) ? $_GET['cab']: '' }}">
 	                    <div class="col-md-12">
 
 	                        <div class="row mt-form">
@@ -589,7 +591,6 @@
 
 			                                if(!this.semua){
 
-
 			                                	setTimeout(function(){
 		                                			$('#akun1').val(response.data.akun1).trigger('change.select2');
 			                                		$('#akun2').val(response.data.akun2).trigger('change.select2');
@@ -734,9 +735,9 @@
 			                            stack: false
 			                        });
 
-				            		window.print();
+				            		// window.print();
 
-				            		// $('#pdfIframe').attr('src', '{{route('laporan.keuangan.buku_besar.print')}}?'+that.url.searchParams)
+				            		$('#pdfIframe').attr('src', '{{route('laporan.keuangan.buku_besar.print')}}?'+that.url.searchParams)
 				            	},
 
 				            	humanizePrice: function(alpha){
