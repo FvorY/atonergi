@@ -210,7 +210,10 @@ class MasterController extends Controller
                          ->where('cu_value','!=',null)
                          ->get();
 
-    	return view('master/barang/barang', compact('type_barang','unit','currency'));
+        $akun = DB::table('dk_akun')
+                    ->get();
+
+    	return view('master/barang/barang', compact('type_barang','unit','currency', 'akun'));
     }
     public function vendor()
     {

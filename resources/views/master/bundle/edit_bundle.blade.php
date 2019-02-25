@@ -4,7 +4,7 @@
 <form id="form-save">
 <!-- partial -->
 <div class="content-wrapper">
-	<div class="col-lg-12">	
+	<div class="col-lg-12">
 		<nav aria-label="breadcrumb" role="navigation">
 			<ol class="breadcrumb bg-info">
 				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -21,32 +21,32 @@
                 <div class="card-body">
 	                <h4 class="card-title">Edit Master Data Bundle Item</h4>
                   <div class="row">
-                                
+
                         <div class="col-md-3 col-sm-4 col-xs-12">
-             
+
                   <label class="tebal">Bundle Name</label>
-             
+
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group ">
-                  <input type="text" value="{{$data->i_name}}"  class="form-control form-control-sm ib_name" name="ib_name">                                    
+                  <input type="text" value="{{$data->i_name}}"  class="form-control form-control-sm ib_name" name="ib_name">
               </div>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-12">
-              
+
                   <label class="tebal">Price (Factory)</label>
-             
+
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group disabled">
-                  <input type="text" readonly="" value="{{round($data->i_price,2)}}"  class="form-control form-control-sm right ib_price" name="ib_price" >                               
+                  <input type="text" readonly="" value="{{round($data->i_price,2)}}"  class="form-control form-control-sm right ib_price" name="ib_price" >
               </div>
             </div>
 
             <div class="col-md-3 col-sm-4 col-xs-12">
-              
+
                   <label class="tebal">Keterangan</label>
-             
+
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group">
@@ -55,13 +55,13 @@
             </div>
 
             <div class="col-md-3 col-sm-4 col-xs-12">
-              
+
                   <label class="tebal">Sell Price List</label>
-             
+
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group">
-                  <input type="text" value="{{  round($data->i_sell_price,2) }}"  class="form-control form-control-sm right sell_price" name="sell_price" value="0">                               
+                  <input type="text" value="{{  round($data->i_sell_price,2) }}"  class="form-control form-control-sm right sell_price" name="sell_price" value="0">
               </div>
             </div>
 
@@ -72,41 +72,41 @@
               <div class="form-group">
                   <select class="form-control m_currency" name="m_currency">
                     @foreach($currency as $val)
-                      <option @if ($data->i_currency_id == $val->cu_code)
-                        selected="" 
+                      <option @if ($data->i_price_currency == $val->cu_code)
+                        selected=""
                       @endif value="{{$val->cu_code}}" data-nilai="{{ $val->cu_value }}">{{$val->cu_code}} || {{$val->cu_name}}</option>
                     @endforeach
-                  </select>                              
+                  </select>
               </div>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-12">
-              
+
                   <label class="tebal">Lower Price</label>
-             
+
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group">
-                  <input type="text" value="{{ round($data->i_lower_price,2) }}" class="form-control form-control-sm right lower_price" name="lower_price" value="0">                               
+                  <input type="text" value="{{ round($data->i_lower_price,2) }}" class="form-control form-control-sm right lower_price" name="lower_price" value="0">
               </div>
             </div>
 
-            </div> 
+            </div>
           <div class="row" style="border-top: 1px solid #98c3d1;padding-top: 15px;margin-top: 15px;margin-bottom: 15px;border-bottom: 1px solid #98c3d1;">
           <div class="col-md-1 col-sm-2 col-xs-12">
             <label>Item Name</label>
           </div>
           <div class="col-md-4 col-sm-10 col-xs-10">
-            <div class="form-group">  
-              <select class="form-control form-control-sm" name="" id="bund_kodeitem"> 
+            <div class="form-group">
+              <select class="form-control form-control-sm" name="" id="bund_kodeitem">
                   <option selected="" value="">- Pilih -</option>
                   @foreach ($item as $e)
-                    <option value="{{ $e->i_code }}" data-harga="{{ $e->i_price }}" data-name="{{ $e->i_name }}" data-currency="{{ $e->i_currency_id }}">{{ $e->i_code }} - {{ $e->i_name }}</option>
+                    <option value="{{ $e->i_code }}" data-harga="{{ $e->i_price }}" data-name="{{ $e->i_name }}" data-currency="{{ $e->i_price_currency }}">{{ $e->i_code }} - {{ $e->i_name }}</option>
                   @endforeach
               </select>
             </div>
           </div>
           <div class="col-md-2 col-sm-8 col-xs-2 center" style="width: 20%!important">
-            <div class="form-group">  
+            <div class="form-group">
               <input style="text-align: center !important; width: 60%" type="text" readonly="" class="form-control form-control-sm  right"  id="currency">
             </div>
           </div>
@@ -114,7 +114,7 @@
             <label>Harga</label>
           </div>
           <div class="col-md-2 col-sm-4 col-xs-12">
-            <div class="form-group">  
+            <div class="form-group">
               <input type="text" class="form-control form-control-sm right" name="" readonly="" placeholder="harga" id="bund_item">
             </div>
           </div>
@@ -122,11 +122,11 @@
             <label>Qty</label>
           </div>
           <div class="col-md-1 col-sm-2 col-xs-12">
-            <div class="form-group">  
+            <div class="form-group">
               <input type="text" class="form-control form-control-sm right" name="bund_qty" id="bund_qty">
             </div>
           </div>
-        </div>          
+        </div>
         <div class="table-responsive">
             <table class="table table-hover table-bordered  gogo"  cellspacing="0" id="bundle_table" width="100%">
 
@@ -142,9 +142,9 @@
               </tr>
             </thead>
             <tbody id="edit_rep">
-              
+
             </tbody>
-            
+
           </table>
             </div>
             <input type="hidden" name="kode_old" value="">
@@ -153,7 +153,7 @@
                   <button class="btn btn-info btn-sm" type="button" id="save_data">Update Data</button>
                   <a class="btn btn-secondary btn-sm" href="{{url('master/bundle/bundle')}}">Back</a>
               </div>
-              
+
             </div>
         </div>
     </div>
@@ -198,13 +198,13 @@ var table  = $("#bundle_table").DataTable({
   });
 
 
-    $('#bund_qty').attr('disabled',true); 
+    $('#bund_qty').attr('disabled',true);
     $('#bund_kodeitem').change(function(){
           var ini = $('#bund_kodeitem').find(':selected').val();
           if(ini != '') {
             $('#bund_qty').attr('disabled',false);
           }else{
-            $('#bund_qty').attr('disabled',true);          
+            $('#bund_qty').attr('disabled',true);
           }
           var h_price = $(this).find(':selected').data('harga');
           var currency = $(this).find(':selected').data('currency');
@@ -214,7 +214,7 @@ var table  = $("#bundle_table").DataTable({
 
 
 
-        
+
         var x = 1;
     // $('#bund_qty').keyup(function(){
     //   var jumlah = $('#bund_item').val().replace(/[^0-9\-]+/g,"")*1;
@@ -251,7 +251,7 @@ var table  = $("#bundle_table").DataTable({
                 '<input type="text" name="ib_total_price[]" class="ib_total_price form-control input-sm min-width right" readonly="" value="'+ price +'">',
                 '<button type="button" class="delete btn btn-outline-danger btn-sm hapus"><i class="fa fa-trash"></i></button>',
             ]).draw( false );
-    
+
             x++;
             var awal = 0;
             table.$('.ib_total_price').each(function(){
@@ -277,27 +277,27 @@ var table  = $("#bundle_table").DataTable({
        });
       }
     });
-    
 
-    
-    
+
+
+
 
 $('#bundle_table tbody').on( 'click', '.delete', function () {
     var parents = $(this).parents('tr');
     var ib_price_dt = $(parents).find('.ib_price_dt').val();
     var ib_price = $("input[name='ib_price']").val();
-    
+
     table
         .row(parents)
         .remove()
         .draw();
-        
+
     var awal = 0;
     table.$('.ib_total_price').each(function(){
       var total = $(this).val();
       awal += parseFloat(total);
-    });  
-          
+    });
+
     if (awal == 0) {
       $('.cur_div').removeClass('disabled');
 
@@ -311,7 +311,7 @@ $('#bundle_table tbody').on( 'click', '.delete', function () {
   $('.form-control').keyup(function(){
     $(this).removeClass('border-danger');
   });
-    
+
 
 $('#change_function').on("click", "#save_data",function(){
 
@@ -408,7 +408,7 @@ price = price.replace(/[^0-9\-]+/g,"")/100;
         '<input type="text" name="ib_total_price[]" class="ib_total_price form-control input-sm min-width right" readonly="" value="'+price +'">',
         '<button type="button" class="delete btn btn-outline-danger btn-sm hapus"><i class="fa fa-trash"></i></button>',
     ]).draw( );
-    
+
 @endforeach
 </script>
 

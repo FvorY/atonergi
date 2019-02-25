@@ -24,6 +24,17 @@
       margin-right: 0;
     }
   }
+  #output{
+    border:1px solid pink;
+    height: 200px;
+    width: 200px;
+  }
+
+  @media(max-width: 576px){
+    .preview_td{
+      text-align: center;
+    }
+  }
 </style>
 @endsection
 
@@ -126,7 +137,7 @@ $(document).ready(function(){
                 url:'{{ route("datatable_barang") }}',
                 data:{nota: function() { return $('.cari_barang').val() }},
                 error:function(){
-                  location.reload();
+                  // location.reload();
                 }
             },
             columnDefs: [
@@ -247,7 +258,7 @@ $('#tombol_modal_tambah').click(function(){
     $('#chooseFile').val('');
     $('#noFile').text('Choose Image...');
     $(".file-upload").removeClass('active');
-    $('.preview_td').html('<img style="width: 100px;height: 100px;border:1px solid pink" id="output" >');
+    $('.preview_td').html('<img id="output" >');
     $('select[name="type_barang"]').val('').trigger('change');
     $('input[name="unit"]').val('');
     $('input[name="price"]').val('');
@@ -322,7 +333,10 @@ function simpan(){
     var description = $('textarea[name="description"]');
     var sell_price = $('input[name="sell_price"]');
     var lower_price = $('input[name="lower_price"]');
-    if(item.val()=='' || type_barang.val()=='' || unit.val()=='' || price.val()=='' || weight.val()=='' || min_stock.val()=='' || sell_price.val()=='' || lower_price.val()=='' || img.val()=='' || category.val()=='')
+    var price_currency = $('input[name=price_currency]');
+    var sell_currency = $('input[name=sell_price_currency]');
+    var lower_currency = $('input[lower_price_currency]');
+    if(lower_currency.val() == '' || sell_currency.val() == '' || price_currency.val() == '' || item.val()=='' || type_barang.val()=='' || unit.val()=='' || price.val()=='' || weight.val()=='' || min_stock.val()=='' || sell_price.val()=='' || lower_price.val()=='' || img.val()=='' || category.val()=='')
     {
       if(item.val()==''){
         iziToast.error({
@@ -418,6 +432,37 @@ function simpan(){
     } else {
       category.removeClass('border-danger');
     }
+
+    if(price_currency.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Price Currency cannot be empty!',
+          });
+      price_currency.addClass('border-danger');
+    } else {
+      price_currency.removeClass('border-danger');
+    }
+
+    if(sell_currency.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Sell Price Currency cannot be empty!',
+          });
+      sell_currency.addClass('border-danger');
+    } else {
+      sell_currency.removeClass('border-danger');
+    }
+
+    if(lower_currency.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Lower Price Currency cannot be empty!',
+          });
+      lower_currency.addClass('border-danger');
+    } else {
+      lower_currency.removeClass('border-danger');
+    }
+
     return false;
   }
 
@@ -483,7 +528,13 @@ function edit(m1a2)
             var i_description      = $("textarea[name='description']").val(data[0].i_description);
             var i_type      = $("select[name='type_barang']").val(data[0].i_type).trigger('change');
             var i_jenis      = $("select[name='category']").val(data[0].i_jenis).trigger('change');
+            var i_akun_persediaan      = $("select[name='akunpersediaan']").val(data[0].i_akun_persediaan).trigger('change');
+            var i_akun_pendapatan      = $("select[name='akunpendapatan']").val(data[0].i_akun_pendapatan).trigger('change');
+            var i_akun_beban      = $("select[name='akunbeban']").val(data[0].i_akun_beban).trigger('change');
             var i_unit      = $("input[name='unit']").val(data[0].i_unit);
+            var price_currency = $('input[name=price_currency][value='+data[0].i_price_currency+']').attr('checked', 'checked');
+            var sell_price_currency = $('input[name=sell_price_currency][value='+data[0].i_sell_currency+']').attr('checked', 'checked');
+            var lower_price_currency = $('input[name=lower_price_currency][value='+data[0].i_lower_currency+']').attr('checked', 'checked');
             var i_sell_price      = $("input[name='sell_price']").val(data[0].i_sell_price.replace(/[^0-9\-]+/g,"")/100);
             var i_lower_price      = $("input[name='lower_price']").val(data[0].i_lower_price.replace(/[^0-9\-]+/g,"")/100);
 
@@ -532,8 +583,10 @@ function update() {
   var description = $('textarea[name="description"]');
   var sell_price = $('input[name="sell_price"]');
   var lower_price = $('input[name="lower_price"]');
-
-    if(item.val()=='' || type_barang.val()=='' || unit.val()=='' || price.val()=='' || weight.val()=='' || min_stock.val()=='' || sell_price.val()=='' || lower_price.val()=='' || category.val()=='')
+  var price_currency = $('input[name=price_currency]');
+  var sell_currency = $('input[name=sell_price_currency]');
+  var lower_currency = $('input[lower_price_currency]');
+    if(lower_currency.val() == '' || sell_currency.val() == '' || price_currency.val() == '' || item.val()=='' || type_barang.val()=='' || unit.val()=='' || price.val()=='' || weight.val()=='' || min_stock.val()=='' || sell_price.val()=='' || lower_price.val()=='' || category.val()=='')
     {
       if(item.val()==''){
         iziToast.error({
@@ -611,6 +664,37 @@ function update() {
       } else {
         lower_price.removeClass('border-danger');
       }
+
+      if(price_currency.val()==''){
+        iziToast.error({
+              icon: 'fa fa-exclamation-circle ',
+              message: 'Price Currency cannot be empty!',
+            });
+        price_currency.addClass('border-danger');
+      } else {
+        price_currency.removeClass('border-danger');
+      }
+
+      if(sell_currency.val()==''){
+        iziToast.error({
+              icon: 'fa fa-exclamation-circle ',
+              message: 'Sell Price Currency cannot be empty!',
+            });
+        sell_currency.addClass('border-danger');
+      } else {
+        sell_currency.removeClass('border-danger');
+      }
+
+      if(lower_currency.val()==''){
+        iziToast.error({
+              icon: 'fa fa-exclamation-circle ',
+              message: 'Lower Price Currency cannot be empty!',
+            });
+        lower_currency.addClass('border-danger');
+      } else {
+        lower_currency.removeClass('border-danger');
+      }
+
       return false;
     }
 

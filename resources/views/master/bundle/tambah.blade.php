@@ -12,31 +12,31 @@
       </div>
       <div class="modal-body">
         <div class="row">
-                       
-                                
+
+
             <div class="col-md-3 col-sm-4 col-xs-12">
                   <label class="tebal">Bundle Name</label>
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group ">
-                  <input type="text"  class="form-control huruf_besar form-control-sm ib_name" name="ib_name">                                    
+                  <input type="text"  class="form-control huruf_besar form-control-sm ib_name" name="ib_name">
               </div>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-12">
-              
+
                   <label class="tebal">Price (Factory)</label>
-             
+
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group disabled">
-                  <input type="text" readonly=""  class="form-control form-control-sm right ib_price" name="ib_price" >                               
+                  <input type="text" readonly=""  class="form-control form-control-sm right ib_price" name="ib_price" >
               </div>
             </div>
 
             <div class="col-md-3 col-sm-4 col-xs-12">
-              
+
                   <label class="tebal">Keterangan</label>
-             
+
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group">
@@ -45,13 +45,13 @@
             </div>
 
             <div class="col-md-3 col-sm-4 col-xs-12">
-              
+
                   <label class="tebal">Sell Price List</label>
-             
+
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group">
-                  <input type="text"  class="form-control form-control-sm right sell_price" name="sell_price" value="0">                               
+                  <input type="text"  class="form-control form-control-sm right sell_price" name="sell_price" value="0">
               </div>
             </div>
 
@@ -64,10 +64,10 @@
                   <select class="form-control m_currency" name="m_currency">
                     @foreach($currency as $val)
                       <option @if ($val->cu_code == 'USD')
-                        selected="" 
+                        selected=""
                       @endif value="{{$val->cu_code}}" data-nilai="{{ $val->cu_value }}">{{$val->cu_code}} || {{$val->cu_name}}</option>
                     @endforeach
-                  </select>                              
+                  </select>
               </div>
             </div>
 
@@ -76,27 +76,27 @@
             </div>
             <div class="col-md-3 col-sm-8 col-xs-12">
               <div class="form-group">
-                  <input type="text"  class="form-control form-control-sm right lower_price" name="lower_price" value="0">                               
+                  <input type="text"  class="form-control form-control-sm right lower_price" name="lower_price" value="0">
               </div>
             </div>
 
-        </div> 
+        </div>
         <div class="row" style="border-top: 1px solid #98c3d1;padding-top: 15px;margin-top: 15px;margin-bottom: 15px;border-bottom: 1px solid #98c3d1;">
           <div class="col-md-1 col-sm-2 col-xs-12">
             <label>Item Name</label>
           </div>
           <div class="col-md-4 col-sm-10 col-xs-10">
-            <div class="form-group">  
-              <select class="form-control form-control-sm" name="" id="bund_kodeitem"> 
+            <div class="form-group">
+              <select class="form-control form-control-sm" name="" id="bund_kodeitem">
                   <option selected="" value="">- Pilih -</option>
                   @foreach ($item as $e)
-                    <option value="{{ $e->i_code }}" data-harga="{{ $e->i_price }}" data-name="{{ $e->i_name }}" data-currency="{{ $e->i_currency_id }}">{{ $e->i_code }} - {{ $e->i_name }}</option>
+                    <option value="{{ $e->i_code }}" data-harga="{{ $e->i_price }}" data-name="{{ $e->i_name }}" data-currency="{{ $e->i_price_currency }}">{{ $e->i_code }} - {{ $e->i_name }}</option>
                   @endforeach
               </select>
             </div>
           </div>
           <div class="col-md-1 col-sm-8 col-xs-2" style="width: 20%!important">
-            <div class="form-group">  
+            <div class="form-group">
               <input style="text-align: center; width: 60%" type="text" readonly="" class="form-control form-control-sm  right"  id="currency">
             </div>
           </div>
@@ -104,7 +104,7 @@
             <label>Harga</label>
           </div>
           <div class="col-md-2 col-sm-4 col-xs-12">
-            <div class="form-group">  
+            <div class="form-group">
               <input type="text" class="form-control form-control-sm" name="" readonly="" placeholder="harga" id="bund_item">
             </div>
           </div>
@@ -112,7 +112,7 @@
             <label>Qty</label>
           </div>
           <div class="col-md-1 col-sm-2 col-xs-12">
-            <div class="form-group">  
+            <div class="form-group">
               <input type="text" class="form-control form-control-sm right" name="bund_qty" id="bund_qty">
             </div>
           </div>
@@ -132,9 +132,9 @@
               </tr>
             </thead>
             <tbody id="edit_rep">
-              
+
             </tbody>
-            
+
           </table>
         </div>
       </div>

@@ -427,6 +427,9 @@
       var this_val = $(this).val();
       total_net = total_net.replace(/[^0-9\-]+/g,"");
       this_val = this_val.replace(/[^0-9\-]+/g,"");
+      if (this_val == "") {
+        this_val = 0;
+      }
       var hitung = parseInt(total_net)+parseInt(this_val);
       $('#total_net').val(accounting.formatMoney(hitung,"",0,'.',','));
     })
@@ -525,7 +528,13 @@
         var hitung = parseInt(total_price)*(10/parseInt(100));
         var nilai_ppn = parseInt(hitung); // DItambahin dirga
         var total  = $('#po_tax').val();
-        var hitung = parseInt(total)+parseInt(hitung);
+        if (total == "") {
+          total = 0;
+          var hitung = parseInt(hitung);
+        } else {
+          total = total.replace(/[^0-9\-]+/g,"");
+          var hitung = parseInt(total)+parseInt(hitung);
+        }
 
         $('#po_tax').val(hitung);
 
@@ -535,7 +544,13 @@
       }else if($(a).prop('checked') == false){
         var hitung = parseInt(total_price)*(10/parseInt(100));
         var total  = $('#po_tax').val();
-        var hitung = parseInt(total)-parseInt(hitung);
+        if (total == "") {
+          total = 0;
+          var hitung = parseInt(0);
+        } else {
+          total = total.replace(/[^0-9\-]+/g,"");
+          var hitung = parseInt(total)-parseInt(hitung);
+        }
 
         $('#po_tax').val(hitung);
 

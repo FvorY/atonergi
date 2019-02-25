@@ -35,8 +35,8 @@
                                     <th class="wd-15p" width="5%">Bundle Code</th>
                                     <th class="wd-15p" width="20%">Bundle Name</th>
                                     <th class="wd-15p" >Description</th>
-                                    <th class="wd-15p"width="20%">Price Bundle</th>
-                                    <th class="wd-15p"width="20%">Price Bundle (Rp)</th>
+                                    <th>Price Bundle</th>
+                                    <th>Price Bundle (Rp)</th>
                                     <th width="15%">Action</th>
                                   </tr>
                                 </thead>
@@ -126,11 +126,11 @@
                   },
                   {
                      targets: 5,
-                     className: 'right format_money'
+                     className: 'right'
                   },
                   {
                      targets: 4,
-                     className: 'right format_money'
+                     className: 'right'
                   },
                 ],
             "columns": [
@@ -178,9 +178,6 @@
             }else if(data.data.cu_code == cur){
               var currency = 1;
             }
-            console.log(data.data.cu_code);
-            console.log(cur);
-            console.log(currency);
             var price  = parseInt(qty)*parseFloat(data.data.i_price)*currency;
             table.row.add( [
                '<input type="text" id="item_kode[]" name="ib_kode_dt[]" class="form-control input-sm min-width" readonly="" value="'+data.data.i_code+'">',
@@ -198,7 +195,6 @@
               var total = $(this).val();
               awal += parseFloat(total);
             });
-            console.log(awal);
             $(".ib_price").val(awal);
             $('#bund_kodeitem').val('').trigger('change');
             $('#bund_qty').val('');
@@ -347,7 +343,6 @@ function detail(parm) {
          url: '{{ route('detail_bundleitem') }}',
          data: {id},
          success: function(data){
-          console.log(data);
           var array_nama='';
           $.each(data, function(i, item) {
               array_nama += '<tr>';
@@ -376,7 +371,6 @@ function edit(id){
   function hapus(parm){
     var par   = $(parm).parents('tr');
     var id    = $(par).find('.i_code').text();
-    console.log(id);
     iziToast.show({
             overlay: true,
             close: false,
