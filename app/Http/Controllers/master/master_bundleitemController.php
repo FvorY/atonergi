@@ -24,7 +24,7 @@ class master_bundleitemController extends Controller
       return redirect('error-404');
     }
 
-    $item = DB::table('m_item')->where('i_jenis','=','ITEM')->get();
+    $item = DB::table('m_item')->where('i_jenis','=','Barang Jual')->get();
  		$currency = DB::table('m_currency')->where('cu_value','!=',null)->get();
 
  		return view('master/bundle/bundle',compact('item','currency'));
@@ -74,11 +74,11 @@ class master_bundleitemController extends Controller
                 ->addColumn('convert', function ($data) {
 
                     $harga = 0;
-                    if ($data->i_currency_id == 'IDR') {
+                    if ($data->i_price_currency == 'idr') {
                       return $total = $data->i_price * 1;
                     }else{
                       $currenncy = DB::table('m_currency')
-                                   ->where('cu_code',$data->i_currency_id)
+                                   ->where('cu_code',$data->i_price_currency)
                                    ->first();
                       return $total = $data->i_price * $currenncy->cu_value;
                     }
@@ -102,12 +102,12 @@ class master_bundleitemController extends Controller
 
     $data_dt = DB::table('m_item_dt')
                   ->join('m_item','i_code','=','id_item')
-                  ->leftjoin('m_currency','i_currency_id','=','cu_code')
+                  ->leftjoin('m_currency','i_price_currency','=','cu_code')
                   ->where('id_id',$id)
                   ->get();
 
 
-    $item = DB::table('m_item')->where('i_jenis','=','ITEM')->get();
+    $item = DB::table('m_item')->where('i_jenis','=','Barang Jual')->get();
 
  		return view('master/bundle/edit_bundle',compact('data','data_dt','item','id','currency'));
  	}
@@ -115,7 +115,7 @@ class master_bundleitemController extends Controller
  	{
  		$data = DB::table('m_item')
           ->join('d_unit','u_id','=','i_unit')
-          ->leftjoin('m_currency','cu_code','=','i_currency_id')
+          ->leftjoin('m_currency','cu_code','=','i_price_currency')
  				  ->where('i_code',$req->kode)
  				  ->first();
 
@@ -165,7 +165,7 @@ class master_bundleitemController extends Controller
                   'i_image'       =>  0,
                   'i_weight'      =>  0,
                   'i_description' =>  $req->keterangan,
-                  'i_currency_id' =>  $req->m_currency,
+                  'i_price_currency' =>  $req->m_currency,
                   'i_insert_at'   =>  Carbon::now(),
                   'i_update_at'   =>  Carbon::now(),
                   'i_insert_by'   =>  $nama,
@@ -217,7 +217,7 @@ class master_bundleitemController extends Controller
                   'i_image'       =>  0,
                   'i_weight'      =>  0,
                   'i_description' =>  $req->keterangan,
-                  'i_currency_id' =>  $req->m_currency,
+                  'i_price_currency' =>  $req->m_currency,
                   'i_update_at'   =>  Carbon::now(),
                   'i_update_by'   =>  $nama,
               ]);
