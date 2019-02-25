@@ -390,7 +390,7 @@ q_qty.keypress(function(e) {
 	            '<input type="text" value="'+accounting.formatMoney(data.data.i_sell_price*q_qty.val(), "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
 	            '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
 	        ] ).draw( false );
-					$('.unit_price').maskMoney({thousands:'.', decimal:',', precision:0});
+					$('.unit_price').mask('000.000.000.000.000', {reverse: true});
 
 					m_table.$('.item_name').last().val(data.data.i_code).trigger('change');
 					m_table.$('.item_name').select2();

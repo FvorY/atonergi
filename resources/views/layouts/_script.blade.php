@@ -211,7 +211,7 @@
   // var regex_angka = replace(/[^0-9\-]+/g,"");
 
   //function
-  $('.format_money').maskMoney({prefix:' ', allowNegative: false, thousands:'.', decimal:',',precision:false, affixesStay: false});
+  $('.format_money').mask('000.000.000.000.000', {reverse: true});
   // $('.format_money_kosongan').maskMoney({prefix:' ', allowNegative: false, thousands:'', decimal:'',precision:false, affixesStay: false});
   $('.right').css('text-align','right')
   $('.sembuyikan').css('display','none')
