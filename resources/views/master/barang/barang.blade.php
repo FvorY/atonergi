@@ -24,6 +24,17 @@
       margin-right: 0;
     }
   }
+  #output{
+    border:1px solid pink;
+    height: 200px;
+    width: 200px;
+  }
+
+  @media(max-width: 576px){
+    .preview_td{
+      text-align: center;
+    }
+  }
 </style>
 @endsection
 
@@ -126,7 +137,7 @@ $(document).ready(function(){
                 url:'{{ route("datatable_barang") }}',
                 data:{nota: function() { return $('.cari_barang').val() }},
                 error:function(){
-                  location.reload();
+                  // location.reload();
                 }
             },
             columnDefs: [
@@ -247,7 +258,7 @@ $('#tombol_modal_tambah').click(function(){
     $('#chooseFile').val('');
     $('#noFile').text('Choose Image...');
     $(".file-upload").removeClass('active');
-    $('.preview_td').html('<img style="width: 100px;height: 100px;border:1px solid pink" id="output" >');
+    $('.preview_td').html('<img id="output" >');
     $('select[name="type_barang"]').val('').trigger('change');
     $('input[name="unit"]').val('');
     $('input[name="price"]').val('');

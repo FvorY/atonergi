@@ -89,7 +89,7 @@
                 <div class="col-lg-6 col-sm-12">
 
                   <div class="row">
-                  {{--
+                  {{-- 
                     <div class="col-lg-6 col-sm-4 col-xs-12">
                         <label class="tebal">Currency</label>
                     </div>
@@ -120,7 +120,7 @@
                       <div class="form-group">
                           <input type="text"  class="form-control hanya_angka form-control-sm sell_price" name="sell_price" maxlength="20" required="">
                       </div>
-
+                      
                     </div>
 
 
@@ -163,6 +163,7 @@
                           </select>
                       </div>
                     </div>
+<<<<<<< HEAD
 
                     <div class="col-lg-6 col-sm-4 col-xs-12">
                         <label class="tebal">Akun Pendapatan</label>
@@ -205,27 +206,32 @@
                           </select>
                       </div>
                     </div>
+=======
+>>>>>>> 80cf5d23bfc59ff438c74f4635c8c63611b90578
                   </div>
                 </div>
+                
 
 
-
-              <div class="col-md-3 col-sm-4 col-xs-12">
+              <div class="col-lg-3 col-sm-4 col-xs-12">
 
                     <label class="tebal">Description</label>
 
               </div>
-              <div class="col-md-9 col-sm-8 col-xs-12">
+              <div class="col-lg-9 col-sm-8 col-xs-12">
                 <div class="form-group">
                     <textarea class="form-control form-control-sm" name="description"></textarea>
                 </div>
               </div>
 
-              <div class="col-md-3 col-sm-4 col-xs-12 122mm">
+              <div class="col-lg-3 col-sm-4 col-xs-12 122mm">
                 <label>Image</label>
               </div>
 
-              <div class="col-md-3 col-sm-8 col-xs-12 122mm">
+              <div class="col-lg-3 col-sm-8 col-xs-12 122mm">
+
+                <div class="form-group">
+
                   <div class="file-upload">
                     <div class="file-select">
                       <div class="file-select-button" id="fileName">Image</div>
@@ -234,15 +240,18 @@
                     </div>
                   </div>
 
+                </div>
+
               </div>
 
-              <div class="col-md-3 col-sm-4 col-xs-12 122mm">
+              <div class="col-lg-3 col-sm-4 col-xs-12 122mm">
                 <label>Preview</label>
               </div>
 
-              <div class="col-md-3 col-sm-8 col-xs-12 122mm">
+              <div class="col-lg-3 col-sm-8 col-xs-12 122mm">
                   <div class="preview_td">
-                      <img style="width: 100px;height: 100px;border:1px solid pink" id="output" >
+                      <img id="output" >
+                      
                   </div>
               </div>
 
