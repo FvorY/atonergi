@@ -165,11 +165,11 @@
                     </div>
 
                     <div class="col-lg-6 col-sm-4 col-xs-12">
-                        <label class="tebal">Akun HPP</label>
+                        <label class="tebal">Akun Pendapatan</label>
                     </div>
                     <div class="col-lg-6 col-sm-8 col-xs-12">
                       <div class="form-group">
-                          <select class="akunhpp" name="akunhpp">
+                          <select class="akunpendapatan" name="akunpendapatan">
                             <option value="">--Select Type--</option>
                             @foreach ($akun as $key => $value)
                               <option value="{{$value->ak_id}}">{{$value->ak_nama}}</option>
@@ -184,6 +184,20 @@
                     <div class="col-lg-6 col-sm-8 col-xs-12">
                       <div class="form-group">
                           <select class="akunpersediaan" name="akunpersediaan">
+                            <option value="">--Select Type--</option>
+                            @foreach ($akun as $key => $value)
+                              <option value="{{$value->ak_id}}">{{$value->ak_nama}}</option>
+                            @endforeach
+                          </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-4 col-xs-12">
+                        <label class="tebal">Akun Beban</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                          <select class="akunbeban" name="akunbeban">
                             <option value="">--Select Type--</option>
                             @foreach ($akun as $key => $value)
                               <option value="{{$value->ak_id}}">{{$value->ak_nama}}</option>
