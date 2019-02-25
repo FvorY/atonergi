@@ -164,6 +164,15 @@
              data:$('#form-save').serialize(),
              success: function(data){
 
+              if(data.status == '8'){
+              	iziToast.error({
+	                icon: 'fas fa-times',
+	                message: 'Data Gagal Disimpan, Segera Hubungi Developer Untuk Pemeriksaan...',
+	            });
+
+	            return false;
+              }
+
               iziToast.success({
                 icon: 'fas fa-check-circle',
                 message: 'Data Telah Tersimpan!',

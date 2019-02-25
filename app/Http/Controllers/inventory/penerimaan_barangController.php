@@ -9,6 +9,9 @@ use DB;
 use Carbon\Carbon;
 use App\mMember;
 use App\Http\Controllers\logController;
+
+use keuangan;
+
 class penerimaan_barangController extends Controller
 {
 
@@ -94,6 +97,9 @@ class penerimaan_barangController extends Controller
 	 }
 	 public function save_penerimaan_barang(Request $request)
 	 {
+
+	 	// return json_encode($request->all());
+
 	 	// dd($request->all());
        return DB::transaction(function() use ($request) {
        $tanggal = date("Y-m-d h:i:s");
@@ -227,6 +233,98 @@ class penerimaan_barangController extends Controller
 								}
 
 	 	}
+
+	   	// Tambahan Dirga
+
+		   	$jrdt = []; $hutang = 0;
+		   	$isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+		   	$akunHutang = DB::table('dk_akun')
+							   	->where('ak_id', function($query) use ($isPusat){
+							   			$query->select('ap_akun')->from('dk_akun_penting')
+							   						->where('ap_nama', 'Hutang Usaha')->where('ap_comp', $isPusat)->first();
+							   	})->first();
+
+			if(!$akunHutang){
+				DB::rollback();
+			 	return response()->json(['status'=>8]);
+			}
+
+		 	foreach($request->qty_received as $key => $item){
+
+		 		$detail = DB::table('d_purchaseorder_dt')
+		 					->where('podt_code', $request->pb_ref)
+		 					->where('podt_item', $request->po_item[$key])->first();
+
+		 		if($detail){
+		 			$akun = DB::table('dk_akun')
+			 					->where('ak_id', function($query) use ($key, $request){
+			 						$query->select('i_akun_persediaan')->from('m_item')
+			 									->where('i_code', $request->po_item[$key])->first();
+			 					})->first();
+
+			 		if($akun){
+
+			 			$persediaan =  (($detail->podt_unit_price * $item));
+			 			$pajak = ($detail->podt_tax != 0) ? (round($detail->podt_unit_price * (10/100)) * $item) : 0;
+
+	 					$hutang += $persediaan;
+
+			 			if(!array_key_exists($akun->ak_id, $jrdt)){
+			 				$totPersediaan = $totPajak = 0; $dk = '';
+
+			 				if($akun->ak_posisi == 'D'){
+			 					$totPersediaan	+= $persediaan;
+			 				}else{
+			 					$totPersediaan	-= $persediaan;
+			 				}
+
+			 				$jrdt[$akun->ak_id] = [
+			 					'jrdt_akun' 	=> $akun->ak_id,
+			 					'jrdt_value'	=> str_replace('-', '', $totPersediaan),
+			 					'jrdt_dk'		=> 'D'
+			 				];
+
+			 			}else{
+			 				$totPersediaan = $jrdt[$akun->ak_id]['jrdt_value']; $totPajak = 0; $dk = '';
+
+			 				if($akun->ak_posisi == 'D'){
+			 					$totPersediaan	+= $persediaan;
+			 				}else{
+			 					$totPersediaan	-= $persediaan;
+			 				}
+
+
+			 				$jrdt[$akun->ak_id] = [
+			 					'jrdt_akun' 	=> $akun->ak_id,
+			 					'jrdt_value'	=> str_replace('-', '', $totPersediaan),
+			 					'jrdt_dk'		=> 'D'
+			 				];
+
+			 			}
+
+			 		}else{
+			 			DB::rollback();
+			 			return response()->json(['status'=>8]);
+			 		}
+
+		 		}else{
+		 			DB::rollback();
+		 			return response()->json(['status'=>8]);
+		 		}
+
+		 		$jrdt[$akunHutang->ak_id] = [
+					'jrdt_akun' 	=> $akunHutang->ak_id,
+					'jrdt_value'	=> str_replace('-', '', $hutang),
+					'jrdt_dk'		=> 'K'
+				];
+
+		 		// return json_encode($akun);
+		 	}
+
+		 	keuangan::jurnal()->addJurnal($jrdt, date('Y-m-d',strtotime($request->pb_date)), $nota, 'Penerimaan Barang Atas Nota '.$request->pb_ref, 'MM', modulSetting()['onLogin'], true);
+
+	 	// Selesai Dirga
+
 		logController::inputlog('Penerimaan Barang', 'Insert', $nota);
 	 	return response()->json(['status'=>1]);
 	 });
@@ -243,6 +341,7 @@ class penerimaan_barangController extends Controller
 
 	 public function update_penerimaan_barang(Request $request)
 	 {
+	 	// return json_encode($request->all());
 	 return DB::transaction(function() use ($request) {
 
 			for ($i=0; $i < count($request->po_item); $i++) {
@@ -279,9 +378,9 @@ class penerimaan_barangController extends Controller
 					 ->where('pbdt_code', $request->nota)
 					 ->delete();
 
-		 $tanggal = date("Y-m-d h:i:s");
+		 	$tanggal = date("Y-m-d h:i:s");
 
- 		$kode = DB::table('d_penerimaan_barang')->max('pb_id');
+ 			$kode = DB::table('d_penerimaan_barang')->max('pb_id');
  				 if ($kode == null) {
  						 $kode = 1;
  				 }else{
@@ -309,30 +408,30 @@ class penerimaan_barangController extends Controller
 
 
  	 // sequence
-  for ($i=0; $i <count($request->po_item) ; $i++) {
- 		 $kode_seq += 1;
- 	 $arr1[$i] =	$request->qty_remain[$i];
- 	 $arr2[$i] = $request->qty_received[$i];
+  	for ($i=0; $i <count($request->po_item) ; $i++) {
+ 		$kode_seq += 1;
+	 	$arr1[$i] =	$request->qty_approved[$i];
+	 	$arr2[$i] = $request->qty_received[$i];
 
- 		 $subtracted = array_map(function ($x, $y) { return $x-$y;} , $arr1, $arr2);
- 	 $result = array_combine(array_keys($arr1), $subtracted);
+ 		$subtracted = array_map(function ($x, $y) { return $x-$y;} , $arr1, $arr2);
+ 	 	$result = array_combine(array_keys($arr1), $subtracted);
 
- 	 $data_seq = DB::table('d_penerimaan_barang_dt')->insert([
- 		 'pbdt_id'=>$kode_seq,
- 		 'pbdt_code'=>$nota,
- 		 'pbdt_item'=>$request->po_item[$i],
- 		 'pbdt_qty_sent'=>$request->qty_approved[$i],
- 		 'pbdt_qty_received'=>$request->qty_received[$i],
- 		 'pbdt_qty_remains'=>$result[$i],
- 		 'pbdt_insert'=>$tanggal,
- 		 'pbdt_insert_by'=>'',
- 	 ]);
+	 	$data_seq = DB::table('d_penerimaan_barang_dt')->insert([
+	 		 'pbdt_id'=>$kode_seq,
+	 		 'pbdt_code'=>$nota,
+	 		 'pbdt_item'=>$request->po_item[$i],
+	 		 'pbdt_qty_sent'=>$request->qty_approved[$i],
+	 		 'pbdt_qty_received'=>$request->qty_received[$i],
+	 		 'pbdt_qty_remains'=>$result[$i],
+	 		 'pbdt_insert'=>$tanggal,
+	 		 'pbdt_insert_by'=>'',
+ 	 	]);
 
- 	 $seq_po = DB::table('d_purchaseorder_dt')
- 			 ->where('podt_code','=',$request->pb_ref)
- 			 ->update(['podt_status'=>'T']);
+	 	$seq_po = DB::table('d_purchaseorder_dt')
+	 			 ->where('podt_code','=',$request->pb_ref)
+	 			 ->update(['podt_status'=>'T']);
 
- 	 $stock = DB::table('i_stock_gudang')
+ 	 	$stock = DB::table('i_stock_gudang')
  						 ->where('sg_iditem', $request->po_item[$i])
  						 ->get();
 
@@ -406,17 +505,118 @@ class penerimaan_barangController extends Controller
  										 ]);
  						 }
 
-  }
+  	}
+
+  		// Tambahan Dirga
+
+		   	$jrdt = []; $hutang = 0;
+		   	$isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+		   	$akunHutang = DB::table('dk_akun')
+							   	->where('ak_id', function($query) use ($isPusat){
+							   			$query->select('ap_akun')->from('dk_akun_penting')
+							   						->where('ap_nama', 'Hutang Usaha')->where('ap_comp', $isPusat)->first();
+							   	})->first();
+
+			if(!$akunHutang){
+				DB::rollback();
+			 	return response()->json(['status'=>8]);
+			}
+
+		 	foreach($request->qty_received as $key => $item){
+
+		 		$detail = DB::table('d_purchaseorder_dt')
+		 					->where('podt_code', $request->pb_ref)
+		 					->where('podt_item', $request->po_item[$key])->first();
+
+		 		if($detail){
+		 			$akun = DB::table('dk_akun')
+			 					->where('ak_id', function($query) use ($key, $request){
+			 						$query->select('i_akun_persediaan')->from('m_item')
+			 									->where('i_code', $request->po_item[$key])->first();
+			 					})->first();
+
+			 		if($akun){
+
+			 			$persediaan =  (($detail->podt_unit_price * $item));
+			 			$pajak = ($detail->podt_tax != 0) ? (round($detail->podt_unit_price * (10/100)) * $item) : 0;
+
+	 					$hutang += $persediaan;
+
+			 			if(!array_key_exists($akun->ak_id, $jrdt)){
+			 				$totPersediaan = $totPajak = 0; $dk = '';
+
+			 				if($akun->ak_posisi == 'D'){
+			 					$totPersediaan	+= $persediaan;
+			 				}else{
+			 					$totPersediaan	-= $persediaan;
+			 				}
+
+			 				$jrdt[$akun->ak_id] = [
+			 					'jrdt_akun' 	=> $akun->ak_id,
+			 					'jrdt_value'	=> str_replace('-', '', $totPersediaan),
+			 					'jrdt_dk'		=> 'D'
+			 				];
+
+			 			}else{
+			 				$totPersediaan = $jrdt[$akun->ak_id]['jrdt_value']; $totPajak = 0; $dk = '';
+
+			 				if($akun->ak_posisi == 'D'){
+			 					$totPersediaan	+= $persediaan;
+			 				}else{
+			 					$totPersediaan	-= $persediaan;
+			 				}
+
+
+			 				$jrdt[$akun->ak_id] = [
+			 					'jrdt_akun' 	=> $akun->ak_id,
+			 					'jrdt_value'	=> str_replace('-', '', $totPersediaan),
+			 					'jrdt_dk'		=> 'D'
+			 				];
+
+			 			}
+
+			 		}else{
+			 			DB::rollback();
+			 			return response()->json(['status'=>8]);
+			 		}
+
+		 		}else{
+		 			DB::rollback();
+		 			return response()->json(['status'=>8]);
+		 		}
+
+		 		$jrdt[$akunHutang->ak_id] = [
+					'jrdt_akun' 	=> $akunHutang->ak_id,
+					'jrdt_value'	=> str_replace('-', '', $hutang),
+					'jrdt_dk'		=> 'K'
+				];
+
+		 		// return json_encode($akun);
+		 	}
+
+		 	// return json_encode($jrdt);
+
+		 	$idJurnal = DB::table('dk_jurnal')->where('jr_ref', $nota)->first();
+
+            if($idJurnal){
+                keuangan::jurnal()->dropJurnal($idJurnal->jr_id);
+            }
+
+		 	keuangan::jurnal()->addJurnal($jrdt, date('Y-m-d'), $nota, 'Penerimaan Barang Atas Nota '.$request->pb_ref, 'MM', modulSetting()['onLogin'], true);
+
+	 	// Selesai Dirga
+
 		logController::inputlog('Penerimaan Barang', 'Update', $nota);
 	 	return response()->json(['status'=>1]);
 	 });
 	 }
+
 	 public function edit_penerimaan_barang(Request $request)
 	 {
 	 	$header_penerimaan = DB::table('d_penerimaan_barang')->leftjoin('m_vendor','d_penerimaan_barang.pb_vendor','=','m_vendor.s_kode')->where('pb_code','=',$request->id)->first();
 	 	json_encode($header_penerimaan);
 	 	$id = $request->id;
-	 	$seq_penerimaan = DB::table('d_penerimaan_barang_dt')->leftjoin('m_item','m_item.i_code','=','d_penerimaan_barang_dt.pbdt_item')->leftjoin('d_unit', 'u_id', '=', 'i_unit')->where('pbdt_qty_remains','!=','0')->where('pbdt_code','=',$request->id)->get();
+	 	$seq_penerimaan = DB::table('d_penerimaan_barang_dt')->leftjoin('m_item','m_item.i_code','=','d_penerimaan_barang_dt.pbdt_item')->leftjoin('d_unit', 'u_id', '=', 'i_unit')->where('pbdt_code','=',$request->id)->get();
 
 	 	return view('inventory/penerimaan_barang/edit_penerimaan_barang',compact("header_penerimaan",'seq_penerimaan','id'));
 	 }
@@ -424,6 +624,13 @@ class penerimaan_barangController extends Controller
 	 {
 	 	$header_penerimaan = DB::table('d_penerimaan_barang')->where('pb_code','=',$request->id)->delete();
 	 	$seq_penerimaan = DB::table('d_penerimaan_barang_dt')->where('pbdt_code','=',$request->id)->delete();
+
+	 	$idJurnal = DB::table('dk_jurnal')->where('jr_ref', $request->id)->first();
+
+        if($idJurnal){
+            keuangan::jurnal()->dropJurnal($idJurnal->jr_id);
+        }
+
 		logController::inputlog('Penerimaan Barang', 'Delete', $request->id);
 	 }
 }

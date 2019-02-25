@@ -12,6 +12,8 @@ use App\mMember;
 
 use App\Http\Controllers\logController;
 
+use keuangan;
+
 class InventoryController extends Controller
 {
     public function barangmasuk()
@@ -74,145 +76,195 @@ class InventoryController extends Controller
       DB::beginTransaction();
       try {
 
-      $checkstock = DB::table('i_stock_gudang')
-                      ->where('sg_iditem', $request->pbd_item)
-                      ->select('sg_qty')
-                      ->get();
+        // return json_encode($request->all());
 
-      if ($checkstock[0]->sg_qty < $request->pbd_qty) {
-        return response()->json([
-          'status' => 'stock kurang'
-        ]);
-      } else {
-        $pbid = DB::table('d_pengeluaran_barang')
-                ->max('pb_id');
+        $hpp = 0;
+        $checkstock = DB::table('i_stock_gudang')
+                        ->where('sg_iditem', $request->pbd_item)
+                        ->select('sg_qty')
+                        ->get();
 
-        if ($pbid == null) {
-          $pbid = 1;
+        if ($checkstock[0]->sg_qty < $request->pbd_qty) {
+          return response()->json([
+            'status' => 'stock kurang'
+          ]);
         } else {
-          $pbid += 1;
-        }
+          $pbid = DB::table('d_pengeluaran_barang')
+                  ->max('pb_id');
 
-        DB::table('d_pengeluaran_barang')
-            ->insert([
-              'pb_id' => $pbid,
-              'pb_code' => $request->pb_code,
-              'pb_receive_from' => $request->pbd_receive_from,
-              'pb_date' => Carbon::parse($request->pb_date)->format('Y-m-d'),
-              'pb_insert' => Carbon::now('Asia/Jakarta')
-            ]);
+          if ($pbid == null) {
+            $pbid = 1;
+          } else {
+            $pbid += 1;
+          }
 
-        $pbdid = DB::table('d_pengeluaran_barang_dt')
-                ->max('pbd_id');
+          DB::table('d_pengeluaran_barang')
+              ->insert([
+                'pb_id' => $pbid,
+                'pb_code' => $request->pb_code,
+                'pb_receive_from' => $request->pbd_receive_from,
+                'pb_date' => Carbon::parse($request->pb_date)->format('Y-m-d'),
+                'pb_insert' => Carbon::now('Asia/Jakarta')
+              ]);
 
-        if ($pbdid == null) {
-          $pbdid = 1;
-        } else {
-          $pbdid += 1;
-        }
+          $pbdid = DB::table('d_pengeluaran_barang_dt')
+                  ->max('pbd_id');
 
-        DB::table('d_pengeluaran_barang_dt')
-            ->insert([
-                'pbd_id' => $pbdid,
-                'pbd_code' => $request->pb_code,
-                'pbd_receive_from' => $request->pbd_receive_from,
-                'pbd_item' => $request->pbd_item,
-                'pbd_qty' => $request->pbd_qty,
-                'pbd_insert' => Carbon::now('Asia/Jakarta')
-            ]);
+          if ($pbdid == null) {
+            $pbdid = 1;
+          } else {
+            $pbdid += 1;
+          }
 
-          $stock = DB::table('i_stock_gudang')
-                ->join('i_stock_mutasi', 'sm_id', '=', 'sg_id')
-                ->select('i_stock_gudang.*', 'i_stock_mutasi.*', DB::raw('(sm_qty - sm_use) as sm_sisa'))
-                ->where('i_stock_gudang.sg_iditem','=', $request->pbd_item)
-                ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
-                ->get();
+          DB::table('d_pengeluaran_barang_dt')
+              ->insert([
+                  'pbd_id' => $pbdid,
+                  'pbd_code' => $request->pb_code,
+                  'pbd_receive_from' => $request->pbd_receive_from,
+                  'pbd_item' => $request->pbd_item,
+                  'pbd_qty' => $request->pbd_qty,
+                  'pbd_insert' => Carbon::now('Asia/Jakarta')
+              ]);
 
-            $permintaan = $request->pbd_qty;
+            $stock = DB::table('i_stock_gudang')
+                  ->join('i_stock_mutasi', 'sm_id', '=', 'sg_id')
+                  ->select('i_stock_gudang.*', 'i_stock_mutasi.*', DB::raw('(sm_qty - sm_use) as sm_sisa'))
+                  ->where('i_stock_gudang.sg_iditem','=', $request->pbd_item)
+                  ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
+                  ->get();
 
-            DB::table('i_stock_gudang')
-            ->where('sg_id', $stock[0]->sm_id)
-            ->where('sg_iditem', $stock[0]->sm_item)
-            ->update([
-              'sg_qty' => $stock[0]->sg_qty - $permintaan
-            ]);
+              $permintaan = $request->pbd_qty;
 
-        for ($j=0; $j < count($stock); $j++) {
-          //Terdapat sisa permintaan
+              DB::table('i_stock_gudang')
+              ->where('sg_id', $stock[0]->sm_id)
+              ->where('sg_iditem', $stock[0]->sm_item)
+              ->update([
+                'sg_qty' => $stock[0]->sg_qty - $permintaan
+              ]);
 
-          $detailid = DB::table('i_stock_mutasi')
-                    ->max('sm_iddetail');
+          for ($j=0; $j < count($stock); $j++) {
+            //Terdapat sisa permintaan
 
-           if ($permintaan > $stock[$j]->sm_sisa && $permintaan != 0) {
+            $detailid = DB::table('i_stock_mutasi')
+                      ->max('sm_iddetail');
 
-             DB::table('i_stock_mutasi')
-                ->where('sm_id', '=', $stock[$j]->sm_id)
-                ->where('sm_iddetail', '=', $stock[$j]->sm_iddetail)
-                ->update([
-                  'sm_use' => $stock[$j]->sm_qty,
-                  'sm_sisa' => 0
-                ]);
-
-            $permintaan = $permintaan - $stock[$j]->sm_sisa;
-
-              DB::table('i_stock_mutasi')
-                ->insert([
-                  'sm_id' => $stock[$j]->sm_id,
-                  'sm_iddetail' => $detailid + 1,
-                  'sm_item' => $request->pbd_item,
-                  'sm_description' => $request->pbd_receive_from,
-                  'sm_qty' => $stock[$j]->sm_sisa,
-                  'sm_use' => 0,
-                  'sm_sisa' => $stock[$j]->sm_sisa,
-                  'sm_hpp' => $stock[$j]->sm_hpp,
-                  'sm_ref' => $request->pb_code,
-                  'sm_deliveryorder' => $stock[$j]->sm_deliveryorder
-                ]);
-
-           } elseif ($permintaan <= $stock[$j]->sm_sisa && $permintaan != 0) {
-              //Langsung Eksekusi
-
-              $detailid = DB::table('i_stock_mutasi')
-                        ->max('sm_iddetail');
-
-              DB::table('i_stock_mutasi')
-                 ->where('sm_id', '=', $stock[$j]->sm_id)
-                 ->where('sm_iddetail', '=', $stock[$j]->sm_iddetail)
-                 ->update([
-                   'sm_use' => $permintaan + $stock[$j]->sm_use,
-                   'sm_sisa' => $stock[$j]->sm_sisa - $permintaan
-                 ]);
+             if ($permintaan > $stock[$j]->sm_sisa && $permintaan != 0) {
 
                DB::table('i_stock_mutasi')
-                 ->insert([
-                   'sm_id' => $stock[$j]->sm_id,
-                   'sm_iddetail' => $detailid + 1,
-                   'sm_item' => $request->pbd_item,
-                   'sm_description' => $request->pbd_receive_from,
-                   'sm_qty' => $permintaan,
-                   'sm_use' => 0,
-                   'sm_sisa' => $permintaan,
-                   'sm_hpp' => $stock[$j]->sm_hpp,
-                   'sm_ref' => $request->pb_code,
-                   'sm_deliveryorder' => $stock[$j]->sm_deliveryorder
-                 ]);
+                  ->where('sm_id', '=', $stock[$j]->sm_id)
+                  ->where('sm_iddetail', '=', $stock[$j]->sm_iddetail)
+                  ->update([
+                    'sm_use' => $stock[$j]->sm_qty,
+                    'sm_sisa' => 0
+                  ]);
 
-                $permintaan = 0;
-                $j = count($stock) + 1;
-           }
+              $permintaan = $permintaan - $stock[$j]->sm_sisa;
+
+                DB::table('i_stock_mutasi')
+                  ->insert([
+                    'sm_id' => $stock[$j]->sm_id,
+                    'sm_iddetail' => $detailid + 1,
+                    'sm_item' => $request->pbd_item,
+                    'sm_description' => $request->pbd_receive_from,
+                    'sm_qty' => $stock[$j]->sm_sisa,
+                    'sm_use' => 0,
+                    'sm_sisa' => $stock[$j]->sm_sisa,
+                    'sm_hpp' => $stock[$j]->sm_hpp,
+                    'sm_ref' => $request->pb_code,
+                    'sm_deliveryorder' => $stock[$j]->sm_deliveryorder
+                  ]);
+
+                  $hpp += ($stock[$j]->sm_hpp * $stock[$j]->sm_sisa);
+
+             } elseif ($permintaan <= $stock[$j]->sm_sisa && $permintaan != 0) {
+                //Langsung Eksekusi
+
+                $detailid = DB::table('i_stock_mutasi')
+                          ->max('sm_iddetail');
+
+                DB::table('i_stock_mutasi')
+                   ->where('sm_id', '=', $stock[$j]->sm_id)
+                   ->where('sm_iddetail', '=', $stock[$j]->sm_iddetail)
+                   ->update([
+                     'sm_use' => $permintaan + $stock[$j]->sm_use,
+                     'sm_sisa' => $stock[$j]->sm_sisa - $permintaan
+                   ]);
+
+                 DB::table('i_stock_mutasi')
+                   ->insert([
+                     'sm_id' => $stock[$j]->sm_id,
+                     'sm_iddetail' => $detailid + 1,
+                     'sm_item' => $request->pbd_item,
+                     'sm_description' => $request->pbd_receive_from,
+                     'sm_qty' => $permintaan,
+                     'sm_use' => 0,
+                     'sm_sisa' => $permintaan,
+                     'sm_hpp' => $stock[$j]->sm_hpp,
+                     'sm_ref' => $request->pb_code,
+                     'sm_deliveryorder' => $stock[$j]->sm_deliveryorder
+                   ]);
+
+                  $hpp += ($stock[$j]->sm_hpp * $permintaan);
+                  $permintaan = 0;
+                  $j = count($stock) + 1;
+             }
+          }
         }
-      }
 
-      logController::inputlog('Pengeluaran Barang', 'Insert', $request->pb_code);
 
-        DB::commit();
-        return response()->json([
-          'status' => 'berhasil'
-        ]);
+
+        // Tambahan Dirga
+
+          $akunPersediaan = DB::table('dk_akun')
+                  ->where('ak_id', function($query) use ($request){
+                    $query->select('i_akun_persediaan')->from('m_item')
+                          ->where('i_code', $request->pbd_item)->first();
+                  })->first();
+
+          $akunBeban = DB::table('dk_akun')
+                  ->where('ak_id', function($query) use ($request){
+                    $query->select('i_akun_beban')->from('m_item')
+                          ->where('i_code', $request->pbd_item)->first();
+                  })->first();
+
+          if(!$akunBeban || !$akunPersediaan){
+            return response()->json([
+              'status' => 'gagal. Permbukuan Pada Jurnal Tidak Bisa Dilakukan, Harap Segera Hubungi Developer.',
+            ]);
+          }
+
+          $detail = [];
+
+          $detail[$akunBeban->ak_id] = [
+              'jrdt_akun'   => $akunBeban->ak_id,
+              'jrdt_value'  => str_replace('-', '', $hpp),
+              'jrdt_dk'   => 'D'
+          ];
+
+          $detail[$akunPersediaan->ak_id] = [
+              'jrdt_akun'   => $akunPersediaan->ak_id,
+              'jrdt_value'  => str_replace('-', '', $hpp),
+              'jrdt_dk'   => 'K'
+          ];
+
+          keuangan::jurnal()->addJurnal($detail, Carbon::parse($request->pb_date)->format('Y-m-d'), $request->pb_code, 'Pengeluaran Barang - '.$request->pbd_receive_from, 'MM', modulSetting()['onLogin'], true);
+
+          // return json_encode($detail);
+
+          // return $hpp;
+
+        // Selesai Dirga
+
+          logController::inputlog('Pengeluaran Barang', 'Insert', $request->pb_code);
+
+          DB::commit();
+          return response()->json([
+            'status' => 'berhasil'
+          ]);
       } catch (\Exception $e) {
         DB::rollback();
         return response()->json([
-          'status' => 'gagal'
+          'status' => 'gagal '.$e
         ]);
       }
 
