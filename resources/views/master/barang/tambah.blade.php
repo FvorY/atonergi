@@ -89,7 +89,7 @@
                 <div class="col-lg-6 col-sm-12">
 
                   <div class="row">
-                  {{-- 
+                  {{--
                     <div class="col-lg-6 col-sm-4 col-xs-12">
                         <label class="tebal">Currency</label>
                     </div>
@@ -120,7 +120,7 @@
                       <div class="form-group">
                           <input type="text"  class="form-control hanya_angka form-control-sm sell_price" name="sell_price" maxlength="20" required="">
                       </div>
-                      
+
                     </div>
 
 
@@ -163,9 +163,37 @@
                           </select>
                       </div>
                     </div>
+
+                    <div class="col-lg-6 col-sm-4 col-xs-12">
+                        <label class="tebal">Akun HPP</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                          <select class="akunhpp" name="akunhpp">
+                            <option value="">--Select Type--</option>
+                            @foreach ($akun as $key => $value)
+                              <option value="{{$value->ak_id}}">{{$value->ak_nama}}</option>
+                            @endforeach
+                          </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-4 col-xs-12">
+                        <label class="tebal">Akun Persediaan</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-xs-12">
+                      <div class="form-group">
+                          <select class="akunpersediaan" name="akunpersediaan">
+                            <option value="">--Select Type--</option>
+                            @foreach ($akun as $key => $value)
+                              <option value="{{$value->ak_id}}">{{$value->ak_nama}}</option>
+                            @endforeach
+                          </select>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                
+
 
 
               <div class="col-md-3 col-sm-4 col-xs-12">

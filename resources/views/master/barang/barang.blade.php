@@ -322,7 +322,12 @@ function simpan(){
     var description = $('textarea[name="description"]');
     var sell_price = $('input[name="sell_price"]');
     var lower_price = $('input[name="lower_price"]');
-    if(item.val()=='' || type_barang.val()=='' || unit.val()=='' || price.val()=='' || weight.val()=='' || min_stock.val()=='' || sell_price.val()=='' || lower_price.val()=='' || img.val()=='' || category.val()=='')
+    var price_currency = $('input[name=price_currency]');
+    var sell_currency = $('input[name=sell_price_currency]');
+    var lower_currency = $('input[lower_price_currency]');
+    var akunhpp = $('select[name=akunhpp]');
+    var akunpersediaan = $('select[name=akunpersediaan]');
+    if(akunpersediaan.val() == '' || akunhpp.val() == '' || lower_currency.val() == '' || sell_currency.val() == '' || price_currency.val() == '' || item.val()=='' || type_barang.val()=='' || unit.val()=='' || price.val()=='' || weight.val()=='' || min_stock.val()=='' || sell_price.val()=='' || lower_price.val()=='' || img.val()=='' || category.val()=='')
     {
       if(item.val()==''){
         iziToast.error({
@@ -418,6 +423,57 @@ function simpan(){
     } else {
       category.removeClass('border-danger');
     }
+
+    if(price_currency.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Price Currency cannot be empty!',
+          });
+      price_currency.addClass('border-danger');
+    } else {
+      price_currency.removeClass('border-danger');
+    }
+
+    if(sell_currency.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Sell Price Currency cannot be empty!',
+          });
+      sell_currency.addClass('border-danger');
+    } else {
+      sell_currency.removeClass('border-danger');
+    }
+
+    if(lower_currency.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Lower Price Currency cannot be empty!',
+          });
+      lower_currency.addClass('border-danger');
+    } else {
+      lower_currency.removeClass('border-danger');
+    }
+
+    if(akunhpp.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Akun HPP cannot be empty!',
+          });
+      akunhpp.addClass('border-danger');
+    } else {
+      akunhpp.removeClass('border-danger');
+    }
+
+    if(akunpersediaan.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Akun Persediaan cannot be empty!',
+          });
+      akunpersediaan.addClass('border-danger');
+    } else {
+      akunpersediaan.removeClass('border-danger');
+    }
+
     return false;
   }
 
@@ -483,7 +539,12 @@ function edit(m1a2)
             var i_description      = $("textarea[name='description']").val(data[0].i_description);
             var i_type      = $("select[name='type_barang']").val(data[0].i_type).trigger('change');
             var i_jenis      = $("select[name='category']").val(data[0].i_jenis).trigger('change');
+            var i_akunhpp      = $("select[name='akunhpp']").val(data[0].i_akunhpp).trigger('change');
+            var i_akunpersediaan      = $("select[name='akunpersediaan']").val(data[0].i_akunpersediaan).trigger('change');
             var i_unit      = $("input[name='unit']").val(data[0].i_unit);
+            var price_currency = $('input[name=price_currency][value='+data[0].i_price_currency+']').attr('checked', 'checked');
+            var sell_price_currency = $('input[name=sell_price_currency][value='+data[0].i_sell_currency+']').attr('checked', 'checked');
+            var lower_price_currency = $('input[name=lower_price_currency][value='+data[0].i_lower_currency+']').attr('checked', 'checked');
             var i_sell_price      = $("input[name='sell_price']").val(data[0].i_sell_price.replace(/[^0-9\-]+/g,"")/100);
             var i_lower_price      = $("input[name='lower_price']").val(data[0].i_lower_price.replace(/[^0-9\-]+/g,"")/100);
 
