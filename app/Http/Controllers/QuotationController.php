@@ -227,7 +227,7 @@ class QuotationController extends Controller
       // return json_encode($data);
 
       for ($i=0; $i < count($currency); $i++) {
-        if ($data->i_currency_id == $currency[$i]->cu_code) {
+        if ($data->i_price_currency == $currency[$i]->cu_code) {
           $data->i_sell_price = $data->i_sell_price * $currency[$i]->cu_value;
           $data->i_lower_price = $data->i_lower_price * $currency[$i]->cu_value;
         }
@@ -254,7 +254,7 @@ class QuotationController extends Controller
                   ->get();
 
       for ($i=0; $i < count($currency); $i++) {
-        if ($data->i_currency_id == $currency[$i]->cu_code) {
+        if ($data->i_price_currency == $currency[$i]->cu_code) {
           $data->i_sell_price = $data->i_sell_price * $currency[$i]->cu_value;
           $data->i_lower_price = $data->i_lower_price * $currency[$i]->cu_value;
         }

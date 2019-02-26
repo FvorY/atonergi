@@ -607,7 +607,10 @@ public function edit_bank(request $req)
           if (!mMember::akses('MASTER DATA JASA', 'aktif')) {
             return redirect('error-404');
           }
-            return view('master.jasa.jasa');
+
+          $akun = DB::table('dk_akun')->get();
+
+            return view('master.jasa.jasa', compact('akun'));
         }
         public function datatable_jasa(request $req)
         {
@@ -662,7 +665,7 @@ public function edit_bank(request $req)
             return redirect('error-404');
           }
             $data = DB::table('m_item')
-                      ->select('i_name', 'i_price', 'i_description', 'i_id', 'u_unit')
+                      ->select('i_name', 'i_price', 'i_description', 'i_id', 'u_unit', 'i_akun_persediaan')
                       ->join('d_unit', 'u_id' ,'=', 'i_unit')
                       ->where('i_id',$req->i_id)
                       ->first();
@@ -723,6 +726,7 @@ public function edit_bank(request $req)
                             'i_name' => strtoupper($req->i_name),
                             'i_price' => floatval($req->i_price) ,
                             'i_sell_price' => floatval($req->i_price) ,
+                            'i_akun_persediaan' => $req->akun ,
                             'i_lower_price' => 0 ,
                             'i_unit' => $id_satuan,
                             'i_description' => $req->i_description
@@ -754,6 +758,7 @@ public function edit_bank(request $req)
                             'i_name' => strtoupper($req->i_name),
                             'i_price' => $req->i_price,
                             'i_sell_price' => $req->i_price,
+                            'i_akun_persediaan' => $req->akun ,
                             'i_lower_price' => 999999999,
                             'i_unit' => $id_satuan,
                             'i_description' => $req->i_description,
