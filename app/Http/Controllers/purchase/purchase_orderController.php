@@ -155,6 +155,8 @@ class purchase_orderController extends Controller
       if (!mMember::akses('PURCHASE ORDER', 'tambah')) {
         return redirect('error-404');
       }
+
+      // return json_encode($request->all());
       // dd($request->all());
       $tanggal = date("Y-m-d h:i:s");
       $kode = DB::table('d_purchaseorder')->max('po_id');
@@ -200,6 +202,7 @@ class purchase_orderController extends Controller
                           'podt_code'=>$request->po_nopo,
                           'podt_item'=>$podt_barang[$i],
                           'podt_price'=>$podt_price[$i],
+                          'podt_tax' => $request->nilai_ppn[$i],
                           'podt_unit_price'=>$podt_unit_price[$i],
                           'podt_qty_approved'=>$podt_qty[$i],
                           'podt_insert'=>$tanggal,

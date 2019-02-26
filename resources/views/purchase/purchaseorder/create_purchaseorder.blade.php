@@ -222,8 +222,14 @@
                           <td><input type="text" class="form-control form-control-sm min-width2 right format_money qty_approved_value"  onkeyup="hitung_qty(this)" name="podt_qty[]" value="{{ $seq->rodt_qty_approved }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="{{ $seq->u_unit }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width right format_money readonly unit_price" name="podt_unit_price[]" value="{{ number_format($seq->rodt_unit_price,0,',','.') }}"></td>
-                          <td><input type="text" class="form-control form-control-sm min-width right format_money total_price readonly" name="podt_price[]" onchange="hitung_total(this)" value="{{ number_format($seq->rodt_price,0,',','.') }}"></td>
-                          <td><input type="checkbox" name="podt_ppn[]" class="ppn" onchange="ppn_10(this)">10%</td>
+                          <td><input type="text" class="form-control form-control-sm min-width right format_money total_price readonly" name="podt_price[]" onchange="hitung_total(this)" value="{{ number_format($seq->rodt_unit_price * $seq->rodt_qty_approved,0,',','.') }}"></td>
+                          <td>
+                            <input type="checkbox" name="podt_ppn[]" class="ppn" onchange="ppn_10(this)">10%
+                            {{-- Ditambahi Dirga --}}
+
+                            <input type="hidden" readonly name="nilai_ppn[]" value="0" class="nilai_ppn">
+
+                          </td>
                           <td><button type="button" class="delete btn btn-outline-danger btn-sm hapus"><i class="fa fa-trash"></i></button></td>
                        </tr>
                      @endforeach
@@ -518,8 +524,9 @@
       var total_price = $(parents_ppn).find('.total_price').val();
       total_price = total_price.replace(/[^0-9\-]+/g,"");
 
-      if ($('.ppn').prop('checked') == true) {
+      if ($(a).prop('checked') == true) {
         var hitung = parseInt(total_price)*(10/parseInt(100));
+        var nilai_ppn = parseInt(hitung); // DItambahin dirga
         var total  = $('#po_tax').val();
         if (total == "") {
           total = 0;
@@ -530,7 +537,11 @@
         }
 
         $('#po_tax').val(hitung);
-      }else if($('.ppn').prop('checked') == false){
+
+        // Tambahan Dirga
+        $(a).closest('td').children('input.nilai_ppn').val(nilai_ppn);
+
+      }else if($(a).prop('checked') == false){
         var hitung = parseInt(total_price)*(10/parseInt(100));
         var total  = $('#po_tax').val();
         if (total == "") {
@@ -541,7 +552,10 @@
           var hitung = parseInt(total)-parseInt(hitung);
         }
 
-        $('#po_tax').val(0);
+        $('#po_tax').val(hitung);
+
+        // Tambahan Dirga
+        $(a).closest('td').children('input.nilai_ppn').val(0);
       }
 
       //HITUNG SUBTOTAL DAN TOTAL NET PADA TABLE
@@ -555,11 +569,7 @@
       var total = total_price + hitung;
 
       $("#total_net").val(accounting.formatMoney(total,"",0,'.',','));
-    }
-
-
-
-
+    } 
 
   $('#change_function').on("click","#save_data",function(){
 

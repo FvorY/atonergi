@@ -143,7 +143,7 @@
               });
 
 							setTimeout(function () {
-								window.location.href= '{{ route('penerimaan_barang') }}';
+								// window.location.href= '{{ route('penerimaan_barang') }}';
 							}, 1000);
 
              },
