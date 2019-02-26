@@ -211,6 +211,8 @@ class QuotationController extends Controller
   {
 
 
+      // return json_encode($req->all());
+
       $item = DB::table('m_item')
                 ->get();
 
@@ -221,6 +223,8 @@ class QuotationController extends Controller
                 ->join('d_unit','u_id','=','i_unit')
                 ->where('i_code',$req->item)
                 ->first();
+
+      // return json_encode($data);
 
       for ($i=0; $i < count($currency); $i++) {
         if ($data->i_currency_id == $currency[$i]->cu_code) {
