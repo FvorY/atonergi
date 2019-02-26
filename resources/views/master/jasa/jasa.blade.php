@@ -8,7 +8,7 @@
 <!-- partial -->
 <div class="content-wrapper">
   <div class="row">
-    <div class="col-lg-12"> 
+    <div class="col-lg-12">
       <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb bg-info">
           <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
@@ -38,13 +38,13 @@
                                 <th>Action</th>
                               </tr>
                             </thead>
-                           
+
                             <tbody>
-             
+
                             </tbody>
 
-                            
-                        </table> 
+
+                        </table>
                     </div>
                   </div>
                 </div>
@@ -84,7 +84,7 @@
           {data: 'u_unit', name: 'u_unit'},
           {data: 'i_description', name: 'i_description'},
           {data: 'aksi', name: 'aksi'}
-          
+
 
         ]
 
@@ -104,6 +104,7 @@
         $('#i_price').val(data.jasa.i_price);
         $('#i_unit').val(data.jasa.u_unit);
         $('#i_description').val(data.jasa.i_description);
+        $('select[name="akun"]').val(data.jasa.i_akun_persediaan).trigger('change');
         $('#tambah_jasa').modal('show');
       }
     });

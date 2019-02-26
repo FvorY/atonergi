@@ -44,6 +44,19 @@
                 <textarea class="form-control form-control-sm" name="i_description" id="i_description"></textarea>
               </div>
             </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <label>Akun</label>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <select class="form-control" name="akun" id="akun">
+                  <option value="">--Select Type--</option>
+                  @foreach ($akun as $key => $value)
+                    <option value="{{$value->ak_id}}">{{$value->ak_nama}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
           </div>
         </form>
         <div class="modal-footer">
