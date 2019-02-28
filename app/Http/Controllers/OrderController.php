@@ -14,6 +14,7 @@ use Crypt;
 use Response;
 use PDF;
 use App\Http\Controllers\logController;
+use keuangan;
 
 class OrderController extends Controller
 {
@@ -673,16 +674,37 @@ class OrderController extends Controller
                     ->where('p_status', 'Y')
                     ->first();
 
+        // Tambahan Dirga
+          $kelompok_kas = DB::table('dk_hierarki_penting')->where('hp_id', '4')->first();
+          $kelompok_bank = DB::table('dk_hierarki_penting')->where('hp_id', '5')->first();
+
+          $akunKas = DB::table('dk_akun')
+                        ->where('ak_comp', modulSetting()['onLogin'])
+                        ->where('ak_kelompok', $kelompok_kas->hp_hierarki)
+                        ->where('ak_isactive', '1')
+                        ->select('ak_id as id', DB::raw("concat(ak_nomor, ' - ', ak_nama) as text"))
+                        ->get();
+
+          $akunBank = DB::table('dk_akun')
+                        ->where('ak_comp', modulSetting()['onLogin'])
+                        ->where('ak_kelompok', $kelompok_bank->hp_hierarki)
+                        ->where('ak_isactive', '1')
+                        ->select('ak_id as id', DB::raw("concat(ak_nomor, ' - ', ak_nama) as text"))
+                        ->get();
+        // Selesai
 
         if ($percent == null) {
           Session::flash('gagal', 'Percent tidak ada yang aktif, aktifkan percent di master percent terlebih dahulu!');
           return view('order/pembayarandeposit/pembayarandeposit');
         } else {
-          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent'));
+          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent', 'akunKas', 'akunBank'));
         }
     }
 
     public function save_deposit(Request $req){
+
+      // return json_encode($req->all());
+
       DB::beginTransaction();
       try {
 
@@ -713,7 +735,7 @@ class OrderController extends Controller
                   'p_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
                   'p_method' => $req->pay_method,
                   'p_note2' => $req->nota2,
-                  'p_account' => $req->akun,
+                  'p_account' => $req->pay_akun,
                   'p_date' => carbon::parse($req->date)->format('Y-m-d'),
                   'p_insert' => Carbon::now('Asia/Jakarta'),
                   'p_insert_by' => Auth::user()->m_name,
@@ -730,7 +752,7 @@ class OrderController extends Controller
                   'p_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
                   'p_method' => $req->pay_method,
                   'p_note2' => $req->nota2,
-                  'p_account' => $req->akun,
+                  'p_account' => $req->pay_akun,
                   'p_date' => carbon::parse($req->date)->format('Y-m-d'),
                   'p_insert' => Carbon::now('Asia/Jakarta'),
                   'p_insert_by' => Auth::user()->m_name,
@@ -761,9 +783,13 @@ class OrderController extends Controller
                             ->where('p_qo', $req->id)
                             ->first();
 
-            DB::table('d_paydeposit')
-                            ->where('p_qo', $req->id)
-                            ->delete();
+            // return json_encode($data);
+
+            // return json_encode($paydeposit);
+
+            // DB::table('d_paydeposit')
+            //                 ->where('p_qo', $req->id)
+            //                 ->delete();
 
             // SALES ORDER
             $cari = DB::table('d_sales_order')
@@ -869,7 +895,6 @@ class OrderController extends Controller
             }
 
 
-
             $update = DB::table('d_quotation')
                         ->where('q_id',$req->id)
                         ->update([
@@ -877,6 +902,46 @@ class OrderController extends Controller
                             'q_remain' => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                             'q_approved' => 'Y'
                         ]);
+
+
+            // Tambahan Dirga
+
+                $jurnalDetail = [];
+
+                $akunDeposit = DB::table('dk_akun')
+                                  ->where('ak_id', function($query){
+                                    $query->select('ap_akun')
+                                              ->from('dk_akun_penting')
+                                              ->where('ap_id', '3')->first();
+                                  })->first();
+
+                $akunKas = DB::table('dk_akun')->where('ak_id', $paydeposit->p_account)->first();
+
+                if(!$akunKas || !$akunDeposit){
+                  DB::rollback();
+                  return response()->json(['status' => 8]);
+                }else{
+
+                  $jurnalDetail[$akunKas->ak_id] = [
+                        'jrdt_akun'          => $akunKas->ak_id,
+                        'jrdt_value'         => str_replace('-', '', $paydeposit->p_amount),
+                        'jrdt_dk'            => 'D'
+                  ];
+
+                  $jurnalDetail[$akunDeposit->ak_id] = [
+                        'jrdt_akun'          => $akunDeposit->ak_id,
+                        'jrdt_value'         => str_replace('-', '', $paydeposit->p_amount),
+                        'jrdt_dk'            => 'K'
+                  ];
+
+                }
+
+                keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d'), $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
+
+                // return json_encode($jurnalDetail);
+
+            // Selesai Dirga
+                
 
             return filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100;
 

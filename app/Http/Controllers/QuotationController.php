@@ -210,7 +210,6 @@ class QuotationController extends Controller
   public function append_item(request $req)
   {
 
-
       // return json_encode($req->all());
 
       $item = DB::table('m_item')

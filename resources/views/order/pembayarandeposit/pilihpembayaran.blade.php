@@ -61,7 +61,7 @@
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
               @if ($so != null or $wo != null)
-                <select class="form-control form-control-sm pay_method" name="pay_method">
+                <select class="form-control form-control-sm pay_method" name="pay_method" onchange="methodChange(this.value)">
                     @if ($so!=null)
                       <option @if ($so->so_type == 'tunai')
                         selected=""
@@ -84,6 +84,31 @@
                   <option value="transfer">Transfer</option>
                 </select>
               @endif
+
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-12">
+            <label>Pilih Akun Keuangan</label>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+
+              <div id="akunKas">
+                <select class="form-control form-control-sm pay_method" name="pay_akun" id="akunKas">
+                    @foreach($akunKas as $key => $akun)
+                      <option value="{{ $akun->id }}">{{ $akun->text }}</option>
+                    @endforeach
+                </select>
+              </div>
+
+              <div style="display: none;" id="akunBank">
+                <select class="form-control form-control-sm pay_method" name="pay_akun">
+                    @foreach($akunBank as $key => $akun) 
+                      <option value="{{ $akun->id }}">{{ $akun->text }}</option>
+                    @endforeach
+                </select>
+              </div>
 
             </div>
           </div>
@@ -114,3 +139,16 @@
 
   </div>
 </div>
+
+<script type="text/javascript">
+
+  function methodChange(e){
+    if(e == 'Transfer'){
+      document.getElementById('akunKas').style.display = 'none';
+      document.getElementById('akunBank').style.display = 'inline';
+    }else{
+      document.getElementById('akunKas').style.display = 'inline';
+      document.getElementById('akunBank').style.display = 'none';
+    }
+  }
+</script>

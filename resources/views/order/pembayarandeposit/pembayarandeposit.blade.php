@@ -145,6 +145,11 @@ function approve(id) {
             success:function(data){
               if (data.status == 1) {
                 location.href = "{{ url('/order/pembayarandeposit/pembayarandeposit') }}";
+              }else if(data.status == 8){
+                iziToast.warning({
+                    icon: 'fa fa-info',
+                    message: 'Pembukuan Jurnal Keuangan Gagal. Harap Segera Menghubungi Developer...!',
+                });
               }else{
                 iziToast.warning({
                     icon: 'fa fa-info',
