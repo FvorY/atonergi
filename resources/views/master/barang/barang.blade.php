@@ -540,7 +540,7 @@ function edit(m1a2)
 
             if(data[0].i_image!='' || data[0].i_image!=null){
               $('.preview_td').html('');
-var html =  '<img style="width: 100px;height: 100px;border:1px solid pink" id="output" src="{{ route('barang_thumbnail') }}/'+data[0].i_image+'?'+Math.random()+'" >';
+var html =  '<img style="width: 200px;height: 200px;border:1px solid pink" id="output" src="{{ route('barang_thumbnail') }}/'+data[0].i_image+'?'+Math.random()+'" >';
               $('.preview_td').html(html);
               $('.file-upload').addClass('active');
               $("#noFile").text(data[0].i_image);
@@ -548,7 +548,7 @@ var html =  '<img style="width: 100px;height: 100px;border:1px solid pink" id="o
               $('#chooseFile').val('');
               $('#noFile').text('Choose Image...');
               $(".file-upload").removeClass('active');
-              $('.preview_td').html('<img style="width: 100px;height: 100px;border:1px solid pink" id="output" >');
+              $('.preview_td').html('<img style="width: 200px;height: 200px;border:1px solid pink" id="output" >');
             }
             $('.122mm').addClass('d-none');
 
@@ -758,7 +758,6 @@ function hapus(a) {
                         if (data.status == '1') {
                           var table = $('#t55').DataTable();
                           table.ajax.reload();
-                          console.log(data);
                           iziToast.success({
                             icon: 'fa fa-check',
                             message: 'Data Berhasil Dihapus!',
