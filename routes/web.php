@@ -436,6 +436,7 @@ Route::get('/master/barang/barang_edit', 'MasterBarang\BarangController@barang_e
 Route::get('/master/barang/baranghapus', 'MasterBarang\BarangController@baranghapus');
 Route::get('storage/uploads/barang/thumbnail')->name('barang_thumbnail');
 Route::post('/master/barang/barang_update', 'MasterBarang\BarangController@barang_update');
+Route::get('/master/barang/barang_update', 'MasterBarang\BarangController@barang_update');
 Route::get('/master/barang/caribarang', 'MasterBarang\BarangController@caribarang');
 
 
@@ -744,7 +745,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
         //  Group Akun End
 
 
-        // Master Data Akun 
+        // Master Data Akun
 
             Route::get('master/modul/keuangan/master/akun', [
                 "uses"  => 'modul_keuangan\master\akun\akun_controller@index'
@@ -777,7 +778,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
         // Data Akun Selesai
 
 
-        // Master Data Akun Cabang 
+        // Master Data Akun Cabang
 
             Route::get('modul/keuangan/master/akun-cabang', [
                 "uses"  => 'modul_keuangan\master\akun_cabang\akun_cabang_controller@index'
@@ -810,7 +811,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
         // Data Akun Cabang Selesai
 
 
-        // Master Data Transaksi 
+        // Master Data Transaksi
 
             Route::get('modul/keuangan/master/transaksi', [
                 "uses"  => 'modul_keuangan\master\transaksi\transaksi_controller@index'
@@ -1227,7 +1228,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
                 ])->name('laporan.keuangan.arus_kas.print.excel');
 
 
-            // laporan Hutang 
+            // laporan Hutang
                 Route::get('modul/keuangan/laporan/hutang', [
                     'uses'  => 'modul_keuangan\laporan\hutang\laporan_hutang_controller@index'
                 ])->name('laporan.keuangan.hutang');
@@ -1249,7 +1250,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
                 ])->name('laporan.keuangan.hutang.print.excel');
 
 
-            // laporan Piutang 
+            // laporan Piutang
                 Route::get('modul/keuangan/laporan/piutang', [
                     'uses'  => 'modul_keuangan\laporan\piutang\laporan_piutang_controller@index'
                 ])->name('laporan.keuangan.piutang');
@@ -1274,7 +1275,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
 
 
         // Analisa Keuangan
-                
+
                 // Analisa Net Profitt OCF
                     Route::get('modul/keuangan/analisa/npo', [
                         'uses'  => 'modul_keuangan\analisa\net_profit_ocf\analisa_net_profit_ocf_controller@index'
@@ -1401,7 +1402,7 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
                     ])->name('analisa.keuangan.rasio.print.pdf');
 
         // Analisa keuangan
-        
+
     // End Route Dirga
 
 
