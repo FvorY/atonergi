@@ -66,11 +66,7 @@ class BarangController extends Controller
                 $original_path = storage_path('uploads/barang/original/');
                 // return $original_path;
                 Image::make($file)
-                      ->resize(261,null,function ($constraint) {
-                        $constraint->aspectRatio();
-                         })
                       ->save($original_path . $file_name)
-                      ->resize(90, 90)
                       ->save($thumbnail_path . $file_name);
             }
 
@@ -235,11 +231,7 @@ class BarangController extends Controller
                 $original_path = storage_path('uploads/barang/original/');
                 // return $original_path;
                 Image::make($file)
-                      ->resize(261,null,function ($constraint) {
-                        $constraint->aspectRatio();
-                         })
                       ->save($original_path . $file_name)
-                      ->resize(90, 90)
                       ->save($thumbnail_path . $file_name);
 
                 $save = DB::table('m_item')->where('i_id',$request->kode_barang)->update([

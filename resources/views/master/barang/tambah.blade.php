@@ -241,7 +241,7 @@
 
               </div>
 
-              <div class="col-lg-3 col-sm-4 col-xs-12 122mm">
+              <div class="col-lg-1 col-sm-4 col-xs-12 122mm">
                 <label>Preview</label>
               </div>
 
