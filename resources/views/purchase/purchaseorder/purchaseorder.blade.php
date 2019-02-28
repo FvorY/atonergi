@@ -112,7 +112,7 @@
                   },
                   {
                      targets: 3 ,
-                     className: 'right format_money'
+                     className: 'right'
                   },
                   {
                      targets: 4 ,

@@ -78,7 +78,7 @@
 															@if ($value->wo_status_install == 'P')
 																<td>
 				                  				<div class="btn-group">
-				                  					<a href="{{url('project/pemasangan/prosespemasangan').'/'.$value->wo_id}}" class="btn btn-info btn-sm" title="Process"><i class="fa fa-sign-in-alt"></i></a>
+				                  					<a href="{{url('project/pemasangan/prosespemasangan').'/'.$value->wo_id}}" class="btn btn-info btn-sm" title="Process"><i class="fa fa-sign-in"></i></a>
 				                  					<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->wo_id}})" title="Delete"><i class="fa fa-trash"></i></button>
 				                  				</div>
 				                  			</td>

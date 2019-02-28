@@ -149,11 +149,11 @@
                   },
                   {
                      targets: 2 ,
-                     className: 'right format_money'
+                     className: 'right'
                   },
                   {
                      targets: 5 ,
-                     className: 'center format_money'
+                     className: 'center'
                   },
 
                 ],
