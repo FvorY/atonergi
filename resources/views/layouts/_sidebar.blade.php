@@ -9,7 +9,7 @@
           <img src="{{asset('assets/atonergi-mini.png')}}" alt="logo"/>
           <!-- <h1 style="margin:auto; ">A</h1> -->
         </a>
-      </div>      
+      </div>
       <div class="navbar-menu-wrapper d-flex align-items-stretch">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="mdi mdi-menu"></span>
@@ -146,7 +146,7 @@
                 <span class="menu-sub-title">( 2 new updates )</span>
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
-            </li>
+            </li>            
 
             @if ( (int)$sidebar[0]->aktif == 1 || (int)$sidebar[1]->aktif == 1 || (int)$sidebar[2]->aktif == 1 || (int)$sidebar[3]->aktif == 1)
               <li class="nav-item {{Request::is('setting') ? 'active' : '' || Request::is('setting/*') ? 'active' : '' }}">
@@ -164,10 +164,13 @@
                 <div class="collapse {{Request::is('setting') ? 'show' : '' || Request::is('setting/*') ? 'show' : '' }}" id="setting">
                   <ul class="nav flex-column sub-menu">
 
-                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/modul/keuangan/setting/klasifikasi-akun') ? 'active' : '' || Request::is('setting/modul/keuangan/setting/klasifikasi-akun/*') ? 'active' : '' }}" href="{{url('setting/modul/keuangan/setting/klasifikasi-akun')}}"">Klasifikasi Akun<span class="d-none">Setting</span></a></li>
+                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/modul/keuangan/setting/klasifikasi-akun') ? 'active' : '' || Request::is('setting/modul/keuangan/setting/klasifikasi-akun/*') ? 'active' : '' }}" href="{{url('setting/modul/keuangan/setting/klasifikasi-akun')}}">Klasifikasi Akun<span class="d-none">Setting</span></a></li>
 
-                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/modul/keuangan/setting/akun-penting') ? 'active' : '' || Request::is('setting/modul/keuangan/setting/akun-penting/*') ? 'active' : '' }}" href="{{url('setting/modul/keuangan/setting/akun-penting')}}"">Akun-Akun Penting<span class="d-none">Setting</span></a></li>
+                    <li class="nav-item"> <a class="nav-link {{Request::is('setting/modul/keuangan/setting/akun-penting') ? 'active' : '' || Request::is('setting/modul/keuangan/setting/akun-penting/*') ? 'active' : '' }}" href="{{url('setting/modul/keuangan/setting/akun-penting')}}">Akun-Akun Penting<span class="d-none">Setting</span></a></li>
 
+                    @if( (int)$sidebar[0]->aktif == 1)
+                    <li class="nav-item"> <a class="nav-link {{Request::is('/setting/jabatan') ? 'active' : '' || Request::is('/setting/jabatan/*') ? 'active' : '' }}" href="{{url('/setting/jabatan')}}">Setting Level Account<span class="d-none">Setting</span></a></li>
+                    @endif
                     @if( (int)$sidebar[1]->aktif == 1)
                     <li class="nav-item"> <a class="nav-link {{Request::is('setting/akun') ? 'active' : '' || Request::is('setting/akun/*') ? 'active' : '' }}" href="{{url('setting/akun')}}">Setting Account </a></li>
                     @endif
