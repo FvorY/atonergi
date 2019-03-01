@@ -255,6 +255,8 @@ Route::get('/project/suratjalan/getso', 'ProjectController@getso');
 Route::get('/project/suratjalan/simpansj', 'ProjectController@simpansj');
 Route::get('/project/suratjalan/tambah_suratjalan', 'ProjectController@tambah_suratjalan')->name('tambah_suratjalan');
 Route::get('/project/suratjalan/print_suratjalan', 'ProjectController@print_suratjalan')->name('print_suratjalan');
+Route::get('/project/perdin/perdin', 'ProjectController@perdin')->name('perdin');
+Route::get('/project/perdin/proses_perdin', 'ProjectController@proses_perdin')->name('proses_perdin');
 
 // Pompa
 Route::get('/projectmp/pmp_dokumentasi/pmp_dokumentasi', 'PompaController@pmp_dokumentasi');

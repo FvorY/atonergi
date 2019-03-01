@@ -1259,4 +1259,13 @@ class ProjectController extends Controller
 
       return view('project.pengirimanbarang.print_checklistform', compact('data','item','acc'));
     }
+    public function perdin()
+    {
+      return view('project.perdin.perdin');
+    }
+
+    public function proses_perdin()
+    {
+      return view('project.perdin.proses_perdin');
+    }    
 }
