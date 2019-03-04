@@ -235,7 +235,7 @@ table, td, th {
 					<tr class="border-none">
 						<th class="border-none" width="30%">Shipping Method</th>
 						<th class="border-none" width="">Shipping Terms</th>
-						<th class="border-none" width="30%">Delivery Date</th>
+						<th class="border-none" width="30%">Item Status</th>
 					</tr>
 				</thead>
 
@@ -243,7 +243,11 @@ table, td, th {
 					<tr>
 						<td>{{ $head->q_shipping_method }}</td>
 						<td>{{ $head->q_term }}</td>
-						<td>{{ carbon\carbon::parse($head->q_delivery)->format('d-m-Y') }}</td>
+						@if ($head->q_item_status == 'Y')
+							<td>Ready</td>
+						@else
+							<td>Belum Ready</td>
+						@endif
 					</tr>
 				</tbody>
 

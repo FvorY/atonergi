@@ -321,6 +321,7 @@ class QuotationController extends Controller
                   'q_delivery'        => carbon::parse($req->delivery)->format('Y-m-d'),
                   'q_ship_to'         => $req->ship_to,
                   'q_marketing'       => $req->marketing,
+                  'q_item_status'     => $req->itemstatus,
                   'q_status'          => 2,
                   'q_created_at'      => carbon::now(),
                   'q_update_by'       => Auth::user()->m_name,
@@ -596,6 +597,7 @@ class QuotationController extends Controller
                   'q_delivery'        => carbon::parse($req->delivery)->format('Y-m-d'),
                   'q_ship_to'         => $req->ship_to,
                   'q_marketing'       => $req->marketing,
+                  'q_item_status'     => $req->itemstatus,
                   'q_status'          => 2,
                   'q_update_by'       => Auth::user()->m_name,
                 ]);

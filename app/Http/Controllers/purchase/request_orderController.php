@@ -74,7 +74,7 @@ class request_orderController extends Controller
         return Datatables::of($list)
 
                 ->addColumn('aksi', function ($list) {
-                        if ($list->ro_status_po == 'F' && $list->ro_status == 'F') {
+                        if ($list->ro_status_po == 'F' && $list->ro_status == 'F') {                                                  
                             return  '<div class="btn-group">'.
                                    '<button type="button" onclick="edit(this)" data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm" title="edit">'.
                                    '<label class="fa fa-pencil"></label></button>'.

@@ -24,15 +24,17 @@
               </tr>
             </thead>
             <tbody id="detail_rep">
-              
+
             </tbody>
           </table>
         </div>
       </div>
       <div class="modal-footer">
-        <div id="change_detail">
-          <button class="btn btn-primary" type="button" id="approve_data" >Approve</button>
-        </div>
+        @if (Auth::user()->m_jabatan == 'MANAGER')
+          <div id="change_detail">
+            <button class="btn btn-primary" type="button" id="approve_data" >Approve</button>
+          </div>        
+        @endif
         <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
       </div>
     </div>

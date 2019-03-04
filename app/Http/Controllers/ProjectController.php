@@ -361,6 +361,7 @@ class ProjectController extends Controller
 
       $data = DB::table('d_work_order')
               ->leftjoin('d_quotation', 'q_nota', '=', 'wo_ref')
+              ->leftjoin('d_sales_order', 'so_ref', '=', 'q_nota')
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
               ->leftjoin('d_install', 'i_io', '=', 'wo_nota')
               ->where('wo_active', 'Y')
@@ -400,6 +401,9 @@ class ProjectController extends Controller
                 ->where('qd_id', $data[0]->q_id)
                 ->get();
 
+      $pelaksana = DB::table('m_pegawai')
+                      ->get();
+
       for ($i=0; $i < count($barang); $i++) {
         if ($barang[$i]->qd_description == null) {
           $barang[$i]->qd_description = ' ';
@@ -408,7 +412,7 @@ class ProjectController extends Controller
 
       logController::inputlog('Pemasangan', 'Insert', '');
 
-    	return view('project/pemasangan/prosespemasangan', compact('data', 'barang'));
+    	return view('project/pemasangan/prosespemasangan', compact('data', 'barang', 'pelaksana'));
     }
     public function simpanpemasangan(Request $request){
       if (!mMember::akses('PEMASANGAN', 'tambah')) {

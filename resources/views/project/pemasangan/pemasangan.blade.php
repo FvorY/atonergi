@@ -50,55 +50,38 @@
 		                  	<thead class="bg-gradient-info">
 		                  		<tr>
 		                  			<th>No</th>
-														<th>ID WO</th>
+														<th>Code WO</th>
 		                  			<th>Customer</th>
-														<th>Tanggal WO</th>
-		                  			<th>Status</th>
-														<th>Delivery Date</th>
+														<th>Status SO</th>
 														<th>Installer</th>
+														<th>Code Perdin</th>
+														<th>Delivery Rsp</th>
+														<th>Status Perdin</th>
 		                  			<th>Action</th>
 		                  		</tr>
 		                  	</thead>
 		                  	<tbody>
 													@foreach ($data as $key => $value)
-														<tr>
-			                  			<td>{{$key + 1}}</td>
-			                  			<td>{{$value->wo_nota}}</td>
-			                  			<td>{{$value->c_name}}</td>
-			                  			<td>{{Carbon\Carbon::parse($value->wo_date)->format('d-m-Y')}}</td>
-															@if ($value->wo_status_install == 'P')
-																<td><span class="badge badge-pill badge-warning">Sedang Process</span></td>
-															@elseif ($value->wo_status_install == 'PD')
-																<td><span class="badge badge-pill badge-primary">Process Delivery</span></td>
-															@elseif ($value->wo_status_install == 'D')
+														@if ($value->so_status_delivery == 'D')
+															<tr>
+																<td>{{$key + 1}}</td>
+																<td>{{$value->wo_nota}}</td>
+																<td>{{$value->c_name}}</td>
 																<td><span class="badge badge-pill badge-success">Delivered</span></td>
+																<td>{{$value->i_installer}}</td>
+																<td></td>
+																<td></td>
+																<td></td>
+																	<td>
+																		<div class="btn-group">
+																			<a href="{{url('project/pemasangan/prosespemasangan').'/'.$value->wo_id}}" class="btn btn-info btn-sm" title="Buat Perdin"><i class="fa fa-sign-in"></i></a>
+																			<button type="button" class="btn btn-warning btn-sm" onclick="detail({{$value->wo_id}})" name="button" title="Detail"> <i class="fa fa-folder"></i> </button>
+																			<button type="button" class="btn btn-success btn-sm" onclick="approve({{$value->wo_id}})" name="button" title="Approve"> <i class="fa fa-check"></i> </button>
+																		</div>
+																	</td>
+															</tr>
 															@endif
-			                  			<td>{{Carbon\Carbon::parse($value->q_delivery)->format('d-m-Y')}}</td>
-															<td>{{$value->i_installer}}</td>
-															@if ($value->wo_status_install == 'P')
-																<td>
-				                  				<div class="btn-group">
-				                  					<a href="{{url('project/pemasangan/prosespemasangan').'/'.$value->wo_id}}" class="btn btn-info btn-sm" title="Process"><i class="fa fa-sign-in"></i></a>
-				                  					<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->wo_id}})" title="Delete"><i class="fa fa-trash"></i></button>
-				                  				</div>
-				                  			</td>
-															@elseif ($value->wo_status_install == 'PD')
-																<td>
-				                  				<div class="btn-group">
-																		<button type="button" class="btn btn-info btn-sm" onclick="ubah({{$value->wo_id}})" name="button" title="Edit"> <i class="fa fa-edit"></i> </button>
-				                  					<button data-target="#edit" data-toggle="modal" data class="btn btn-warning btn-sm" onclick="edit({{$value->wo_id}})" title="Setting"><i class="fa fa-cog"></i></button>
-				                  					<button class="btn btn-danger btn-sm" type="button" onclick="hapus({{$value->wo_id}})" title="Delete"><i class="fa fa-trash"></i></button>
-				                  				</div>
-				                  			</td>
-															@elseif ($value->wo_status_install == 'D')
-																<td>
-				                  				<div class="btn-group">
-				                  					<button class="btn btn-danger btn-sm" disabled="" type="button" onclick="hapus({{$value->wo_id}})" title="Delete"><i class="fa fa-trash"></i></button>
-				                  				</div>
-				                  			</td>
-															@endif
-			                  		</tr>
-													@endforeach
+														@endforeach
 		                  	</tbody>
 		                  </table>
 		              </div>
@@ -111,105 +94,6 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
-function hapus(id){
-	iziToast.show({
-	timeout: false,
-	theme: 'dark',
-	icon: 'fa fa-question',
-	title: 'Hapus?',
-	message: 'Anda yakin ingin menhapus data?',
-	position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
-	progressBarColor: '#57c7d4',
-	buttons: [
-			['<button>Ya</button>', function (instance, toast) {
-				waitingDialog.show()
-				$.ajax({
-					type: 'get',
-					data: {id:id},
-					dataType: 'json',
-					url: baseUrl + '/project/pemasangan/hapus',
-					success : function(result){
-						if (result.status == 'berhasil') {
-							iziToast.success({
-								icon: 'fa fa-check',
-								message: 'Berhasil Dihapus!',
-							});
-							setTimeout(function () {
-														window.location.reload();
-												}, 1000);
-						} else if (result.status == 'gagal') {
-							iziToast.warning({
-								icon: 'fa fa-times',
-								message: 'Gagal Dihapus!',
-							});
-							setTimeout(function () {
-														window.location.reload();
-												}, 1000);
-						}
-					}
-				});
-			}, true], // true to focus
-			['<button>Tidak</button>', function (instance, toast) {
-					instance.hide();
-			}]
-	],
-});
-}
 
-	function edit(id){
-		waitingDialog.show();
-			$.ajax({
-				type: 'get',
-				data: {id:id},
-				dataType: 'json',
-				url: baseUrl + '/project/pemasangan/edit',
-				success : function(result){
-						$('#i_wo').val(result[0].i_wo);
-						setTimeout(function(){
-								waitingDialog.hide();
-						}, 1000)
-				}
-			});
-	}
-
-	function setting(){
-		$.ajax({
-			type: 'get',
-			data: $('#editdata').serialize(),
-			dataType: 'json',
-			url: baseUrl + '/project/pemasangan/setting',
-			success : function(result){
-				if (result.status == 'berhasil') {
-					iziToast.success({
-						icon: 'fa fa-check',
-						message: 'Berhasil Diproses!',
-					});
-					setTimeout(function () {
-												window.location.reload();
-										}, 1000);
-				} else if (result.status == 'kesalahan') {
-					ziToast.warning({
-						icon: 'fa fa-times',
-						message: 'Mohon isi semua data dengan lengkap!',
-					});
-					setTimeout(function () {
-												window.location.reload();
-										}, 1000);
-				} else if (result.status == 'gagal') {
-					iziToast.warning({
-						icon: 'fa fa-times',
-						message: 'Gagal Dihapus!',
-					});
-					setTimeout(function () {
-												window.location.reload();
-										}, 1000);
-				}
-			}
-		});
-	}
-
-	function ubah(id){
-		window.location.href = baseUrl + '/project/pemasangan/ubah?id='+id;
-	}
 </script>
 @endsection
