@@ -54,7 +54,7 @@
                         </div>
                       </td>
                       <td align="center">
-                          <button class="btn btn-info" type="button" title="Print"><i class="fa fa-print"></i></button>
+                          <a class="btn btn-info" href="{{route('print_perdin')}}" target="_blank" title="Print"><i class="fa fa-print"></i></a>
                       </td>
                       <td align="center">
                         <button class="btn btn-success btn-sm" type="button" title="Approve"><i class="fa fa-check-square"></i></button>

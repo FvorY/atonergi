@@ -257,6 +257,7 @@ Route::get('/project/suratjalan/tambah_suratjalan', 'ProjectController@tambah_su
 Route::get('/project/suratjalan/print_suratjalan', 'ProjectController@print_suratjalan')->name('print_suratjalan');
 Route::get('/project/perdin/perdin', 'ProjectController@perdin')->name('perdin');
 Route::get('/project/perdin/proses_perdin', 'ProjectController@proses_perdin')->name('proses_perdin');
+Route::get('/project/perdin/print_perdin', 'ProjectController@print_perdin')->name('print_perdin');
 
 // Pompa
 Route::get('/projectmp/pmp_dokumentasi/pmp_dokumentasi', 'PompaController@pmp_dokumentasi');
@@ -1407,5 +1408,6 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
 
     // End Route Dirga
 
-
+    // Previe Estimasi Perdin
+    Route::get('estimasi_perdin', 'ProjectController@estimasi_perdin');
 }); // End Route Groub middleware auth

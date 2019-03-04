@@ -1267,5 +1267,13 @@ class ProjectController extends Controller
     public function proses_perdin()
     {
       return view('project.perdin.proses_perdin');
-    }    
+    }  
+    public function print_perdin()
+    {
+      return view('project.perdin.print_perdin');
+    }
+    public function estimasi_perdin()
+    {
+      return view('order.print_estimasiperdin');
+    }
 }
