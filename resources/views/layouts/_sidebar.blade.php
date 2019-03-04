@@ -384,6 +384,7 @@
                   Pemasangan
                   Schedule Uji Coba dan Dokumetasi
                   Surat Jalan
+                  LPJ Perdin
                   {{-- Technician Fee --}}
                 </span>
                 <i class="menu-arrow"></i>
@@ -402,6 +403,9 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/pemasangan/*') ? 'active' : ''
                   }}" href="{{url('project/pemasangan/pemasangan')}}">Pemasangan<span class="d-none">After Order</span></a></li>
                   @endif
+                  <li class="nav-item">
+                    <a href="{{route('perdin')}}" class="nav-link {{Request::is('project/perdin/*') ? 'active' : ''}}">LPJ Perdin<span class="d-none">After Order</span></a>
+                  </li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/suratjalan/*') ? 'active' : ''}}" href="{{route('suratjalan')}}">Surat Jalan<span class="d-none">After Order</span></a>
 
                   </li>

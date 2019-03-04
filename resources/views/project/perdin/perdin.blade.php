@@ -1,0 +1,84 @@
+@extends('main')
+@section('content')
+
+
+<!-- partial -->
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb bg-info">
+          <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
+          <li class="breadcrumb-item">After Order</li>
+          <li class="breadcrumb-item active" aria-current="page">LPJ Perdin</li>
+        </ol>
+      </nav>
+    </div>
+
+  	<div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">LPJ Perdin</h4>
+          
+          
+          <div class="table-responsive">
+			        <table class="table table-hover table-striped table-bordered" id="table_perdin" cellspacing="0">
+                  <thead class="bg-gradient-info">
+                    <tr>
+                      <th width="1%">No</th>
+                      <th>Estimation Date</th>
+                      <th>Estimation Code</th>
+                      <th>Estimation Budget</th>
+                      <th>Perdin</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                      <th width="1%">Printout</th>
+                      <th width="1%">Approval</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td align="center">1</td>
+                      <td>01-03-2019</td>
+                      <td>EP-0001</td>
+                      <td align="right">5.500.000,00</td>
+                      <td align="center">-</td>
+                      <td align="center"><span class="badge badge-pill badge-secondary text-dark">Waiting</span></td>
+                      <td align="center" valign="middle">
+                        <div class="btn-group btn-group-sm">
+                          <a class="btn btn-primary btn-sm" href="{{route('proses_perdin')}}">Process</a>
+                          <button class="btn btn-warning" type="button" title="Edit"><i class="fa fa-edit"></i></button>
+                          <button class="btn btn-info" type="button" title="Detail"><i class="fa fa-list"></i></button>
+
+                        </div>
+                      </td>
+                      <td align="center">
+                          <a class="btn btn-info" href="{{route('print_perdin')}}" target="_blank" title="Print"><i class="fa fa-print"></i></a>
+                      </td>
+                      <td align="center">
+                        <button class="btn btn-success btn-sm" type="button" title="Approve"><i class="fa fa-check-square"></i></button>
+                        
+                      </td>
+
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- content-wrapper ends -->
+@endsection
+@section('extra_script')
+<script type="text/javascript">
+  
+  $(document).ready(function(){
+
+    var table = $('#table_perdin').DataTable();
+No});
+
+</script>
+@endsection
