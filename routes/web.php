@@ -229,6 +229,15 @@ Route::post('/project/jadwalujicoba/simpan_jadwal', 'ProjectController@simpan_ja
 Route::get('/project/jadwalujicoba/pdf_jadwal', 'ProjectController@pdf_jadwal')->name('pdf_jadwal');
 Route::get('/project/jadwalujicoba/pdf_install', 'ProjectController@pdf_install')->name('pdf_install');
 Route::get('/project/pemasangan/pemasangan', 'ProjectController@pemasangan');
+Route::get('/project/pemasangan/gettanggung', 'ProjectController@gettanggung');
+Route::get('/project/pemasangan/simpanperdin', 'ProjectController@simpanperdin');
+Route::get('/project/pemasangan/updateperdin', 'ProjectController@updateperdin');
+Route::get('/project/pemasangan/detailperdin', 'ProjectController@detailperdin');
+Route::get('/project/pemasangan/transaksiup', 'ProjectController@transaksiup');
+Route::get('/project/pemasangan/getkasbon', 'ProjectController@getkasbon');
+Route::get('/project/pemasangan/simpankasbon', 'ProjectController@simpankasbon');
+Route::get('/project/pemasangan/editperdin', 'ProjectController@editperdin');
+Route::get('/project/pemasangan/printperdin', 'ProjectController@printperdin');
 Route::get('/project/pemasangan/prosespemasangan/{id}', 'ProjectController@prosespemasangan');
 Route::get('/project/pemasangan/proses', 'ProjectController@simpanpemasangan');
 Route::get('/project/pemasangan/hapus', 'ProjectController@hapuspemasangan');

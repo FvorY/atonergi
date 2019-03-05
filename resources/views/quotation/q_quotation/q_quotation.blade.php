@@ -790,7 +790,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 	      success:function(data){
 	      	if (data.status == 1) {
 	      		iziToast.success({
-		            icon: 'fa fa-pencil-alt',
+		            icon: 'fa fa-check',
 		            message: 'Status Berhasil Di Update!',
 		        });
 

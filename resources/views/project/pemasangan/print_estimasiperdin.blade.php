@@ -417,12 +417,12 @@ table.border-none > tbody > tr > td{
 	text-decoration: underline;
 }
 .text-primary {
-  color: #1976d2 !important; 
+  color: #1976d2 !important;
 }
 
 .text-success {
-  color: #2ecc71 !important; 
-}  
+  color: #2ecc71 !important;
+}
 
 .uppercase{
 	text-transform: uppercase;
@@ -445,7 +445,7 @@ table.border-none > tbody > tr > td{
 .empty{
 	height: 25px;
 }
-</style>	
+</style>
 </head>
 <body>
 	<div class="btn-print">
@@ -461,36 +461,36 @@ table.border-none > tbody > tr > td{
 			<tbody>
 				<tr>
 					<td colspan="3">
-						<table width="100%" class="border-none" cellpadding="3px"> 
+						<table width="100%" class="border-none" cellpadding="3px">
 							<tr>
 								<td width="30%">Tanggal Pengajuan</td>
 								<td width="1%">:</td>
-								<td>30 Juni 2018</td>
+								<td>{{Carbon\Carbon::parse($perdin->p_pengajuan)->format('d F Y')}}</td>
 								<td width="1%">No</td>
 								<td width="1%">:</td>
-								<td class="border-bottom" style="border-bottom: 1px solid black !important">27</td>
+								<td class="border-bottom" style="border-bottom: 1px solid black !important">{{$perdin->p_code}}</td>
 							</tr>
 							<tr>
 								<td>Nama Pelaksana</td>
 								<td>:</td>
-								<td colspan="4">Charlie</td>
+								<td colspan="4">{{$perdin->c_name}}</td>
 							</tr>
 							<tr>
 								<td>Proyek</td>
 								<td>:</td>
-								<td colspan="4">Pemasangan Pompa</td>
+								<td colspan="4">{{$perdin->p_proyek}}</td>
 							</tr>
 							<tr>
 								<td>Lama Dinas</td>
 								<td>:</td>
-								<td colspan="4">04 Maret 2019 <b>s/d</b> 05 Maret 2019</td>
+								<td colspan="4">{{Carbon\Carbon::parse($perdin->p_dinas_start)->format('d F Y')}} <b>s/d</b> {{Carbon\Carbon::parse($perdin->p_dinas_start)->format('d F Y')}}</td>
 							</tr>
 						</table>
 					</td>
 				</tr>
 				<tr>
 					<td class="empty" colspan="3">
-						
+
 					</td>
 
 				</tr>
@@ -499,21 +499,21 @@ table.border-none > tbody > tr > td{
 					<td width="60%">Keterangan</td>
 					<td>Jumlah</td>
 				</tr>
-				@for($i=0;$i<10;$i++)
-				<tr>
-					<td></td>
-					<td></td>
-					<td>
-						<div class="float-left">Rp. </div>
-						<div class="float-right">0,00</div>
-					</td>
-				</tr>
-				@endfor
+				@foreach ($perdindt as $key => $value)
+					<tr>
+						<td>{{$key + 1}}</td>
+						<td>{{$value->pd_keterangan}}</td>
+						<td>
+							<div class="float-left">Rp. </div>
+							<div class="float-right">{{number_format($value->pd_jumlah,2,',','.')}}</div>
+						</td>
+					</tr>
+				@endforeach
 				<tr>
 					<td align="center" colspan="2"><h2 style="margin:unset">Total</h2></td>
 					<td>
 						<div class="float-left">Rp. </div>
-						<div class="float-right">0,00</div>
+						<div class="float-right">{{number_format($jumlahsum,2,',','.')}}</div>
 					</td>
 				</tr>
 				<tr>
@@ -525,14 +525,14 @@ table.border-none > tbody > tr > td{
 							<tr>
 								<td>No. Kasbon</td>
 								<td width="1%">:</td>
-								<td colspan="4"></td>
+								<td colspan="4">{{$kasbon->k_code}}</td>
 							</tr>
 							<tr>
 								<td>Uang yang diberikan</td>
 								<td>:</td>
 								<td width="25%">
 									<div class="float-left">Rp. </div>
-									<div class="float-right">0,00</div>
+									<div class="float-right">{{number_format($kasbon->k_diberikan,2,',','.')}}</div>
 								</td>
 								<td colspan="3"></td>
 							</tr>
@@ -542,20 +542,20 @@ table.border-none > tbody > tr > td{
 								<td>:</td>
 								<td>
 									<div class="float-left">Rp. </div>
-									<div class="float-right">0,00</div>
+									<div class="float-right">{{number_format($kasbon->k_diberikan,2,',','.')}}</div>
 								</td>
 								<td colspan="3"><b>(Yang Ditransfer ke PIC)</b></td>
 							</tr>
 							<tr>
 								<td>Diberikan Tanggal</td>
 								<td>:</td>
-								<td></td>
+								<td>{{Carbon\Carbon::parse($kasbon->k_date)->format('d F Y')}}</td>
 								<td rowspan="2" colspan="3" style="background-color: lightgray;">
 									<table width="100%" class="border-none" cellpadding="3px">
 										<tr>
 											<td align="right" width="50%">Tanggal Pertanggung Jawaban</td>
 											<td width="1%">:</td>
-											<td style="border-bottom: 1px solid black;"></td>
+											<td style="border-bottom: 1px solid black;">{{Carbon\Carbon::parse($perdin->p_tanggung_jawab)->format('d F Y')}}</td>
 										</tr>
 										<tr>
 											<td align="right">Uang yang dikembalikan sebesar</td>

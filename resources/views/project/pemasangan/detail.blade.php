@@ -9,15 +9,16 @@
 				<li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="{{url('/home')}}">Home</a></li>
 				<li class="breadcrumb-item">Pemasangan</li>
 				<li class="breadcrumb-item"><a href="{{url('project/pemasangan/pemasangan')}}">Pengiriman Barang</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Buat Perdin</li>
+				<li class="breadcrumb-item active" aria-current="page">Detail Perdin</li>
 			</ol>
 		</nav>
 	</div>
 	<div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Buat Perdin</h4>
+                  <h4 class="card-title">Detail Perdin</h4>
 									<form id="data">
+										<input type="hidden" name="id" value="{{$id}}">
                 	<div class="row">
                 		<div class="col-md-6 col-sm-12 col-xs-12">
                 			<div class="row">
@@ -26,7 +27,7 @@
 		                		</div>
 		                		<div class="col-md-6 col-sm-6 col-xs-12">
 		                			<div class="form-group">
-		                				<input type="text" readonly="" class="form-control form-control-sm" name="customer" value="{{$data[0]->c_code}}">
+		                				<input type="text" disabled class="form-control form-control-sm" name="customer" value="{{$data[0]->c_code}}">
 		                			</div>
 		                		</div>
 		                		<div class="col-md-6 col-sm-6 col-xs-12">
@@ -34,7 +35,7 @@
 		                		</div>
 		                		<div class="col-md-6 col-sm-6 col-xs-12">
 		                			<div class="form-group">
-		                				<textarea class="form-control form-control-sm" readonly="" name="address">{{$data[0]->c_address}}</textarea>
+		                				<textarea class="form-control form-control-sm" disabled name="address">{{$data[0]->c_address}}</textarea>
 		                			</div>
 		                		</div>
 		                	</div>
@@ -46,7 +47,7 @@
 		                		</div>
 		                		<div class="col-md-6 col-sm-6 col-xs-12">
 		                			<div class="form-group">
-		                				<input type="text" readonly="" class="form-control form-control-sm" name="codewo" value="{{$data[0]->wo_nota}}">
+		                				<input type="text" disabled class="form-control form-control-sm" name="codewo" value="{{$data[0]->wo_nota}}">
 		                			</div>
 		                		</div>
 		                		<div class="col-md-6 col-sm-6 col-xs-12">
@@ -54,7 +55,7 @@
 		                		</div>
 		                		<div class="col-md-6 col-sm-6 col-xs-12">
 		                			<div class="form-group">
-		                				<input type="text" readonly="" class="form-control form-control-sm" name="codeperdin" value="{{$finalkode}}">
+		                				<input type="text" disabled class="form-control form-control-sm" name="codeperdin" value="{{$perdin->p_code}}">
 		                			</div>
 		                		</div>
 		                	</div>
@@ -68,7 +69,7 @@
 				            		<div class="col-md-6 col-sm-6 col-xs-12">
 				            			<div class="form-group">
 				            				<div class="input-group">
-						                        <input class="form-control datepicker" name="pengajuandate" type="text" style="cursor: pointer;">
+						                        <input class="form-control datepicker" disabled name="pengajuandate" value="{{Carbon\Carbon::parse($perdin->p_pengajuan)->format('d-m-Y')}}" type="text" style="cursor: pointer;">
 						                        <span class="input-group-addon bg-info text-white">
 						                            <i class="fa fa-calendar"></i>
 						                        </span>
@@ -80,10 +81,12 @@
 				            		</div>
 				            		<div class="col-md-6 col-sm-6 col-xs-12">
 				            			<div class="form-group">
-				            				<select class="form-control" name="pelaksana">
+				            				<select class="form-control" disabled name="pelaksana">
 				            					<option> - Pilih Pelaksana - </option>
 															@foreach ($pelaksana as $key => $value)
-																<option value="{{$value->mp_id}}">{{$value->mp_kode}} - {{$value->mp_name}}</option>
+																<option value="{{$value->mp_id}}" @if ($value->mp_id == $perdin->p_pelaksana)
+																	selected
+																@endif>{{$value->mp_kode}} - {{$value->mp_name}}</option>
 															@endforeach
 				            				</select>
 				            			</div>
@@ -93,7 +96,7 @@
 				            		</div>
 				            		<div class="col-md-6 col-sm-6 col-xs-12">
 				            			<div class="form-group">
-				            				<textarea class="form-control form-control-sm" name="proyek"></textarea>
+				            				<textarea disabled class="form-control form-control-sm" name="proyek">{{$perdin->p_proyek}}</textarea>
 				            			</div>
 				            		</div>
 
@@ -103,7 +106,7 @@
 												<div class="col-md-6 col-sm-6 col-xs-12">
 				            			<div class="form-group">
 				            				<div class="input-group">
-						                        <input class="form-control datepicker" id="tanggung" disabled name="tanggalpertanggungjawab" type="text" style="cursor: pointer;">
+						                        <input disabled class="form-control datepicker" id="tanggung" value="{{Carbon\Carbon::parse($perdin->p_tanggung_jawab)->format('d-m-Y')}}" disabled name="tanggalpertanggungjawab" type="text" style="cursor: pointer;">
 						                        <span class="input-group-addon bg-info text-white">
 						                            <i class="fa fa-calendar"></i>
 						                        </span>
@@ -121,8 +124,8 @@
 												<label>Lama Dinas</label>
 											</div>
 											<div class="col-lg-4 col-md-4 col-sm-12 alamraya-no-padding">
-												<div id="datepicker-popup" class="input-group date datepicker">
-																			<input type="text" class="form-control" name="dinasstart" id="ksdatepicker01" placeholder="dd-mm-yyyy">
+												<div id="datepicker-popup" disabled class="input-group date datepicker">
+																			<input type="text" class="form-control" disabled name="dinasstart" value="{{Carbon\Carbon::parse($perdin->p_dinas_start)->format('d-m-Y')}}" id="ksdatepicker01" placeholder="dd-mm-yyyy">
 																			<div class="input-group-addon">
 																				<span class="mdi mdi-calendar"></span>
 																			</div>
@@ -133,7 +136,7 @@
 											</span>
 											<div class="col-lg-4 col-md-4 col-sm-12 alamraya-no-padding">
 												<div id="datepicker-popup" class="input-group date datepicker">
-																			<input type="text" class="form-control" name="dinasend" onchange="gettanggung()" id="ksdatepicker02" placeholder="dd-mm-yyyy">
+																			<input type="text" disabled class="form-control" name="dinasend" value="{{Carbon\Carbon::parse($perdin->p_dinas_end)->format('d-m-Y')}}" onchange="gettanggung()" id="ksdatepicker02" placeholder="dd-mm-yyyy">
 																			<div class="input-group-addon">
 																				<span class="mdi mdi-calendar"></span>
 																			</div>
@@ -142,36 +145,21 @@
 										</div>
 									</div>
 
-									<div class="row" style="margin-top: 15px;border-top: 1px solid #98c3d1;padding-top:15px;border-bottom: 1px solid #98c3d1; margin-bottom: 15px;">
-										<div class="col-md-3 col-sm-12 col-xs-12">
-											<label>Keterangan</label>
-										</div>
-										<div class="col-md-2 col-sm-12 col-xs-12">
-											<div class="form-group">
-												<input type="text" class="form-control form-control-sm right" id="keteranganenter" onkeypress="plus()" name="keterangan" id="keterangan" >
-											</div>
-										</div>
-									 <div class="col-md-3 col-sm-12 col-xs-12">
-										 <label>Jumlah (Rp)</label>
-									 </div>
-									 <div class="col-md-2 col-sm-12 col-xs-12">
-										 <div class="form-group">
-											 <input type="text" class="form-control form-control-sm right hanya_angka rp" id="jumlahenter" onkeypress="plus()" name="jumlah" id="jumlah">
-										 </div>
-									 </div>
-								 </div>
-
                   <div class="table-responsive">
 	                  <table class="table table-hover" id="table" cellspacing="0">
 	                  	<thead class="bg-gradient-info">
 	                  		<tr>
 	                  			<th>Keterangan</th>
 	                  			<th>Jumlah (Rp)</th>
-													<th width="3%">Action</th>
 	                  		</tr>
 	                  	</thead>
 	                  	<tbody>
-
+												@foreach ($perdindt as $key => $value)
+													<tr>
+														<td><input type="text" disabled name="keterangan[]" class="form-control input-sm min-width" value="{{$value->pd_keterangan}}"></td>
+														<td><input type="text" disabled class="form-control input-sm min-width" name="jumlah[]" style="text-align:right;" value="{{number_format($value->pd_jumlah,0,',','.')}}"></td>
+													</tr>
+												@endforeach
 	                  	</tbody>
 	                  </table>
 	              </div>
@@ -246,19 +234,19 @@ var table;
 			type: 'get',
 			data: $('#data').serialize()+'&tanggung='+$('#tanggung').val(),
 			dataType: 'JSON',
-			url : baseUrl + '/project/pemasangan/simpanperdin',
+			url : baseUrl + '/project/pemasangan/updateperdin',
 			success : function(response){
 				if (response.status == 'berhasil') {
 					iziToast.success({
 							icon: 'fa fa-check',
-							message: 'Berhasil disimpan!',
+							message: 'Berhasil diedit!',
 					});
 
 					window.location.href = baseUrl + '/project/pemasangan/pemasangan';
 				}else{
 					iziToast.warning({
 							icon: 'fa fa-info',
-							message: 'Gagal disimpan!',
+							message: 'Gagal diedit!',
 					});
 				}
 			}

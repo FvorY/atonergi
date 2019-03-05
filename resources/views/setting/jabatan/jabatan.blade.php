@@ -41,7 +41,7 @@
                                   <td class="d_nama">{{$value->j_nama}}</td>
                                   <td class="d_keterangan">{{$value->j_keterangan}}</td>
                                   <td>
-                                    @if ($value->j_nama == 'MANAGER')
+                                    @if ($value->j_nama == 'MANAGER' || $value->j_name == 'FINANCE')
                                       <span class="badge badge-danger">Disabled</span>
                                     @else
                                       <div class="btn-group">'.
