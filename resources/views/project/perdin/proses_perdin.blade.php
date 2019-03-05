@@ -20,27 +20,27 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Process LPJ Perdin</h4>
-            
 
+          <form id="data">
+            <input type="hidden" name="idperdin" value="{{$perdin->p_id}}">
             <div class="row">
 
               <div class="col-md-3 col-sm-4 col-12">
                 <label>Perdin Code</label>
               </div>
-
               <div class="col-md-9 col-sm-8 col-12">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-sm" readonly="" value="" name="">
+                  <input type="text" class="form-control form-control-sm" readonly="" value="{{$perdin->p_code}}" name="perdincode">
                 </div>
               </div>
-              
+
               <div class="col-md-3 col-sm-4 col-12">
                 <label>Perdin Date</label>
               </div>
 
               <div class="col-md-9 col-sm-8 col-12">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-sm" readonly="" value="{{date('d-m-Y')}}" name="">
+                  <input type="text" class="form-control form-control-sm" readonly="" value="{{$perdin->p_pengajuan}}" name="perdindate">
                 </div>
               </div>
 
@@ -50,7 +50,7 @@
 
               <div class="col-md-9 col-sm-8 col-12">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-sm" readonly="" name="">
+                  <input type="text" class="form-control form-control-sm" readonly="" value="{{$perdin->c_code}} - {{$perdin->c_name}}" name="customer">
                 </div>
               </div>
 
@@ -60,7 +60,7 @@
 
               <div class="col-md-9 col-sm-8 col-12">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-sm" readonly="" name="">
+                  <input type="text" class="form-control form-control-sm" readonly="" name="project" value="{{$perdin->p_proyek}}">
                 </div>
               </div>
 
@@ -90,11 +90,11 @@
                 </thead>
 
                 <tbody>
-                  
+
                 </tbody>
               </table>
             </div>
-          
+            </form>
         </div>
         <div class="card-footer text-right">
           <button class="btn btn-info" type="button" id="btn-submit">Simpan</button>
@@ -108,7 +108,7 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
-  
+
   $(document).ready(function(){
 
     $('.datepicker').datepicker({
@@ -118,8 +118,8 @@
     var table = $('#table_perdin').DataTable({
       "columnDefs": [
         {
-          "targets": 7 
-          , 
+          "targets": 7
+          ,
            "align": "center"
         }
       ]
@@ -128,17 +128,18 @@
 
     $('#button-tambahmantan').click(function(){
       table.row.add([
-        '<input class="form-control form-control-sm datepicker" value="{{date('d-m-Y')}}" type="text" name="">',
-        '<input class="form-control form-control-sm" type="text" name="">',
-        '<input class="form-control form-control-sm" type="number" min="0" name="">',
-        '<input class="form-control form-control-sm text-right format_money" type="text" name="">',
-        '<input class="form-control form-control-sm text-right format_money" type="text" name="">',
-        '<input class="form-control form-control-sm text-right format_money" type="text" name="">',
-        '<input class="form-control form-control-sm text-right format_money" type="text" name="">',
-        '<button class="btn btn-danger btn-sm btn-hapusmantan" type="button"><i class="fa fa-trash-o"></i></button>'
+        '<input class="form-control form-control-sm datepicker" value="{{date('d-m-Y')}}" type="text" name="tanggal[]">',
+        '<input class="form-control form-control-sm" type="text" name="keterangan[]">',
+        '<input class="form-control form-control-sm" type="number" min="0" name="unit[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="price[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="realbudget[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="totalprice[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="sisaperdin[]">',
+        '<center><button class="btn btn-danger btn-sm btn-hapusmantan" type="button"><i class="fa fa-trash-o"></i></button></center>'
         ]).draw(false);
 
       counter_strike__battlefield++;
+      $('.mask').maskMoney({thousands:'.', decimal:',', precision:0});
 
      $('.datepicker').datepicker({
         format:'dd-mm-yyyy'
@@ -151,6 +152,18 @@
     });
 
   });
+
+   $('#btn-submit').on('click', function(){
+     $.ajax({
+       type: 'get',
+       data: $('#data').serialize(),
+       dataType: 'JSON',
+       url: baseUrl + '/project/perdin/simpan_lpj',
+       success : function (response){
+         console.log(response);
+       }
+     })
+   });
 
 </script>
 @endsection

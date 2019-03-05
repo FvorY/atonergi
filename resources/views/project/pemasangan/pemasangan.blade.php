@@ -85,7 +85,9 @@
 																			@if ($value->p_code == null)
 																				<a href="{{url('project/pemasangan/prosespemasangan').'/'.$value->wo_id}}" class="btn btn-info btn-sm" title="Buat Perdin"><i class="fa fa-sign-in"></i></a>
 																			@else
+																			@if ($value->p_status_approve != 'Y')
 																				<a href="{{url('/project/pemasangan/editperdin').'?id='.$value->wo_id}}" class="btn btn-info btn-sm" title="Edit Perdin"><i class="fa fa-edit"></i></a>
+																			@endif
 																			@endif
 																			@if ($value->p_status != null)
 																				<a href="{{url('/project/pemasangan/detailperdin').'?id='.$value->wo_id}}" class="btn btn-warning btn-sm" title="Detail Perdin"><i class="fa fa-folder"></i></a>

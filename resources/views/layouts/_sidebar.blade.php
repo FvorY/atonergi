@@ -146,7 +146,7 @@
                 <span class="menu-sub-title">( 2 new updates )</span>
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
-            </li>            
+            </li>
 
             @if ( (int)$sidebar[0]->aktif == 1 || (int)$sidebar[1]->aktif == 1 || (int)$sidebar[2]->aktif == 1 || (int)$sidebar[3]->aktif == 1)
               <li class="nav-item {{Request::is('setting') ? 'active' : '' || Request::is('setting/*') ? 'active' : '' }}">
@@ -403,11 +403,12 @@
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/pemasangan/*') ? 'active' : ''
                   }}" href="{{url('project/pemasangan/pemasangan')}}">Pemasangan<span class="d-none">After Order</span></a></li>
                   @endif
+                  @if( (int)$sidebar[59]->aktif == 1)
                   <li class="nav-item">
                     <a href="{{route('perdin')}}" class="nav-link {{Request::is('project/perdin/*') ? 'active' : ''}}">LPJ Perdin<span class="d-none">After Order</span></a>
                   </li>
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/suratjalan/*') ? 'active' : ''}}" href="{{route('suratjalan')}}">Surat Jalan<span class="d-none">After Order</span></a>
-
+                  @endif
                   </li>
                   @if( (int)$sidebar[32]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('project/jadwalujicoba/*') ? 'active' : ''

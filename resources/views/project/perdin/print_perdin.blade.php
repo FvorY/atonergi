@@ -417,12 +417,12 @@ table.border-none > tbody > tr > td{
 	text-decoration: underline;
 }
 .text-primary {
-  color: #1976d2 !important; 
+  color: #1976d2 !important;
 }
 
 .text-success {
-  color: #2ecc71 !important; 
-}  
+  color: #2ecc71 !important;
+}
 
 .uppercase{
 	text-transform: uppercase;
@@ -442,7 +442,7 @@ table.border-none > tbody > tr > td{
 .empty{
 	height: 25px;
 }
-</style>	
+</style>
 </head>
 <body>
 	<div class="btn-print">
@@ -550,5 +550,8 @@ table.border-none > tbody > tr > td{
 			</table>
 		</div>
 	</div>
+	<script type="text/javascript">
+		window.print();
+	</script>
 </body>
 </html>

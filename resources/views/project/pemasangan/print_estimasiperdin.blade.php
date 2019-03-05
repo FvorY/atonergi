@@ -627,5 +627,8 @@ table.border-none > tbody > tr > td{
 			</tbody>
 		</table>
 	</div>
+	<script type="text/javascript">
+		window.print();
+	</script>
 </body>
 </html>

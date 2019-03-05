@@ -1309,6 +1309,14 @@ class ProjectController extends Controller
 
         $id = DB::table('d_perdin')->max('p_id')+1;
 
+        $total = [];
+        for ($i=0; $i < count($request->keterangan); $i++) {
+          $tmp = str_replace('.', '', $request->jumlah[$i]);
+          $tmp = (int)$tmp;
+          $total[$i] = $tmp;
+        }
+
+
         DB::table('d_perdin')
             ->insert([
               'p_id' => $id,
@@ -1319,6 +1327,7 @@ class ProjectController extends Controller
               'p_pelaksana' => $request->pelaksana,
               'p_proyek' => $request->proyek,
               'p_dinas_start' => Carbon::parse($request->dinasstart)->format('Y-m-d'),
+              'p_total' => array_sum($total),
               'p_dinas_end' => Carbon::parse($request->dinasend)->format('Y-m-d'),
               'p_tanggung_jawab' => Carbon::parse($request->tanggung)->format('Y-m-d'),
               'p_insert' => Carbon::now('Asia/Jakarta')
@@ -1416,6 +1425,13 @@ class ProjectController extends Controller
         $id = $perdin->p_id;
         $nota = $perdin->p_code;
 
+        $total = [];
+        for ($i=0; $i < count($request->keterangan); $i++) {
+          $tmp = str_replace('.', '', $request->jumlah[$i]);
+          $tmp = (int)$tmp;
+          $total[$i] = $tmp;
+        }
+
         DB::table('d_perdin')
             ->insert([
               'p_id' => $id,
@@ -1425,6 +1441,7 @@ class ProjectController extends Controller
               'p_pengajuan' => Carbon::parse($request->pengajuandate)->format('Y-m-d'),
               'p_pelaksana' => $request->pelaksana,
               'p_proyek' => $request->proyek,
+              'p_total' => array_sum($total),
               'p_dinas_start' => Carbon::parse($request->dinasstart)->format('Y-m-d'),
               'p_dinas_end' => Carbon::parse($request->dinasend)->format('Y-m-d'),
               'p_tanggung_jawab' => Carbon::parse($request->tanggung)->format('Y-m-d'),
@@ -1544,12 +1561,21 @@ class ProjectController extends Controller
     }
     public function perdin()
     {
-      return view('project.perdin.perdin');
+      $data = DB::table('d_perdin')
+                ->leftjoin('d_lpj_perdin', 'lp_perdin', '=', 'p_id')
+                ->get();
+
+      return view('project.perdin.perdin', compact('data'));
     }
 
-    public function proses_perdin()
+    public function proses_perdin(Request $request)
     {
-      return view('project.perdin.proses_perdin');
+      $perdin = DB::table('d_perdin')
+                  ->leftjoin('m_customer', 'c_code', '=', 'p_customer')
+                  ->where('p_id', decrypt($request->id))
+                  ->first();
+
+      return view('project.perdin.proses_perdin', compact('perdin'));
     }
     public function print_perdin()
     {
@@ -1558,5 +1584,56 @@ class ProjectController extends Controller
     public function estimasi_perdin()
     {
       return view('order.print_estimasiperdin');
+    }
+    public function simpan_lpj(Request $request){
+      DB::beginTransaction();
+      try {
+
+        $querykode = DB::select(DB::raw("SELECT MAX(MID(lp_code,4,3)) as counter FROM d_lpj_perdin"));
+
+        if (count($querykode) > 0) {
+            foreach($querykode as $k)
+              {
+                $tmp = ((int)$k->counter)+1;
+                $kode = sprintf("%02s", $tmp);
+              }
+        } else {
+          $kode = "001";
+        }
+
+
+        $finalkode = 'EP-' . $kode . '/' . date('m') . date('Y');
+
+        for ($i=0; $i < count($request->tanggal); $i++) {
+          $id = DB::table('d_lpj_perdin')->max('lp_id')+1;
+          DB::table('d_lpj_perdin')
+                ->insert([
+                  'lp_id' => $id,
+                  'lp_code' => $finalkode,
+                  'lp_perdin' => $request->idperdin,
+                  'lp_tanggal' => Carbon::parse($request->tanggal[$i])->format('Y-m-d'),
+                  'lp_keterangan' => $request->keterangan[$i],
+                  'lp_unit' => $request->unit[$i],
+                  'lp_price' => $request->price[$i],
+                  'lp_real_budget' => str_replace('.','',$request->realbudget[$i]),
+                  'lp_total_price' => str_replace('.','',$request->totalprice[$i]),
+                  'lp_sisa_perdin' => str_replace('.','',$request->sisaperdin[$i]),
+                  'lp_status' => 'released',
+                  'lp_insert' => Carbon::now('Asia/Jakarta')
+                ]);
+        }
+
+
+        DB::commit();
+        return response()->json([
+          'status' => 'berhasil'
+        ]);
+      } catch (Exception $e) {
+        DB::rollback();
+        return response()->json([
+          'status' => 'gagal'
+        ]);
+      }
+
     }
 }

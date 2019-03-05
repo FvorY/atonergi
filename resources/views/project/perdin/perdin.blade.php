@@ -19,8 +19,8 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">LPJ Perdin</h4>
-          
-          
+
+
           <div class="table-responsive">
 			        <table class="table table-hover table-striped table-bordered" id="table_perdin" cellspacing="0">
                   <thead class="bg-gradient-info">
@@ -38,30 +38,35 @@
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <td align="center">1</td>
-                      <td>01-03-2019</td>
-                      <td>EP-0001</td>
-                      <td align="right">5.500.000,00</td>
-                      <td align="center">-</td>
-                      <td align="center"><span class="badge badge-pill badge-secondary text-dark">Waiting</span></td>
-                      <td align="center" valign="middle">
-                        <div class="btn-group btn-group-sm">
-                          <a class="btn btn-primary btn-sm" href="{{route('proses_perdin')}}">Process</a>
-                          <button class="btn btn-warning" type="button" title="Edit"><i class="fa fa-edit"></i></button>
-                          <button class="btn btn-info" type="button" title="Detail"><i class="fa fa-list"></i></button>
+                    @foreach ($data as $key => $value)
+                      <tr>
+                        <td align="center">{{$key + 1}}</td>
+                        <td>{{Carbon\Carbon::parse($value->p_tanggung_jawab)->format('d-m-Y')}}</td>
+                        <td>{{$value->lp_code}}</td>
+                        <td align="right">{{number_format($value->p_total,2,',','.')}}</td>
+                        <td align="center">{{$value->p_code}}</td>
+                        @if ($value->lp_status == null)
+                          <td align="center"><span class="badge badge-pill badge-secondary text-dark">Waiting</span></td>
+                        @else
+                          <td align="center"><span class="badge badge-pill badge-secondary text-dark">{{$value->lp_status}}</span></td>
+                        @endif
+                        <td align="center" valign="middle">
+                          <div class="btn-group btn-group-sm">
+                            <a class="btn btn-primary btn-sm" href="{{route('proses_perdin')}}?id={{encrypt($value->p_id)}}">Process</a>
+                            <a class="btn btn-warning btn-sm" href="#" title="Edit"><i class="fa fa-edit"></i></a>
+                            <button class="btn btn-info" type="button" title="Detail"><i class="fa fa-list"></i></button>
+                          </div>
+                        </td>
+                        <td align="center">
+                            <a class="btn btn-info" href="{{route('print_perdin')}}" target="_blank" title="Print"><i class="fa fa-print"></i></a>
+                        </td>
+                        <td align="center">
+                          <button class="btn btn-success btn-sm" type="button" title="Approve"><i class="fa fa-check-square"></i></button>
 
-                        </div>
-                      </td>
-                      <td align="center">
-                          <a class="btn btn-info" href="{{route('print_perdin')}}" target="_blank" title="Print"><i class="fa fa-print"></i></a>
-                      </td>
-                      <td align="center">
-                        <button class="btn btn-success btn-sm" type="button" title="Approve"><i class="fa fa-check-square"></i></button>
-                        
-                      </td>
+                        </td>
 
-                    </tr>
+                      </tr>
+                    @endforeach
                   </tbody>
               </table>
           </div>
@@ -74,7 +79,7 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
-  
+
   $(document).ready(function(){
 
     var table = $('#table_perdin').DataTable();
