@@ -76,8 +76,8 @@
                   <tr>
                     <th rowspan="2" valign="middle">Tanggal</th>
                     <th rowspan="2" valign="middle">Keterangan</th>
-                    <th colspan="2">Estimasi Budget</th>
-                    <th rowspan="2" valign="middle">Real Budget</th>
+                    <th rowspan="2" valign="middle">Estimasi Budget</th>
+                    <th colspan="2">Real Budget</th>
                     <th rowspan="2" valign="middle">Total Price</th>
                     <th rowspan="2" valign="middle">Sisa Perdin</th>
                   </tr>
@@ -94,7 +94,7 @@
                     <td><input class="form-control form-control-sm" readonly="" type="text" value="{{$value->lp_keterangan}}" name="keterangan[]"></td>
                     <td><input class="form-control form-control-sm" readonly="" type="number" value="{{$value->lp_unit}}" min="0" name="unit[]"></td>
                     <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_price,0,',','.')}}" name="price[]"></td>
-                    <td><input class="form-control form-control-sm mask text-right format_money" readonly="" type="text" value="{{number_format($value->lp_real_budget,0,',','.')}}" name="realbudget[]"></td>
+                    <td><input class="form-control form-control-sm mask text-right format_money" readonly="" type="text" value="{{number_format($value->lp_estimasi_budget,0,',','.')}}" name="estimasibudget[]"></td>
                     <td><input class="form-control form-control-sm mask text-right format_money" readonly="" type="text" value="{{number_format($value->lp_total_price,0,',','.')}}" name="totalprice[]"></td>
                     <td><input class="form-control form-control-sm mask text-right format_money" readonly="" type="text" value="{{number_format($value->lp_sisa_perdin,0,',','.')}}" name="sisaperdin[]"></td>
                     </tr>
@@ -104,7 +104,7 @@
             </div>
             </form>
         </div>
-        <div class="card-footer text-right">          
+        <div class="card-footer text-right">
           <a href="{{route('perdin')}}" class="btn btn-secondary">Back</a>
         </div>
       </div>

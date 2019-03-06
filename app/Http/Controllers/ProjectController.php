@@ -1412,7 +1412,7 @@ class ProjectController extends Controller
                     ->where('pd_perdin', $perdin->p_id)
                     ->get();
 
-      return view('project.p_dinasngan.detail', compact('id', 'data', 'barang', 'pelaksana', 'perdin', 'perdindt'));
+      return view('project.pemasangan.detail', compact('id', 'data', 'barang', 'pelaksana', 'perdin', 'perdindt'));
     }
     public function updateperdin(Request $request){
       DB::beginTransaction();
@@ -1582,9 +1582,15 @@ class ProjectController extends Controller
 
       return view('project.perdin.proses_perdin', compact('perdin'));
     }
-    public function print_perdin()
+    public function print_perdin(Request $request)
     {
-      return view('project.perdin.print_perdin');
+      $lpj = DB::table('d_lpj_perdin')->where('lp_perdin', decrypt($request->id))->get();
+
+      $perdin = DB::table('d_perdin')->leftjoin('m_pegawai', 'p_id', '=', 'p_pelaksana')->leftjoin('m_customer', 'c_code', '=', 'p_customer')->where('p_id', decrypt($request->id))->first();
+
+      $perdindt = DB::table('d_perdin_dt')->where('pd_perdin', decrypt($request->id))->get();
+
+      return view('project.perdin.print_perdin', compact('lpj', 'perdin', 'perdindt'));
     }
     public function estimasi_perdin()
     {
@@ -1620,7 +1626,7 @@ class ProjectController extends Controller
                   'lp_keterangan' => $request->keterangan[$i],
                   'lp_unit' => $request->unit[$i],
                   'lp_price' => $request->price[$i],
-                  'lp_real_budget' => str_replace('.','',$request->realbudget[$i]),
+                  'lp_estimasi_budget' => str_replace('.','',$request->estimasibudget[$i]),
                   'lp_total_price' => str_replace('.','',$request->totalprice[$i]),
                   'lp_sisa_perdin' => str_replace('.','',$request->sisaperdin[$i]),
                   'lp_status' => 'released',
@@ -1671,7 +1677,7 @@ class ProjectController extends Controller
                     'lp_keterangan' => $request->keterangan[$i],
                     'lp_unit' => $request->unit[$i],
                     'lp_price' => $request->price[$i],
-                    'lp_real_budget' => str_replace('.','',$request->realbudget[$i]),
+                    'lp_estimasi_budget' => str_replace('.','',$request->estimasibudget[$i]),
                     'lp_total_price' => str_replace('.','',$request->totalprice[$i]),
                     'lp_sisa_perdin' => str_replace('.','',$request->sisaperdin[$i]),
                     'lp_status' => 'released',
@@ -1685,7 +1691,7 @@ class ProjectController extends Controller
                   'lp_keterangan' => $request->keterangan[$i],
                   'lp_unit' => $request->unit[$i],
                   'lp_price' => $request->price[$i],
-                  'lp_real_budget' => str_replace('.','',$request->realbudget[$i]),
+                  'lp_estimasi_budget' => str_replace('.','',$request->estimasibudget[$i]),
                   'lp_total_price' => str_replace('.','',$request->totalprice[$i]),
                   'lp_sisa_perdin' => str_replace('.','',$request->sisaperdin[$i]),
                   'lp_update' => Carbon::now('Asia/Jakarta')

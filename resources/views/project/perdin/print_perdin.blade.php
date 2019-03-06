@@ -453,16 +453,16 @@ table.border-none > tbody > tr > td{
 		<table class="border-none mt-5" width="100%" cellpadding="5px">
 			<tr class="text-success">
 				<td class="tebal">Nama Project</td>
-				<td class="border-bottom-success">Survey & Cek material</td>
+				<td class="border-bottom-success">{{$perdin->p_proyek}}</td>
 				<td class="tebal">Lokasi</td>
-				<td class="border-bottom-success">Banyumas</td>
+				<td class="border-bottom-success">{{$perdin->p_lokasi}}</td>
 			</tr>
 
 			<tr class="text-success">
 				<td class="tebal">Customers</td>
-				<td class="border-bottom-success">Bu Netty</td>
+				<td class="border-bottom-success">{{$perdin->c_name}}</td>
 				<td class="tebal">Departure</td>
-				<td class="border-bottom-success">26/11/2018 - 28/11/2018</td>
+				<td class="border-bottom-success">{{Carbon\Carbon::parse($perdin->p_dinas_start)->format('d/m/Y')}} - {{Carbon\Carbon::parse($perdin->p_dinas_end)->format('d/m/Y')}}</td>
 			</tr>
 		</table>
 
@@ -476,39 +476,48 @@ table.border-none > tbody > tr > td{
 					<th colspan="2">Real Budget</th>
 					<th rowspan="2">Total Price</th>
 					<th rowspan="2">Sisa Perdin</th>
-
 				</tr>
 				<tr>
-					<th width="1%">Payday/Days/Unit</th>
+					<th width="1%">Pax/Days/Unit</th>
 					<th>Price</th>
 				</tr>
 			</thead>
 			<tbody>
-				@for($i=0;$i<20;$i++)
-				<tr>
-					<td class="empty"></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				@endfor
+				<?php
+				$estimasi = 0;
+				$total = 0;
+				$sisa = 0;
+			  ?>
+				@foreach ($lpj as $key => $value)
+					<?php
+					$estimasi += $value->lp_estimasi_budget;
+					$total += $value->lp_total_price;
+					$sisa += $value->lp_sisa_perdin;
+					?>
+					<tr>
+						<td class="empty">{{$key + 1}}</td>
+						<td>{{Carbon\Carbon::parse($value->lp_tanggal)->format('d/m/Y')}}</td>
+						<td>{{$value->lp_keterangan}}</td>
+						<td><span style="float:left;">Rp. </span><span style="float:right;">{{number_format($value->lp_estimasi_budget,2,',','.')}}</span></td>
+						<td align="center">{{$value->lp_unit}}</td>
+						<td><span style="float:left;">Rp. </span><span style="float:right;">{{number_format($value->lp_price,2,',','.')}}</span></td>
+						<td><span style="float:left;">Rp. </span><span style="float:right;">{{number_format($value->lp_total_price,2,',','.')}}</span></td>
+						<td><span style="float:left;">Rp. </span><span style="float:right;">{{number_format($value->lp_sisa_perdin,2,',','.')}}</span></td>
+					</tr>
+				@endforeach
 			</tbody>
 			<tfoot>
 				<tr>
 					<th colspan="3">Total Estimasi Budget</th>
 					<th>
-						<div class="float-left">Rp. </div><div class="float-right">0,00</div>
+						<div class="float-left">Rp. </div><div class="float-right">{{number_format($estimasi,2,',','.')}}</div>
 					</th>
 					<th colspan="2">Total Perdin</th>
 					<th>
-						<div class="float-left">Rp. </div><div class="float-right">0,00</div>
+						<div class="float-left">Rp. </div><div class="float-right">{{number_format($total,2,',','.')}}</div>
 					</th>
 					<th>
-						<div class="float-left">Rp. </div><div class="float-right">0,00</div>
+						<div class="float-left">Rp. </div><div class="float-right">{{number_format($sisa,2,',','.')}}</div>
 					</th>
 				</tr>
 				<tr>
@@ -529,7 +538,7 @@ table.border-none > tbody > tr > td{
 						<td>Teknisi</td>
 					</tr>
 					<tr>
-						<td>( <small>Charlie</small> )</td>
+						<td>( <small>{{$perdin->mp_name}}</small> )</td>
 					</tr>
 				</tbody>
 			</table>

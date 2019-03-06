@@ -75,8 +75,8 @@
                   <tr>
                     <th rowspan="2" valign="middle">Tanggal</th>
                     <th rowspan="2" valign="middle">Keterangan</th>
-                    <th colspan="2">Estimasi Budget</th>
-                    <th rowspan="2" valign="middle">Real Budget</th>
+                    <th rowspan="2" valign="middle">Estimasi Budget</th>
+                    <th colspan="2">Real Budget</th>
                     <th rowspan="2" valign="middle">Total Price</th>
                     <th rowspan="2" valign="middle">Sisa Perdin</th>
                     <th rowspan="2" valign="middle">
@@ -130,9 +130,9 @@
       table.row.add([
         '<input class="form-control form-control-sm datepicker" value="{{date('d-m-Y')}}" type="text" name="tanggal[]">',
         '<input class="form-control form-control-sm" type="text" name="keterangan[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="estimasibudget[]">',
         '<input class="form-control form-control-sm" type="number" min="0" name="unit[]">',
         '<input class="form-control form-control-sm mask text-right format_money" type="text" name="price[]">',
-        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="realbudget[]">',
         '<input class="form-control form-control-sm mask text-right format_money" type="text" name="totalprice[]">',
         '<input class="form-control form-control-sm mask text-right format_money" type="text" name="sisaperdin[]">',
         '<center><button class="btn btn-danger btn-sm btn-hapusmantan" type="button"><i class="fa fa-trash-o"></i></button></center>'

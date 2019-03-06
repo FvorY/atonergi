@@ -76,8 +76,8 @@
                   <tr>
                     <th rowspan="2" valign="middle">Tanggal</th>
                     <th rowspan="2" valign="middle">Keterangan</th>
-                    <th colspan="2">Estimasi Budget</th>
-                    <th rowspan="2" valign="middle">Real Budget</th>
+                    <th rowspan="2" valign="middle">Estimasi Budget</th>
+                    <th colspan="2">Real Budget</th>
                     <th rowspan="2" valign="middle">Total Price</th>
                     <th rowspan="2" valign="middle">Sisa Perdin</th>
                     <th rowspan="2" valign="middle">
@@ -95,9 +95,9 @@
                     <tr>
                     <td><input type="hidden" name="lp_id[]" value="{{$value->lp_id}}"><input class="form-control form-control-sm datepicker" value="{{Carbon\Carbon::parse($value->lp_tanggal)->format('d-m-Y')}}" type="text" name="tanggal[]"></td>
                     <td><input class="form-control form-control-sm" type="text" value="{{$value->lp_keterangan}}" name="keterangan[]"></td>
+                    <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_estimasi_budget,0,',','.')}}" name="estimasibudget[]"></td>
                     <td><input class="form-control form-control-sm" type="number" value="{{$value->lp_unit}}" min="0" name="unit[]"></td>
                     <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_price,0,',','.')}}" name="price[]"></td>
-                    <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_real_budget,0,',','.')}}" name="realbudget[]"></td>
                     <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_total_price,0,',','.')}}" name="totalprice[]"></td>
                     <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_sisa_perdin,0,',','.')}}" name="sisaperdin[]"></td>
                     <td><center><button class="btn btn-danger btn-sm btn-hapusmantan" type="button"><i class="fa fa-trash-o"></i></button></center></td>
@@ -141,10 +141,10 @@
     $('#button-tambahmantan').click(function(){
       table.row.add([
         '<input type="hidden" name="lp_id[]" value=""><input class="form-control form-control-sm datepicker" value="{{date('d-m-Y')}}" type="text" name="tanggal[]">',
-        '<input class="form-control form-control-sm" type="text" name="keterangan[]">',
+        '<input class="form-control form-control-sm" type="text" name="keterangan[]">',        ,
+        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="estimasibudget[]">',
         '<input class="form-control form-control-sm" type="number" min="0" name="unit[]">',
-        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="price[]">',
-        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="realbudget[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="price[]">'
         '<input class="form-control form-control-sm mask text-right format_money" type="text" name="totalprice[]">',
         '<input class="form-control form-control-sm mask text-right format_money" type="text" name="sisaperdin[]">',
         '<center><button class="btn btn-danger btn-sm btn-hapusmantan" type="button"><i class="fa fa-trash-o"></i></button></center>'
