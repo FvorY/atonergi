@@ -54,6 +54,7 @@
 														<th>Installer</th>
 														<th>Code Perdin</th>
 														<th>Delivery Rsp</th>
+														<th></th>
 														<th>Status Perdin</th>
 		                  			<th>Action</th>
 		                  		</tr>
@@ -72,6 +73,11 @@
 																	<td></td>
 																@else
 																	<td>{{Carbon\Carbon::parse($value->p_tanggung_jawab)->format('d-m-Y')}}</td>
+																@endif
+																@if (strtotime($value->p_tanggung_jawab) < strtotime('now') && $value->lp_code == null)
+																	<td> <span style="color:red;">*</span> </td>
+																@else
+																	<td></td>
 																@endif
 																@if ($value->p_status == 'released')
 																	<td> <span class="badge badge-warning" style="text-transform:uppercase;">{{$value->p_status}}</span> </td>

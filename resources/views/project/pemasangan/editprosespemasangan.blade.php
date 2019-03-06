@@ -58,6 +58,14 @@
 		                				<input type="text" readonly="" class="form-control form-control-sm" name="codeperdin" value="{{$perdin->p_code}}">
 		                			</div>
 		                		</div>
+												<div class="col-md-6 col-sm-6 col-xs-12">
+		                			<label>Lokasi</label>
+		                		</div>
+		                		<div class="col-md-6 col-sm-6 col-xs-12">
+		                			<div class="form-group">
+		                				<input type="text" class="form-control form-control-sm" name="lokasi" value="{{$perdin->p_lokasi}}">
+		                			</div>
+		                		</div>
 		                	</div>
 											<input type="hidden" name="d_wo" value="{{$data[0]->wo_nota}}">
 	                	</div>

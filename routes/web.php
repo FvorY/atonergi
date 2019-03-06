@@ -267,6 +267,10 @@ Route::get('/project/suratjalan/print_suratjalan', 'ProjectController@print_sura
 Route::get('/project/perdin/perdin', 'ProjectController@perdin')->name('perdin');
 Route::get('/project/perdin/proses_perdin', 'ProjectController@proses_perdin')->name('proses_perdin');
 Route::get('/project/perdin/simpan_lpj', 'ProjectController@simpan_lpj');
+Route::get('/project/perdin/edit_lpj', 'ProjectController@edit_lpj');
+Route::get('/project/perdin/update_lpj', 'ProjectController@update_lpj');
+Route::get('/project/perdin/detail_lpj', 'ProjectController@detail_lpj');
+Route::get('/project/perdin/approve_lpj', 'ProjectController@approve_lpj');
 Route::get('/project/perdin/print_perdin', 'ProjectController@print_perdin')->name('print_perdin');
 
 // Pompa
