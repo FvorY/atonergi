@@ -147,7 +147,7 @@
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
             </li>
-
+            {{dd($sidebar)}}
             @if ( (int)$sidebar[0]->aktif == 1 || (int)$sidebar[1]->aktif == 1 || (int)$sidebar[2]->aktif == 1 || (int)$sidebar[3]->aktif == 1)
               <li class="nav-item {{Request::is('setting') ? 'active' : '' || Request::is('setting/*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#setting" aria-expanded="false" aria-controls="ui-basic">
@@ -164,10 +164,12 @@
                 <div class="collapse {{Request::is('setting') ? 'show' : '' || Request::is('setting/*') ? 'show' : '' }}" id="setting">
                   <ul class="nav flex-column sub-menu">
 
+                    @if( (int)$sidebar[60]->aktif == 1)
                     <li class="nav-item"> <a class="nav-link {{Request::is('setting/modul/keuangan/setting/klasifikasi-akun') ? 'active' : '' || Request::is('setting/modul/keuangan/setting/klasifikasi-akun/*') ? 'active' : '' }}" href="{{url('setting/modul/keuangan/setting/klasifikasi-akun')}}">Klasifikasi Akun<span class="d-none">Setting</span></a></li>
-
+                    @endif
+                    @if( (int)$sidebar[61]->aktif == 1)
                     <li class="nav-item"> <a class="nav-link {{Request::is('setting/modul/keuangan/setting/akun-penting') ? 'active' : '' || Request::is('setting/modul/keuangan/setting/akun-penting/*') ? 'active' : '' }}" href="{{url('setting/modul/keuangan/setting/akun-penting')}}">Akun-Akun Penting<span class="d-none">Setting</span></a></li>
-
+                    @endif
                     @if( (int)$sidebar[0]->aktif == 1)
                     <li class="nav-item"> <a class="nav-link {{Request::is('/setting/jabatan') ? 'active' : '' || Request::is('/setting/jabatan/*') ? 'active' : '' }}" href="{{url('/setting/jabatan')}}">Setting Level Account<span class="d-none">Setting</span></a></li>
                     @endif
