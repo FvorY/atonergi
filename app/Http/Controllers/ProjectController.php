@@ -1384,7 +1384,7 @@ class ProjectController extends Controller
                     ->where('pd_perdin', $perdin->p_id)
                     ->get();
 
-      return view('project.p_dinasngan.editprosesp_dinasngan', compact('id', 'data', 'barang', 'pelaksana', 'perdin', 'perdindt'));
+      return view('project.pemasangan.editprosespemasangan', compact('id', 'data', 'barang', 'pelaksana', 'perdin', 'perdindt'));
     }
     public function detailperdin(Request $request){
       $id = $request->id;
