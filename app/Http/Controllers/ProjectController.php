@@ -1560,7 +1560,7 @@ class ProjectController extends Controller
 
       $kasbon = DB::table('d_kasbon')->where('k_perdin', $perdin->p_id)->first();
 
-      return view('project.p_dinasngan.print_estimasiperdin', compact('perdin', 'perdindt', 'kasbon', 'jumlahsum'));
+      return view('project.pemasangan.print_estimasiperdin', compact('perdin', 'perdindt', 'kasbon', 'jumlahsum'));
     }
     public function perdin()
     {
