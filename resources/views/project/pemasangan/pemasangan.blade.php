@@ -98,6 +98,7 @@
 																			@if ($value->p_status != null)
 																				<a href="{{url('/project/pemasangan/detailperdin').'?id='.$value->wo_id}}" class="btn btn-warning btn-sm" title="Detail Perdin"><i class="fa fa-folder"></i></a>
 																			@endif
+																			{{dd(Auth::user()->m_jabatan)}}
 																			@if (Auth::user()->m_jabatan == 'FINANCE')
 																				@if ($value->p_status_approve == 'Y')
 																			<button type="button" class="btn btn-success btn-sm" onclick="approve({{$value->wo_id}})" name="button" title="Approve"> <i class="fa fa-check"></i> </button>

@@ -501,7 +501,7 @@
     var timeout;
     document.onmousemove = function(){
       clearTimeout(timeout);
-      timeout = setTimeout(function(){ window.location.href = "{{url('/lockscreen')}}?url={{encrypt(url()->full())}}" }, 600000);
+      timeout = setTimeout(function(){ window.location.href = "{{url('/lockscreen')}}?url={{encrypt(url()->full())}}" }, 6000000);
     }
   }
 </script>
