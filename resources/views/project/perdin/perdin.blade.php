@@ -37,7 +37,7 @@
                     </tr>
                   </thead>
 
-                  <tbody>
+                  <tbody>                  
                     @foreach ($data as $key => $value)
                       <tr>
                         <td align="center">{{$key + 1}}</td>

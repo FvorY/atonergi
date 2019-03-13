@@ -369,6 +369,7 @@ class ProjectController extends Controller
               ->where('q_remain', 0)
               ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
+              ->groupby('wo_id')
               ->get();
 
       $countd = DB::table('d_work_order')
@@ -1577,8 +1578,9 @@ class ProjectController extends Controller
       $data = DB::table('d_perdin')
                 ->select('p_tanggung_jawab', 'lp_code', 'p_code', 'p_total', 'lp_status', 'p_id', 'lp_perdin')
                 ->leftjoin('d_lpj_perdin', 'lp_perdin', '=', 'p_id')
-                ->groupby('lp_code')
+                ->groupby('p_id')
                 ->get();
+
 
       return view('project.perdin.perdin', compact('data'));
     }
