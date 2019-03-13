@@ -133,7 +133,7 @@
     </nav>
 
                 <?php $sidebar = App\mMember::aksesSidebar() ?>
-
+              {{dd($sidebar)}}
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <div class="row row-offcanvas row-offcanvas-right">
@@ -146,7 +146,7 @@
                 <span class="menu-sub-title">( 2 new updates )</span>
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
-            </li>            
+            </li>
             @if ( (int)$sidebar[0]->aktif == 1 || (int)$sidebar[1]->aktif == 1 || (int)$sidebar[2]->aktif == 1 || (int)$sidebar[3]->aktif == 1)
               <li class="nav-item {{Request::is('setting') ? 'active' : '' || Request::is('setting/*') ? 'active' : '' }}">
                 <a class="nav-link" data-toggle="collapse" href="#setting" aria-expanded="false" aria-controls="ui-basic">
