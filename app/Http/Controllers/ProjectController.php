@@ -844,6 +844,7 @@ class ProjectController extends Controller
                       ->where('qd_item', 'LIKE', '%BRG%')
                       ->get();
 
+
                 for ($i = 0; $i < count($barang); $i++) {
 
                     $stock = DB::table('i_stock_gudang')
@@ -853,11 +854,12 @@ class ProjectController extends Controller
                         ->where(DB::raw('(sm_qty - sm_use)'), '>', 0)
                         ->get();
 
-                    if (empty($stock)) {
+                    if (count($stock) == 0) {
                         return response()->json([
                           'status' => 'stock kurang',
-                          'ket' => 'Stock ' . $barang[$i]->i_code . '-' . $barang[$i]->i_name . 'kurang'
+                          'ket' => 'Stock ' . $barang[$i]->i_code . ' - ' . $barang[$i]->i_name . ' kurang'
                         ]);
+
                     } else {
                       $permintaan = $barang[$i]->qd_qty;
 
