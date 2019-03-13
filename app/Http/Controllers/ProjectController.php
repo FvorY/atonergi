@@ -366,6 +366,8 @@ class ProjectController extends Controller
               ->leftjoin('d_perdin', 'p_wo', '=', 'wo_nota')
               ->leftjoin('d_lpj_perdin', 'lp_perdin', '=', 'p_id')
               ->leftjoin('m_pegawai', 'mp_id', '=', 'p_pelaksana')
+              ->where('q_remain', 0)
+              ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
               ->get();
 
