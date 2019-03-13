@@ -57,7 +57,7 @@ class stockbarangController extends Controller
    } else {
      $data = DB::table('m_item')
       ->join('d_unit', 'u_id', '=', 'i_unit')
-      ->select('u_unit', 'i_price', 'i_currency_id')
+      ->select('u_unit', 'i_price', 'i_price_currency')
       ->where("i_code", $request->item)
       ->get();
 
