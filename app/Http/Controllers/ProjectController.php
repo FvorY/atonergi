@@ -377,6 +377,8 @@ class ProjectController extends Controller
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
               ->leftjoin('d_perdin', 'p_wo', '=', 'wo_nota')
               ->leftjoin('m_pegawai', 'mp_id', '=', 'p_pelaksana')
+              ->where('q_remain', 0)
+              ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
               ->where('p_status', 'released')
               ->count();
@@ -387,6 +389,8 @@ class ProjectController extends Controller
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
               ->leftjoin('d_perdin', 'p_wo', '=', 'wo_nota')
               ->leftjoin('m_pegawai', 'mp_id', '=', 'p_pelaksana')
+              ->where('q_remain', 0)
+              ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
               ->where('p_status', 'acc')
               ->count();
@@ -397,6 +401,8 @@ class ProjectController extends Controller
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
               ->leftjoin('d_perdin', 'p_wo', '=', 'wo_nota')
               ->leftjoin('m_pegawai', 'mp_id', '=', 'p_pelaksana')
+              ->where('q_remain', 0)
+              ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
               ->where('p_status', 'revition')
               ->count();
