@@ -256,6 +256,8 @@ table, td, th {
 	right: 0;
 	opacity: 0.1;
 	width: 90vw;
+	-webkit-print-color-adjust: exact;
+	color-adjust:exact;
 }
 .top
 {
@@ -451,6 +453,7 @@ table.border-none > tbody > tr > td{
 	<div class="btn-print">
 		<button onclick="javascript:window.print();" type="button">Print</button>
 	</div>
+	<div class="div-width-background"></div>
 	<div class="div-width">
 		<table width="100%" cellpadding="5px">
 			<thead>
@@ -550,7 +553,7 @@ table.border-none > tbody > tr > td{
 								<td>Diberikan Tanggal</td>
 								<td>:</td>
 								<td>{{Carbon\Carbon::parse($kasbon->k_date)->format('d F Y')}}</td>
-								<td rowspan="2" colspan="3" style="background-color: lightgray;">
+								<td rowspan="2" colspan="3" style="background-color: #d3d3d370;">
 									<table width="100%" class="border-none" cellpadding="3px">
 										<tr>
 											<td align="right" width="50%">Tanggal Pertanggung Jawaban</td>

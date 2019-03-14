@@ -256,6 +256,8 @@ table, td, th {
 	right: 0;
 	opacity: 0.1;
 	width: 90vw;
+	-webkit-print-color-adjust: exact;
+	color-adjust:exact;
 }
 .top
 {
@@ -448,6 +450,7 @@ table.border-none > tbody > tr > td{
 	<div class="btn-print">
 		<button onclick="javascript:window.print();" type="button">Print</button>
 	</div>
+	<div class="div-width-background"></div>
 	<div class="div-width">
 		<h2 class="text-primary uppercase">Laporan Pertanggung Jawaban Perdin</h2>
 		<table class="border-none mt-5" width="100%" cellpadding="5px">
