@@ -524,7 +524,7 @@ table.border-none > tbody > tr > td{
 					<th align="right" class="border-none-bottom" colspan="7">
 						Sisa Perdin yang harus dikembalikan
 					</th>
-					<th></th>
+					<th>{{number_format($sisa,2,',','.')}}</th>
 				</tr>
 			</tfoot>
 		</table>
