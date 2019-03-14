@@ -1530,6 +1530,8 @@ class ProjectController extends Controller
 
         $id = DB::table('d_kasbon')->max('k_id')+1;
 
+        $request->diberikan = str_replace('.', '', $request->diberikan);
+
         DB::table('d_kasbon')
             ->insert([
               'k_id' => $id,
@@ -1569,9 +1571,13 @@ class ProjectController extends Controller
 
       $jumlahsum = DB::table('d_perdin_dt')->where('pd_perdin', $perdin->p_id)->sum('pd_jumlah');
 
-      $kasbon = DB::table('d_kasbon')->where('k_perdin', $perdin->p_id)->first();
+      $kasbon = DB::table('d_kasbon')->join('dk_akun', 'ak_id', '=', 'k_pilih_bank')->where('k_perdin', $perdin->p_id)->first();
 
-      return view('project.pemasangan.print_estimasiperdin', compact('perdin', 'perdindt', 'kasbon', 'jumlahsum'));
+      $sisa = DB::table('d_lpj_perdin')->where('lp_perdin', $perdin->p_id)->sum('lp_sisa_perdin');
+
+      $sisa = (int)$kasbon->k_diberikan - (int)$sisa;
+
+      return view('project.pemasangan.print_estimasiperdin', compact('perdin', 'perdindt', 'kasbon', 'jumlahsum', 'sisa'));
     }
     public function perdin()
     {
@@ -1592,7 +1598,11 @@ class ProjectController extends Controller
                   ->where('p_id', decrypt($request->id))
                   ->first();
 
-      return view('project.perdin.proses_perdin', compact('perdin'));
+      $perdindt = DB::table('d_perdin_dt')
+                    ->where('pd_perdin', decrypt($request->id))
+                    ->get();
+
+      return view('project.perdin.proses_perdin', compact('perdin', 'perdindt'));
     }
     public function print_perdin(Request $request)
     {

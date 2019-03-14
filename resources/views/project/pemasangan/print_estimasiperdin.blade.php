@@ -565,7 +565,7 @@ table.border-none > tbody > tr > td{
 											<td width="1%">:</td>
 											<td style="border-bottom: 1px solid black;">
 												<div class="float-left">Rp. </div>
-												<div class="float-right">0,00</div>
+												<div class="float-right">{{number_format($sisa,2,',','.')}}</div>
 											</td>
 										</tr>
 									</table>
@@ -575,14 +575,14 @@ table.border-none > tbody > tr > td{
 							<tr>
 								<td>Transaksi</td>
 								<td>:</td>
-								<td></td>
+								<td>{{$kasbon->k_transaksi}}</td>
 								<td colspan="3"></td>
 							</tr>
 
 							<tr>
 								<td>Via Bank</td>
 								<td>:</td>
-								<td></td>
+								<td>{{$kasbon->ak_nama}}</td>
 								<td colspan="3"></td>
 							</tr>
 						</table>

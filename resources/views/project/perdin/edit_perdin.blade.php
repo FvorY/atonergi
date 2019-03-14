@@ -79,7 +79,7 @@
                     <th rowspan="2" valign="middle">Estimasi Budget</th>
                     <th colspan="2">Real Budget</th>
                     <th rowspan="2" valign="middle">Total Price</th>
-                    <th rowspan="2" valign="middle">Sisa Perdin</th>
+                    <th rowspan="2" valign="middle">Sisa Uang</th>
                     <th rowspan="2" valign="middle">
                       <button class="btn btn-success btn-sm" type="button" id="button-tambahmantan"><i class="fa fa-plus"></i></button>
                     </th>
@@ -92,21 +92,27 @@
 
                 <tbody>
                   @foreach ($lpj as $key => $value)
+                    <?php
+                      $total = 0;
+                      $total += $value->lp_estimasi_budget;
+                    ?>
                     <tr>
                     <td><input type="hidden" name="lp_id[]" value="{{$value->lp_id}}"><input class="form-control form-control-sm datepicker" value="{{Carbon\Carbon::parse($value->lp_tanggal)->format('d-m-Y')}}" type="text" name="tanggal[]"></td>
                     <td><input class="form-control form-control-sm" type="text" value="{{$value->lp_keterangan}}" name="keterangan[]"></td>
-                    <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_estimasi_budget,0,',','.')}}" name="estimasibudget[]"></td>
-                    <td><input class="form-control form-control-sm" type="number" value="{{$value->lp_unit}}" min="0" name="unit[]"></td>
-                    <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_price,0,',','.')}}" name="price[]"></td>
-                    <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_total_price,0,',','.')}}" name="totalprice[]"></td>
-                    <td><input class="form-control form-control-sm mask text-right format_money" type="text" value="{{number_format($value->lp_sisa_perdin,0,',','.')}}" name="sisaperdin[]"></td>
+                    <td><input class="form-control form-control-sm mask text-right format_money estimasi" onkeyup="sync({{$key}})" id="estimasi{{$key}}" type="text" value="{{number_format($value->lp_estimasi_budget,0,',','.')}}" name="estimasibudget[]"></td>
+                    <td><input class="form-control form-control-sm" type="number" id="unit{{$key}}" value="{{$value->lp_unit}}" onkeyup="sync({{$key}})" min="0" name="unit[]"></td>
+                    <td><input class="form-control form-control-sm mask text-right format_money" id="price{{$key}}" onkeyup="sync({{$key}})" type="text" value="{{number_format($value->lp_price,0,',','.')}}" name="price[]"></td>
+                    <td><input class="form-control form-control-sm mask text-right format_money" readonly id="totalprice{{$key}}" type="text" value="{{number_format($value->lp_total_price,0,',','.')}}" name="totalprice[]"></td>
+                    <td><input class="form-control form-control-sm text-right" readonly id="sisaperdin{{$key}}" type="text" value="{{number_format($value->lp_sisa_perdin,0,',','.')}}" name="sisaperdin[]"></td>
                     <td><center><button class="btn btn-danger btn-sm btn-hapusmantan" type="button"><i class="fa fa-trash-o"></i></button></center></td>
                     </tr>
+                    <input type="hidden" name="count" id="count" value="{{$key}}">
                   @endforeach
                 </tbody>
               </table>
             </div>
             </form>
+            <input type="hidden" name="totalestimasi" id="totalestimasi" value="{{$total}}">
         </div>
         <div class="card-footer text-right">
           <button class="btn btn-info" type="button" id="btn-submit">Simpan</button>
@@ -136,17 +142,17 @@
         }
       ]
     });
-    var counter_strike__battlefield = 0;
+    var counter_strike__battlefield = $('#count').val();
 
     $('#button-tambahmantan').click(function(){
       table.row.add([
-        '<input type="hidden" name="lp_id[]" value=""><input class="form-control form-control-sm datepicker" value="{{date('d-m-Y')}}" type="text" name="tanggal[]">',
-        '<input class="form-control form-control-sm" type="text" name="keterangan[]">',        ,
-        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="estimasibudget[]">',
-        '<input class="form-control form-control-sm" type="number" min="0" name="unit[]">',
-        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="price[]">'
-        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="totalprice[]">',
-        '<input class="form-control form-control-sm mask text-right format_money" type="text" name="sisaperdin[]">',
+        '<input class="form-control form-control-sm datepicker" value="{{date('d-m-Y')}}" type="text" name="tanggal[]">',
+        '<input class="form-control form-control-sm" type="text" name="keterangan[]">',
+        '<input class="form-control form-control-sm mask text-right format_money estimasi" type="text" onkeyup="sync('+counter_strike__battlefield+')" id="estimasi'+counter_strike__battlefield+'" name="estimasibudget[]">',
+        '<input class="form-control form-control-sm" id="unit'+counter_strike__battlefield+'" onkeyup="sync('+counter_strike__battlefield+')" type="number" min="0" name="unit[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" id="price'+counter_strike__battlefield+'" onkeyup="sync('+counter_strike__battlefield+')" type="text" name="price[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" id="totalprice'+counter_strike__battlefield+'" readonly type="text" name="totalprice[]">',
+        '<input class="form-control form-control-sm mask text-right format_money" id="sisaperdin'+counter_strike__battlefield+'" readonly type="text" name="sisaperdin[]">',
         '<center><button class="btn btn-danger btn-sm btn-hapusmantan" type="button"><i class="fa fa-trash-o"></i></button></center>'
         ]).draw(false);
 
@@ -166,6 +172,19 @@
   });
 
    $('#btn-submit').on('click', function(){
+     var estimasitotal = 0;
+     $('.estimasi').each(function(){
+       var total = $(this).val();
+       total = total.replace(/[^0-9\-]+/g,"");
+       estimasitotal += parseInt(total);
+     });
+     if (parseInt(estimasitotal) > parseInt($('#totalestimasi').val())) {
+       var lebih = parseInt(estimasitotal) - parseInt($('#totalestimasi').val());
+       iziToast.warning({
+           icon: 'fa fa-info',
+           message: 'Estimasi budget lebih '+lebih+'!',
+       });
+     } else {
      $.ajax({
        type: 'get',
        data: $('#data').serialize(),
@@ -187,7 +206,22 @@
  				}
        }
      })
+   }
    });
+
+   function sync(id){
+     var unit = $('#unit'+id).val();
+     unit = unit.replace(/[^0-9\-]+/g,"");
+     var price = $('#price'+id).val();
+     price = price.replace(/[^0-9\-]+/g,"");
+     var estimasi = $('#estimasi'+id).val();
+     estimasi = estimasi.replace(/[^0-9\-]+/g,"");
+
+     var total = parseInt(unit) * parseInt(price);
+     var sisa = parseInt(estimasi) - parseInt(total);
+     $('#totalprice'+id).val(accounting.formatMoney(total,"",0,'.',','));
+     $('#sisaperdin'+id).val(accounting.formatMoney(sisa,"",0,'.',','));
+   }
 
 </script>
 @endsection
