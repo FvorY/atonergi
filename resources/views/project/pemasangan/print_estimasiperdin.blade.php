@@ -572,15 +572,15 @@ table.border-none > tbody > tr > td{
 							<tr>
 								<td>Transaksi</td>
 								<td>:</td>
-								<td></td>
-								<td colspan="3">{{$kasbon->k_transfer}}</td>
+								<td>{{$kasbon->k_transaksi}}</td>
+								<td colspan="3"></td>
 							</tr>
 
 							<tr>
 								<td>Via Bank</td>
 								<td>:</td>
-								<td></td>
-								<td colspan="3">{{$kasbon->ak_nama}}</td>
+								<td>{{$kasbon->ak_nama}}</td>
+								<td colspan="3"></td>
 							</tr>
 						</table>
 					</td>
