@@ -261,7 +261,7 @@
           </div>
           <hr style="background:#5c848e; border:0px; height:2px; margin-bottom: 5px;">
           <div class="row">
-              <div class="col-lg-2 col-sm-4" style=" margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#6c5ce7;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="qo()" style="cursor:pointer;" id="qoico" @if($qo > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="qo" id="qo" @if($qo > 0) value="Y" @else value="N" @endif>
@@ -277,7 +277,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-4" style=" margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#ff7675;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="so()" style="cursor:pointer;" id="soico" @if($so > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="so" id="so" @if($so > 0) value="Y" @else value="N" @endif>
@@ -310,12 +310,12 @@
                   </div>
               </div>
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
-                  <div class="card px-4" style="background-color:#fdcb6e;">
+                  <div class="card px-2" style="background-color:#fdcb6e;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="pay()" style="cursor:pointer;" id="payico" @if($pay > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="pay" id="pay" @if($pay > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
-                            <div class="col-lg-4 click" style="margin-top:8px;">
+                            <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
                                 <span class="mdi mdi-cart" style="color:white; font-size:30px;"></span>
                             </div>
                             <div class="col-lg-12" style="color:white;">
@@ -358,7 +358,7 @@
                   </div>
               </div>
               <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
-                  <div class="card px-1" style="background-color:#ef6c57;">
+                  <div class="card px-2" style="background-color:#ef6c57;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="stok()" style="cursor:pointer;" id="stokico" @if($stok > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="stok" id="stok" @if($stok > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang7">
@@ -367,19 +367,19 @@
                                 <span class="mdi mdi-arrow-up-bold-box-outline menu-icon" style="color:white; font-size:30px;"></span>
                             </div>
                             <div class="col-lg-12" style="color:white;">
-                              <h3 style="margin-top:15px;" onclick="window.location.href='{{route('stockgudang')}}'">Stok</h1>
+                              <h3 style="margin-top:15px; font-size:18pt" onclick="window.location.href='{{route('stockgudang')}}'">Stok</h1>
                             </div>
                           </div>
                       </div>
                   </div>
               </div>
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
-                  <div class="card px-4" style="background-color:#f79f24;">
+                  <div class="card px-2" style="background-color:#f79f24;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="hutang()" style="cursor:pointer;" id="hutangico" @if($hutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="hutang" id="hutang" @if($hutang > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
-                            <div class="col-lg-4 click" style="margin-top:8px;">
+                            <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
                                 <span class="mdi mdi-chart-areaspline" style="color:white; font-size:30px;"></span>
                             </div>
                             <div class="col-lg-12" style="color:white;">
@@ -390,12 +390,12 @@
                   </div>
               </div>
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
-                  <div class="card px-4" style="background-color:#ffe98a">
+                  <div class="card px-2" style="background-color:#ffe98a">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="piutang()" style="cursor:pointer;" id="piutangico" @if($piutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="piutang" id="piutang" @if($piutang > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
-                            <div class="col-lg-4 click" style="margin-top:8px;">
+                            <div class="col-lg-4 lp-2 click" style="margin-top:8px;">
                                 <span class="mdi mdi-chart-areaspline" style="color:white; font-size:30px;"></span>
                             </div>
                             <div class="col-lg-12" style="color:white;">
@@ -406,12 +406,12 @@
                   </div>
               </div>
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
-                  <div class="card px-4" style="background-color:#d195f9;">
+                  <div class="card px-2" style="background-color:#d195f9;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="omset()" style="cursor:pointer;" id="omsetico" @if($omset > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="omset" id="omset" @if($omset > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
-                            <div class="col-lg-4 click" style="margin-top:8px;">
+                            <div class="col-lg-4 lp-2 click" style="margin-top:8px;">
                                 <span class="mdi mdi-chart-areaspline" style="color:white; font-size:30px;"></span>
                             </div>
                             <div class="col-lg-12" style="color:white;">
