@@ -375,15 +375,15 @@
               </div>
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#f79f24;">
-                    <i class="d-flex justify-content-end" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="hutang()" style="cursor:pointer;" id="hutangico" @if($hutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
+                    <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="hutang()" style="cursor:pointer;" id="hutangico" @if($hutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="hutang" id="hutang" @if($hutang > 0) value="Y" @else value="N" @endif>
-                      <div class="card-body">
+                      <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
-                            <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
-                                <span class="mdi mdi-chart-areaspline" style="color:white; font-size:30px;"></span>
+                          <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
+                                <span class="mdi mdi-cart" style="color:white; font-size:30px;"></span>
                             </div>
                             <div class="col-lg-12" style="color:white;">
-                              <h3 style="margin-top:15px; width:100%;">Hutang</h3>
+                              <h3 style="margin-top:15px;">Hutang</h3>
                             </div>
                           </div>
                       </div>
