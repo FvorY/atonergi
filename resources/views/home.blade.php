@@ -31,7 +31,7 @@
           <div class="row" id="showwidget">
               @foreach($widget as $value)
               @if($value->widget == 'qo')
-              <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="qoparent">
+              <div class="col-lg-6" style="margin-top:1em;" id="qoparent">
                     <div class="card px-2" style="background-color:#6c5ce7;">
                     <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="qoclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -55,7 +55,7 @@
                 </div>
                @endif
                @if($value->widget == 'so')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="soparent">
+                <div class="col-lg-6" style="  margin-top:1em;" id="soparent">
                     <div class="card px-2" style="background-color:#ff7675;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="soclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -70,7 +70,7 @@
                             </div>
                             <hr style="background:white; border:0px; height:1px; margin-bottom: 5px;">
                             <div class="col-lg-5" style="color:white;">
-                                <p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="sorelease">0</span> Release</b></p>                                
+                                <p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="sorelease">0</span> Release</b></p>
                                 <p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="soprinted">0</span> Printed</b></p>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'wo')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="woparent">
+                <div class="col-lg-6" style=" margin-top:1em;" id="woparent">
                     <div class="card px-2" style="background-color:#00b894">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="woclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -93,7 +93,7 @@
                             </div>
                             <hr style="background:white; border:0px; height:1px; margin-bottom: 5px;">
                             <div class="col-lg-5" style="color:white;">
-                                <p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="worelease">0</span> Release</b></p>                                
+                                <p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="worelease">0</span> Release</b></p>
                                 <p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="woprinted">0</span> Printed</b></p>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'pay')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="payparent">
+                <div class="col-lg-6" style=" margin-top:1em;" id="payparent">
                     <div class="card px-2" style="background-color:#fdcb6e;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="payclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -116,7 +116,7 @@
                             </div>
                             <hr style="background:white; border:0px; height:1px; margin-bottom: 5px;">
                             <div class="col-lg-5" style="color:white;">
-                                <p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="payrelease">0</span> Release</b></p>                                
+                                <p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="payrelease">0</span> Release</b></p>
                                 <p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="payprinted">0</span> Printed</b></p>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'ro')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="roparent">
+                <div class="col-lg-6" style=" margin-top:1em;" id="roparent">
                     <div class="card px-2" style="background-color:#00cec9;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="roclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -145,7 +145,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'po')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="poparent">
+                <div class="col-lg-6" style=" margin-top:1em;" id="poparent">
                     <div class="card px-2" style="background-color:#e84393;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="poclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -159,14 +159,14 @@
                               </div>
                             </div>
                             <hr style="background:white; border:0px; height:1px; margin-bottom: 5px;">
-                            <div class="col-lg-5" style="color:white;">                                
+                            <div class="col-lg-5" style="color:white;">
                             </div>
                         </div>
                     </div>
                 </div>
                 @endif
                 @if($value->widget == 'stok')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="stokparent">
+                <div class="col-lg-6" style=" margin-top:1em;" id="stokparent">
                     <div class="card px-2" style="background-color:#ef6c57;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="stokclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -175,7 +175,7 @@
                                   <span class="mdi mdi-arrow-up-bold-box-outline menu-icon" style="font-size:4em; color:white;"></span>
                               </div>
                               <div class="col-lg-9" style="color:white; cursor:pointer;" onclick="showstok()">
-                                <h1 class="text-right"><span id="stokbulan">0</span> STOK</h1>                                
+                                <h1 class="text-right"><span id="stokbulan">0</span> STOK</h1>
                               </div>
                             </div>
                             <hr style="background:white; border:0px; height:1px; margin-bottom: 5px;">
@@ -186,7 +186,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'hutang')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="hutangparent">
+                <div class="col-lg-6" style=" margin-top:1em;" id="hutangparent">
                     <div class="card px-2" style="background-color:#f79f24;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="hutangclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -210,7 +210,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'piutang')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="piutangparent">
+                <div class="col-lg-6" style=" margin-top:1em;" id="piutangparent">
                     <div class="card px-2" style="background-color:#ffe98a;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="piutangclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -234,7 +234,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'omset')
-                <div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="omsetparent">
+                <div class="col-lg-6" style=" margin-top:1em;" id="omsetparent">
                     <div class="card px-2" style="background-color:#d195f9;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="omsetclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
@@ -260,11 +260,11 @@
               @endforeach
           </div>
           <hr style="background:#5c848e; border:0px; height:2px; margin-bottom: 5px;">
-          <div class="row">   
-              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
+          <div class="row">
+              <div class="col-lg-2 col-sm-4" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#6c5ce7;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="qo()" style="cursor:pointer;" id="qoico" @if($qo > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="qo" id="qo" @if($qo > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="qo" id="qo" @if($qo > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang1">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
@@ -277,10 +277,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-4" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#ff7675;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="so()" style="cursor:pointer;" id="soico" @if($so > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="so" id="so" @if($so > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="so" id="so" @if($so > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang2">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
@@ -293,10 +293,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#00b894;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="wo()" style="cursor:pointer;" id="woico" @if($wo > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="wo" id="wo" @if($wo > 0) value="Y" @else value="N" @endif value="N"> 
+                    <input type="hidden" name="wo" id="wo" @if($wo > 0) value="Y" @else value="N" @endif value="N">
                       <div class="card-body bintang3">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
@@ -309,10 +309,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-4" style="background-color:#fdcb6e;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="pay()" style="cursor:pointer;" id="payico" @if($pay > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="pay" id="pay" @if($pay > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="pay" id="pay" @if($pay > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 click" style="margin-top:8px;">
@@ -325,10 +325,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#00cec9;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="ro()" style="cursor:pointer;" id="roico" @if($ro > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="ro" id="ro" @if($ro > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="ro" id="ro" @if($ro > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang5">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
@@ -341,10 +341,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#e84393;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="po()" style="cursor:pointer;" id="poico" @if($po > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="po" id="po" @if($po > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="po" id="po" @if($po > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang6">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
@@ -357,10 +357,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-2 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-1" style="background-color:#ef6c57;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="stok()" style="cursor:pointer;" id="stokico" @if($stok > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="stok" id="stok" @if($stok > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="stok" id="stok" @if($stok > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang7">
                           <div class="d-flex justify-content-center">
                           <div class="col-lg-4 pl-2 click" style="margin-top:8px;">
@@ -373,10 +373,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-4" style="background-color:#f79f24;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="hutang()" style="cursor:pointer;" id="hutangico" @if($hutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="hutang" id="hutang" @if($hutang > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="hutang" id="hutang" @if($hutang > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 click" style="margin-top:8px;">
@@ -389,10 +389,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-4" style="background-color:#ffe98a">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="piutang()" style="cursor:pointer;" id="piutangico" @if($piutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="piutang" id="piutang" @if($piutang > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="piutang" id="piutang" @if($piutang > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 click" style="margin-top:8px;">
@@ -405,10 +405,10 @@
                       </div>
                   </div>
               </div>
-              <div class="col-lg-3 col-sm-5" style="margin-left:3em; margin-top:1em;">
+              <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-4" style="background-color:#d195f9;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="omset()" style="cursor:pointer;" id="omsetico" @if($omset > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
-                    <input type="hidden" name="omset" id="omset" @if($omset > 0) value="Y" @else value="N" @endif> 
+                    <input type="hidden" name="omset" id="omset" @if($omset > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
                           <div class="d-flex justify-content-center">
                             <div class="col-lg-4 click" style="margin-top:8px;">
@@ -419,16 +419,16 @@
                             </div>
                           </div>
                       </div>
-                  </div>                
+                  </div>
               </div>
-          </div>        
+          </div>
         </div>
     </form>
         <!-- content-wrapper ends -->
 
         <div id="modalstok" class="modal fade" role="dialog">
             <div class="modal-dialog">
-          
+
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header bg-gradient-info">
@@ -437,8 +437,8 @@
                 </div>
                 <div class="modal-body">
                   <div class="row">
-          
-          
+
+
                     <div class="table-responsive" style="margin-bottom: 15px;">
                       <table class="table table-bordered table-hover data-table" cellspacing="0" id="tablestok">
                         <thead class="bg-gradient-info">
@@ -452,18 +452,18 @@
                         </tbody>
                       </table>
                     </div>
-          
-          
+
+
                    </div> <!-- End div row -->
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                 </div>
               </div>
-          
+
             </div>
           </div>
-          
+
 @endsection
 
 @section('extra_script')
@@ -472,10 +472,10 @@
     $(document).ready(function(){
         tablestok = $('#tablestok').DataTable();
     })
-    
+
     realtime();
 
-    setInterval(function(){ realtime(); }, 5000);                 
+    setInterval(function(){ realtime(); }, 5000);
 
     function realtime(){
         $.ajax({
@@ -493,52 +493,52 @@
                 }
                 if(response.so.length != 0){
                     $('#sobulan').text(response.so.bulan);
-                    $('#sotahun').text(response.so.tahun);                    
+                    $('#sotahun').text(response.so.tahun);
                     $('#sorelease').text(response.so.release);
                     $('#soprinted').text(response.so.printed);
                 }
                 if(response.wo.length != 0){
                     $('#wobulan').text(response.wo.bulan);
-                    $('#wotahun').text(response.wo.tahun);                    
+                    $('#wotahun').text(response.wo.tahun);
                     $('#worelease').text(response.wo.release);
                     $('#woprinted').text(response.wo.printed);
                 }
                 if(response.pay.length != 0){
                     $('#paybulan').text(response.pay.bulan);
-                    $('#paytahun').text(response.pay.tahun);                    
+                    $('#paytahun').text(response.pay.tahun);
                     $('#payrelease').text(response.pay.release);
                     $('#payprinted').text(response.pay.printed);
                 }
                 if(response.ro.length != 0){
                     $('#robulan').text(response.ro.bulan);
-                    $('#rotahun').text(response.ro.tahun);   
+                    $('#rotahun').text(response.ro.tahun);
                 }
                 if(response.po.length != 0){
                     $('#pobulan').text(response.po.bulan);
-                    $('#potahun').text(response.po.tahun);   
+                    $('#potahun').text(response.po.tahun);
                 }
                 if(response.stok.length != 0){
-                    $('#stokbulan').text(response.stok.semua);  
+                    $('#stokbulan').text(response.stok.semua);
                 }
             }
         });
     }
 
     function qo(){
-        var qo = $('#qo').val(); 
-         
+        var qo = $('#qo').val();
+
 
         if(qo == 'N'){
             $('#qo').val('Y');
             $('#qoico').attr('class', 'fa fa-star');
-       
+
             insertwidget(qo, 'qo');
         } else if(qo == 'Y'){
             $('#qo').val('N');
             $('#qoico').attr('class', 'fa fa-star-o');
-            
+
             removewidget(qo, 'qo');
-        }        
+        }
     }
 
     function so(){
@@ -755,8 +755,8 @@
         $('#omsetico').attr('class', 'fa fa-star-o');
     }
 
-    function insertwidget(status, widget){        
-        var html = '';  
+    function insertwidget(status, widget){
+        var html = '';
         var component = '<p style="padding:0px 0px 0px; margin-bottom:1px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+
                         '<p style="padding:0px 0px 0px; margin-bottom:-1px;"><b><span id="'+widget+'won">0</span> Won</b></p>'+
                          '<p style="padding:0px 0px 0px; margin-bottom:-20px;"><b><span id="'+widget+'printed">0</span> Printed</b></p>';
@@ -768,54 +768,54 @@
         var tambahanonclick = '';
 
         if(widget == 'qo'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="qoparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="qoparent">'
                 +'<div class="card px-2" style="background-color:#6c5ce7;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="qoclose()" class="fa fa-times"></span></i>';
-                       
+
         } else if(widget == 'so'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="soparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="soparent">'
                 +'<div class="card px-2" style="background-color:#ff7675;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="soclose()" class="fa fa-times"></span></i>';
 
-            var component = '<p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+                              
+            var component = '<p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+
                              '<p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="'+widget+'printed">0</span> Printed</b></p>';
 
         } else if(widget == 'wo'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="woparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="woparent">'
                 +'<div class="card px-2" style="background-color:#00b894">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="woclose()" class="fa fa-times"></span></i>';
-            
-            var component = '<p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+                              
+
+            var component = '<p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+
                 '<p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="'+widget+'printed">0</span> Printed</b></p>';
-                
+
         } else if(widget == 'pay'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="payparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="payparent">'
                 +'<div class="card px-2" style="background-color:#fdcb6e;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="payclose()" class="fa fa-times"></span></i>';
 
-            var component = '<p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+                              
+            var component = '<p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+
                 '<p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="'+widget+'printed">0</span> Printed</b></p>';
 
         } else if(widget == 'ro'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="roparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="roparent">'
                 +'<div class="card px-2" style="background-color:#00cec9;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="roclose()" class="fa fa-times"></span></i>';
 
-            var component = '';    
+            var component = '';
 
         } else if(widget == 'po'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="poparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="poparent">'
                 +'<div class="card px-2" style="background-color:#e84393;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="poclose()" class="fa fa-times"></span></i>';
 
-            var component = '';  
+            var component = '';
 
         } else if(widget == 'stok'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="stokparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="stokparent">'
                 +'<div class="card px-2" style="background-color:#ef6c57;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="stokclose()" class="fa fa-times"></span></i>';
 
-            var component = '';  
+            var component = '';
 
             var tambahan = '';
 
@@ -824,17 +824,17 @@
             var tambahanonclick = 'onclick="showstok()"';
 
         } else if(widget == 'hutang'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="hutangparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="hutangparent">'
                 +'<div class="card px-2" style="background-color:#f79f24;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="hutangclose()" class="fa fa-times"></span></i>';
 
         } else if(widget == 'piutang'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="piutangparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="piutangparent">'
                 +'<div class="card px-2" style="background-color:#ffe98a;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="piutangclose()" class="fa fa-times"></span></i>';
 
         } else if(widget == 'omset'){
-            var header = '<div class="col-lg-5" style="margin-left:3em; margin-top:1em;" id="omsetparent">'
+            var header = '<div class="col-lg-6" style=" margin-top:1em;" id="omsetparent">'
                 +'<div class="card px-2" style="background-color:#d195f9;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="omsetclose()" class="fa fa-times"></span></i>';
 
@@ -867,9 +867,9 @@
             dataType: 'json',
             url: baseUrl + '/insertwidget',
             success : function(response){
-                if(response == 'berhasil'){                 
+                if(response == 'berhasil'){
                 $('#showwidget').append(html);
-                }                
+                }
             }
         });
     }
@@ -883,7 +883,7 @@
             success : function(response){
                 if(response == 'berhasil'){
                     $('#'+widget+'parent').remove();
-                }                
+                }
             }
         });
     }
@@ -900,7 +900,7 @@
                         (i + 1),
                         response[i].i_name,
                         response[i].sg_qty
-                    ]).draw(false);    
+                    ]).draw(false);
                 }
                 $('#modalstok').modal('show');
             }
