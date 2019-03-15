@@ -186,7 +186,7 @@
                 </div>
                 @endif
                 @if($value->widget == 'hutang')
-                <div class="col-lg-6" style=" margin-top:1em;" id="hutangparent">
+                <div class="col-lg-5" style=" margin-top:1em;" id="hutangparent">
                     <div class="card px-2" style="background-color:#f79f24;">
                       <i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="hutangclose()" class="fa fa-times"></span></i>
                         <div class="card-body">
