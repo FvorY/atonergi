@@ -374,7 +374,7 @@
                   </div>
               </div>
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
-                  <div class="card" style="background-color:#f79f24;">
+                  <div class="card px-2" style="background-color:#f79f24;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="hutang()" style="cursor:pointer;" id="hutangico" @if($hutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="hutang" id="hutang" @if($hutang > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
@@ -390,7 +390,7 @@
                   </div>
               </div>
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
-                  <div class="card" style="background-color:#ffe98a">
+                  <div class="card px-2" style="background-color:#ffe98a">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="piutang()" style="cursor:pointer;" id="piutangico" @if($piutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="piutang" id="piutang" @if($piutang > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
@@ -406,7 +406,7 @@
                   </div>
               </div>
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
-                  <div class="card" style="background-color:#d195f9;">
+                  <div class="card px-2" style="background-color:#d195f9;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="omset()" style="cursor:pointer;" id="omsetico" @if($omset > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
                     <input type="hidden" name="omset" id="omset" @if($omset > 0) value="Y" @else value="N" @endif>
                       <div class="card-body bintang8">
