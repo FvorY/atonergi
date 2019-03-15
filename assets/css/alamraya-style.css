@@ -325,6 +325,30 @@ textarea{
 	}
 }
 
+.bintang1:hover {
+    animation: bounce 1s;
+}
+.bintang2:hover {
+    animation: bounce 1s;
+}
+.bintang3:hover {
+    animation: bounce 1s;
+}
+.bintang4:hover {
+    animation: bounce 1s;
+}
+.bintang5:hover {
+    animation: bounce 1s;
+}
+.bintang6:hover {
+    animation: bounce 1s;
+}
+.bintang7:hover {
+    animation: bounce 1s;
+}
+.bintang8:hover {
+    animation: bounce 1s;
+}
 
 .closed:hover {
     color:#eb4d4b !important;
