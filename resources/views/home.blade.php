@@ -421,6 +421,22 @@
                       </div>
                   </div>
               </div>
+              <div class="col-lg-3 col-sm-5" style=" margin-top:1em; cursor:pointer;">
+                <a href="{{url('/laporan')}}">
+                  <div class="card px-2" style="background-color:rgb(40, 126, 187);">
+                      <div class="card-body">
+                          <div class="d-flex justify-content-center">
+                            <div class="col-lg-4 lp-2 click" style="margin-top:8px;">
+                                <span class="fa fa-folder" style="color:white; font-size:30px;"></span>
+                            </div>
+                            <div class="col-lg-12" style="color:white;">
+                              <h3 style="margin-top:15px; width:100%;">Laporan</h3>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  </a>
+              </div>
           </div>
         </div>
     </form>

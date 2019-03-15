@@ -652,6 +652,8 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
     Route::get('/hrd/manajemen_scoreboard_kpi/manajemen_scoreboard_kpi/get-score-by-tgl/{tgl1}/{tgl2}/{tampil}', 'ManscorekpiController@getScoreByTgl');
     Route::get('/hrd/manscorekpi/print_kpi/{id}', 'ManscorekpiController@print_pki');
 
+    //Laporan
+    Route::get('/laporan', 'laporanController@get');
 
     //Lock Screen
     Route::get('/error-404', 'lockscreenController@error404');
