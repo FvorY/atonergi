@@ -17,7 +17,7 @@
   	<div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Laporan</h4>
+                    <h4 class="card-title">Budget Perdin</h4>
                     <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
                     </div>
                     <div class="table-responsive">

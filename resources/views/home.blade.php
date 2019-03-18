@@ -430,7 +430,7 @@
                                 <span class="fa fa-folder" style="color:white; font-size:30px;"></span>
                             </div>
                             <div class="col-lg-12" style="color:white;">
-                              <h3 style="margin-top:15px; width:100%;">Laporan</h3>
+                              <h3 style="margin-top:15px; width:100%;">Budget Perdin</h3>
                             </div>
                           </div>
                       </div>
