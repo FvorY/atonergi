@@ -92,8 +92,8 @@
                                 <th class="wd-15p" width="3%">No</th>
                                 <th class="wd-15p" width="5%">Item Code</th>
                                 <th class="wd-15p">Item Name</th>
-                                <th width="15%">Item Price</th>
-                                <th width="15%">Price (Rp)</th>
+                                <th width="15%">Sell Price</th>
+                                <th width="15%">Lower Price</th>
                                 <th class="wd-15p" width="3%">Unit</th>
                                 <th width="25%">Category Item</th>
                                 <th>Image</th>
@@ -119,6 +119,8 @@
 
 @section('extra_script')
 <script>
+
+  $('.rp').mask('000.000.000.000.000', {reverse: true});
 
 $(document).ready(function(){
 
@@ -176,8 +178,8 @@ $(document).ready(function(){
             {data: 'DT_Row_Index',      name: 'DT_Row_Index'},
             { "data": "i_code" },
             { "data": "i_name" },
-            { "data": "harga"},
-            { "data": "harga_rp"},
+            { "data": "sell"},
+            { "data": "lower"},
             { "data": "u_unit" },
             { "data": "i_jenis" },
             { "data": "gambar"},

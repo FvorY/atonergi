@@ -118,7 +118,7 @@
                     </div>
                     <div class="col-lg-6 col-sm-8 col-xs-12">
                       <div class="form-group">
-                          <input type="text"  class="form-control hanya_angka form-control-sm sell_price" name="sell_price" maxlength="20" required="">
+                          <input type="text"  class="form-control hanya_angka rp form-control-sm sell_price" name="sell_price" maxlength="20" required="">
                       </div>
 
                     </div>
@@ -134,7 +134,7 @@
                     </div>
                     <div class="col-lg-6 col-sm-8 col-xs-12">
                       <div class="form-group">
-                          <input type="text"  class="form-control hanya_angka form-control-sm lower_price" name="lower_price" maxlength="20" required="">
+                          <input type="text"  class="form-control hanya_angka rp form-control-sm lower_price" name="lower_price" maxlength="20" required="">
                       </div>
                     </div>
 
@@ -146,7 +146,7 @@
                     </div>
                     <div class="col-lg-6 col-sm-8 col-xs-12">
                       <div class="form-group">
-                          <input type="text"  class="form-control hanya_angka form-control-sm price" name="price" maxlength="20" required="">
+                          <input type="text"  class="form-control hanya_angka rp form-control-sm price" name="price" maxlength="20" required="">
                       </div>
                     </div>
 
