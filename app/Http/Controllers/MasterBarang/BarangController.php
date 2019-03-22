@@ -178,12 +178,12 @@ class BarangController extends Controller
 							}
 
 						})
-						// ->addColumn('sell', function ($barang){
-            //   $sellcurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_sell_currency)->first();
-            //
-						// 	return '<div class="float-left">'.$sellcurrency->cu_symbol.'. '.'</div>'.
-						// 	'<div class="float-right">'.$barang->i_sell_price.'</div>';
-						// })
+						->addColumn('sell', function ($barang){
+              $sellcurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_sell_currency)->first();
+              dd($sellcurrency);
+							return '<div class="float-left">'.$sellcurrency->cu_symbol.'. '.'</div>'.
+							'<div class="float-right">'.$barang->i_sell_price.'</div>';
+						})
 
             // ->addColumn('lower', function ($barang){
             //   $lowercurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_lower_currency)->first();
