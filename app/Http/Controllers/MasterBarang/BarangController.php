@@ -185,10 +185,10 @@ class BarangController extends Controller
                 $sellcurrency = DB::table('m_currency')->where('cu_code', '=', strtoupper($barang->i_sell_currency))->first();
 
   							return '<div class="float-left">'.$sellcurrency->cu_symbol.'. '.'</div>'.
-  							'<div class="float-right">'.$barang->i_sell_price.'</div>';
+  							'<div class="float-right">'.number_format($barang->i_sell_price,2,',','.').'</div>';
               } else {
                 return '<div class="float-left"> - </div>'.
-  							'<div class="float-right">'.$barang->i_sell_price.'</div>';
+  							'<div class="float-right">'.number_format($barang->i_sell_price,2,',','.').'</div>';
               }
 						})
 
