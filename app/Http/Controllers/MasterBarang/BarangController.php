@@ -70,6 +70,10 @@ class BarangController extends Controller
                       ->save($thumbnail_path . $file_name);
             }
 
+            $request->price = str_replace('.', '', $request->price);
+            $request->sell_price = str_replace('.', '', $request->sell_price);
+            $request->lower_price = str_replace('.', '', $request->lower_price);
+
             $save = DB::table('m_item')->insert([
                 'i_id'          =>  $index,
                 'i_code'        =>  $id_auto,
@@ -251,6 +255,9 @@ class BarangController extends Controller
                 ]);
             }
 
+            $request->price = str_replace('.', '', $request->price);
+            $request->sell_price = str_replace('.', '', $request->sell_price);
+            $request->lower_price = str_replace('.', '', $request->lower_price);
 
         	$save = DB::table('m_item')->where('i_id',$request->kode_barang)->update([
                 'i_id'          =>  $request->kode_barang,
