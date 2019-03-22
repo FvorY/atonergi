@@ -154,7 +154,7 @@ class BarangController extends Controller
                 ->orderBy('i_insert_at','DESC')->get();
         }
 
-
+        dd($data);
 
         // return $data;
         $barang = collect($data);
