@@ -156,48 +156,48 @@ class BarangController extends Controller
 
 
 
-        // // return $data;
-        // $barang = collect($data);
-        // // return $barang;
-        // // return $barang->i_price;
-        // return Datatables::of($barang)
-        //                 ->addColumn('aksi', function ($barang) {
-        //                   return  '<div class="btn-group">'.
-        //                            '<button type="button" onclick="edit(this)" class="btn btn-info btn-lg" title="edit">'.
-        //                            '<label class="fa fa-pencil "></label></button>'.
-        //                            '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-lg" title="hapus">'.
-        //                            '<label class="fa fa-trash"></label></button>'.
-        //                           '</div>';
-        //                 })
-				// 		->addColumn('gambar', function ($barang) {
-				// 			if($barang->i_image!=''){
-        //                         $url = route('barang_thumbnail').'/'.$barang->i_image.'?'.time();
-				// 				return '<img src="'.$url.'" border="0" width="60" class="img-rounded" align="center" />';
-				// 			}else{
-				// 				return '<i class="fa fa-minus-square"></i>';
-				// 			}
-        //
-				// 		})
-				// 		->addColumn('sell', function ($barang){
-        //       $sellcurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_sell_currency)->first();
-        //
-				// 			return '<div class="float-left">'.$sellcurrency->cu_symbol.'. '.'</div>'.
-				// 			'<div class="float-right">'.$barang->i_sell_price.'</div>';
-				// 		})
-        //
-        //                 ->addColumn('lower', function ($barang){
-        //                   $lowercurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_lower_currency)->first();
-        //                     $harga = $barang->i_lower_price * $lowercurrency->cu_value;
-        //                     return '<div class="float-left">'.'Rp .'.'</div>'.
-        //                     '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
-        //                 })
-        //                 ->addColumn('none', function ($barang) {
-        //                   return '-';
-        //               	})
-        //
-        //               ->rawColumns(['aksi','gambar', 'sell','lower'])
-        //               ->addIndexColumn()
-        //                 ->make(true);
+        // return $data;
+        $barang = collect($data);
+        // return $barang;
+        // return $barang->i_price;
+        return Datatables::of($barang)
+                        ->addColumn('aksi', function ($barang) {
+                          return  '<div class="btn-group">'.
+                                   '<button type="button" onclick="edit(this)" class="btn btn-info btn-lg" title="edit">'.
+                                   '<label class="fa fa-pencil "></label></button>'.
+                                   '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-lg" title="hapus">'.
+                                   '<label class="fa fa-trash"></label></button>'.
+                                  '</div>';
+                        })
+						->addColumn('gambar', function ($barang) {
+							if($barang->i_image!=''){
+                                $url = route('barang_thumbnail').'/'.$barang->i_image.'?'.time();
+								return '<img src="'.$url.'" border="0" width="60" class="img-rounded" align="center" />';
+							}else{
+								return '<i class="fa fa-minus-square"></i>';
+							}
+
+						})
+						->addColumn('sell', function ($barang){
+              $sellcurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_sell_currency)->first();
+
+							return '<div class="float-left">'.$sellcurrency->cu_symbol.'. '.'</div>'.
+							'<div class="float-right">'.$barang->i_sell_price.'</div>';
+						})
+
+            ->addColumn('lower', function ($barang){
+              $lowercurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_lower_currency)->first();
+                $harga = $barang->i_lower_price * $lowercurrency->cu_value;
+                return '<div class="float-left">'.'Rp .'.'</div>'.
+                '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
+            })
+            ->addColumn('none', function ($barang) {
+              return '-';
+          	})
+
+          ->rawColumns(['aksi','gambar', 'sell','lower'])
+          ->addIndexColumn()
+            ->make(true);
     }
     public function barang_edit(Request $request)
     {
