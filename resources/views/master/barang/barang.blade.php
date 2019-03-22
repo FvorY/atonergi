@@ -511,7 +511,6 @@ function edit(m1a2)
          url: baseUrl + '/master/barang/barang_edit',
          data: {id},
          success: function(data){
-          $('#tambah').modal('show');
 
             var i_id      = $("input[name='kode_barang']").val(data[0].i_id);
             var i_code    = $("input[name='item_name']").val(data[0].i_name);
@@ -528,9 +527,9 @@ function edit(m1a2)
             var i_akun_pendapatan      = $("select[name='akunpendapatan']").val(data[0].i_akun_pendapatan).trigger('change');
             var i_akun_beban      = $("select[name='akunbeban']").val(data[0].i_akun_beban).trigger('change');
             var i_unit      = $("input[name='unit']").val(data[0].i_unit);
-            var price_currency = $('input[name=price_currency][value='+data[0].i_price_currency.toLowerCase()+']').attr('checked', 'checked');
-            var sell_price_currency = $('input[name=sell_price_currency][value='+data[0].i_sell_currency.toLowerCase()+']').attr('checked', 'checked');
-            var lower_price_currency = $('input[name=lower_price_currency][value='+data[0].i_lower_currency.toLowerCase()+']').attr('checked', 'checked');
+            var price_currency = $('input[name=price_currency][value='+data[0].i_price_currency.toLowerCase()+']').prop('checked', 'checked');
+            var sell_price_currency = $('input[name=sell_price_currency][value='+data[0].i_sell_currency.toLowerCase()+']').prop('checked', 'checked');
+            var lower_price_currency = $('input[name=lower_price_currency][value='+data[0].i_lower_currency.toLowerCase()+']').prop('checked', 'checked');
             var i_sell_price      = $("input[name='sell_price']").val(accounting.formatMoney(data[0].i_sell_price, "", 0, ".", ","));
             var i_lower_price      = $("input[name='lower_price']").val(accounting.formatMoney(data[0].i_lower_price, "", 0, ".", ","));
 
@@ -554,6 +553,8 @@ function edit(m1a2)
                               '<input class="form-check-input" type="checkbox" name="cbcheck" id="cbcheck" value="centang" onchange="change_image()">'+
                               'Check for change image'+
                           '<i class="input-helper"></i></label>');
+
+            $('#tambah').modal('show');
          },
          error: function(){
           iziToast.warning({
