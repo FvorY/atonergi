@@ -179,18 +179,18 @@ class BarangController extends Controller
 
 						})
 						->addColumn('sell', function ($barang){
-              $sellcurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_sell_currency)->first();
-              dd($sellcurrency);
+              $sellcurrency = DB::table('m_currency')->where('cu_code', '=', strtoupper($barang->i_sell_currency))->first();
+
 							return '<div class="float-left">'.$sellcurrency->cu_symbol.'. '.'</div>'.
 							'<div class="float-right">'.$barang->i_sell_price.'</div>';
 						})
 
-            // ->addColumn('lower', function ($barang){
-            //   $lowercurrency = DB::table('m_currency')->where('cu_code', '=', $barang->i_lower_currency)->first();
-            //     $harga = $barang->i_lower_price * $lowercurrency->cu_value;
-            //     return '<div class="float-left">'.'Rp .'.'</div>'.
-            //     '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
-            // })
+            ->addColumn('lower', function ($barang){
+              $lowercurrency = DB::table('m_currency')->where('cu_code', '=', strtoupper($barang->i_lower_currency))->first();
+                $harga = $barang->i_lower_price * $lowercurrency->cu_value;
+                return '<div class="float-left">'.'Rp .'.'</div>'.
+                '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
+            })
             ->addColumn('none', function ($barang) {
               return '-';
           	})
