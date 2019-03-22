@@ -183,7 +183,8 @@ class BarangController extends Controller
   							return '<div class="float-left">'.$sellcurrency->cu_symbol.'. '.'</div>'.
   							'<div class="float-right">'.$barang->i_sell_price.'</div>';
               } else {
-                return '-';
+                return '<div class="float-left"> - </div>'.
+  							'<div class="float-right">'.$barang->i_sell_price.'</div>';
               }
 						})
 
@@ -194,7 +195,8 @@ class BarangController extends Controller
                 return '<div class="float-left">'.'Rp .'.'</div>'.
                 '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
               } else {
-                return '-';
+                return '<div class="float-left"> - </div>'.
+                '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
               }
             })
             ->addColumn('none', function ($barang) {
