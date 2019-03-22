@@ -195,7 +195,7 @@ class BarangController extends Controller
                 return '<div class="float-left">'.'Rp .'.'</div>'.
                 '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
               } else {
-                $harga = $barang->i_lower_price * $lowercurrency->cu_value;
+                $harga = $barang->i_lower_price;
                 return '<div class="float-left"> - </div>'.
                 '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
               }
