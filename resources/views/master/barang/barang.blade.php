@@ -528,7 +528,7 @@ function edit(m1a2)
             var i_akun_pendapatan      = $("select[name='akunpendapatan']").val(data[0].i_akun_pendapatan).trigger('change');
             var i_akun_beban      = $("select[name='akunbeban']").val(data[0].i_akun_beban).trigger('change');
             var i_unit      = $("input[name='unit']").val(data[0].i_unit);
-            var price_currency = $('input[name=price_currency][value='+accounting.formatMoney(data[0].i_price_currency, "", 2, ".", ",")+']').attr('checked', 'checked');
+            var price_currency = $('input[name=price_currency][value='+data[0].i_sell_currency+']').attr('checked', 'checked');
             var sell_price_currency = $('input[name=sell_price_currency][value='+data[0].i_sell_currency+']').attr('checked', 'checked');
             var lower_price_currency = $('input[name=lower_price_currency][value='+data[0].i_lower_currency+']').attr('checked', 'checked');
             var i_sell_price      = $("input[name='sell_price']").val(accounting.formatMoney(data[0].i_sell_price, "", 0, ".", ","));
