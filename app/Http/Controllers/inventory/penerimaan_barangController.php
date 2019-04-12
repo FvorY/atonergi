@@ -235,93 +235,57 @@ class penerimaan_barangController extends Controller
 	 	}
 
 	   	// Tambahan Dirga
+       		$isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+       		$counter = count($request->po_harga);
+       		$jurnalDetail = []; $hutang = 0;
 
-		   	$jrdt = []; $hutang = 0;
-		   	$isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
-		   	$akunHutang = DB::table('dk_akun')
-							   	->where('ak_id', function($query) use ($isPusat){
-							   			$query->select('ap_akun')->from('dk_akun_penting')
-							   						->where('ap_nama', 'Hutang Usaha')->where('ap_comp', $isPusat)->first();
-							   	})->first();
+       		for ($i=0; $i < $counter; $i++) { 
+       			$item = DB::table('m_item')
+       						->where('i_code', $request->po_item[$i])
+       						->join('m_currency', 'm_currency.cu_code', '=', 'm_item.i_price_currency')
+       						->select('i_price_currency', 'i_akun_persediaan', 'cu_value')
+       						->first();
 
-			if(!$akunHutang){
-				DB::rollback();
-			 	return response()->json(['status'=>8]);
-			}
+       			if(!$item || $item->i_akun_persediaan == null)
+       				return response()->json(['status'=>8]);
 
-		 	foreach($request->qty_received as $key => $item){
+       			$exchangeRate = ($item->cu_value == null || $item->cu_value == 0) ? 1 : $item->cu_value;
+       			$value = (($request->po_harga[$i] * $request->qty_received[$i]) * $exchangeRate);
 
-		 		$detail = DB::table('d_purchaseorder_dt')
-		 					->where('podt_code', $request->pb_ref)
-		 					->where('podt_item', $request->po_item[$key])->first();
+       			if(!array_key_exists($item->i_akun_persediaan, $jurnalDetail)){
+       				$jurnalDetail[$item->i_akun_persediaan] = [
+       					"jrdt_akun"   => $item->i_akun_persediaan,
+	                    "jrdt_value"  => $value,
+	                    "jrdt_dk"     => 'D'
+       				];
+       			}else{
+       				$jurnalDetail[$item->i_akun_persediaan]['jrdt_value'] += $value;
+       			}
 
-		 		if($detail){
-		 			$akun = DB::table('dk_akun')
-			 					->where('ak_id', function($query) use ($key, $request){
-			 						$query->select('i_akun_persediaan')->from('m_item')
-			 									->where('i_code', $request->po_item[$key])->first();
-			 					})->first();
+       			$hutang += $value;
+       		}
+		 
+	   		$akunHutang = DB::table('dk_akun')
+                                ->where('ak_id', function($query) use ($isPusat){
+                                  $query->select('ap_akun')
+                                            ->from('dk_akun_penting')
+                                            ->where('ap_nama', 'Hutang Usaha')->where('ap_comp', $isPusat)->first();
+                                })->first();
 
-			 		if($akun){
+	        if(!$akunHutang || $akunHutang->ak_id == null)
+	          return response()->json(['status'=>8]);
 
-			 			$persediaan =  (($detail->podt_unit_price * $item));
-			 			$pajak = ($detail->podt_tax != 0) ? (round($detail->podt_unit_price * (10/100)) * $item) : 0;
+	      	$jurnalDetail[$akunHutang->ak_id] = [
+				"jrdt_akun"   => $akunHutang->ak_id,
+	            "jrdt_value"  => $hutang,
+	            "jrdt_dk"     => 'K'
+			];
 
-	 					$hutang += $persediaan;
+	      	DB::table('dk_payable')->where('py_ref_nomor', $request->pb_ref)->update([
+	      		'py_total_tagihan'	=> $hutang
+	      	]);
 
-			 			if(!array_key_exists($akun->ak_id, $jrdt)){
-			 				$totPersediaan = $totPajak = 0; $dk = '';
-
-			 				if($akun->ak_posisi == 'D'){
-			 					$totPersediaan	+= $persediaan;
-			 				}else{
-			 					$totPersediaan	-= $persediaan;
-			 				}
-
-			 				$jrdt[$akun->ak_id] = [
-			 					'jrdt_akun' 	=> $akun->ak_id,
-			 					'jrdt_value'	=> str_replace('-', '', $totPersediaan),
-			 					'jrdt_dk'		=> 'D'
-			 				];
-
-			 			}else{
-			 				$totPersediaan = $jrdt[$akun->ak_id]['jrdt_value']; $totPajak = 0; $dk = '';
-
-			 				if($akun->ak_posisi == 'D'){
-			 					$totPersediaan	+= $persediaan;
-			 				}else{
-			 					$totPersediaan	-= $persediaan;
-			 				}
-
-
-			 				$jrdt[$akun->ak_id] = [
-			 					'jrdt_akun' 	=> $akun->ak_id,
-			 					'jrdt_value'	=> str_replace('-', '', $totPersediaan),
-			 					'jrdt_dk'		=> 'D'
-			 				];
-
-			 			}
-
-			 		}else{
-			 			DB::rollback();
-			 			return response()->json(['status'=>8]);
-			 		}
-
-		 		}else{
-		 			DB::rollback();
-		 			return response()->json(['status'=>8]);
-		 		}
-
-		 		$jrdt[$akunHutang->ak_id] = [
-					'jrdt_akun' 	=> $akunHutang->ak_id,
-					'jrdt_value'	=> str_replace('-', '', $hutang),
-					'jrdt_dk'		=> 'K'
-				];
-
-		 		// return json_encode($akun);
-		 	}
-
-		 	keuangan::jurnal()->addJurnal($jrdt, date('Y-m-d',strtotime($request->pb_date)), $nota, 'Penerimaan Barang Atas Nota '.$request->pb_ref, 'MM', modulSetting()['onLogin'], true);
+		 	keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d',strtotime($request->pb_date)), $nota, 'Penerimaan Barang Atas Nota '.$request->pb_ref, 'MM', modulSetting()['onLogin'], true);
 
 	 	// Selesai Dirga
 

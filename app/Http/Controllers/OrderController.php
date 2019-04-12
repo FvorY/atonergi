@@ -195,6 +195,7 @@ class OrderController extends Controller
 
     public function print_salesorder($id)
     {
+
       if (!mMember::akses('SALES ORDER', 'print')) {
         return redirect('error-404');
       }
@@ -214,6 +215,76 @@ class OrderController extends Controller
                        ->where('qd_id',$head->q_id)
                        ->where('i_jenis','!=','JASA')
                        ->get();
+
+            $items = DB::table('d_quotation_dt')
+                       ->join('m_item','i_code','=','qd_item')
+                       ->where('qd_id',$head->q_id)
+                       ->select('i_id', 'qd_beforetax', 'qd_tax', 'qd_total')
+                       ->get();
+
+
+            // tambahan dirga
+              $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+              $jurnalDetail = []; $totPendapatan = 0;
+
+              foreach($items as $keynote => $item){
+                $akunPendapatan = DB::table('m_item')->where('i_id', $item->i_id)->select('i_akun_pendapatan')->first();
+
+                if(!$akunPendapatan || $akunPendapatan->i_akun_pendapatan == null)
+                  return 'error';
+
+                // pendapatan
+
+                if(!array_key_exists($akunPendapatan->i_akun_pendapatan, $jurnalDetail)){
+                  $jurnalDetail[$akunPendapatan->i_akun_pendapatan] = [
+                      "jrdt_akun"   => $akunPendapatan->i_akun_pendapatan,
+                      "jrdt_value"  => $item->qd_total,
+                      "jrdt_dk"     => 'K'
+                  ];
+                }else{
+                  $jurnalDetail[$akunPendapatan->i_akun_pendapatan]['jrdt_value'] += $item->qd_total;
+                }
+
+                $totPendapatan += $item->qd_total;
+
+              }
+
+              $quote = DB::table('d_quotation')->where('q_id', $head->q_id)->first();
+              $akunDeposit = DB::table('dk_akun')
+                                  ->where('ak_id', function($query) use ($isPusat){
+                                      $query->select('ap_akun')->from('dk_akun_penting')
+                                            ->where('ap_nama', 'Dana Titipan Customer')->where('ap_comp', $isPusat)->first();
+                                  })->first();
+
+              $akunPiutang = DB::table('dk_akun')
+                                  ->where('ak_id', function($query) use ($isPusat){
+                                      $query->select('ap_akun')->from('dk_akun_penting')
+                                            ->where('ap_nama', 'Piutang Usaha')->where('ap_comp', $isPusat)->first();
+                                  })->first();
+
+              if(!$akunDeposit || !$akunPiutang)
+                  return 'error';
+
+
+              // Deposit
+                $jurnalDetail[$akunDeposit->ak_id] = [
+                  "jrdt_akun"   => $akunDeposit->ak_id,
+                    "jrdt_value"  => $quote->q_dp,
+                    "jrdt_dk"     => 'D'
+                ];
+
+              // Piutanf
+                $jurnalDetail[$akunPiutang->ak_id] = [
+                  "jrdt_akun"   => $akunPiutang->ak_id,
+                    "jrdt_value"  => $totPendapatan - $quote->q_dp,
+                    "jrdt_dk"     => 'D'
+                ];
+
+                if(!DB::table('dk_jurnal')->where('jr_ref', $quote->q_nota)->first().' (printed)')
+                    keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d'), $quote->q_nota.' (printed)', 'Printed Nota '.$quote->q_nota, 'MM', modulSetting()['onLogin'], true);
+
+            // Dirga Selesai
+
 
             $update = DB::table('d_sales_order')
                           ->where('so_id',$id)
@@ -905,17 +976,18 @@ class OrderController extends Controller
 
 
             // Tambahan Dirga
-
+                $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];         
                 $jurnalDetail = [];
 
                 $akunDeposit = DB::table('dk_akun')
-                                  ->where('ak_id', function($query){
-                                    $query->select('ap_akun')
-                                              ->from('dk_akun_penting')
-                                              ->where('ap_id', '3')->first();
-                                  })->first();
+                                    ->where('ak_id', function($query) use ($isPusat){
+                                        $query->select('ap_akun')->from('dk_akun_penting')
+                                              ->where('ap_nama', 'Dana Titipan Customer')->where('ap_comp', $isPusat)->first();
+                                    })->first();
 
                 $akunKas = DB::table('dk_akun')->where('ak_id', $paydeposit->p_account)->first();
+
+                // return json_encode($akunDeposit);
 
                 if(!$akunKas || !$akunDeposit){
                   DB::rollback();
@@ -936,7 +1008,8 @@ class OrderController extends Controller
 
                 }
 
-                keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d'), $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
+                if(!DB::table('dk_jurnal')->where('jr_ref', $data->q_nota)->first())
+                    keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d'), $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
 
                 // return json_encode($jurnalDetail);
 
@@ -1130,6 +1203,25 @@ class OrderController extends Controller
                    ->where('i_jenis','JASA')
                    ->first();
 
+        // Tambahan Dirga
+          $kelompok_kas = DB::table('dk_hierarki_penting')->where('hp_id', '4')->first();
+          $kelompok_bank = DB::table('dk_hierarki_penting')->where('hp_id', '5')->first();
+
+          $akunKas = DB::table('dk_akun')
+                          ->where('ak_comp', modulSetting()['onLogin'])
+                          ->where('ak_kelompok', $kelompok_kas->hp_hierarki)
+                          ->where('ak_isactive', '1')
+                          ->select('ak_id as id', DB::raw("concat(ak_nomor, ' - ', ak_nama) as text"))
+                          ->get();
+
+          $akunBank = DB::table('dk_akun')
+                          ->where('ak_comp', modulSetting()['onLogin'])
+                          ->where('ak_kelompok', $kelompok_bank->hp_hierarki)
+                          ->where('ak_isactive', '1')
+                          ->select('ak_id as id', DB::raw("concat(ak_nomor, ' - ', ak_nama) as text"))
+                          ->get();
+        // selesai
+
         $bulan = Carbon::parse($data->q_date)->format('m');
         $tahun = Carbon::parse($data->q_date)->format('Y');
         // NOTA PO
@@ -1169,7 +1261,7 @@ class OrderController extends Controller
         }
         if (in_array(1, $validation)) {
           if ($so->so_status == 'Printed' or $wo->wo_status == 'Printed') {
-            return view('order/payment_order/detail_payment_order',compact('percent','item','data','data_dt','id','nota_po','market','nama_item','so','wo'));
+            return view('order/payment_order/detail_payment_order',compact('percent','item','data','data_dt','id','nota_po','market','nama_item','so','wo', 'akunKas', 'akunBank'));
           }else{
             return redirect()->back();
           }
@@ -1182,6 +1274,9 @@ class OrderController extends Controller
         return redirect('error-404');
       }
         return DB::transaction(function() use ($req) {
+
+          // return json_encode($req->all());
+
           // dd($req->all());
           $id = DB::table('d_payment_order')
               ->max('po_id')+1;
@@ -1191,6 +1286,36 @@ class OrderController extends Controller
                     ->first();
 
           $hasil  = $data->q_remain - filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT);
+
+          // Tambahan Dirga
+              $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+              $jurnalDetail = [];
+              $akunPiutang = DB::table('dk_akun')
+                                ->where('ak_id', function($query) use ($isPusat){
+                                    $query->select('ap_akun')->from('dk_akun_penting')
+                                          ->where('ap_nama', 'Piutang Usaha')->where('ap_comp', $isPusat)->first();
+                                })->first();
+
+              $cek = DB::table('dk_akun')->where('ak_id', $req->pay_akun)->first();
+
+              if(!$akunPiutang || !$cek)
+                return 'error';
+
+              $jurnalDetail[$akunPiutang->ak_id] = [
+                    'jrdt_akun'          => $akunPiutang->ak_id,
+                    'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
+                    'jrdt_dk'            => 'K'
+              ];
+
+              $jurnalDetail[$req->pay_akun] = [
+                    'jrdt_akun'          => $req->pay_akun,
+                    'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
+                    'jrdt_dk'            => 'D'
+              ];
+
+              keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d'), $req->po_nota, 'Payment Order Atas Nota '.$req->q_nota, 'KM', modulSetting()['onLogin'], true);
+
+          // selesai Dirga
 
           $update = DB::table('d_quotation')
                       ->where('q_id',$req->id)
@@ -1242,6 +1367,7 @@ class OrderController extends Controller
                       }
 
                       logController::inputlog('Payment Order', 'Insert', $req->po_nota);
+
 
           return response()->json(['status' => 1]);
         });

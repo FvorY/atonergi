@@ -11,6 +11,8 @@ use Validator;
 use File;
 use App\mMember;
 use App\Http\Controllers\logController;
+use keuangan;
+
 class ProjectController extends Controller
 {
     public function dokumentasi()
@@ -578,7 +580,6 @@ class ProjectController extends Controller
       }
       DB::beginTransaction();
       try {
-
         DB::table('d_install')
           ->where('i_io', $request->i_io)
           ->where('i_active', 'Y')
@@ -950,6 +951,52 @@ class ProjectController extends Controller
 
             logController::inputlog('Pengiriman Barang', 'Insert', $finalkode);
 
+            // Tambahan Dirga
+                $jurnalDetail = [];
+
+                $items = DB::table('d_quotation_dt')
+                              ->join('m_item', 'i_code', '=', 'qd_item')
+                              ->where('qd_id', $data[0]->q_id)
+                              ->where('qd_item', 'LIKE', '%BRG%')
+                              ->select('i_id', 'qd_qty', 'qd_total')
+                              ->get();
+
+                foreach($items as $keynote => $item){
+                  $akunPersediaan = DB::table('m_item')->where('i_id', $item->i_id)->select('i_akun_persediaan')->first();
+                  $akunBeban = DB::table('m_item')->where('i_id', $item->i_id)->select('i_akun_beban')->first();
+
+                  if(!$akunPersediaan || $akunPersediaan->i_akun_persediaan == null || !$akunBeban || $akunBeban->i_akun_beban == null)
+                    return 'error';
+
+                  // pendapatan
+
+                  if(!array_key_exists($akunPersediaan->i_akun_persediaan, $jurnalDetail)){
+                    $jurnalDetail[$akunPersediaan->i_akun_persediaan] = [
+                        "jrdt_akun"   => $akunPersediaan->i_akun_persediaan,
+                        "jrdt_value"  => $item->qd_total,
+                        "jrdt_dk"     => 'K'
+                    ];
+                  }else{
+                    $jurnalDetail[$akunPersediaan->i_akun_persediaan]['jrdt_value'] += $item->qd_total;
+                  }
+
+
+                  if(!array_key_exists($akunBeban->i_akun_beban, $jurnalDetail)){
+                    $jurnalDetail[$akunBeban->i_akun_beban] = [
+                        "jrdt_akun"   => $akunBeban->i_akun_beban,
+                        "jrdt_value"  => $item->qd_total,
+                        "jrdt_dk"     => 'D'
+                    ];
+                  }else{
+                    $jurnalDetail[$akunBeban->i_akun_beban]['jrdt_value'] += $item->qd_total;
+                  }
+
+                }
+
+                keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d'), $finalkode.' (printed)', 'Pengirman Barang Atas Nota SO : '.$request->d_so, 'MM', modulSetting()['onLogin'], true);
+
+            // Selesai Dirga
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -1096,6 +1143,9 @@ class ProjectController extends Controller
       }
       DB::beginTransaction();
       try {
+        
+        // return 'aaa';
+
         $request->d_shipping_charges = str_replace('Rp. ','',$request->d_shipping_charges);
         $request->d_shipping_charges = str_replace('.','',$request->d_shipping_charges);
 

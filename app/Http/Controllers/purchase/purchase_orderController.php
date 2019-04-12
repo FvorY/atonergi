@@ -244,7 +244,44 @@ class purchase_orderController extends Controller
       if (!mMember::akses('PURCHASE ORDER', 'print')) {
         return redirect('error-404');
       }
-      // dd($request->all());
+
+      // Tambahan Dirga
+        $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+        $dataPO = DB::table('d_purchaseorder')
+                    ->join('m_vendor', 'm_vendor.s_kode', '=', 'd_purchaseorder.po_vendor')
+                    ->where('po_code', $request->id)
+                    ->select('s_id')
+                    ->first();
+
+        $akunHutang = DB::table('dk_akun')
+                                    ->where('ak_id', function($query) use ($isPusat){
+                                      $query->select('ap_akun')
+                                                ->from('dk_akun_penting')
+                                                ->where('ap_nama', 'Hutang Usaha')->where('ap_comp', $isPusat)->first();
+                                    })->first();
+
+        if(!$akunHutang || $akunHutang->ak_id == null)
+          return 'error';
+
+        $id = (DB::table('dk_payable')->max('py_id') + 1);
+
+        if(!DB::table('dk_payable')->where('py_ref_nomor', $request->id)){
+            DB::table('dk_payable')->insert([
+              "py_id"               => $id,
+              "py_comp"             => modulSetting()['onLogin'],
+              "py_nomor"            => 'RC-'.date('y/d/m').'/'.str_pad($id, 3, "0", STR_PAD_RIGHT),
+              "py_chanel"           => 'Hutang Supplier',
+              "py_ref_nomor"        => $request->id,
+              "py_kreditur"         => $dataPO->s_id,
+              "py_tanggal"          => date('Y-m-d'),
+              "py_total_tagihan"    => 0,
+              "py_sudah_dibayar"    => 0,
+              "py_akun_hutang"      => $akunHutang->ak_id,
+              "py_due_date"          => date('Y-m-d', strtotime("+14 days"))
+          ]);
+        }
+
+      // Selesai Dirga
 
       DB::table('d_purchaseorder')->where('po_code','=',$request->id)->update(['po_print'=>'T']);
 
