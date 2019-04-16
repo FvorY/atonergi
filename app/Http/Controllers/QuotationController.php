@@ -554,19 +554,19 @@ class QuotationController extends Controller
       $type_product = DB::table('m_item_type')
                   ->select('it_code')
                   ->get();
-                  
-      // for ($i=0; $i < count($data_dt); $i++) {
-      //   for ($a=0; $a < count($item); $a++) {
-      //     if ($item[$a]->i_code == $data_dt[$i]->qd_item) {
-      //       $data_dt[$i]->u_unit = $item[$a]->u_unit;
-      //     }
-      //   }
-      //   if (stristr($data_dt[$i]->i_code, 'BRG')) {
-      //     $data_dt[$i]->i_active = 'BRG';
-      //   } else {
-      //     $data_dt[$i]->i_active = 'BJS';
-      //   }
-      // }
+
+      for ($i=0; $i < count($data_dt); $i++) {
+        for ($a=0; $a < count($item); $a++) {
+          if ($item[$a]->i_code == $data_dt[$i]->qd_item) {
+            $data_dt[$i]->u_unit = $item[$a]->u_unit;
+          }
+        }
+        if (stristr($data_dt[$i]->i_code, 'BRG')) {
+          $data_dt[$i]->i_active = 'BRG';
+        } else {
+          $data_dt[$i]->i_active = 'BJS';
+        }
+      }
 
       $now = carbon::now()->format('d-m-Y');
       return view('quotation/q_quotation/edit_quotation',compact('customer','marketing','now','item','data','data_dt','id','type_product'));

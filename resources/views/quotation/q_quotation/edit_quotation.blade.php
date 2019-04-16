@@ -146,7 +146,7 @@
                       @endforeach
                     </select>
                   @else
-                    <input readonly="" type="text" class="form-control marketing form-control-sm" name="marketing" value="{{ $data->q_nota}}"">
+                    <input readonly="" type="text" class="form-control marketing form-control-sm" name="marketing" value="{{ $data->q_nota}}">
                   @endif
                 </div>
               </div>
@@ -241,7 +241,24 @@
                 </tr>
               </thead>
               <tbody>
-
+                @foreach($data_dt as $val)
+                  <tr>
+                    <td>
+                      <select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">
+                        @foreach($item as $i)
+                        <option value="{{ $i->i_code }}" @if($val->i_code == $i->i_code) selected @endif>{{ $i->i_code }} - {{ $i->i_name }}</option>
+                        @endforeach
+                      </select>
+                   </td>
+                   <td><input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="{{ $val->qd_qty }}"></td>
+                   <td><input type="text" readonly class="unit_item form-control input-sm min-width" value="{{ $val->u_unit }}"></td>
+                   <td><input type="text" name="description[]" class="description form-control input-sm min-width" value="{{ $val->qd_description }}"></td>
+                   <td><input type="text" name="unit_price[]" onkeyup="unitprice(this)" value="{{ $val->qd_price }}" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="{{ $val->qd_beforetax }}"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="{{ $val->i_active }}"></td>
+                   <td><input type="hidden" readonly value="{{ $val->i_lower_price }}" class="lower_price form-control input-sm min-width"></td>
+                   <td><input type="text" value="{{ $val->qd_price }}" name="line_total[]" readonly class="line_total form-control input-sm min-width"></td>
+                   <td><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></td>
+                  </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
@@ -828,54 +845,54 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 
 	})
 
-@foreach($data_dt as $val)
-
-	var temp;
-
-	@foreach($item as $i)
-  		var temp1 = '<option value="'+'{{ $i->i_code }}'+'">'+'{{ $i->i_code }}'+' - '+'{{ $i->i_name }}'+'</option>';
-  		temp += temp1;
-	@endforeach
-
-  	var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
-  	var deskripsi = '{{ $val->qd_description }}';
-    var unit_price = '{{ $val->qd_price }}';
-  	var low_price = '{{ $val->i_lower_price }}';
-  	var line_total = '{{ $val->qd_total }}';
-    var beforetax = '{{ $val->qd_beforetax }}';
-    var tmpitem = '{{ $val->i_active }}';
-    var tax = '{{ $val->qd_tax }}';
-  	var jumlah = '{{ $val->qd_qty }}';
-    var item = '{{ $val->qd_item }}';
-  	var u_unit = '{{ $val->u_unit }}';
-     m_table.row.add( [
-        dropdown,
-        '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ jumlah +'">',
-        '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ u_unit +'">',
-        '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+deskripsi+'">',
-
-        '<input type="text" name="unit_price[]" onkeyup="unitprice(this)" value="'+accounting.formatMoney(unit_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+tmpitem+'">'+
-        '<input type="hidden" readonly value="'+low_price+'" class="lower_price form-control input-sm min-width">',
-
-        '<input type="text" value="'+accounting.formatMoney(unit_price*jumlah, "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
-        '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
-    ] ).draw( false );
-
-    $('.item_name').last().val(item);
-		$('.item_name').select2();
-    x++;
-    q_qty.val('');
-    $('.item').val('0');
-		$('.item').select2();
-
-		$('.jumlah').keyup(function(){
-		var qty = $(this).val();
-		qty = qty.replace(/[A-Za-z$. ,-]/g, "");
-		$(this).val(qty);
-	})
-	// hitung_dpp();
-
-@endforeach
+  // @foreach($data_dt as $val)
+  //
+  // 	var temp;
+  //
+  // 	@foreach($item as $i)
+  //   		var temp1 = '<option value="'+'{{ $i->i_code }}'+'">'+'{{ $i->i_code }}'+' - '+'{{ $i->i_name }}'+'</option>';
+  //   		temp += temp1;
+  // 	@endforeach
+  //
+  //   	var dropdown = '<select onchange="edit_item(this)" name="item_name[]" style="width:200px" class="item_name">'+temp+'</select>'
+  //   	var deskripsi = '{{ $val->qd_description }}';
+  //     var unit_price = '{{ $val->qd_price }}';
+  //   	var low_price = '{{ $val->i_lower_price }}';
+  //   	var line_total = '{{ $val->qd_total }}';
+  //     var beforetax = '{{ $val->qd_beforetax }}';
+  //     var tmpitem = '{{ $val->i_active }}';
+  //     var tax = '{{ $val->qd_tax }}';
+  //   	var jumlah = '{{ $val->qd_qty }}';
+  //     var item = '{{ $val->qd_item }}';
+  //   	var u_unit = '{{ $val->u_unit }}';
+  //      m_table.row.add( [
+  //         dropdown,
+  //         '<input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="'+ jumlah +'">',
+  //         '<input type="text" readonly class="unit_item form-control input-sm min-width" value="'+ u_unit +'">',
+  //         '<input type="text" name="description[]" class="description form-control input-sm min-width" value="'+deskripsi+'">',
+  //
+  //         '<input type="text" name="unit_price[]" onkeyup="unitprice(this)" value="'+accounting.formatMoney(unit_price, "", 0, ".",',')+'" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="'+parseInt(beforetax)+'"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="'+tmpitem+'">'+
+  //         '<input type="hidden" readonly value="'+low_price+'" class="lower_price form-control input-sm min-width">',
+  //
+  //         '<input type="text" value="'+accounting.formatMoney(unit_price*jumlah, "", 0, ".",',')+'" name="line_total[]" readonly class="line_total form-control input-sm min-width">',
+  //         '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
+  //     ] ).draw( false );
+  //
+  //     $('.item_name').last().val(item);
+  // 		$('.item_name').select2();
+  //     x++;
+  //     q_qty.val('');
+  //     $('.item').val('0');
+  // 		$('.item').select2();
+  //
+  // 		$('.jumlah').keyup(function(){
+  // 		var qty = $(this).val();
+  // 		qty = qty.replace(/[A-Za-z$. ,-]/g, "");
+  // 		$(this).val(qty);
+  // 	})
+  // 	// hitung_dpp();
+  //
+  // @endforeach
 
 function synctax(){
   var values = [];
