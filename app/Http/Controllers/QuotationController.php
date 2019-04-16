@@ -525,6 +525,7 @@ class QuotationController extends Controller
 
   public function edit_quotation($id)
   {
+    ini_set('memory_limit','16M');
     if (Auth::user()->akses('QUOTATION','ubah')) {
 
       $customer = DB::table('m_customer')
