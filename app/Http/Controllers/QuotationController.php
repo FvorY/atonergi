@@ -542,6 +542,7 @@ class QuotationController extends Controller
 
       $data_dt = DB::table('d_quotation_dt')
                 ->join('m_item','i_code','=','qd_item')
+                ->join('d_unit','u_id','=','i_unit')
                 ->where('qd_id',$id)
                 ->get();
 
@@ -553,6 +554,7 @@ class QuotationController extends Controller
       $type_product = DB::table('m_item_type')
                   ->select('it_code')
                   ->get();
+                  
       // for ($i=0; $i < count($data_dt); $i++) {
       //   for ($a=0; $a < count($item); $a++) {
       //     if ($item[$a]->i_code == $data_dt[$i]->qd_item) {
