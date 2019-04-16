@@ -528,12 +528,15 @@ class QuotationController extends Controller
     if (Auth::user()->akses('QUOTATION','ubah')) {
 
       $customer = DB::table('m_customer')
+                    ->select('c_code', 'c_name')
                     ->get();
 
       $marketing = DB::table('d_marketing')
+                    ->select('mk_id', 'mk_code', 'mk_name')
                     ->get();
 
       $data = DB::table('d_quotation')
+                ->select('q_type', 'q_customer', 'q_tax', 'q_status', 'q_subtotal', 'q_total', 'q_type_product', 'q_date', 'q_nota', 'q_ship_to', 'q_shipping_method', 'q_term', 'q_delivery')
                 ->where('q_id',$id)
                 ->first();
 
@@ -543,10 +546,12 @@ class QuotationController extends Controller
                 ->get();
 
       $item = DB::table('m_item')
+                ->select('i_code', 'i_name', 'u_unit')
                 ->join('d_unit','u_id','=','i_unit')
                 ->get();
 
       $type_product = DB::table('m_item_type')
+                  ->select('it_code')
                   ->get();
       for ($i=0; $i < count($data_dt); $i++) {
         for ($a=0; $a < count($item); $a++) {
