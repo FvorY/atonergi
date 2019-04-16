@@ -554,9 +554,6 @@ class QuotationController extends Controller
             $data_dt[$i]->u_unit = $item[$a]->u_unit;
           }
         }
-      }
-
-      for ($i=0; $i < count($data_dt); $i++) {
         if (stristr($data_dt[$i]->i_code, 'BRG')) {
           $data_dt[$i]->i_active = 'BRG';
         } else {
