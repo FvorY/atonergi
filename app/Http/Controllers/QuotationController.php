@@ -524,7 +524,8 @@ class QuotationController extends Controller
   }
 
   public function edit_quotation($id)
-  {    
+  {
+    ini_set('max_execution_time', 300);
     if (Auth::user()->akses('QUOTATION','ubah')) {
 
       $customer = DB::table('m_customer')
