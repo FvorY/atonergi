@@ -228,7 +228,7 @@
           </div>
         </div>
           <div class="table-responsive" style="margin-bottom: 15px;">
-            <table class="table table-hover apfsds" cellspacing="0" id="apfsds" width="100%">
+            <table class="table table-hover apfsds" cellspacing="0" id="apfsds" style="width:100%;">
               <thead class="bg-gradient-info">
                 <tr>
                   <th width="200">Item</th>
@@ -253,9 +253,8 @@
                    <td><input type="text" onkeyup="qty(this)" name="jumlah[]" class="jumlah form-control input-sm min-width" value="{{ $val->qd_qty }}"></td>
                    <td><input type="text" readonly class="unit_item form-control input-sm min-width" value="{{ $val->u_unit }}"></td>
                    <td><input type="text" name="description[]" class="description form-control input-sm min-width" value="{{ $val->qd_description }}"></td>
-                   <td><input type="text" name="unit_price[]" onkeyup="unitprice(this)" value="{{ $val->qd_price }}" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="{{ $val->qd_beforetax }}"><input type="hidden" class="tax" name="qd_tax[]" value="'+parseInt(tax)+'"><input type="hidden" class="tmpitem" name="tmpitem[]" value="{{ $val->i_active }}"></td>
-                   <td><input type="hidden" readonly value="{{ $val->i_lower_price }}" class="lower_price form-control input-sm min-width"></td>
-                   <td><input type="text" value="{{ $val->qd_price }}" name="line_total[]" readonly class="line_total form-control input-sm min-width"></td>
+                   <td><input type="text" name="unit_price[]" onkeyup="unitprice(this)" value="{{ number_format($val->qd_price,0,',','.') }}" class="unit_price form-control input-sm min-width"><input type="hidden" class="beforetax" name="beforetax[]" value="{{ (int)$val->qd_beforetax }}"><input type="hidden" class="tax" name="qd_tax[]" value="{{(int)$val->qd_tax}}"><input type="hidden" class="tmpitem" name="tmpitem[]" value="{{ $val->i_active }}"></td>
+                   <td><input type="text" value="{{number_format($val->qd_price*$val->qd_qty,0,',','.')}}" name="line_total[]" readonly class="line_total form-control input-sm min-width"><input type="hidden" readonly value="{{ $val->i_lower_price }}" class="lower_price form-control input-sm min-width"></td>
                    <td><button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button></td>
                   </tr>
                 @endforeach
