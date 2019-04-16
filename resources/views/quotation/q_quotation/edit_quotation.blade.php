@@ -320,6 +320,17 @@ var m_table = $('#apfsds').DataTable({
 });
 
 $(document).ready(function(){
+  
+  $('.item_name').select2();
+  $('.item').val('0');
+  $('.item').select2();
+
+  $('.jumlah').keyup(function(){
+  var qty = $(this).val();
+  qty = qty.replace(/[A-Za-z$. ,-]/g, "");
+  $(this).val(qty);
+  });
+
   $('#tax').maskMoney({
       precision : 0,
       thousands:'.',
@@ -877,17 +888,17 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
   //         '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',
   //     ] ).draw( false );
   //
-  //     $('.item_name').last().val(item);
-  // 		$('.item_name').select2();
-  //     x++;
-  //     q_qty.val('');
-  //     $('.item').val('0');
-  // 		$('.item').select2();
-  //
-  // 		$('.jumlah').keyup(function(){
-  // 		var qty = $(this).val();
-  // 		qty = qty.replace(/[A-Za-z$. ,-]/g, "");
-  // 		$(this).val(qty);
+      // $('.item_name').last().val(item);
+  		// $('.item_name').select2();
+      // x++;
+      // q_qty.val('');
+      // $('.item').val('0');
+  		// $('.item').select2();
+      //
+  		// $('.jumlah').keyup(function(){
+  		// var qty = $(this).val();
+  		// qty = qty.replace(/[A-Za-z$. ,-]/g, "");
+  		// $(this).val(qty);
   // 	})
   // 	// hitung_dpp();
   //
