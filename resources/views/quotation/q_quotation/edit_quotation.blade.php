@@ -189,19 +189,36 @@
               <div class="col-md-3 col-sm-6 col-xs-12">
                 <label>Type Quotation</label>
               </div>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="form-group type_q_div disabled">
-                  <select style="width: 100%" class="form-control form-control-sm type_qo" id="type_qo" name="type_qo">
-                    <option value="0">--Select Type--</option>
-                    <option @if($data->q_type == 'SWP') selected="" @endif value="SWP">SWP</option>
-                    <option @if($data->q_type == 'WP') selected="" @endif value="WP">WP</option>
-                    <option @if($data->q_type == 'ACC') selected="" @endif value="ACC">Accesories</option>
-                    <option @if($data->q_type == 'OFD') selected="" @endif value="OFD">Off Grid</option>
-                    <option @if($data->q_type == 'ONG') selected="" @endif value="ONG">On Grid</option>
-                  </select>
-                  <label style="color: red" hidden  class="valid valid_2"><b>Type Quotation Harus Dipilih</b></label>
+              @if ($data->q_status == 2)
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group type_q_div">
+                    <select style="width: 100%" class="form-control form-control-sm type_qo" id="type_qo" name="type_qo">
+                      <option value="0">--Select Type--</option>
+                      <option @if($data->q_type == 'SWP') selected="" @endif value="SWP">SWP</option>
+                      <option @if($data->q_type == 'WP') selected="" @endif value="WP">WP</option>
+                      <option @if($data->q_type == 'ACC') selected="" @endif value="ACC">Accesories</option>
+                      <option @if($data->q_type == 'OFD') selected="" @endif value="OFD">Off Grid</option>
+                      <option @if($data->q_type == 'ONG') selected="" @endif value="ONG">On Grid</option>
+                    </select>
+                    <label style="color: red" hidden  class="valid valid_2"><b>Type Quotation Harus Dipilih</b></label>
+                  </div>
                 </div>
-              </div>
+              @else
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group type_q_div disabled">
+                    <select style="width: 100%" class="form-control form-control-sm type_qo" id="type_qo" name="type_qo">
+                      <option value="0">--Select Type--</option>
+                      <option @if($data->q_type == 'SWP') selected="" @endif value="SWP">SWP</option>
+                      <option @if($data->q_type == 'WP') selected="" @endif value="WP">WP</option>
+                      <option @if($data->q_type == 'ACC') selected="" @endif value="ACC">Accesories</option>
+                      <option @if($data->q_type == 'OFD') selected="" @endif value="OFD">Off Grid</option>
+                      <option @if($data->q_type == 'ONG') selected="" @endif value="ONG">On Grid</option>
+                    </select>
+                    <label style="color: red" hidden  class="valid valid_2"><b>Type Quotation Harus Dipilih</b></label>
+                  </div>
+                </div>
+              @endif
+
               <div class="col-md-3 col-sm-0 col-xs-0">
                 <!-- empty -->
               </div>

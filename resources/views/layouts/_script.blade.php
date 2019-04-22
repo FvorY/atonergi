@@ -89,7 +89,7 @@
 
   <script src="{{asset('assets/jp-list/js/jplist.pagination-bundle-custom.min.js')}}"></script>
 
-  <script src="{{asset('assets/jp-list/js/jplist.bootstrap-pagination-bundle-custom.min.js')}}"></script>
+  <script src="{{asset('assets/jp-list/js/jplist.bootstrap-pagination-bundle-custom.min.js')}}"></script>  
 
 
   {{-- ez popup script --}}
