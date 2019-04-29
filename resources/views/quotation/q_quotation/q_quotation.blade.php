@@ -35,7 +35,7 @@
 
 						<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-bottom: 15px;">
 							@if(Auth::user()->akses('QUOTATION','tambah'))
-							<button class="btn btn-info open_modal" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Quotation</button>
+							<button class="btn btn-info open_modal" data-toggle="modal" data-target="#tambah" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i>&nbsp;&nbsp;Create Quotation</button>
 							@endif
 						</div>
 
@@ -781,7 +781,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 
 	function status(id) {
 		$('.q_id_status').val(id)
-		$('#update_status').modal('show');
+		$('#update_status').modal({backdrop: 'static', keyboard: false})
 	}
 	$('.update_status').click(function(){
 		$.ajax({
