@@ -781,7 +781,7 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 
 	function status(id) {
 		$('.q_id_status').val(id)
-		$('#update_status').modal({backdrop: 'static', keyboard: false})
+		$('#update_status').modal('show');
 	}
 	$('.update_status').click(function(){
 		$.ajax({
