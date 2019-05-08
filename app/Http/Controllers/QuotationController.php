@@ -386,7 +386,7 @@ class QuotationController extends Controller
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
                ->first();
-
+      return $head;
       if ($head->q_status != 1) {
         DB::table('d_quotation')
                  ->where('q_id',$id)
@@ -458,14 +458,16 @@ class QuotationController extends Controller
   {
     if (Auth::user()->akses('QUOTATION','print')) {
 
-      DB::table('d_quotation')
-               ->where('q_id',$id)
-               ->update(['q_status' => 3]);
-
       $head = DB::table('d_quotation')
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
                ->first();
+
+      if ($head->q_status == 1) {
+        DB::table('d_quotation')
+                 ->where('q_id',$id)
+                 ->update(['q_status' => 3]);
+      }
 
       $data = DB::table('d_quotation_dt')
               ->join('m_item','i_code','=','qd_item')
