@@ -492,12 +492,7 @@ $(document).ready(function(){
       defaultZero: true
   });
 
-  $('.unit_price').maskMoney({
-      precision : 3,
-      thousands:'.',
-      allowZero:true,
-      defaultZero: true
-  });
+  $('.unit_price').maskMoney({thousands:'.', decimal:',', precision:0});
 
   var customer = $('.customer').val();
   $.ajax({
