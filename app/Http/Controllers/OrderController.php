@@ -976,7 +976,7 @@ class OrderController extends Controller
 
 
             // Tambahan Dirga
-                $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];         
+                $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
                 $jurnalDetail = [];
 
                 $akunDeposit = DB::table('dk_akun')
@@ -1014,7 +1014,7 @@ class OrderController extends Controller
                 // return json_encode($jurnalDetail);
 
             // Selesai Dirga
-                
+
 
             return filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100;
 
