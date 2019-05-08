@@ -386,8 +386,8 @@ class QuotationController extends Controller
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
                ->first();
-      dd($head);
-      if ($head->q_status != 1) {
+      
+      if ((int)$head->q_status != 1) {
         DB::table('d_quotation')
                  ->where('q_id',$id)
                  ->update(['q_status' => 3]);
@@ -462,8 +462,8 @@ class QuotationController extends Controller
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
                ->first();
-     dd($head);
-      if ($head->q_status == 1) {
+
+      if ((int)$head->q_status != 1) {
         DB::table('d_quotation')
                  ->where('q_id',$id)
                  ->update(['q_status' => 3]);
