@@ -1269,7 +1269,7 @@ class OrderController extends Controller
                 $market = $marketing[$i]->mk_code. ' - ' .$marketing[$i]->mk_name;
             }
         }
-dd($validation);
+dd('hai');
 
         $data_dt = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
