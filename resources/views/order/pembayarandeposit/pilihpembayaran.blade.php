@@ -17,7 +17,6 @@
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
               <input class="form-control form-control-sm" value="Down Payment" readonly="" name="payment_type">
-              </select>
             </div>
           </div>
 
@@ -41,8 +40,13 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              <input type="text" class="form-control-sm form-control" id="amount" name="amount" onblur="amountup()">
-              <input type="hidden" name="batasamount" id="batasamount">
+              @if ($paydeposit == 0)
+                <input type="text" class="form-control-sm form-control" id="amount" name="amount" onblur="amountup()">
+                <input type="hidden" name="batasamount" id="batasamount">
+              @else
+                <input type="text" class="form-control-sm form-control" id="amount" value="{{$paydeposit->p_amount}}" name="amount" onblur="amountup()">
+                <input type="hidden" name="batasamount" id="batasamount">
+              @endif
             </div>
           </div>
 
@@ -51,7 +55,11 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
+              @if ($paydeposit == 0)
               <input type="text" class="form-control-sm form-control" id="" readonly="" value="{{date('d-m-Y')}}" name="date">
+              @else
+              <input type="text" class="form-control-sm form-control" id="" readonly="" value="{{Carbon\Carbon::parse($paydeposit->p_date)->format('d-m-Y')}}" name="date">
+              @endif
             </div>
           </div>
 
@@ -60,28 +68,19 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              @if ($so != null or $wo != null)
-                <select class="form-control form-control-sm pay_method" name="pay_method" onchange="methodChange(this.value)">
-                    @if ($so!=null)
-                      <option @if ($so->so_type == 'tunai')
-                        selected=""
-                      @endif value="tunai">Tunai</option>
-                      <option @if ($so->so_type == 'Transfer')
-                        selected=""
-                      @endif value="Transfer">Transfer</option>
-                    @else
-                      <option @if ($wo->wo_type == 'tunai')
-                        selected=""
-                      @endif>Tunai</option>
-                      <option @if ($wo->wo_type == 'Transfer')
-                        selected=""
-                      @endif>Transfer</option>
-                    @endif
-                </select>
-              @else
+              @if ($paydeposit == 0)
                 <select class="form-control form-control-sm pay_method" name="pay_method">
                   <option value="tunai">Tunai</option>
                   <option value="transfer">Transfer</option>
+                </select>
+              @else
+                <select class="form-control form-control-sm pay_method" name="pay_method">
+                  <option value="tunai" @if ($paydeposit->p_method == 'tunai')
+                    selected
+                  @endif>Tunai</option>
+                  <option value="transfer" @if ($paydeposit->method == 'transfer')
+                    selected
+                  @endif>Transfer</option>
                 </select>
               @endif
 
@@ -94,6 +93,7 @@
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
 
+              @if ($paydeposit == 0)
               <div id="akunKas">
                 <select class="form-control form-control-sm pay_method" name="pay_akun" id="akunKas">
                     @foreach($akunKas as $key => $akun)
@@ -104,11 +104,32 @@
 
               <div style="display: none;" id="akunBank">
                 <select class="form-control form-control-sm pay_method" name="pay_akun">
-                    @foreach($akunBank as $key => $akun) 
+                    @foreach($akunBank as $key => $akun)
                       <option value="{{ $akun->id }}">{{ $akun->text }}</option>
                     @endforeach
                 </select>
               </div>
+              @else
+                <div id="akunKas">
+                  <select class="form-control form-control-sm pay_method" name="pay_akun" id="akunKas">
+                      @foreach($akunKas as $key => $akun)
+                        <option value="{{ $akun->id }}" @if ($akun->id == $paydeposit->p_account)
+                          selected
+                        @endif>{{ $akun->text }}</option>
+                      @endforeach
+                  </select>
+                </div>
+
+                <div style="display: none;" id="akunBank">
+                  <select class="form-control form-control-sm pay_method" name="pay_akun">
+                      @foreach($akunBank as $key => $akun)
+                        <option value="{{ $akun->id }}" @if ($akun->id == $paydeposit->p_account)
+                          selected
+                        @endif>{{ $akun->text }}</option>
+                      @endforeach
+                  </select>
+                </div>
+              @endif
 
             </div>
           </div>
@@ -118,14 +139,10 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              @if ($so != null or $wo != null)
-                @if ($so!=null)
-                  <input value="{{ $so->so_note }}" type="text" class="form-control-sm form-control" name="nota1">
-                @else
-                  <input value="{{ $wo->wo_note }}" type="text" class="form-control-sm form-control" name="nota1">
-                @endif
-              @else
+              @if ($paydeposit == 0)
                 <input type="text" class="form-control-sm form-control" name="nota1">
+              @else
+                <input type="text" class="form-control-sm form-control" value="{{$paydeposit->p_note}}" name="nota1">
               @endif
             </div>
           </div>

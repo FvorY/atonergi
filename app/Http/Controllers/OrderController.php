@@ -594,7 +594,7 @@ class OrderController extends Controller
                                 } else {
                                   $proses = '';
                                 }
-                                $approved = '';                                
+                                $approved = '';
                               }
                             }
 
@@ -684,6 +684,21 @@ class OrderController extends Controller
                   ->first();
 
 
+        if ($data->q_approved == 'N') {
+          $cek = DB::table('d_paydeposit')
+                    ->where('p_qo', $id)
+                    ->count();
+
+          if ($cek != 0) {
+            $paydeposit = DB::table('d_paydeposit')
+                            ->where('p_qo', $id)
+                            ->first();
+          } else {
+            $paydeposit = 0;
+          }
+        }
+
+
         $so = DB::table('d_quotation')
                   ->leftjoin('d_sales_order','q_nota','=','so_ref')
                   ->where('q_id',$id)
@@ -770,7 +785,7 @@ class OrderController extends Controller
           Session::flash('gagal', 'Percent tidak ada yang aktif, aktifkan percent di master percent terlebih dahulu!');
           return view('order/pembayarandeposit/pembayarandeposit');
         } else {
-          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent', 'akunKas', 'akunBank'));
+          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('paydeposit', 'item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent', 'akunKas', 'akunBank'));
         }
     }
 
