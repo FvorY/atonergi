@@ -386,7 +386,7 @@ class QuotationController extends Controller
                ->join('m_customer','c_code','=','q_customer')
                ->where('q_id',$id)
                ->first();
-      
+
       if ((int)$head->q_status != 1) {
         DB::table('d_quotation')
                  ->where('q_id',$id)
@@ -692,18 +692,20 @@ class QuotationController extends Controller
                     ->where('q_id',$req->q_id_status)
                     ->first();
 
-          $bulan = Carbon::now()->format('m');
-          $tahun = Carbon::now()->format('Y');
+          // $bulan = Carbon::now()->format('m');
+          // $tahun = Carbon::now()->format('Y');
+          //
+          // $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
+          //                                 WHERE MONTH(po_date) = '.$bulan.'
+          //                                 AND YEAR(po_date) = '.$tahun.'");
+          // $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+          //
+          // $index = (integer)$cari_nota[0]->id + 1;
+          // $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
-          $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
-                                          WHERE MONTH(po_date) = '.$bulan.'
-                                          AND YEAR(po_date) = '.$tahun.'");
-          $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+          $nota_po = str_replace('PI', 'QO', $data->q_nota);
 
-          $index = (integer)$cari_nota[0]->id + 1;
-          $index = str_pad($index, 3, '0', STR_PAD_LEFT);
-
-          $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+          // $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
 
           $id = DB::table('d_payment_order')
               ->max('po_id')+1;

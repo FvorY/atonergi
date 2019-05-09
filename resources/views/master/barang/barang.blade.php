@@ -331,7 +331,10 @@ function simpan(){
     var lower_price = $('input[name="lower_price"]');
     var price_currency = $('input[name=price_currency]');
     var sell_currency = $('input[name=sell_price_currency]');
-    var lower_currency = $('input[lower_price_currency]');
+    var lower_currency = $('input[name=lower_price_currency]');
+    var akunpersediaan = $('input[name=akunpersediaan]');
+    var akunpendapatan = $('input[name=akunpendapatan]');
+    var akunbeban = $('input[name=akunbeban]');
     if(lower_currency.val() == '' || sell_currency.val() == '' || price_currency.val() == '' || item.val()=='' || type_barang.val()=='' || unit.val()=='' || price.val()=='' || weight.val()=='' || min_stock.val()=='' || sell_price.val()=='' || lower_price.val()=='' || img.val()=='' || category.val()=='')
     {
       if(item.val()==''){
@@ -459,6 +462,36 @@ function simpan(){
       lower_currency.removeClass('border-danger');
     }
 
+    if(akunpendapatan.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Akun pendapatan cannot be empty!',
+          });
+      akunpendapatan.addClass('border-danger');
+    } else {
+      akunpendapatan.removeClass('border-danger');
+    }
+
+    if(akunpersediaan.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Akun persediaan cannot be empty!',
+          });
+      akunpersediaan.addClass('border-danger');
+    } else {
+      akunpersediaan.removeClass('border-danger');
+    }
+
+    if(akunbeban.val()==''){
+      iziToast.error({
+            icon: 'fa fa-exclamation-circle ',
+            message: 'Akun beban cannot be empty!',
+          });
+      akunbeban.addClass('border-danger');
+    } else {
+      akunbeban.removeClass('border-danger');
+    }
+
     return false;
   }
 
@@ -503,6 +536,9 @@ function edit(m1a2)
     $('input[name="min_stock"]').removeClass('border-danger');
     $('input[name="sell_price"]').removeClass('border-danger');
     $('input[name="lower_price"]').removeClass('border-danger');
+    $('input[name="akunpendapatan"]').removeClass('border-danger');
+    $('input[name="akunpersediaan"]').removeClass('border-danger');
+    $('input[name="akunbeban"]').removeClass('border-danger');    
 
     var par   = $(m1a2).parents('tr');
     var id    = $(par).find('.i_id').text();

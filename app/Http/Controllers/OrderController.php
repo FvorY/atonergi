@@ -581,11 +581,20 @@ class OrderController extends Controller
                               }
                             } else {
                               if (Auth::user()->m_jabatan == 'MANAGER') {
-                                $proses = '';
+                                if ($data->q_approved == 'Y') {
+                                  $proses = '';
+                                  $approved = '';
+                                } else {
+                                  $proses = '';
                                   $approved = '<button type="button" class="btn btn-success" title="Approve" onclick="approve('.$data->q_id.')"><em class="fa fa-check"> </em></button>';
+                                }
                               } else {
-                                $approved = '';
-                                $proses = '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
+                                if ($data->q_approved == "N") {
+                                  $proses = '<a href="'.url('/order/pembayarandeposit/pembayarandeposit/detail_pembayarandeposit').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>';
+                                } else {
+                                  $proses = '';
+                                }
+                                $approved = '';                                
                               }
                             }
 
@@ -699,31 +708,24 @@ class OrderController extends Controller
 
         $bulan = Carbon::now()->format('m');
         $tahun = Carbon::now()->format('Y');
-        // NOTA SO
-        $cari_nota = DB::select("SELECT  substring(max(so_nota),4,3) as id from d_sales_order
-                                        WHERE MONTH(so_date) = '$bulan'
-                                        AND YEAR(so_date) = '$tahun'");
-        $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
 
-        $index = (integer)$cari_nota[0]->id + 1;
-        $index = str_pad($index, 3, '0', STR_PAD_LEFT);
-
-        $nota_so = '';
+        $nota_so = "";
         if ($so_dt != null) {
-            $nota_so = 'SO-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+           $nota_so = str_replace('QO','SO', $data->q_nota);
         }
+
         // NOTA WO
-        $cari_nota = DB::select("SELECT  substring(max(wo_nota),4,3) as id from d_work_order
-                                        WHERE MONTH(wo_date) = '$bulan'
-                                        AND YEAR(wo_date) = '$tahun'");
-        $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+        // $cari_nota = DB::select("SELECT  substring(max(wo_nota),4,3) as id from d_work_order
+        //                                 WHERE MONTH(wo_date) = '$bulan'
+        //                                 AND YEAR(wo_date) = '$tahun'");
+        // $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+        //
+        // $index = (integer)$cari_nota[0]->id + 1;
+        // $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
-        $index = (integer)$cari_nota[0]->id + 1;
-        $index = str_pad($index, 3, '0', STR_PAD_LEFT);
-
-        $nota_wo = '';
+        $nota_wo = "";
         if ($wo_dt != null) {
-            $nota_wo = 'WO-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+           $nota_wo = str_replace('QO','wO', $data->q_nota);
         }
         // END
         $market = '';
@@ -917,8 +919,9 @@ class OrderController extends Controller
 
             // WORK ORDER
             $cari = DB::table('d_work_order')
-                      ->where('wo_nota',$req->so_nota)
+                      ->where('wo_nota',$paydeposit->p_wo)
                       ->first();
+
             $nota = $paydeposit->p_wo;
 
             if ($nota != '') {
@@ -1016,22 +1019,24 @@ class OrderController extends Controller
             // Selesai Dirga
 
 
-            return filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100;
+            // return filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100;
 
 
                   if ((int)$req->remain == 0) {
                     $id = DB::table('d_sales_invoice')->max('si_id')+1;
-                    $bulan = date('m');
-                    $tahun = date('Y');
-                    $cari_nota = DB::select("SELECT  substring(max(si_nota),4,3) as id from d_sales_invoice
-                                                    WHERE MONTH(si_date) = '$bulan'
-                                                    AND YEAR(si_date) = '$tahun'");
-                    $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+                    // $bulan = date('m');
+                    // $tahun = date('Y');
+                    // $cari_nota = DB::select("SELECT  substring(max(si_nota),4,3) as id from d_sales_invoice
+                    //                                 WHERE MONTH(si_date) = '$bulan'
+                    //                                 AND YEAR(si_date) = '$tahun'");
+                    // $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+                    //
+                    // $index = (integer)$cari_nota[0]->id + 1;
+                    // $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
-                    $index = (integer)$cari_nota[0]->id + 1;
-                    $index = str_pad($index, 3, '0', STR_PAD_LEFT);
+                    $notasi = str_replace('QO', 'SI', $data->q_nota);
 
-                    $notasi = 'SI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+                    // $notasi = 'SI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
 
 
                     DB::table('d_sales_invoice')
@@ -1047,18 +1052,20 @@ class OrderController extends Controller
                           ->where('q_id',$req->id)
                           ->first();
 
-                $bulan = Carbon::now()->format('m');
-                $tahun = Carbon::now()->format('Y');
+                // $bulan = Carbon::now()->format('m');
+                // $tahun = Carbon::now()->format('Y');
 
-                $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
-                                                WHERE MONTH(po_date) = '.$bulan.'
-                                                AND YEAR(po_date) = '.$tahun.'");
-                $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+                // $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
+                //                                 WHERE MONTH(po_date) = '.$bulan.'
+                //                                 AND YEAR(po_date) = '.$tahun.'");
+                // $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+                //
+                // $index = (integer)$cari_nota[0]->id + 1;
+                // $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
-                $index = (integer)$cari_nota[0]->id + 1;
-                $index = str_pad($index, 3, '0', STR_PAD_LEFT);
+                $nota_po = str_replace('QO', 'PI', $data->q_nota);
 
-                $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+                // $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
 
                 $id = DB::table('d_payment_order')
                     ->max('po_id')+1;
@@ -1222,18 +1229,20 @@ class OrderController extends Controller
                           ->get();
         // selesai
 
-        $bulan = Carbon::parse($data->q_date)->format('m');
-        $tahun = Carbon::parse($data->q_date)->format('Y');
-        // NOTA PO
-        $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
-                                        WHERE MONTH(po_date) = '$bulan'
-                                        AND YEAR(po_date) = '$tahun'");
-        $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+        // $bulan = Carbon::parse($data->q_date)->format('m');
+        // $tahun = Carbon::parse($data->q_date)->format('Y');
+        // // NOTA PO
+        // $cari_nota = DB::select("SELECT  substring(max(po_nota),4,3) as id from d_payment_order
+        //                                 WHERE MONTH(po_date) = '$bulan'
+        //                                 AND YEAR(po_date) = '$tahun'");
+        // $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
+        //
+        // $index = (integer)$cari_nota[0]->id + 1;
+        // $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
-        $index = (integer)$cari_nota[0]->id + 1;
-        $index = str_pad($index, 3, '0', STR_PAD_LEFT);
+        $nota_po = str_replace('QO', 'PI', $data->q_nota);
 
-        $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+        // $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
 
         // END
         $market = '';
@@ -1345,17 +1354,8 @@ class OrderController extends Controller
 
                       if ((int)$hasil == 0) {
                         $id = DB::table('d_sales_invoice')->max('si_id')+1;
-                        $bulan = date('m');
-                        $tahun = date('Y');
-                        $cari_nota = DB::select("SELECT  substring(max(si_nota),4,3) as id from d_sales_invoice
-                                                        WHERE MONTH(si_date) = '$bulan'
-                                                        AND YEAR(si_date) = '$tahun'");
-                        $index = filter_var($cari_nota[0]->id,FILTER_SANITIZE_NUMBER_INT);
 
-                        $index = (integer)$cari_nota[0]->id + 1;
-                        $index = str_pad($index, 3, '0', STR_PAD_LEFT);
-
-                        $notasi = 'SI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
+                        $notasi = str_replace('QO', 'SI', $data->q_nota);
 
                         DB::table('d_sales_invoice')
                             ->insert([
