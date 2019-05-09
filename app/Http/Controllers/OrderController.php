@@ -1208,6 +1208,7 @@ class OrderController extends Controller
                   ->leftjoin('d_sales_order','q_nota','=','so_ref')
                   ->where('q_id',$id)
                   ->first();
+
         $so_dt = DB::table("d_quotation_dt")
                    ->join('m_item','qd_item','=','i_code')
                    ->where('qd_id',$id)
@@ -1279,7 +1280,6 @@ class OrderController extends Controller
                     ->where('p_status', 'Y')
                     ->first();
 
-	dd($so_dt);
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
           array_push($validation, 1);
