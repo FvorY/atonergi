@@ -1278,6 +1278,8 @@ class OrderController extends Controller
         $percent = DB::table('m_percent')
                     ->where('p_status', 'Y')
                     ->first();
+
+	dd($so_dt);
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
           array_push($validation, 1);
