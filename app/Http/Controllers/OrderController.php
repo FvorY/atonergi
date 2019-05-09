@@ -1280,13 +1280,13 @@ class OrderController extends Controller
                     ->first();
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
-	dd('hai');
           array_push($validation, 1);
         }
         if (in_array(1, $validation)) {
           if ($so->so_status == 'Printed' or $wo->wo_status == 'Printed') {
             return view('order/payment_order/detail_payment_order',compact('percent','item','data','data_dt','id','nota_po','market','nama_item','so','wo', 'akunKas', 'akunBank'));
           }else{
+	dd('hai');
             return redirect()->back();
           }
         }
