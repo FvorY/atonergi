@@ -1278,9 +1278,9 @@ class OrderController extends Controller
         $percent = DB::table('m_percent')
                     ->where('p_status', 'Y')
                     ->first();
-	dd('hai');
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
+	dd('hai');
           array_push($validation, 1);
         }
         if (in_array(1, $validation)) {
