@@ -1269,7 +1269,6 @@ class OrderController extends Controller
                 $market = $marketing[$i]->mk_code. ' - ' .$marketing[$i]->mk_name;
             }
         }
-dd('hai');
 
         $data_dt = DB::table('d_quotation_dt')
                        ->join('m_item','i_code','=','qd_item')
@@ -1279,7 +1278,7 @@ dd('hai');
         $percent = DB::table('m_percent')
                     ->where('p_status', 'Y')
                     ->first();
-
+	dd('hai');
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
           array_push($validation, 1);
