@@ -683,7 +683,7 @@ class OrderController extends Controller
                   ->where('q_id',$id)
                   ->first();
 
-
+        $paydeposit = 0;
         if ($data->q_approved == 'N') {
           $cek = DB::table('d_paydeposit')
                     ->where('p_qo', $id)
