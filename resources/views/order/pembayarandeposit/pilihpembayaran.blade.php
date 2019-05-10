@@ -39,8 +39,8 @@
             <label>Amount</label>
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="form-group">              
-              @if ($paydeposit == 0)
+            <div class="form-group">
+              @if (count($paydeposit) == 0)
                 <input type="text" class="form-control-sm form-control" id="amount" name="amount" onblur="amountup()">
                 <input type="hidden" name="batasamount" id="batasamount">
               @else
@@ -55,7 +55,7 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              @if ($paydeposit == 0)
+              @if (count($paydeposit) == 0)
               <input type="text" class="form-control-sm form-control" id="" readonly="" value="{{date('d-m-Y')}}" name="date">
               @else
               <input type="text" class="form-control-sm form-control" id="" readonly="" value="{{Carbon\Carbon::parse($paydeposit->p_date)->format('d-m-Y')}}" name="date">
@@ -68,7 +68,7 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              @if ($paydeposit == 0)
+              @if (count($paydeposit) == 0)
                 <select class="form-control form-control-sm pay_method" name="pay_method">
                   <option value="tunai">Tunai</option>
                   <option value="transfer">Transfer</option>
