@@ -279,7 +279,7 @@ $('#amount').mask('000.000.000.000.000', {reverse: true});
 		} else if (parseInt(amount) > parseInt(remain)) {
 			iziToast.warning({
 	            icon: 'fa fa-info',
-	            message: 'Tidak boleh kurang dari '+tmppercent+'!',
+	            message: 'Tidak boleh lebih dari remain!',
 	        });
 			$('#amount').val(accounting.formatMoney(batas,"", 0, ".",','));
 		}
