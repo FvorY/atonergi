@@ -78,7 +78,7 @@
                   <option value="tunai" @if ($paydeposit->p_method == 'tunai')
                     selected
                   @endif>Tunai</option>
-                  <option value="transfer" @if ($paydeposit->method == 'transfer')
+                  <option value="transfer" @if ($paydeposit->p_method == 'transfer')
                     selected
                   @endif>Transfer</option>
                 </select>
@@ -93,7 +93,7 @@
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
 
-              @if ($paydeposit == 0)
+              @if (count($paydeposit) == 0)
               <div id="akunKas">
                 <select class="form-control form-control-sm pay_method" name="pay_akun" id="akunKas">
                     @foreach($akunKas as $key => $akun)
@@ -139,7 +139,7 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              @if ($paydeposit == 0)
+              @if (count($paydeposit) == 0)
                 <input type="text" class="form-control-sm form-control" name="nota1">
               @else
                 <input type="text" class="form-control-sm form-control" value="{{$paydeposit->p_note}}" name="nota1">
