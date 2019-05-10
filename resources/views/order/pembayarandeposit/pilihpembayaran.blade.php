@@ -39,8 +39,7 @@
             <label>Amount</label>
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="form-group">
-              {{dd($paydeposit)}}
+            <div class="form-group">              
               @if ($paydeposit == 0)
                 <input type="text" class="form-control-sm form-control" id="amount" name="amount" onblur="amountup()">
                 <input type="hidden" name="batasamount" id="batasamount">
