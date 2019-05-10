@@ -201,9 +201,11 @@
 				              <div class="form-group">
 				              	@if($data->q_remain != null)
 				                <input value="{{'Rp. '. number_format($data->q_remain, 2, ",", ".")}}" type="text" class="form-control form-control-sm" name="remain" readonly="" id="remaining_dp">
-				                @else
+												<input type="hidden" name="remaintmp" value="{{$data->q_remain}}">
+										    @else
 				                <input value="0" type="text" class="form-control form-control-sm" name="remain" readonly="" id="remaining_dp">
-				                @endif
+												<input type="hidden" name="remaintmp" value="0">
+												@endif
 				              </div>
 				            </div>
 				            <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-top: 15px;">
@@ -265,13 +267,20 @@ $('#amount').mask('000.000.000.000.000', {reverse: true});
 		var amount = $('#amount').val();
 		amount = amount.replace(/[^0-9\-]+/g,"");
 		var batas = $('#batasamount').val();
-		var tmppercent = $('input[name=percent]').val();		
+		var remain = $('input[name=remaintmp]').val();
+		var tmppercent = $('input[name=percent]').val();
 		if (parseInt(amount) < parseInt(batas)) {
 			iziToast.warning({
 	            icon: 'fa fa-info',
 	            message: 'Tidak boleh kurang dari '+tmppercent+'!',
 	        });
 
+			$('#amount').val(accounting.formatMoney(batas,"", 0, ".",','));
+		} else if (parseInt(amount) > parseInt(remain)) {
+			iziToast.warning({
+	            icon: 'fa fa-info',
+	            message: 'Tidak boleh kurang dari '+tmppercent+'!',
+	        });
 			$('#amount').val(accounting.formatMoney(batas,"", 0, ".",','));
 		}
 	}
