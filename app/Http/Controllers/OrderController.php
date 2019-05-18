@@ -1125,13 +1125,11 @@ class OrderController extends Controller
         $so = DB::table('d_sales_order')
                 ->select('so_ref as nota')
                 ->where('so_status','Printed')
-                ->distinct()
                 ->get()->toArray();
 
         $wo = DB::table('d_work_order')
                 ->select('wo_ref as nota')
-                ->where('wo_status','Printed')
-                ->distinct()
+                ->where('wo_status','Printed')                
                 ->get()->toArray();
 
         $temp = array_merge($so,$wo);

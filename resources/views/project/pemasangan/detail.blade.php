@@ -166,7 +166,7 @@
 
 	              <div class="row">
 	              	<div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-top: 15px;">
-	              		<button class="btn btn-sm btn-info" onclick="simpan()" type="button">Simpan</button>
+	              		{{-- <button class="btn btn-sm btn-info" onclick="simpan()" type="button">Simpan</button> --}}
 	              		<a href="{{url('project/pemasangan/pemasangan')}}" class="btn btn-secondary btn-sm">Back</a>
 	              	</div>
 	              </div>
