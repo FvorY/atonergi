@@ -199,7 +199,6 @@ table, td, th {
 				</table>
 
 			</div>
-
 			<div class="header-right" style="margin-top: 15px;">
 				<table class="border-none" width="100%">
 					<tbody>
@@ -330,9 +329,11 @@ table, td, th {
 
 					</tr>
 					@endforeach
-					@foreach($jasa as $i=> $b)
+
+					@if (count($jasa) != 0)
+					@foreach($jasa as $i => $b)
 					<tr >
-						<td class="blue">{{ $indexs ++ }}</td>
+						<td class="blue">{{ $i++ }}</td>
 						<td class="blue">{{ $b->i_name }}</td>
 						<td class="blue">{{ $b->qd_qty }}</td>
 						<td class="blue">{{ $b->u_unit }}</td>
@@ -384,9 +385,9 @@ table, td, th {
 						@else
 							<td></td>
 						@endif --}}
-
 					</tr>
 					@endforeach
+					@endif
 					@foreach($array as $a)
 					<tr>
 						<td class="blank"></td>
@@ -449,13 +450,16 @@ table, td, th {
 							</div>
 							<div class="float-right">
 								{{ number_format($head->q_total, 2, ",", ".") }}
+
 							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="text-left" style="margin-top: -50px;font-size: 12px;width: 40%;">
-				<?php echo $term->p_print; ?>
+				@if ($term != null)
+					<?php echo $term->p_print; ?>
+				@endif
 			</div>
 			<div class="float-left text-left" style="font-size: 12px;margin-top: 5px;width: 25%;">
 				PT. REJA ATON ENERGI<br>
