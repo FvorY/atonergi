@@ -72,6 +72,16 @@ table, td, th {
 	vertical-align: top;
 	text-align: left;
 }
+
+@media print {
+ * {
+       -webkit-print-color-adjust: exact;
+   }
+}
+
+container.style.backgroundImage = 'url("{{asset('assets/atonergi.png')}}"'
+
+
 .top-center
 {
 	vertical-align: top
@@ -234,7 +244,7 @@ table, td, th {
 					<tr class="border-none">
 						<th class="border-none" width="30%">Shipping Method</th>
 						<th class="border-none" width="">Shipping Terms</th>
-						<th class="border-none" width="30%">Item Status</th>
+						<th class="border-none" width="30%">Indent</th>
 					</tr>
 				</thead>
 
@@ -515,7 +525,10 @@ table, td, th {
 		</div>
 	</div>
 </body>
+<script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
 <script type="text/javascript">
-	window.print();
+  imagesLoaded(document.body, function() {
+    window.print();
+  });
 </script>
 </html>

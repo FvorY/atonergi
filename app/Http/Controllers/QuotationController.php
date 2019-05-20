@@ -603,11 +603,15 @@ class QuotationController extends Controller
     return DB::transaction(function() use ($req) {
       // dd($req->all());
 
+      $data = DB::table('d_quotation')
+              ->where('q_id', $req->id)
+              ->first();
+
       $save = DB::table('d_quotation')
                 ->where('q_id',$req->id)
                 ->update([
                   'q_id'              => $req->id,
-                  'q_nota'            => $req->quote,
+                  'q_nota'            => $req->quote . '-rev' . $data->q_rev,
                   'q_subtotal'        => filter_var($req->subtotal,FILTER_SANITIZE_NUMBER_INT),
                   'q_tax'             => filter_var($req->tax,FILTER_SANITIZE_NUMBER_INT),
                   'q_total'           => filter_var($req->total,FILTER_SANITIZE_NUMBER_INT),
@@ -624,6 +628,7 @@ class QuotationController extends Controller
                   'q_item_status'     => $req->itemstatus,
                   'q_status'          => 2,
                   'q_update_by'       => Auth::user()->m_name,
+                  'q_rev'             => $data->q_rev + 1
                 ]);
 
       $delete = DB::table('d_quotation_dt')

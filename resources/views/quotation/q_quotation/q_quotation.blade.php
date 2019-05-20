@@ -571,13 +571,13 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 
 		}
 
-		if (delivery == '') {
-			$('.valid_9').prop('hidden',false);
-			array_valid.push(0);
-		}else if (delivery != ''){
-			$('.valid_9').prop('hidden',true);
-
-		}
+		// if (delivery == '') {
+		// 	$('.valid_9').prop('hidden',false);
+		// 	array_valid.push(0);
+		// }else if (delivery != ''){
+		// 	$('.valid_9').prop('hidden',true);
+    //
+		// }
 
 
 		if (total == '' || total == '0') {

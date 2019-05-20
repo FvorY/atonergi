@@ -60,6 +60,9 @@
   // });
 
   $(document).ready(function(){
+
+    $('#i_price').mask('000.000.000.000.000', {reverse: true});
+
     $('#table_jasa').DataTable({
         processing: true,
         serverSide: true,
@@ -101,7 +104,7 @@
       success:function(data){
         $('#i_id').val(data.jasa.i_id);
         $('#i_name').val(data.jasa.i_name);
-        $('#i_price').val(data.jasa.i_price);
+        $('#i_price').val(accounting.formatMoney(data.jasa.i_price, "", 0, ".",','));
         $('#i_unit').val(data.jasa.u_unit);
         $('#i_description').val(data.jasa.i_description);
         $('select[name="akun"]').val(data.jasa.i_akun_persediaan).trigger('change');
@@ -163,6 +166,11 @@
         table.ajax.reload();
       }
     });
+  }
+
+  function reset(){
+    $('.reset').val('');
+    $("#akun").val('').trigger('change');
   }
 </script>
 @endsection

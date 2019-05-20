@@ -724,7 +724,7 @@ public function edit_bank(request $req)
                           ->where('i_id',$req->i_id)
                           ->update([
                             'i_name' => strtoupper($req->i_name),
-                            'i_price' => floatval($req->i_price) ,
+                            'i_price' => str_replace('.','',$req->i_price),
                             'i_sell_price' => floatval($req->i_price) ,
                             'i_akun_persediaan' => $req->akun ,
                             'i_lower_price' => 0 ,
