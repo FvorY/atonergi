@@ -611,7 +611,7 @@ class QuotationController extends Controller
                 ->where('q_id',$req->id)
                 ->update([
                   'q_id'              => $req->id,
-                  'q_nota'            => $req->quote . '-rev' . $data->q_rev,
+                  'q_nota'            => $req->quote . '-rev' . ((int)$data->q_rev + 1),
                   'q_subtotal'        => filter_var($req->subtotal,FILTER_SANITIZE_NUMBER_INT),
                   'q_tax'             => filter_var($req->tax,FILTER_SANITIZE_NUMBER_INT),
                   'q_total'           => filter_var($req->total,FILTER_SANITIZE_NUMBER_INT),
@@ -628,7 +628,7 @@ class QuotationController extends Controller
                   'q_item_status'     => $req->itemstatus,
                   'q_status'          => 2,
                   'q_update_by'       => Auth::user()->m_name,
-                  'q_rev'             => $data->q_rev + 1
+                  'q_rev'             => ((int)$data->q_rev + 1)
                 ]);
 
       $delete = DB::table('d_quotation_dt')
