@@ -338,7 +338,7 @@ table, td, th {
 						<td class="blue">{{ $b->qd_qty }}</td>
 						<td class="blue">{{ $b->u_unit }}</td>
 						<td class="blue">{{ $b->qd_description }}</td>
-						{{-- @if($print === 'detail')
+						@if($print === 'detail')
 						<td  class="blue">
 							<div class="float-left">
 								Rp.
@@ -384,7 +384,7 @@ table, td, th {
 							@endif
 						@else
 							<td></td>
-						@endif --}}
+						@endif
 					</tr>
 					@endforeach
 					@endif

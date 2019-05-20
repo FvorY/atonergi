@@ -82,32 +82,47 @@ class QuotationController extends Controller
                            $a =  '<div class="btn-group">';
 
                             if(Auth::user()->akses('QUOTATION','ubah')){
-                             $b = '<button type="button" onclick="edit(\''.$data->q_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
+                              if ($data->q_status == 1) {
+                                $b = "";
+                              } else {
+                                $b = '<button type="button" onclick="edit(\''.$data->q_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
+                              }
                             }else{
                               $b = '';
                             }
 
                             if(Auth::user()->akses('QUOTATION','print')){
-                             $c =
-                             '<button type="button" onclick="printing(\''.$data->q_id.'\')" class="btn btn-info btn-lg" title="Print Detail">'.'<label class="fa fa-print"></label></button>'.
-                             '<button type="button" onclick="printing_global(\''.$data->q_id.'\')" class="btn btn-success btn-lg" title="Print Global">'.'<label class="fa fa-print"></label></button>';
+                              if ($data->q_status == 1) {
+                                $c = "";
+                              } else {
+                                $c =
+                                '<button type="button" onclick="printing(\''.$data->q_id.'\')" class="btn btn-info btn-lg" title="Print Detail">'.'<label class="fa fa-print"></label></button>'.
+                                '<button type="button" onclick="printing_global(\''.$data->q_id.'\')" class="btn btn-success btn-lg" title="Print Global">'.'<label class="fa fa-print"></label></button>';
+                              }
                             }else{
                               $c = '';
                             }
 
                             if(Auth::user()->akses('QUOTATION','hapus')){
-                             $d =
+                              if ($data->q_status == 1) {
+                                $d = "";
+                              } else {
+                                $d =
                                  '<button type="button" onclick="hapus(\''.$data->q_nota.'\')" class="btn btn-danger btn-lg" title="hapus">'.
                                  '<label class="fa fa-trash"></label></button>';
+                               }
                             }else{
                               $d = '';
                             }
 
                             if(Auth::user()->akses('QUOTATION','tambah')){
-                             $e =
+                              if ($data->q_status == 1) {
+                                $e = "";
+                              } else {
+                                $e =
                                  '<button type="button" onclick="status(\''.$data->q_id.'\')" class="btn btn-warning btn-lg" title="update status">'.
                                  '<label class="fa fa-cog"></label></button>'. '</div>';
-
+                               }
                             }else{
                               $e = '</div>';
                             }
