@@ -488,6 +488,10 @@ table, td, th {
 					</tr>
 				</table>
 			</div>
+			<br>
+			<br>
+			<br>
+			<br>
 			<div class="float-right text-left" style="width: 40%;font-size: 12px;">
 				<table class="border-none" width="100%">
 					<thead>

@@ -217,7 +217,7 @@
           </div>
         </div>
           <div class="table-responsive" style="margin-bottom: 15px;">
-            <table class="table table-hover data-table" cellspacing="0" id="apfsds">
+            <table class="table table-hover datatbl" cellspacing="0" id="apfsds">
               <thead class="bg-gradient-info">
                 <tr>
                   <th>Item</th>

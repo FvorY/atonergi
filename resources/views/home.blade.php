@@ -261,6 +261,7 @@
           </div>
           <hr style="background:#5c848e; border:0px; height:2px; margin-bottom: 5px;">
           <div class="row">
+            @if (Auth::user()->akses('QUOTATION','aktif'))
               <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#6c5ce7;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="qo()" style="cursor:pointer;" id="qoico" @if($qo > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -277,6 +278,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+            @if (Auth::user()->akses('SALES ORDER','aktif'))
               <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#ff7675;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="so()" style="cursor:pointer;" id="soico" @if($so > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -293,6 +296,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+            @if (Auth::user()->akses('WORK ORDER','aktif'))
               <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#00b894;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="wo()" style="cursor:pointer;" id="woico" @if($wo > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -309,6 +314,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+            @if (Auth::user()->akses('PAYMENT ORDER','aktif'))
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#fdcb6e;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="pay()" style="cursor:pointer;" id="payico" @if($pay > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -325,6 +332,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+            @if (Auth::user()->akses('REQUEST ORDER','aktif'))
               <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#00cec9;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="ro()" style="cursor:pointer;" id="roico" @if($ro > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -341,6 +350,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+            @if (Auth::user()->akses('PURCHASE ORDER','aktif'))
               <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#e84393;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="po()" style="cursor:pointer;" id="poico" @if($po > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -357,6 +368,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+            @if (Auth::user()->akses('STOCK GUDANG','aktif'))
               <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#ef6c57;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="stok()" style="cursor:pointer;" id="stokico" @if($stok > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -373,6 +386,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+            @if (Auth::user()->m_jabatan == 'FINANCE')
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#f79f24;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="hutang()" style="cursor:pointer;" id="hutangico" @if($hutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -389,6 +404,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+            @if (Auth::user()->m_jabatan == 'FINANCE')
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#ffe98a">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="piutang()" style="cursor:pointer;" id="piutangico" @if($piutang > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -405,6 +422,8 @@
                       </div>
                   </div>
               </div>
+            @endif
+              @if (Auth::user()->m_jabatan == 'FINANCE')
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#d195f9;">
                     <i class="d-flex justify-content-end light" aria-hidden="true" style="margin-bottom:-30px;  margin-top:5px; color:white; font-size:20px; margin-right:-3px;"><span onclick="omset()" style="cursor:pointer;" id="omsetico" @if($omset > 0) class="fa fa-star" @else class="fa fa-star-o" @endif></span></i>
@@ -421,6 +440,8 @@
                       </div>
                   </div>
               </div>
+              @endif
+              @if (Auth::user()->akses('LPJ PERDIN', 'aktif'))
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em; cursor:pointer;">
                 <a href="{{url('/laporan')}}">
                   <div class="card px-2" style="background-color:rgb(40, 126, 187);">
@@ -437,6 +458,7 @@
                   </div>
                   </a>
               </div>
+            @endif
           </div>
         </div>
     </form>

@@ -555,7 +555,7 @@ class QuotationController extends Controller
                     ->get();
 
       $data = DB::table('d_quotation')
-                ->select('q_type', 'q_customer', 'q_status', 'q_tax', 'q_status', 'q_subtotal', 'q_total', 'q_type_product', 'q_date', 'q_nota', 'q_ship_to', 'q_shipping_method', 'q_term', 'q_delivery')
+                ->select('q_type', 'q_customer', 'q_marketing', 'q_status', 'q_tax', 'q_status', 'q_subtotal', 'q_total', 'q_type_product', 'q_date', 'q_nota', 'q_ship_to', 'q_shipping_method', 'q_term', 'q_delivery')
                 ->where('q_id',$id)
                 ->first();
 

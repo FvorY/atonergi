@@ -89,7 +89,7 @@
 
   <script src="{{asset('assets/jp-list/js/jplist.pagination-bundle-custom.min.js')}}"></script>
 
-  <script src="{{asset('assets/jp-list/js/jplist.bootstrap-pagination-bundle-custom.min.js')}}"></script>  
+  <script src="{{asset('assets/jp-list/js/jplist.bootstrap-pagination-bundle-custom.min.js')}}"></script>
 
 
   {{-- ez popup script --}}
@@ -196,6 +196,27 @@
           }
 
         });
+
+        $('.datatbl').dataTable({
+              //"responsive":true,
+
+              "pageLength": 10,
+            "lengthMenu": [[10, 20, 50, - 1], [10, 20, 50, "All"]],
+            "paging": false,
+            "language": {
+                "searchPlaceholder": "Search",
+                // "emptyTable": "Tidak ada data",
+                // "sInfo": "Menampilkan _START_ - _END_ Dari _TOTAL_ Data",
+                "sSearch": '<i class="fa fa-search"></i>'
+                // "sLengthMenu": "Menampilkan &nbsp; _MENU_ &nbsp; Data",
+                // "infoEmpty": "",
+                // "paginate": {
+                //         "previous": "Sebelumnya",
+                //         "next": "Selanjutnya",
+                //      }
+              }
+
+            });
     $(".hanya_angka").keypress(function (e) {
      //if the letter is not digit then display error and don't type anything
      if (e.which != 8 && e.which != 0 && e.which != 46 && (e.which < 48 || e.which > 57)) {

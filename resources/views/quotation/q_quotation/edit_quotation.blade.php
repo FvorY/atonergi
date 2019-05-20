@@ -255,7 +255,6 @@
               @endif
             </div>
           </div>
-
           <div class="col-md-6 col-sm-12 col-xs-12" >
             <div class="row">
               <div class="col-md-4 col-sm-6 col-xs-12">
@@ -298,7 +297,7 @@
                       @endforeach
                     </select>
                   @else
-                    <input readonly="" type="text" class="form-control marketing form-control-sm" name="marketing" value="{{ $data->q_nota}}">
+                    <input readonly="" type="text" class="form-control marketing form-control-sm" name="marketing" value="{{ $data->q_marketing}}">
                   @endif
                 </div>
               </div>
@@ -462,6 +461,7 @@
 <script type="text/javascript">
 var m_table = $('#apfsds').DataTable({
   'iDisplayLength': 100,
+  'paging': false,
   columnDefs: [
 
                   {
