@@ -244,7 +244,7 @@ container.style.backgroundImage = 'url("{{asset('assets/atonergi.png')}}"'
 					<tr class="border-none">
 						<th class="border-none" width="30%">Shipping Method</th>
 						<th class="border-none" width="">Shipping Terms</th>
-						<th class="border-none" width="30%">Indent</th>
+						<th class="border-none" width="30%">Item Status</th>
 					</tr>
 				</thead>
 
@@ -255,7 +255,7 @@ container.style.backgroundImage = 'url("{{asset('assets/atonergi.png')}}"'
 						@if ($head->q_item_status == 'Y')
 							<td>Ready</td>
 						@else
-							<td>Belum Ready</td>
+							<td>Indent</td>
 						@endif
 					</tr>
 				</tbody>

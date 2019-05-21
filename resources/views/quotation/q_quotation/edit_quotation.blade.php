@@ -309,7 +309,7 @@
                     <select class="marketing" name="marketing">
                       <option>--Select Item Status--</option>
                       <option value="Y">Ready</option>
-                      <option value="T">Belum Ready</option>
+                      <option value="T">Indent</option>
                     </select>
                 </div>
               </div>
