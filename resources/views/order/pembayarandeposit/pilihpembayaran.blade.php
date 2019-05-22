@@ -56,9 +56,9 @@
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
               @if (count($paydeposit) == 0)
-              <input type="text" class="form-control-sm form-control" id="" readonly="" value="{{date('d-m-Y')}}" name="date">
+              <input type="text" class="form-control form-control-sm datepicker date" id="" value="{{date('d-m-Y')}}" name="datepay">
               @else
-              <input type="text" class="form-control-sm form-control" id="" readonly="" value="{{Carbon\Carbon::parse($paydeposit->p_date)->format('d-m-Y')}}" name="date">
+              <input type="text" class="form-control form-control-sm datepicker date" id="" name="datepay" value="{{Carbon\Carbon::parse($paydeposit->p_pay)->format('d-m-Y')}}" name="date">
               @endif
             </div>
           </div>
