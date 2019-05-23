@@ -64,7 +64,7 @@ table, td, th {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	opacity: 0.1;
+	opacity: 0.2;
 	width: 90vw;
 }
 .top
@@ -79,7 +79,7 @@ table, td, th {
    }
 }
 
-container.style.backgroundImage = 'url("{{asset('assets/atonergi.png')}}"'
+/*container.style.backgroundImage = 'url("{{asset('assets/atonergi.png')}}"'*/
 
 
 .top-center

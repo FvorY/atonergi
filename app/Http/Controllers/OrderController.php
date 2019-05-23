@@ -727,6 +727,7 @@ class OrderController extends Controller
         $nota_so = "";
         if ($so_dt != null) {
            $nota_so = str_replace('QO','SO', $data->q_nota);
+           $nota_so = str_replace('-rev'.$data->q_rev,'', $nota_so);
         }
 
         // NOTA WO
@@ -741,6 +742,7 @@ class OrderController extends Controller
         $nota_wo = "";
         if ($wo_dt != null) {
            $nota_wo = str_replace('QO','wO', $data->q_nota);
+           $nota_wo = str_replace('-rev'.$data->q_rev,'', $nota_wo);
         }
         // END
         $market = '';
@@ -825,6 +827,7 @@ class OrderController extends Controller
                   'p_note2' => $req->nota2,
                   'p_account' => $req->pay_akun,
                   'p_date' => carbon::parse($req->date)->format('Y-m-d'),
+                  'p_pay' => carbon::parse($req->datepay)->format('Y-m-d'),
                   'p_insert' => Carbon::now('Asia/Jakarta'),
                   'p_insert_by' => Auth::user()->m_name,
                 ]);
@@ -842,6 +845,7 @@ class OrderController extends Controller
                   'p_note2' => $req->nota2,
                   'p_account' => $req->pay_akun,
                   'p_date' => carbon::parse($req->date)->format('Y-m-d'),
+                  'p_pay' => carbon::parse($req->datepay)->format('Y-m-d'),
                   'p_insert' => Carbon::now('Asia/Jakarta'),
                   'p_insert_by' => Auth::user()->m_name,
                 ]);
@@ -904,7 +908,7 @@ class OrderController extends Controller
                                 'so_note2'      => $paydeposit->p_note2,
                                 'so_account'    => $paydeposit->p_account,
                                 'so_status'     => 'Released',
-                                'so_date'       => carbon::parse($paydeposit->p_date)->format('Y-m-d'),
+                                'so_date'       => carbon::now('Asia/Jakarta')->format('Y-m-d'),
                                 'so_update_at'  => carbon::now(),
                                 'so_update_by'  => $paydeposit->p_insert_by,
                                 'so_create_by'  => $paydeposit->p_insert_by,
@@ -924,7 +928,7 @@ class OrderController extends Controller
                                 'so_note2'      => $paydeposit->p_note2,
                                 'so_account'    => $paydeposit->p_account,
                                 'so_status'     => 'Released',
-                                'so_date'       => carbon::parse($paydeposit->p_date)->format('Y-m-d'),
+                                'so_date'       =>  carbon::now('Asia/Jakarta')->format('Y-m-d'),
                                 'so_update_at'  => carbon::now(),
                                 'so_update_by'  => $paydeposit->p_insert_by,
                               ]);
@@ -957,7 +961,7 @@ class OrderController extends Controller
                                 'wo_note2'      => $paydeposit->p_note2,
                                 'wo_account'    => $paydeposit->p_account,
                                 'wo_status'     => 'Released',
-                                'wo_date'       => carbon::parse($paydeposit->p_date)->format('Y-m-d'),
+                                'wo_date'       => carbon::now('Asia/Jakarta')->format('Y-m-d'),
                                 'wo_update_at'  => carbon::now(),
                                 'wo_update_by'  => $paydeposit->p_insert_by,
                                 'wo_create_by'  => $paydeposit->p_insert_by,
@@ -976,7 +980,7 @@ class OrderController extends Controller
                                 'wo_note2'      => $paydeposit->p_note2,
                                 'wo_account'    => $paydeposit->p_account,
                                 'wo_status'     => 'Released',
-                                'wo_date'       => carbon::parse($paydeposit->p_date)->format('Y-m-d'),
+                                'wo_date'       => carbon::now('Asia/Jakarta')->format('Y-m-d'),
                                 'wo_update_at'  => carbon::now(),
                                 'wo_update_by'  => $paydeposit->p_insert_by,
                               ]);
@@ -1027,7 +1031,7 @@ class OrderController extends Controller
                 }
 
                 if(!DB::table('dk_jurnal')->where('jr_ref', $data->q_nota)->first())
-                    keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d'), $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
+                    keuangan::jurnal()->addJurnal($jurnalDetail, $paydeposit->p_pay, $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
 
                 // return json_encode($jurnalDetail);
 
@@ -1050,6 +1054,7 @@ class OrderController extends Controller
                     // $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
                     $notasi = str_replace('QO', 'SI', $data->q_nota);
+                    $notasi = str_replace('-rev'.$data->q_rev, '', $notasi);
 
                     // $notasi = 'SI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
 
@@ -1079,6 +1084,7 @@ class OrderController extends Controller
                 // $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
                 $nota_po = str_replace('QO', 'PI', $data->q_nota);
+                $nota_po = str_replace('-rev'.$data->q_rev, '', $nota_po);
 
                 // $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
 
@@ -1129,7 +1135,7 @@ class OrderController extends Controller
 
         $wo = DB::table('d_work_order')
                 ->select('wo_ref as nota')
-                ->where('wo_status','Printed')                
+                ->where('wo_status','Printed')
                 ->get()->toArray();
 
         $temp = array_merge($so,$wo);
@@ -1257,6 +1263,7 @@ class OrderController extends Controller
         // $index = str_pad($index, 3, '0', STR_PAD_LEFT);
 
         $nota_po = str_replace('QO', 'PI', $data->q_nota);
+        $nota_po = str_replace('-rev'.$data->q_rev, '', $nota_po);
 
         // $nota_po = 'PI-'. $index . '/' . $data->q_type . '/' . $data->q_type_product .'/'. $bulan . $tahun;
 
@@ -1372,6 +1379,7 @@ class OrderController extends Controller
                         $id = DB::table('d_sales_invoice')->max('si_id')+1;
 
                         $notasi = str_replace('QO', 'SI', $data->q_nota);
+                        $notasi = str_replace('-rev'.$data->q_rev, '', $notasi);
 
                         DB::table('d_sales_invoice')
                             ->insert([
@@ -1431,6 +1439,7 @@ class OrderController extends Controller
                                       })
                                       ->addColumn('pi', function ($data) {
                                           $tmp = str_replace('QO', 'PI', $data->q_nota);
+                                          $tmp = str_replace('-rev'.$data->q_rev, '', $tmp);
                                           return $tmp;
                                       })
                                       ->addColumn('none', function ($data) {
