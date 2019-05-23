@@ -26,6 +26,16 @@ class QuotationController extends Controller
     }
 
 
+    $kode = DB::table('m_customer')->max('c_id');
+
+        if ($kode == null) {
+            $kode = 1;
+        }else{
+            $kode += 1;
+        }
+    $index = str_pad($kode, 5, '0', STR_PAD_LEFT);
+    $nota = 'MKT/'.$index;
+
     $kota_0 = DB::table('provinces')->get()->toArray();
     $kota_1 = DB::table('regencies')->get()->toArray();
 
@@ -63,7 +73,7 @@ class QuotationController extends Controller
                 ->where('q_status', 3)
                 ->count();
 
- 		return view('quotation/q_quotation/q_quotation',compact('won', 'release', 'printed', 'customer','marketing','now','item','status','type_product','kota','currency'));
+ 		return view('quotation/q_quotation/q_quotation',compact('won', 'kota', 'nota', 'release', 'printed', 'customer','marketing','now','item','status','type_product','kota','currency'));
  	}
 
  	public function quote_datatable()
@@ -551,7 +561,7 @@ class QuotationController extends Controller
                     ->get();
 
       $data = DB::table('d_quotation')
-                ->select('q_type', 'q_customer', 'q_marketing', 'q_status', 'q_tax', 'q_status', 'q_subtotal', 'q_total', 'q_type_product', 'q_date', 'q_nota', 'q_ship_to', 'q_shipping_method', 'q_term', 'q_delivery')
+                ->select('q_type', 'q_customer', 'q_item_status', 'q_marketing', 'q_status', 'q_tax', 'q_status', 'q_subtotal', 'q_total', 'q_type_product', 'q_date', 'q_nota', 'q_ship_to', 'q_shipping_method', 'q_term', 'q_delivery')
                 ->where('q_id',$id)
                 ->first();
 
@@ -612,6 +622,9 @@ class QuotationController extends Controller
                 // dd($req);
 
       $id = DB::table('d_quotation')->max('q_id')+1;
+
+      $req->quote = str_replace('-rev'.$data->q_rev, '', $req->quote);
+
       DB::table('d_quotation')
           ->insert([
             'q_id'              => $id,

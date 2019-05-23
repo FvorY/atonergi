@@ -57,7 +57,7 @@ class master_customerController extends Controller
     }
 
     public function simpan_customer(Request $request)
-    {
+    {      
       if (!mMember::akses('MASTER DATA CUSTOMER', 'tambah')) {
         return redirect('error-404');
       }

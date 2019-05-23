@@ -107,6 +107,11 @@
             processing: true,
             // responsive:true,
             serverSide: true,
+            dom: 'Bfrtip',
+            title: '',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             ajax: {
                 url:'{{ route('datatable_bundleitem') }}',
             },

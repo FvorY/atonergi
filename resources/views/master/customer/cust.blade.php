@@ -61,6 +61,11 @@
             processing: true,
             // responsive:true,
             serverSide: true,
+            dom: 'Bfrtip',
+            title: '',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             ajax: {
                 url:'{{ route('datatalble_customer') }}',
             },
@@ -164,6 +169,8 @@
             var c_name      = $("input[name='c_name']").val(data[0].c_name);
             var c_tlp       = $("input[name='c_phone']").val(data[0].c_phone);
             var c_email     = $("input[name='c_email']").val(data[0].c_email);
+            var c_company_name     = $("input[name='c_company_name']").val(data[0].c_company_name);
+            var c_phone_1     = $("input[name='c_phone_1']").val(data[0].c_phone_1);
             var c_alamat    = $("textarea#c_address").val(data[0].c_address);
             var c_tipe      = $("select[name='c_type']").val(data[0].c_type).trigger('change');
             var c_hometown  = $("select[name='c_hometown']").val(data[0].c_hometown).trigger('change');

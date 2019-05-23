@@ -1345,7 +1345,7 @@ class OrderController extends Controller
                     'jrdt_dk'            => 'D'
               ];
 
-              keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d'), $req->po_nota, 'Payment Order Atas Nota '.$req->q_nota, 'KM', modulSetting()['onLogin'], true);
+              keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d', strtotime($req->datepay)), $req->po_nota, 'Payment Order Atas Nota '.$req->q_nota, 'KM', modulSetting()['onLogin'], true);
 
           // selesai Dirga
 
@@ -1369,6 +1369,7 @@ class OrderController extends Controller
                       'po_note2'      => $req->nota2,
                       'po_status'     => 'Released',
                       'po_date'       => carbon::parse($req->dates)->format('Y-m-d'),
+                      'po_pay'        => carbon::parse($req->datepay)->format('Y-m-d'),
                       'po_updated_at' => carbon::now(),
                       'po_created_at' => carbon::now(),
                       'po_updated_by' => Auth::user()->m_name,

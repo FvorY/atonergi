@@ -20,8 +20,9 @@ class stockbarangController extends Controller
   $po = DB::table('d_purchaseorder')->where('po_status','=','F')->get();
   $item = DB::table('m_item')
           ->join('d_unit', 'u_id', '=', 'i_unit')
+          ->leftjoin('i_stock_gudang', 'sg_iditem', '=', 'i_code')
           ->where('i_active', 'Y')
-          ->get();
+          ->get();          
 
   return view('inventory/stockbarang/stockbarang',compact("po", 'item'));
  }
@@ -41,9 +42,11 @@ class stockbarangController extends Controller
 
      return Datatables::of($data)
              ->addColumn('detail', function ($data) {
-                       return '<button data-toggle="modal" onclick="detail(this)" title="Detail" class="btn btn-outline-primary icon-btn btn-rounded btn-sm"><i class="fa fa-folder"></i></button>
-                               <button onclick="edit('.$data->sg_id.')" title="Edit" class="btn btn-outline-warning icon-btn btn-rounded btn-sm"><i class="fa fa-edit"></i></button>
-                               <button onclick="hapus('.$data->sg_id.')" title="Hapus" class="btn btn-outline-danger btn-rounded icon-btn btn-sm"><i class="fa fa-trash"></i></button>';
+                       // return '<button data-toggle="modal" onclick="detail(this)" title="Detail" class="btn btn-outline-primary icon-btn btn-rounded btn-sm"><i class="fa fa-folder"></i></button>
+                       //         <button onclick="edit('.$data->sg_id.')" title="Edit" class="btn btn-outline-warning icon-btn btn-rounded btn-sm"><i class="fa fa-edit"></i></button>
+                       //         <button onclick="hapus('.$data->sg_id.')" title="Hapus" class="btn btn-outline-danger btn-rounded icon-btn btn-sm"><i class="fa fa-trash"></i></button>';
+                       return '<button data-toggle="modal" onclick="detail(this)" title="Detail" class="btn btn-outline-primary icon-btn btn-rounded btn-sm"><i class="fa fa-folder"></i></button>';
+             // })
              })
              ->rawColumns(['aksi','detail','confirmed','status'])
          ->make(true);

@@ -11,6 +11,8 @@
 
 @include('quotation/q_quotation/detail_status')
 
+@include('quotation/q_quotation/tambah_customer')
+
 <style type="text/css">
 .ui-autocomplete {
 	z-index: 99999999999;
@@ -102,6 +104,11 @@ $(document).ready(function(){
           processing: true,
           serverSide: true,
 					pagging: true,
+					dom: 'Bfrtip',
+	        title: '',
+	        buttons: [
+	            'copy', 'csv', 'excel', 'pdf', 'print'
+	        ],
           ajax: {
               url:'{{ route('quote_datatable') }}',
           },
@@ -822,6 +829,30 @@ $('#apfsds tbody').on( 'click', '.delete', function () {
 	function getSum(total, num) {
 	return parseInt(total) + parseInt(num);
 	}
+
+	$('#change_function').on("click", "#save_data",function(){
+    $.ajax({
+         type: "get",
+         url: baseUrl + '/master/simpancustomer/simpan_customer',
+         data: $('#form_save').serialize(),
+         success: function(data){
+            iziToast.success({
+              icon: 'fas fa-check-circle',
+              message: 'Data Telah Tersimpan!',
+            });
+						setTimeout(function () {
+							window.location.reload();
+						}, 1000);
+         },
+         error: function(){
+          iziToast.warning({
+            icon: 'fa fa-times',
+            message: 'Terjadi Kesalahan!',
+          });
+         },
+         async: false
+       });
+  })
 
 </script>
 @endsection

@@ -74,7 +74,7 @@
         } else {
           $('.unit').val(result[0].u_unit);
           $('.price').val(result[0].i_price);
-          $('.labelprice').text('Price ('+result[0].i_currency_id+')');
+          $('.labelprice').text('Price ('+result[0].i_price_currency+')');
           setTimeout(function () {
                         waitingDialog.hide();
                     }, 500);

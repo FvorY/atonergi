@@ -24,7 +24,8 @@
 
   <script src="{{asset('assets/bower_components/typeahead.js/dist/typeahead.bundle.min.js')}}" tppabs="http://www.bootstrapdash.com/demo/purple/bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
   <script src="{{asset('assets/bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js')}}"></script>
-  <script src="{{asset('assets/node_modules/datatables.net/js/jquery.dataTables.js')}}"></script>
+  {{-- <script src="{{asset('assets/node_modules/datatables.net/js/jquery.dataTables.js')}}"></script> --}}
+  <script type="text/javascript" src="{{asset('assets/datatables/datatables.min.js')}}"></script>
   <script src="{{asset('assets/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js')}}"></script>
   <script src="{{asset('assets/bower_components/switchery/dist/switchery.min.js')}}"></script>
 
@@ -179,7 +180,11 @@
 
     $('.data-table').dataTable({
           //"responsive":true,
-
+          dom: 'Bfrtip',
+          title: '',
+          buttons: [
+              'copy', 'csv', 'excel', 'pdf', 'print'
+          ],
           "pageLength": 10,
         "lengthMenu": [[10, 20, 50, - 1], [10, 20, 50, "All"]],
         "language": {
@@ -525,4 +530,34 @@
       timeout = setTimeout(function(){ window.location.href = "{{url('/lockscreen')}}?url={{encrypt(url()->full())}}" }, 6000000);
     }
   }
+
+  function get_currency(v) {
+	if( /^\d([0-9\.]+)$/.test(v) ) {
+
+		var desimal = '';
+		if( /\./.test(v) ==  true ) {
+			v = parseFloat(v);
+			v = v.toFixed(2);
+			v = v.toString();
+			desimal = v.split('.')[1];
+			v = v.split('.')[0];
+		}
+
+
+		v = v.toString();
+		var res = v.split('');
+		res = res.reverse().join('');
+		currStr = v;
+		if(res.length > 3) {
+			var currPtr = /(\w{3})/g;
+			var currStr = res.replace(currPtr, '$1.').split('').reverse().join('').replace(/^\.(.*)/, '$1');
+		}
+
+
+		currStr += desimal != '' ? ',' + desimal : '';
+		return currStr;
+	}
+
+	return v;
+}
 </script>

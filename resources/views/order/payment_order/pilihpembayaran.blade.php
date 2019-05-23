@@ -35,7 +35,7 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              <input type="text" class="form-control-sm form-control" id="" readonly="" value="{{date('d-m-Y')}}" name="date">
+              <input type="text" class="form-control form-control-sm datepicker date" id="" value="{{date('d-m-Y')}}" name="datepay">
             </div>
           </div>
 
@@ -88,7 +88,7 @@
 
               <div style="display: none;" id="akunBank">
                 <select class="form-control form-control-sm pay_method" name="pay_akun">
-                    @foreach($akunBank as $key => $akun) 
+                    @foreach($akunBank as $key => $akun)
                       <option value="{{ $akun->id }}">{{ $akun->text }}</option>
                     @endforeach
                 </select>

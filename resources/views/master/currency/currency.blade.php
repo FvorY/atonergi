@@ -79,6 +79,11 @@ $(document).ready(function(){
   $('#t55').DataTable({
     processing: true,
     serverSide: true,
+    dom: 'Bfrtip',
+    title: '',
+    buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+    ],
     ajax: {
         url:'{{ route('datatable_currency') }}',
     },
