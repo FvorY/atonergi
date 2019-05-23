@@ -612,6 +612,9 @@ class QuotationController extends Controller
                 // dd($req);
 
       $id = DB::table('d_quotation')->max('q_id')+1;
+
+      $req->quote = str_replace('-rev'.$data->q_rev, '', $req->quote);
+
       DB::table('d_quotation')
           ->insert([
             'q_id'              => $id,
