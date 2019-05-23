@@ -209,6 +209,7 @@ class akun_controller extends Controller
                 'ak_nomor'          => $ids,
                 'ak_kelompok'       => $request->ak_kelompok,
     			'ak_posisi'			=> $request->ak_posisi,
+                'ak_sub_id'         => $request->ak_nomor,
                 'ak_resiprokal'     => isset($request->resiprokal) ? '1' : '0',
     			'ak_opening'		=> ($request->ak_opening) ? str_replace(',', '', $request->ak_opening) : 0,
 			]);
