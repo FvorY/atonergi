@@ -24,19 +24,19 @@
 		<table width="100%" style="font-size: 9pt;">
 			<tbody>
 				<tr>
-					<td width="50%" style="padding: 5px; text-align: center; border: 1px solid #ccc;">Aktiva</td>
-					<td width="50%" style="padding: 5px; text-align: center; border: 1px solid #ccc;">Pasiva</td>
+					<td width="50%" style="padding: 5px; text-align: center; border-bottom: : 1px solid #ccc;">Aktiva</td>
+					<td width="50%" style="padding: 5px; text-align: center; border-bottom: : 1px solid #ccc;">Pasiva</td>
 				</tr>
 
 				<tr>
-					<td style="vertical-align: top;">
+					<td style="vertical-align: top; padding-right: 5px;">
 						<table width="100%">
 							<?php $aktiva = $pasiva = 0 ?>
 							@foreach($data["data"] as $a => $level_1)
 								@if($level_1->hls_id == '1')
 									<?php $totLevel1 = 0; ?>
 									<tr>
-										<td width="70%" style="font-weight: bold;">
+										<td width="70%" style="font-weight: bold; padding-top: 5px">
 											{{ $level_1->hls_nama }}
 										</td>
 
@@ -47,16 +47,16 @@
 
 									@foreach($level_1->subclass as $a => $subclass)
 										<?php $totSubclass = 0; ?>
-										@if($subclass->hs_nama != "Tidak Memiliki")
+										@if($subclass->hs_nama != "Tidak Memiliki" && count($subclass->level_2) > 0)
 											<tr>
-												<td style="padding-left: 25px; font-style: italic;">{{ $subclass->hs_nama }}</td>
+												<td style="padding-left: 10px; font-style: italic; padding-top: 5px;">{{ $subclass->hs_nama }}</td>
 												<td></td>
 											</tr>
 										@endif
 
 										@foreach($subclass->level_2 as $a => $level2)
 											<?php 
-												$margin = ($subclass->hs_nama != 'Tidak Memiliki') ? "50px" : "25px";
+												$margin = ($subclass->hs_nama != 'Tidak Memiliki') ? "25px" : "20px";
 												$dif = 0;
 
 												foreach($level2->akun as $alpha => $akun){
@@ -70,7 +70,7 @@
 
 											?>
 											<tr>
-												<td style="padding-left: {{ $margin }}; font-weight: normal;">{{ $level2->hld_nama }}</td>
+												<td style="padding-left: {{ $margin }}; font-weight: normal; padding-top: 5px;">{{ $level2->hld_nama }}</td>
 												<td style=" text-align: right;">
 													{{ ($dif < 0 )? '('.number_format(str_replace('-', '', $dif), 2).')' : number_format($dif, 2) }}
 												</td>
@@ -80,9 +80,9 @@
 
 										<?php $totLevel1 += $totSubclass; ?>
 
-										@if($subclass->hs_nama != "Tidak Memiliki")
+										@if($subclass->hs_nama != "Tidak Memiliki" && count($subclass->level_2) > 0)
 											<tr>
-												<td style="padding-left: 25px; font-weight: 600;">Total {{ $subclass->hs_nama }}</td>
+												<td style="padding-left: 10px; font-weight: 600; padding-top: 5px;">Total {{ $subclass->hs_nama }}</td>
 												<td style="border-top: 1px solid #eee; text-align: right; font-weight: 600;">
 													{{ ($totSubclass < 0 )? '('.number_format(str_replace('-', '', $totSubclass), 2).')' : number_format($totSubclass, 2) }}
 												</td>
@@ -109,14 +109,14 @@
 						</table>
 					</td>
 
-					<td style="vertical-align: top;">
+					<td style="vertical-align: top; padding-left: 5px;">
 						<table width="100%">
 
 							@foreach($data["data"] as $a => $level_1)
 								@if($level_1->hls_id != '1')
 									<?php $totLevel1 = 0; ?>
 									<tr>
-										<td width="70%" style="font-weight: bold; padding-left: 20px;">
+										<td width="70%" style="font-weight: bold; padding-top: 5px">
 											{{ $level_1->hls_nama }}
 										</td>
 
@@ -127,16 +127,16 @@
 
 									@foreach($level_1->subclass as $a => $subclass)
 										<?php $totSubclass = 0; ?>
-										@if($subclass->hs_nama != "Tidak Memiliki")
+										@if($subclass->hs_nama != "Tidak Memiliki" && count($subclass->level_2) > 0)
 											<tr>
-												<td style="padding-left: 25px; font-style: italic; padding-left: 20px;">{{ $subclass->hs_nama }}</td>
+												<td style="padding-left: 10px; font-style: italic; padding-top: 5px;">{{ $subclass->hs_nama }}</td>
 												<td></td>
 											</tr>
 										@endif
 
 										@foreach($subclass->level_2 as $a => $level2)
 											<?php 
-												$margin = ($subclass->hs_nama != 'Tidak Memiliki') ? "50px" : "25px";
+												$margin = ($subclass->hs_nama != 'Tidak Memiliki') ? "25px" : "20px";
 												$dif = 0;
 
 												foreach($level2->akun as $alpha => $akun){
@@ -150,7 +150,7 @@
 
 											?>
 											<tr>
-												<td style="padding-left: {{ $margin }}; font-weight: normal; padding-left: 20px;">{{ $level2->hld_nama }}</td>
+												<td style="padding-left: {{ $margin }}; font-weight: normal; padding-top: 5px;">{{ $level2->hld_nama }}</td>
 												<td style=" text-align: right;">
 													{{ ($dif < 0 )? '('.number_format(str_replace('-', '', $dif), 2).')' : number_format($dif, 2) }}
 												</td>
@@ -158,12 +158,23 @@
 
 										@endforeach
 
+										@if($level_1->hls_id == 3)
+											<tr>
+												<td style="padding-left: {{ $margin }}; font-weight: normal; padding-top: 5px;">Laba Berjalan Bulan Ini</td>
+												<td style=" text-align: right;">
+													{{ ($lr < 0 )? '('.number_format(str_replace('-', '', $lr), 2).')' : number_format($lr, 2) }}
+												</td>
+											</tr>
+
+											<?php $totLevel1 += $lr; ?>
+										@endif
+
 										<?php $totLevel1 += $totSubclass; ?>
 
-										@if($subclass->hs_nama != "Tidak Memiliki")
+										@if($subclass->hs_nama != "Tidak Memiliki" && count($subclass->level_2) > 0)
 											<tr>
-												<td style="padding-left: 25px; font-weight: 600;">Total {{ $subclass->hs_nama }}</td>
-												<td style="border-top: 1px solid #eee; text-align: right; font-weight: 600; padding-left: 20px;">
+												<td style="padding-left: 10px; font-weight: 600; padding-top: 5px;">Total {{ $subclass->hs_nama }}</td>
+												<td style="border-top: 1px solid #eee; text-align: right; font-weight: 600;">
 													{{ ($totSubclass < 0 )? '('.number_format(str_replace('-', '', $totSubclass), 2).')' : number_format($totSubclass, 2) }}
 												</td>
 											</tr>
@@ -174,7 +185,7 @@
 									@endforeach
 									<?php $pasiva += $totLevel1; ?>
 									<tr>
-										<td width="70%" style="font-weight: bold; padding-left: 20px;">
+										<td width="70%" style="font-weight: bold;">
 											Total {{ $level_1->hls_nama }}
 										</td>
 

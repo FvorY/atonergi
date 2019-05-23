@@ -64,6 +64,9 @@ class laporan_neraca_controller extends Controller
                             ->select('hls_id', 'hls_nama')
                             ->get();
             }else{
+                
+                // return here;
+
                 $data = level_1::where('hls_id', '<=', '3')
                             ->with([
                                 'subclass' => function($query) use ($d1){
@@ -99,8 +102,13 @@ class laporan_neraca_controller extends Controller
 
         // return json_encode($res);
 
+        $lr = getLR($request);
+
+        // return json_encode($lr);
+
     	return json_encode([
-    		"data"	        => $data
+    		"data"	        => $data,
+            "labaRugi"      => $lr
     	]);
     }
 
@@ -267,6 +275,8 @@ class laporan_neraca_controller extends Controller
 
         // selesai
 
+        $lr = getLR($request);
+
         // return json_encode($res[0]->group[0]->akun[0]->fromKelompok);
 
         $data = [
@@ -278,10 +288,10 @@ class laporan_neraca_controller extends Controller
 
         $title = "Laporan_Neraca_".$d1.".pdf";
 
-        $pdf = PDF::loadView('modul_keuangan.laporan.neraca.print.pdf', compact('data'));
+        $pdf = PDF::loadView('modul_keuangan.laporan.neraca.print.pdf', compact('data', 'lr'));
         $pdf->setPaper('A4', 'portrait');
 
-        return $pdf->download($title);
+        return $pdf->stream($title);
     }
 
     public function excel(Request $request){

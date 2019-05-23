@@ -198,9 +198,9 @@
 
 						    <div class="dropdown-divider"></div>
 
-						    <a class="dropdown-item" href="#" style="font-size: 10pt;" @click='downloadExcel'>
+						    {{-- <a class="dropdown-item" href="#" style="font-size: 10pt;" @click='downloadExcel'>
 						    	<i class="fa fa-file-excel-o" style="font-weight: bold;"></i> &nbsp; Download Excel
-						    </a>
+						    </a> --}}
 					    </div>
 			        </li>
 
@@ -212,31 +212,8 @@
 			    </div>
 			</nav>
 
-			{{-- <div class="col-md-4 offset-4 ctn-nav" v-cloak>
-				<div class="row" style="color: white; padding: 8px 0px;">
-					<table width="100%" border="0">
-						<tbody>
-							<tr>
-								<td class="text-center" width="40%" style="border-left: 0px solid #999; font-style: italic;">Menampilkan Halaman</td>
-								<td class="text-center" width="10%" style="border-left: 1px solid #999;">@{{ pageNow }}</td>
-								<td class="text-center" width="10%" style="border-left: 1px solid #999;">
-									/
-								</td>
-								<td class="text-center" width="10%" style="border-left: 1px solid #999;">@{{ dataPage }}</td>
-								<td class="text-center" width="15%" style="border-left: 1px solid #999;">
-									<i class="fa fa-arrow-left" :style="(!previousDisabled) ? 'cursor: pointer; color: #fff' : 'cursor: no-drop; color: #888'" @click="previousPage"></i>
-								</td>
-								<td class="text-center" width="15%">
-									<i class="fa fa-arrow-right" :style="(!nextDisabled) ? 'cursor: pointer; color: #fff' : 'cursor: no-drop; color: #888'" @click="nextPage"></i>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div> --}}
-
 			<div class="container-fluid" style="background: none; margin-top: 70px; padding: 10px 30px;">
-				<div id="contentnya">
+				<div id="contentnya" style="padding-bottom: 20px;">
 
 					<?php 
 						if($_GET['type'] == 'bulan')
@@ -357,21 +334,49 @@
 															</tr>
 														</template>
 
-															<tr v-if="subclass.hs_nama != 'Tidak Memiliki'">
-																<td style="border: 0px; font-weight: normal; padding-left: 25px; font-style: italic;">Total @{{ subclass.hs_nama }}</td>
-																<td style="border: 0px; text-align: right; font-size: 10pt; border-top: 1px solid #eee; font-weight: 600; ">
-																	@{{ (detail.subclass['_'+subclass.hs_id] < 0) ? '('+humanizePrice(detail.subclass['_'+subclass.hs_id])+')' : humanizePrice(detail.subclass['_'+subclass.hs_id])}}
-																</td>
-															</tr>
+															<template v-if="data.hls_id == 3">
+																<tr>
+																	<td style="border: 0px; font-weight: 600; padding-left: 70px; font-style: normal; color: #00695c; padding-top: 10px;">
+																		Laba Berjalan Bulan Ini
+																	</td>
+																	<td style="border: 0px; text-align: right; font-size: 10pt; color: #00695c; padding-top: 10px;">
+																		@{{ humanizePrice(labaRugi) }}
+																	</td>
+																</tr>
+
+																<tr v-if="subclass.hs_nama != 'Tidak Memiliki'">
+																	<td style="border: 0px; font-weight: normal; padding-left: 25px; font-style: italic;">Total @{{ subclass.hs_nama }}</td>
+																	<td style="border: 0px; text-align: right; font-size: 10pt; border-top: 1px solid #eee; font-weight: 600; ">
+																		@{{ (detail.subclass['_'+subclass.hs_id] < 0) ? '('+humanizePrice(detail.subclass['_'+subclass.hs_id] + labaRugi)+')' : humanizePrice(detail.subclass['_'+subclass.hs_id] + labaRugi)}}
+																	</td>
+																</tr>
+															</template>
+
+															<template v-if="data.hls_id != 3">
+																<tr v-if="subclass.hs_nama != 'Tidak Memiliki'">
+																	<td style="border: 0px; font-weight: normal; padding-left: 25px; font-style: italic;">Total @{{ subclass.hs_nama }}</td>
+																	<td style="border: 0px; text-align: right; font-size: 10pt; border-top: 1px solid #eee; font-weight: 600; ">
+																		@{{ (detail.subclass['_'+subclass.hs_id] < 0) ? '('+humanizePrice(detail.subclass['_'+subclass.hs_id])+')' : humanizePrice(detail.subclass['_'+subclass.hs_id])}}
+																	</td>
+																</tr>
+															</template>
 
 													</template>
 
 													<tr>
 														<td style="border: 0px; font-weight: bold; text-align: left; color: #0099CC;">Total @{{ data.hls_nama }}</td>
 														
-														<td style="border: 0px; text-align: right; font-size: 10pt; color: #0099CC; font-weight: bold;">
-															@{{ (detail.level1['_'+data.hls_id] < 0) ? '('+humanizePrice(detail.level1['_'+data.hls_id])+')' : humanizePrice(detail.level1['_'+data.hls_id])}}
-														</td>
+														<template v-if="data.hls_id == 3">
+															<td style="border: 0px; text-align: right; font-size: 10pt; color: #0099CC; font-weight: bold;">
+																@{{ (detail.level1['_'+data.hls_id] < 0) ? '('+humanizePrice(detail.level1['_'+data.hls_id] + labaRugi)+')' : humanizePrice(detail.level1['_'+data.hls_id] + labaRugi)}}
+															</td>
+														</template>
+
+														<template v-if="data.hls_id != 3">
+															<td style="border: 0px; text-align: right; font-size: 10pt; color: #0099CC; font-weight: bold;">
+																@{{ (detail.level1['_'+data.hls_id] < 0) ? '('+humanizePrice(detail.level1['_'+data.hls_id])+')' : humanizePrice(detail.level1['_'+data.hls_id])}}
+															</td>
+														</template>
 													</tr>
 
 													<tr><td colspan="2" style="border: 0px;">&nbsp;</td></tr>
@@ -402,7 +407,7 @@
 													<td style="border: 0px; font-weight: bold; text-align: center;">Total Kewajiban Dan Modal</td>
 													
 													<td style="border: 0px; text-align: right; font-size: 10pt;">
-														@{{ (detail.grandPasiva < 0) ? '('+humanizePrice(detail.grandPasiva)+')' : humanizePrice(detail.grandPasiva)}}
+														@{{ (detail.grandPasiva < 0) ? '('+humanizePrice(detail.grandPasiva + labaRugi)+')' : humanizePrice(detail.grandPasiva + labaRugi)}}
 													</td>
 												</tr>
 											</table>
@@ -684,6 +689,8 @@
 			    				pageNow: 0,
 			    				rowsCount: 50,
 
+			    				labaRugi: 0,
+
 			    				nextDisabled: false,
 			    				previousDisabled: true,
 
@@ -734,6 +741,8 @@
 
 				            	axios.get('{{route('laporan.keuangan.neraca.data_resource')}}?'+that.url.searchParams)
 			                            .then((response) => {
+
+			                            	this.labaRugi = response.data.labaRugi;
 
 			                                if(response.data.data.length){
 			                                	this.dataSource = response.data.data;

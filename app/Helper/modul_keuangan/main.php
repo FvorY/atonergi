@@ -159,4 +159,32 @@
 		return $obj;
 	}
 
+	function getLR($request){
+		$d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+
+        $totreturn = 0;
+
+        $data = DB::table('dk_akun')
+                    ->join('dk_hierarki_lvl_dua', 'dk_hierarki_lvl_dua.hld_id', 'dk_akun.ak_kelompok')
+                    ->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
+                    ->where('dk_hierarki_lvl_dua.hld_level_1', '>', '3')
+                    ->where('as_periode', $d1)
+                    ->select(
+                        'ak_id',
+                        'ak_kelompok',
+                        'ak_nama',
+                        'ak_posisi',
+                        DB::raw('coalesce(as_saldo_akhir, 0) as saldo_akhir')
+                    )->get();
+
+        foreach ($data as $key => $acc) {
+        	if($acc->ak_posisi == 'K')
+            	$totreturn += $acc->saldo_akhir;
+            else
+            	$totreturn += ($acc->saldo_akhir * -1);
+        }
+
+        return $totreturn;
+	}
+
 ?>

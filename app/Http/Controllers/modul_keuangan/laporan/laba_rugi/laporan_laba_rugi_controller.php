@@ -76,7 +76,7 @@ class laporan_laba_rugi_controller extends Controller
                                                                 $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
                                                                         ->where('as_periode', $d1)
                                                                         ->select(
-                                                                            'ak_id',
+                                                                            'ak_id as id',
                                                                             'ak_kelompok',
                                                                             'ak_nama',
                                                                             'ak_posisi',
@@ -161,6 +161,7 @@ class laporan_laba_rugi_controller extends Controller
                                                             'akun' => function($query) use ($d1){
                                                                 $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
                                                                         ->where('as_periode', $d1)
+                                                                        ->where('as_periode')
                                                                         ->select(
                                                                             'ak_id',
                                                                             'ak_kelompok',
