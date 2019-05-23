@@ -82,7 +82,7 @@ class QuotationController extends Controller
                            $a =  '<div class="btn-group">';
 
                             if(Auth::user()->akses('QUOTATION','ubah')){
-                              if ($data->q_status == 1) {
+                              if ($data->q_status == 1 || $data->q_status == 11) {
                                 $b = "";
                               } else {
                                 $b = '<button type="button" onclick="edit(\''.$data->q_id.'\')" class="btn btn-primary btn-lg" title="edit">'.'<label class="fa fa-pencil "></label></button>';
@@ -92,19 +92,15 @@ class QuotationController extends Controller
                             }
 
                             if(Auth::user()->akses('QUOTATION','print')){
-                              if ($data->q_status == 1) {
-                                $c = "";
-                              } else {
                                 $c =
                                 '<button type="button" onclick="printing(\''.$data->q_id.'\')" class="btn btn-info btn-lg" title="Print Detail">'.'<label class="fa fa-print"></label></button>'.
                                 '<button type="button" onclick="printing_global(\''.$data->q_id.'\')" class="btn btn-success btn-lg" title="Print Global">'.'<label class="fa fa-print"></label></button>';
-                              }
                             }else{
                               $c = '';
                             }
 
                             if(Auth::user()->akses('QUOTATION','hapus')){
-                              if ($data->q_status == 1) {
+                              if ($data->q_status == 1 || $data->q_status == 11) {
                                 $d = "";
                               } else {
                                 $d =
@@ -116,7 +112,7 @@ class QuotationController extends Controller
                             }
 
                             if(Auth::user()->akses('QUOTATION','tambah')){
-                              if ($data->q_status == 1) {
+                              if ($data->q_status == 1 || $data->q_status == 11) {
                                 $e = "";
                               } else {
                                 $e =
@@ -136,7 +132,7 @@ class QuotationController extends Controller
                             return '-';
                         })
                         ->addColumn('detail', function ($data) {
-                            return '<button class="btn btn-outline-primary btn-sm" onclick="detail(this)" data-toggle="modal" data-target="#detail_item">Detail</button>';
+                            return '<button class="btn btn-outline-primary btn-sm"-p onclick="detail(this)" data-toggle="modal" data-target="#detail_item">Detail</button>';
                         })
                         ->addColumn('histori', function ($data) {
                             return '<button onclick="histori(this)" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#detail_status">Detail</button>';
@@ -610,36 +606,44 @@ class QuotationController extends Controller
       $save = DB::table('d_quotation')
                 ->where('q_id',$req->id)
                 ->update([
-                  'q_id'              => $req->id,
-                  'q_nota'            => $req->quote . '-rev' . ((int)$data->q_rev + 1),
-                  'q_subtotal'        => filter_var($req->subtotal,FILTER_SANITIZE_NUMBER_INT),
-                  'q_tax'             => filter_var($req->tax,FILTER_SANITIZE_NUMBER_INT),
-                  'q_total'           => filter_var($req->total,FILTER_SANITIZE_NUMBER_INT),
-                  'q_customer'        => $req->customer,
-                  'q_address'         => $req->address,
-                  'q_type'            => $req->type_qo,
-                  'q_type_product'    => $req->type_p,
-                  'q_shipping_method' => $req->ship_method,
-                  'q_date'            => carbon::parse($req->date)->format('Y-m-d'),
-                  'q_term'            => $req->ship_term,
-                  'q_delivery'        => carbon::parse($req->delivery)->format('Y-m-d'),
-                  'q_ship_to'         => $req->ship_to,
-                  'q_marketing'       => $req->marketing,
-                  'q_item_status'     => $req->itemstatus,
-                  'q_status'          => 2,
-                  'q_update_by'       => Auth::user()->m_name,
-                  'q_rev'             => ((int)$data->q_rev + 1)
+                  'q_status'          => 11,
                 ]);
 
-      $delete = DB::table('d_quotation_dt')
-                  ->where('qd_id',$req->id)
-                  ->delete();
+                // dd($req);
+
+      $id = DB::table('d_quotation')->max('q_id')+1;
+      DB::table('d_quotation')
+          ->insert([
+            'q_id'              => $id,
+            'q_nota'            => $req->quote . '-rev' . ((int)$data->q_rev + 1),
+            'q_subtotal'        => filter_var($req->subtotal,FILTER_SANITIZE_NUMBER_INT),
+            'q_tax'             => filter_var($req->tax,FILTER_SANITIZE_NUMBER_INT),
+            'q_total'           => filter_var($req->total,FILTER_SANITIZE_NUMBER_INT),
+            'q_customer'        => $req->customer,
+            'q_address'         => $req->address,
+            'q_type'            => $req->type_qo,
+            'q_type_product'    => $req->type_p,
+            'q_shipping_method' => $req->ship_method,
+            'q_date'            => carbon::parse($req->date)->format('Y-m-d'),
+            'q_term'            => $req->ship_term,
+            'q_delivery'        => carbon::parse($req->delivery)->format('Y-m-d'),
+            'q_ship_to'         => $req->ship_to,
+            'q_marketing'       => $req->marketing,
+            'q_item_status'     => $req->itemstatus,
+            'q_status'          => 2,
+            'q_update_by'       => Auth::user()->m_name,
+            'q_rev'             => ((int)$data->q_rev + 1)
+          ]);
+
+      // $delete = DB::table('d_quotation_dt')
+      //             ->where('qd_id',$req->id)
+      //             ->delete();
 
       for ($i=0; $i < count($req->item_name); $i++) {
 
         $save = DB::table('d_quotation_dt')
                 ->insert([
-                  'qd_id'          => $req->id,
+                  'qd_id'          => $id,
                   'qd_dt'          => $i+1,
                   'qd_item'        => $req->item_name[$i],
                   'qd_qty'         => $req->jumlah[$i],

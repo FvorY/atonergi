@@ -306,7 +306,7 @@
               </div>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <select class="marketing" name="marketing">
+                    <select class="itemstatus" name="itemstatus">
                       <option>--Select Item Status--</option>
                       <option value="Y">Ready</option>
                       <option value="T">Indent</option>
