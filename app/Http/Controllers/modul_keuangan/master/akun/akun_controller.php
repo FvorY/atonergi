@@ -74,7 +74,7 @@ class akun_controller extends Controller
             }
 
             try {
-               
+
                 $id = DB::table('dk_akun')->max('ak_id') + 1;
 
                 DB::table('dk_akun')->insert([
@@ -134,7 +134,7 @@ class akun_controller extends Controller
             }
 
             try {
-               
+
                 $id = DB::table('dk_akun_cabang')->max('ac_id') + 1;
 
                 DB::table('dk_akun_cabang')->insert([
@@ -192,10 +192,10 @@ class akun_controller extends Controller
             $openingDB = $cek->first()->ak_opening;
 
 			$cek->update([
-    			'ak_nama'			=> $request->ak_nama,
-    			'ak_posisi'			=> $request->ak_posisi,
-                'ak_resiprokal'     => isset($request->resiprokal) ? '1' : '0',
-    			'ak_opening'		=> ($request->ak_opening) ? str_replace(',', '', $request->ak_opening) : 0,
+    			'ak_nama'			      => $request->ak_nama,
+    			'ak_posisi'			    => $request->ak_posisi,
+          'ak_resiprokal'     => isset($request->resiprokal) ? '1' : '0',
+    			'ak_opening'		    => ($request->ak_opening) ? str_replace(',', '', $request->ak_opening) : 0,
 			]);
 
             if($opening != $openingDB || $posisi != $request->ak_posisi){
@@ -237,7 +237,7 @@ class akun_controller extends Controller
     	$cek = DB::table('dk_akun')->where('ak_id', $request->ak_id);
 
     	try {
-    		
+
     		if($cek->first()){
     			$response = [
 	    			"status"	=> 'error',
