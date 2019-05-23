@@ -441,7 +441,7 @@
                   </div>
               </div>
               @endif
-              @if (Auth::user()->akses('LPJ PERDIN', 'aktif'))
+              {{-- @if (Auth::user()->akses('LPJ PERDIN', 'aktif')) --}}
               <div class="col-lg-3 col-sm-5" style=" margin-top:1em; cursor:pointer;">
                 <a href="{{url('/laporan')}}">
                   <div class="card px-2" style="background-color:rgb(40, 126, 187);">
@@ -458,7 +458,7 @@
                   </div>
                   </a>
               </div>
-            @endif
+            {{-- @endif --}}
           </div>
         </div>
     </form>
