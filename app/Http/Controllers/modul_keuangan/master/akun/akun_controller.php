@@ -29,6 +29,7 @@ class akun_controller extends Controller
     public function datatable(Request $request){
     	$data = DB::table('dk_akun')
                     ->where('ak_comp', modulSetting()['onLogin'])
+                    ->orderBy('ak_nomor', 'asc')
                     ->get();
 
     	return json_encode($data);
@@ -185,6 +186,18 @@ class akun_controller extends Controller
     		return json_encode($response);
     	}
 
+        $ids = $request->ak_kelompok.'.'.$request->ak_nomor;
+        $cek2 = DB::table('dk_akun')->where('ak_nomor', $ids)->where('ak_id', '!=',$cek->first()->ak_id)->first();
+
+        if($cek2){
+            $response = [
+                "status"    => 'error',
+                "message"   => 'Nomor Akun Sudah Digunakan Oleh Akun Lain, Data Tidak Bisa Disimpan'
+            ];
+
+            return json_encode($response);
+        }
+
     	try {
 
             $opening = ($request->ak_opening) ? str_replace(',', '', $request->ak_opening) : 0;
@@ -193,6 +206,8 @@ class akun_controller extends Controller
 
 			$cek->update([
     			'ak_nama'			=> $request->ak_nama,
+                'ak_nomor'          => $ids,
+                'ak_kelompok'       => $request->ak_kelompok,
     			'ak_posisi'			=> $request->ak_posisi,
                 'ak_resiprokal'     => isset($request->resiprokal) ? '1' : '0',
     			'ak_opening'		=> ($request->ak_opening) ? str_replace(',', '', $request->ak_opening) : 0,

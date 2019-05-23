@@ -71,7 +71,7 @@
                                             </div>
 
                                             <div class="col-md-7">
-                                                <vue-select :name="'ak_kelompok'" :id="'ak_kelompok'" :options="kelompok" :disabled="onUpdate" @input="kelompokChange" :search="true"></vue-select>
+                                                <vue-select :name="'ak_kelompok'" :id="'ak_kelompok'" :options="kelompok" @input="kelompokChange" :search="true"></vue-select>
                                             </div>
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@
                                                     <span class="input-group-text" id="basic-addon1">@{{ singleData.parrentId }}.</span>
                                                   </div>
                                                   &nbsp;&nbsp;
-                                                  <input type="text" name="ak_nomor" class="form-control modul-keuangan" placeholder="contoh: 001" v-model="singleData.ak_nomor" title="Tidak Boleh Kosong, Hanya Angka" @keypress="onlyNumber" :readonly="onUpdate">
+                                                  <input type="text" name="ak_nomor" class="form-control modul-keuangan" placeholder="contoh: 001" v-model="singleData.ak_nomor" title="Tidak Boleh Kosong, Hanya Angka" @keypress="onlyNumber">
                                                 </div>
                                             </div>
                                         </div>
