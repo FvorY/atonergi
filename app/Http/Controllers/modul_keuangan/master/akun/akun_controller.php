@@ -55,6 +55,7 @@ class akun_controller extends Controller
 
     public function store(Request $request){
     	// return json_encode($request->all());
+        // sampler
 
     	DB::beginTransaction();
 
