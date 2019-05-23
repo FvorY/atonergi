@@ -20,6 +20,7 @@
   <link href="{{ asset('assets/autocomplete/autocomplete.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('assets/node_modules/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css')}}">
+  {{-- <link href="{{asset('assets/datatables/datatables.min.css')}}" rel="stylesheet"> --}}
   <link rel="stylesheet" href="{{asset('assets/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{asset('assets/node_modules/jquery-toast-plugin/dist/jquery.toast.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/node_modules/dropify/dist/css/dropify.min.css')}}" tppabs="http://www.bootstrapdash.com/demo/purple/node_modules/dropify/dist/css/dropify.min.css">

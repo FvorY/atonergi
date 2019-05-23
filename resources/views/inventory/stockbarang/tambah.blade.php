@@ -18,7 +18,9 @@
                     <select class="select2 item" name="item" onchange="autoitem()" id="itemtambah">
                       <option value="">~ Select Item ~</option>
                       @foreach ($item as $key => $value)
+                        @if ($value->sg_id == null)
                         <option value="{{$value->i_code}}">{{$value->i_code}} - {{$value->i_name}}</option>
+                        @endif
                       @endforeach
                     </select>
                 </div>

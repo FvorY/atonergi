@@ -308,8 +308,12 @@
                 <div class="form-group">
                     <select class="itemstatus" name="itemstatus">
                       <option>--Select Item Status--</option>
-                      <option value="Y">Ready</option>
-                      <option value="T">Indent</option>
+                      <option value="Y" @if ($data->q_item_status == 'Y')
+                        selected
+                      @endif>Ready</option>
+                      <option value="N" @if ($data->q_item_status == 'N')
+                        selected
+                      @endif>Indent</option>
                     </select>
                 </div>
               </div>

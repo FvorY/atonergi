@@ -8,6 +8,7 @@ use Yajra\Datatables\Datatables;
 use DB;
 use App\mMember;
 use App\Http\Controllers\logController;
+use Carbon\Carbon;
 class stock_gudangController extends Controller
 {
 
@@ -46,8 +47,19 @@ class stock_gudangController extends Controller
    public function detail_stockgudang(Request $request)
    {
     $header_nama = DB::table('m_item')->where('i_code','=',$request->id)->first();
+		$id = $request->id;
     json_encode($header_nama);
     $data = DB::table('i_stock_mutasi')->leftjoin('m_item','m_item.i_code','=','i_stock_mutasi.sm_item')->where('sm_item','=',$request->id)->get();
-    return view('inventory/stock_gudang/detailgudang',compact('data','header_nama'));
+    return view('inventory/stock_gudang/detailgudang',compact('data','header_nama', 'id'));
    }
+
+	 public function filterdate(Request $request){
+		 $startDate = Carbon::parse($request->startDate)->format('Y-m-d');
+		 $endDate = Carbon::parse($request->endDate)->format('Y-m-d');
+
+
+		 $data = DB::table('i_stock_mutasi')->leftjoin('m_item','m_item.i_code','=','i_stock_mutasi.sm_item')->where('sm_item','=',$request->id)
+		 ->whereBetween('sm_insert', [$startDate, $endDate])->get();
+		 return response()->json($data);
+	 }
 }

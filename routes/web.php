@@ -515,6 +515,7 @@ Route::get('inventory/penerimaan_barang/hapus_penerimaan_barang', 'inventory\pen
 Route::get('inventory/stockgudang/stockgudang', 'inventory\stock_gudangController@stockgudang')->name('stockgudang');
 Route::get('inventory/stockgudang/datatable_stockgudang', 'inventory\stock_gudangController@datatable_stockgudang')->name('datatable_stockgudang');
 Route::get('inventory/stockgudang/detail_stockgudang', 'inventory\stock_gudangController@detail_stockgudang')->name('detail_stockgudang');
+Route::get('inventory/stockgudang/filterdate', 'inventory\stock_gudangController@filterdate')->name('filterdate');
 
 //Stock Opname
 Route::get('inventory/opname/opname', 'inventory\stock_opnameController@stockopname')->name('stockopname');

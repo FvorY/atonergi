@@ -149,7 +149,7 @@
                     <select class="itemstatus" name="itemstatus">
                       <option>--Select Item Status--</option>
                       <option value="Y">Ready</option>
-                      <option value="T">Indent</option>
+                      <option value="N">Indent</option>
                     </select>
                 </div>
               </div>

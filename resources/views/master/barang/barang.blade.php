@@ -129,6 +129,11 @@ $(document).ready(function(){
             // responsive:true,
             serverSide: true,
             searching: true,
+            dom: 'Bfrtip',
+            title: '',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             ajax: {
                 url:'{{ route("datatable_barang") }}',
                 data:{nota: function() { return $('.cari_barang').val() }},
@@ -538,7 +543,7 @@ function edit(m1a2)
     $('input[name="lower_price"]').removeClass('border-danger');
     $('input[name="akunpendapatan"]').removeClass('border-danger');
     $('input[name="akunpersediaan"]').removeClass('border-danger');
-    $('input[name="akunbeban"]').removeClass('border-danger');    
+    $('input[name="akunbeban"]').removeClass('border-danger');
 
     var par   = $(m1a2).parents('tr');
     var id    = $(par).find('.i_id').text();

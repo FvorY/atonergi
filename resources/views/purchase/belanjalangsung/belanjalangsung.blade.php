@@ -189,8 +189,20 @@
 @section('extra_script')
 	<script type="text/javascript">
 	$(document).ready(function(){
-		var table = $('#datatable').DataTable();
-		var table = $('#table_datatable_histori').DataTable();
+		var table = $('#datatable').DataTable({
+			dom: 'Bfrtip',
+			title: '',
+			buttons: [
+					'copy', 'csv', 'excel', 'pdf', 'print'
+			],
+		});
+		var table = $('#table_datatable_histori').DataTable({
+			dom: 'Bfrtip',
+			title: '',
+			buttons: [
+					'copy', 'csv', 'excel', 'pdf', 'print'
+			],
+		});
 	});
 
 	function hapus(id){
