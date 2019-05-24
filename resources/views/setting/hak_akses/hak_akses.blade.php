@@ -57,7 +57,7 @@
       dataType: 'json',
       data: {level},
       success:function(data){
-        $('.content_hak_akses').html(data);
+        // $('.content_hak_akses').html(data);
       }
     });
 
