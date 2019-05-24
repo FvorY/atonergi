@@ -52,8 +52,10 @@
     var level = $(this).val();
 
     $.ajax({
-      url:baseUrl + '/setting/hak_akses/table_data',
-      data:{level},
+      type: 'get',
+      url: baseUrl + '/setting/hak_akses/table_data',
+      dataType: 'json',
+      data: {level},
       success:function(data){
         $('.content_hak_akses').html(data);
       }
