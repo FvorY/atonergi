@@ -132,7 +132,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <vue-select :name="'akun_kas'" :id="'akun_kas'" :options="akunKas" @input="akunChange"></vue-select>
+                                        <vue-select :search="true" :name="'akun_kas'" :id="'akun_kas'" :options="akunKas" @input="akunChange"></vue-select>
                                     </div>
                                 </div>
 
@@ -196,7 +196,7 @@
                                                 </td>
 
                                                 <td style="padding: 8px;">
-                                                    <vue-select :name="'akun[]'" :id="'akunSecond'" :options="akunLawan"></vue-select>
+                                                    <vue-select :search="true" :name="'akun[]'" :id="'akunSecond'" :options="akunLawan"></vue-select>
                                                 </td>
 
                                                 <td class="text-right debet" style="padding: 13px 8px 0px 8px;">
@@ -214,7 +214,7 @@
                                                 </td>
 
                                                 <td style="padding: 8px;">
-                                                    <vue-select :name="'akun[]'" :id="'akun'+n" :options="akunLawan"></vue-select>
+                                                    <vue-select :search="true" :name="'akun[]'" :id="'akun'+n" :options="akunLawan"></vue-select>
                                                 </td>
 
                                                 <td class="text-right debet" style="padding: 13px 8px 0px 8px;">
