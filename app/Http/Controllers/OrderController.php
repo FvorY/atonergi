@@ -1004,7 +1004,7 @@ class OrderController extends Controller
                 $akunDeposit = DB::table('dk_akun')
                                     ->where('ak_id', function($query) use ($isPusat){
                                         $query->select('ap_akun')->from('dk_akun_penting')
-                                              ->where('ap_nama', 'Dana Titipan Customer')->where('ap_comp', $isPusat)->first();
+                                              ->where('ap_nama', 'Uang Muka Penjualan')->where('ap_comp', $isPusat)->first();
                                     })->first();
 
                 $akunKas = DB::table('dk_akun')->where('ak_id', $paydeposit->p_account)->first();
