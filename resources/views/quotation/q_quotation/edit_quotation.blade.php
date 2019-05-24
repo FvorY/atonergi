@@ -616,14 +616,14 @@ $(document).on('blur','.unit_price',function(){
     var low = par.find('.lower_price').val()*1;
     var qty = par.find('.jumlah').val()*1;
     var harga = ini.val().replace(/[^0-9\-]+/g,"")*1;
-    if (harga < low) {
+    if (parseInt(harga) < parseInt(low)) {
       ini.val('');
       par.find('.line_total').val(0);
       iziToast.warning({
               icon: 'fa fa-info',
               message: 'Harga Jual Kurang Dari Harga Terendah Item Ini Yaitu'+accounting.formatMoney(low, "", 0, ".",','),
           });
-    }    
+    }
   @else
     var ini = $(this);
     var par = ini.parents('tr');
