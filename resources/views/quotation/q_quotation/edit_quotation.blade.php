@@ -618,13 +618,12 @@ $(document).on('blur','.unit_price',function(){
     var harga = ini.val().replace(/[^0-9\-]+/g,"")*1;
     if (harga < low) {
       ini.val('');
+      par.find('.line_total').val(0);
       iziToast.warning({
               icon: 'fa fa-info',
               message: 'Harga Jual Kurang Dari Harga Terendah Item Ini Yaitu'+accounting.formatMoney(low, "", 0, ".",','),
           });
-    }
-    ini.val(accounting.formatMoney(harga, "", 0, ".",','))
-    par.find('.line_total').val(accounting.formatMoney(harga*qty, "", 0, ".",','))
+    }    
   @else
     var ini = $(this);
     var par = ini.parents('tr');
