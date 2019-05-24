@@ -116,7 +116,7 @@
 			// setting
 				'allowJurnalToExecute'	=> true,
 				'comp'					=> 1,
-				'companyName'			=> 'Redja Aton Energi',
+				'companyName'			=> 'Reja Aton Energi',
 		];
 
 		return (object) $setting;
