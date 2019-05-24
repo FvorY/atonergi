@@ -47,14 +47,13 @@
 @endsection
 @section('extra_script')
 <script>
-
+@if (App\mMember::akses('SETTING HAK AKSES', 'tambah'))
   $('.level').change(function(){
     var level = $(this).val();
 
     $.ajax({
       type: 'get',
-      url: baseUrl + '/setting/hak_akses/table_data',
-      dataType: 'json',
+      url: baseUrl + '/setting/hak_akses/table_data',      
       data: {level},
       success:function(data){
         $('.content_hak_akses').html(data);
@@ -62,7 +61,7 @@
     });
 
   })
-
+@endif
 
 
 
