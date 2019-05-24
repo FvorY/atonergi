@@ -633,6 +633,7 @@ $(document).on('blur','.unit_price',function(){
 
     if (parseInt(harga) < parseInt(low)) {
       ini.val('');
+      par.find('.line_total').val(0);
       iziToast.warning({
               icon: 'fa fa-info',
               message: 'Tidak Boleh Kurang Dari Harga Terendah, Harga Terendah Item Ini Adalah '+accounting.formatMoney(low, "", 0, ".",','),
