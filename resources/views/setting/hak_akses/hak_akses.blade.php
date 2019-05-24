@@ -53,9 +53,9 @@
 
     $.ajax({
       type: 'get',
-      url: baseUrl + '/setting/hak_akses/table_data',      
+      url: baseUrl + '/setting/hak_akses/table_data',
       data: {level},
-      success:function(data){
+      success:function(data){        
         $('.content_hak_akses').html(data);
       }
     });

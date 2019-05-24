@@ -69,12 +69,12 @@
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
               @if (count($paydeposit) == 0)
-                <select class="form-control form-control-sm pay_method" name="pay_method">
+                <select class="form-control form-control-sm pay_method" name="pay_method" onchange="methodChange(this.value)z">
                   <option value="tunai">Tunai</option>
                   <option value="transfer">Transfer</option>
                 </select>
               @else
-                <select class="form-control form-control-sm pay_method" name="pay_method">
+                <select class="form-control form-control-sm pay_method" name="pay_method" onchange="methodChange(this.value)">
                   <option value="tunai" @if ($paydeposit->p_method == 'tunai')
                     selected
                   @endif>Tunai</option>
