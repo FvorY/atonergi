@@ -1143,7 +1143,7 @@ class ProjectController extends Controller
       }
       DB::beginTransaction();
       try {
-        
+
         // return 'aaa';
 
         $request->d_shipping_charges = str_replace('Rp. ','',$request->d_shipping_charges);
@@ -1600,6 +1600,26 @@ class ProjectController extends Controller
               'p_status' => 'acc'
             ]);
 
+            $akundebet = DB::table('dk_akun_penting')
+                            ->where("ap_nama", 'HPP Perjalanan Dinas')
+                            ->first();
+
+            $akunkredit = $request->bank;
+
+            $debet[$akundebet->ap_akun] = [
+              'jrdt_akun' => $akundebet->ap_akun,
+              'jrdt_value' => str_replace('.','', $request->diberikan),
+              'jrdt_dk' => 'D'
+            ];
+
+            $debet[$akunkredit] = [
+              'jrdt_akun' => $akunkredit,
+              'jrdt_value' => str_replace('.','', $request->diberikan),
+              'jrdt_dk' => 'K'
+            ];
+
+            keuangan::jurnal()->addJurnal($debet, date('Y-m-d'), $request->nokasbon, 'Pengeluaran Perdin', 'KK', modulSetting()['onLogin'], true);
+
         DB::commit();
         return response()->json([
           'status' => 'berhasil'
@@ -1805,6 +1825,38 @@ class ProjectController extends Controller
             ->update([
               'lp_status' => 'approved'
             ]);
+
+            $lp = DB::table('d_lpj_perdin')
+                ->where('lp_perdin', $request->id)
+                ->first();
+
+            $data = DB::table('d_kasbon')
+                      ->where('k_perdin', $request->id)
+                      ->first();
+
+            $diberikan = DB::table('d_lpj_perdin')
+                          ->where('lp_perdin', $request->id)
+                          ->sum('lp_sisa_perdin');
+
+            $akunkredit = DB::table('dk_akun_penting')
+                            ->where("ap_nama", 'HPP Perjalanan Dinas')
+                            ->first();
+
+            $akundebet = $data->bank;
+
+            $debet[$akunkredit->ap_akun] = [
+              'jrdt_akun' => $akunkredit->ap_akun,
+              'jrdt_value' => str_replace('.','', $diberikan),
+              'jrdt_dk' => 'D'
+            ];
+
+            $debet[$akundebet] = [
+              'jrdt_akun' => $akundebet,
+              'jrdt_value' => str_replace('.','', $diberikan),
+              'jrdt_dk' => 'K'
+            ];
+
+            keuangan::jurnal()->addJurnal($debet, date('Y-m-d'), $lp->lp_code, 'Pengeluaran Perdin', 'KK', modulSetting()['onLogin'], true);
 
         DB::commit();
         return response()->json([
