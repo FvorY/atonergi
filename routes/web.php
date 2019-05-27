@@ -1291,6 +1291,16 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
                     'uses'  => 'modul_keuangan\laporan\piutang\laporan_piutang_controller@excel'
                 ])->name('laporan.keuangan.piutang.print.excel');
 
+            // laporan Bukti Kas
+                Route::get('modul/keuangan/laporan/bk', [
+                    'uses'  => 'modul_keuangan\laporan\bk\laporan_bk_controller@index'
+                ])->name('laporan.keuangan.bk');
+
+            // laporan Bukti Bank
+                Route::get('modul/keuangan/laporan/bb', [
+                    'uses'  => 'modul_keuangan\laporan\bb\laporan_bb_controller@index'
+                ])->name('laporan.keuangan.bb');
+
         // laporan Keuangan
 
 

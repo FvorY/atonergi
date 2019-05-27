@@ -45,6 +45,9 @@
         // laba_rugi
             $laba_rugi = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=".$cabang;
 
+        // bkk / bbm
+            $bk = "_token=".csrf_token()."&d1=".date('d-m-Y')."&type=bkm".$cabang;
+            $bk = "_token=".csrf_token()."&d1=".date('d-m-Y')."&type=bbm".$cabang;
 
         // hutang
             $hutang = "_token=".csrf_token()."&d1=".date('d/m/Y')."&jenis=rekap&type=Hutang_Supplier&semua=on".$cabang;
@@ -70,7 +73,6 @@
 		          <br>
 		          	<div class="row">
 		          		
-		          		
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
 							<a href="{{ route('laporan.keuangan.jurnal_umum', $jurnalRequest) }}" class="center text-primary alamraya-choosing-panel">
 								<i class="fa fa-clipboard icon-lg text-primary"></i>
@@ -79,6 +81,7 @@
 								</div>
 							</a>
 						</div>
+
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
 							<a href="{{ route('laporan.keuangan.buku_besar', $buku_besar) }}" class="center text-warning alamraya-choosing-panel">
 								<i class="fa fa-book icon-lg text-warning"></i>
@@ -87,6 +90,7 @@
 								</div>
 							</a>
 						</div>
+
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
 							<a href="{{ Route('laporan.keuangan.neraca_saldo', $neraca_saldo) }}" class="center text-danger alamraya-choosing-panel">
 								<i class="fa fa-random icon-lg text-danger"></i>
@@ -95,6 +99,7 @@
 								</div>
 							</a>
 						</div>
+
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
 							<a href="{{ Route('laporan.keuangan.neraca', $neraca) }}" class="center text-success alamraya-choosing-panel">
 								<i class="fa fa-columns icon-lg text-success"></i>
@@ -103,6 +108,7 @@
 								</div>
 							</a>
 						</div>
+
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
 							<a href="{{ Route('laporan.keuangan.laba_rugi', $laba_rugi) }}" class="center text-muted alamraya-choosing-panel">
 								<i class="fa fa-bar-chart-o icon-lg text-muted"></i>
@@ -111,11 +117,30 @@
 								</div>
 							</a>
 						</div>
+
 						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
 							<a href="{{ Route('laporan.keuangan.arus_kas', $laba_rugi) }}" class="center text-info alamraya-choosing-panel">
 								<i class="fa fa-refresh icon-lg text-info"></i>
 								<div class="center">
 									<label>&nbsp;&nbsp;&nbsp; Arus Kas &nbsp;&nbsp;&nbsp;</label>
+								</div>
+							</a>
+						</div>
+
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
+							<a href="{{ Route('laporan.keuangan.bk', $bk) }}" class="center text-info alamraya-choosing-panel">
+								<i class="fa fa-refresh icon-lg text-info"></i>
+								<div class="center">
+									<label>&nbsp;&nbsp; BKK/BKM &nbsp;&nbsp;</label>
+								</div>
+							</a>
+						</div>
+
+						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
+							<a href="{{ Route('laporan.keuangan.bb', $bk) }}" class="center text-info alamraya-choosing-panel">
+								<i class="fa fa-refresh icon-lg text-info"></i>
+								<div class="center">
+									<label>&nbsp;&nbsp; BBK/BBM &nbsp;&nbsp;</label>
 								</div>
 							</a>
 						</div>
@@ -129,14 +154,14 @@
 							</a>
 						</div> --}}
 
-						<div class="col-lg-4 grid-margin stretch-card justify-content-center">
+						{{-- <div class="col-lg-4 grid-margin stretch-card justify-content-center">
 							<a href="{{ Route('laporan.keuangan.piutang', $piutang) }}" class="center text-info alamraya-choosing-panel">
 								<i class="fa fa-sign-in icon-lg text-info"></i>
 								<div class="center">
 									<label>&nbsp;&nbsp;&nbsp; Piutang &nbsp;&nbsp;&nbsp;</label>
 								</div>
 							</a>
-						</div>
+						</div> --}}
 						
 		        	</div>
 		      	</div>
