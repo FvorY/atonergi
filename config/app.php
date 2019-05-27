@@ -232,7 +232,8 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'keuangan' => Swamsid\Keuangan\Facades\keuangan::class
+        'keuangan' => Swamsid\Keuangan\Facades\keuangan::class,
+        'penyebut' => App\Lib\penyebutlib::class
     ],
 
 ];

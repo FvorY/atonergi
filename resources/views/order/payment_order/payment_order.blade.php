@@ -53,6 +53,8 @@
 		</div>
 	</div>
 </div>
+
+@include('order.payment_order.modalpembayaran')
 <!-- content-wrapper ends -->
 @endsection
 @section('extra_script')
@@ -104,5 +106,39 @@ $(document).ready(function(){
       ]
 	});
 })
+
+function showpembayaran(id){
+	var html = "";
+	var total = 0;
+	$.ajax({
+		type: 'get',
+		data: {id},
+		dataType: 'json',
+		url: baseUrl + '/order/payment_order/detailpemayaran',
+		success : function(response){
+			console.log(response);
+			for (var i = 0; i < response.length; i++) {
+				if (i == 0) {
+					html += "";
+				} else if (i == 1) {
+					html += '<tr>'+
+						'<td>DP '+i+'</td>'+
+						'<td align="left">Rp. '+get_currency(response[i].po_dp)+'</td>'+
+					'</tr>';
+					total += parseInt(response[i].po_dp);
+				} else {
+					html += '<tr>'+
+						'<td>DP '+i+'</td>'+
+						'<td align="left">Rp. '+get_currency(response[i].po_total)+'</td>'+
+					'</tr>';
+					total += parseInt(response[i].po_total);
+				}
+			}
+			$('#showdata').html(html);
+			$('#total').text('Rp. '+get_currency(total));
+			$('#pembayaran').modal('show');
+		}
+	});
+}
 </script>
 @endsection

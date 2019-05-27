@@ -6,7 +6,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.css') }}">
-    
+
 @endsection
 
 
@@ -18,7 +18,7 @@
           <nav aria-label="breadcrumb" role="navigation">
             <ol class="breadcrumb bg-info">
               <li class="breadcrumb-item"><i class="fa fa-home"></i>&nbsp;<a href="#">Home</a></li>
-              <li class="breadcrumb-item">master</li>
+              <li class="breadcrumb-item">Master</li>
               <li class="breadcrumb-item active" aria-current="page">Master Data Akun Keuangan</li>
             </ol>
           </nav>
@@ -28,7 +28,7 @@
           <div class="card" style="padding: 0px;">
             <div class="card-body" style="padding: 0px;">
               <div class="table-responsive" style="padding: 0px;">
-                
+
                 <div class="col-md-6 offset-6 text-right" style="margin-top: 20px;">
                     <a href="{{ route('akun.create') }}">
                         <button class="btn btn-info btn-sm">Tambah / Edit Data Akun</button>
@@ -53,7 +53,7 @@
                         <tbody>
 
                             @foreach($data as $key => $akun)
-                                <?php 
+                                <?php
                                     $bg     = '#eee';
                                     $color  = '#aaa';
 
@@ -69,7 +69,7 @@
                                     <td>{{ $akun->ak_nama }}</td>
                                     <td>{{ $akun->kelompok }}</td>
 
-                                    <?php 
+                                    <?php
                                         if($akun->ak_posisi == 'D')
                                             $posisi = 'DEBET';
                                         else
@@ -100,7 +100,7 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -115,16 +115,23 @@
 
 
 @section(modulSetting()['extraScripts'])
-	
+
 	<script src="{{ asset('modul_keuangan/js/options.js') }}"></script>
     <script src="{{ asset('modul_keuangan/js/vendors/toast/dist/jquery.toast.min.js') }}"></script>
-	<script src="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.min.js') }}"></script>
+	{{-- <script src="{{ asset('modul_keuangan/js/vendors/bootstrap_datatable_v_1_10_18/datatables.min.js') }}"></script> --}}
+	<script type="text/javascript" src="{{asset('assets/datatables/datatables.min.js')}}"></script>
+	<script src="{{asset('assets/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js')}}"></script>
     <script src="{{ asset('modul_keuangan/js/vendors/axios_0_18_0/axios.min.js') }}"></script>
 
 	<script type="text/javascript">
 
 		$(document).ready(function() {
 		    $('#data-sample').DataTable({
+					dom: 'Bfrtip',
+					title: '',
+					buttons: [
+							'copy', 'csv', 'excel', 'pdf', 'print'
+					],
 		    	"language": {
 		            "lengthMenu": "Tampilkan _MENU_ Data Per Halaman",
 		            "zeroRecords": "Tidak Bisa Menemukan Apapun . :(",
@@ -153,7 +160,7 @@
                     axios.post('{{ route('akun.delete') }}', { ak_id: context.data('id'), _token: '{{ csrf_token() }}' })
                             .then((response) => {
                                 console.log(response.data);
-                                
+
                                 if(response.data.status == 'berhasil'){
                                     $.toast({
                                         text: response.data.message,

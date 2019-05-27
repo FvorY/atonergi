@@ -110,14 +110,13 @@
                                   <span class="mdi mdi-cart" style="font-size:4em; color:white;"></span>
                               </div>
                               <div class="col-lg-9" style="color:white;">
-                                <h1 class="text-right"><span id="paybulan">0</span> PAY</h1>
-                                <p class="text-right"><span id="paytahun">0</span> PAY</p>
+                                <h1 class="text-right"><span id="paysemua">0</span> PAY</h1>
                               </div>
                             </div>
                             <hr style="background:white; border:0px; height:1px; margin-bottom: 5px;">
                             <div class="col-lg-5" style="color:white;">
-                                <p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="payrelease">0</span> Release</b></p>
-                                <p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="payprinted">0</span> Printed</b></p>
+                                <p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="paypaid">0</span> Paid Off</b></p>
+                                <p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="paynot">0</span> Not Yet</b></p>
                             </div>
                         </div>
                     </div>
@@ -332,7 +331,7 @@
                       </div>
                   </div>
               </div>
-            @endif
+            @endif            
             @if (Auth::user()->akses('REQUEST ORDER','aktif'))
               <div class="col-lg-2 col-sm-5" style=" margin-top:1em;">
                   <div class="card px-2" style="background-color:#00cec9;">
@@ -542,10 +541,9 @@
                     $('#woprinted').text(response.wo.printed);
                 }
                 if(response.pay.length != 0){
-                    $('#paybulan').text(response.pay.bulan);
-                    $('#paytahun').text(response.pay.tahun);
-                    $('#payrelease').text(response.pay.release);
-                    $('#payprinted').text(response.pay.printed);
+                    $('#paysemua').text(response.pay.semua);
+                    $('#paypaid').text(response.pay.paid);
+                    $('#paynot').text(response.pay.not);
                 }
                 if(response.ro.length != 0){
                     $('#robulan').text(response.ro.bulan);
@@ -831,8 +829,10 @@
                 +'<div class="card px-2" style="background-color:#fdcb6e;">'
                 +'<i class="d-flex justify-content-end closed" aria-hidden="true" style="margin-top:5px; color:white;"><span style="cursor:pointer;" onclick="payclose()" class="fa fa-times"></span></i>';
 
-            var component = '<p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="'+widget+'release">0</span> Release</b></p>'+
-                '<p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="'+widget+'printed">0</span> Printed</b></p>';
+            var component = '<p style="padding:0px 0px 0px; margin-bottom:5px;"><b><span id="'+widget+'paid">0</span> Paid Off</b></p>'+
+                '<p style="padding:0px 0px 0px; margin-bottom:-10px;"><b><span id="'+widget+'not">0</span> Not Yet</b></p>';
+
+            var tambahan = "";
 
         } else if(widget == 'ro'){
             var header = '<div class="col-lg-6" style=" margin-top:1em;" id="roparent">'
@@ -887,7 +887,7 @@
                           +'<span class="mdi mdi-format-quote-close" style="font-size:4em; color:white;"></i>'
                       +'</div>'
                       +'<div class="col-lg-9" style="color:white; '+tambahanclass+'" '+tambahanonclick+'>'
-                        +'<h1 class="text-right"><span id="'+widget+'bulan">0</span> '+widget.toUpperCase()+'</h1>'
+                        +'<h1 class="text-right"><span id="'+widget+'semua">0</span> '+widget.toUpperCase()+'</h1>'
                         +tambahan
                       +'</div>'
                     +'</div>'

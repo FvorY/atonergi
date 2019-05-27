@@ -231,7 +231,7 @@ class OrderController extends Controller
                 $akunPendapatan = DB::table('m_item')->where('i_id', $item->i_id)->select('i_akun_pendapatan')->first();
 
                 if(!$akunPendapatan || $akunPendapatan->i_akun_pendapatan == null)
-                  return 'error';
+                  return 'akun pendapatan pada item tidak ditemukan :)';
 
                 // pendapatan
 
@@ -253,7 +253,7 @@ class OrderController extends Controller
               $akunDeposit = DB::table('dk_akun')
                                   ->where('ak_id', function($query) use ($isPusat){
                                       $query->select('ap_akun')->from('dk_akun_penting')
-                                            ->where('ap_nama', 'Dana Titipan Customer')->where('ap_comp', $isPusat)->first();
+                                            ->where('ap_nama', 'Uang Muka Penjualan')->where('ap_comp', $isPusat)->first();
                                   })->first();
 
               $akunPiutang = DB::table('dk_akun')
@@ -263,7 +263,7 @@ class OrderController extends Controller
                                   })->first();
 
               if(!$akunDeposit || !$akunPiutang)
-                  return 'error';
+                  return 'akun piutang tidak ditemukan :)';
 
 
               // Deposit
@@ -1165,6 +1165,7 @@ class OrderController extends Controller
                           if ($data->q_remain != 0) {
                             return '<div class="btn-group">'.
                             '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
+                            '<button type="button" onclick="showpembayaran('.$data->q_id.')" class="btn btn-success" name="button"> <i class="fa fa-money"></i> </button>'.
                             '</div>';
                           }else{
                             return  '<span class="badge badge-pill badge-success">Paid Off</span>';
@@ -1739,4 +1740,16 @@ class OrderController extends Controller
 		}
 		return $temp;
 	}
+
+  public function detailpemayaran(Request $request){
+    $tmp = DB::table('d_quotation')
+                ->where('q_id', $request->id)
+                ->first();
+
+    $data = DB::table('d_payment_order')
+                ->where('po_ref', $tmp->q_nota)
+                ->get();
+
+    return response()->json($data);
+  }
 }

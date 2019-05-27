@@ -46,8 +46,8 @@ class HomeController extends Controller
         $widget = DB::table('dashboard')
                     ->where('mem', Auth::user()->m_id)
                     ->orderby('id')
-                    ->get();                 
-                    
+                    ->get();
+
         $qo = DB::table('dashboard')
                     ->where('widget', 'qo')
                     ->where('mem', Auth::user()->m_id)
@@ -99,7 +99,7 @@ class HomeController extends Controller
                     ->count();
 
         return view('home', compact('widget', 'qo', 'so', 'wo', 'pay', 'ro', 'po', 'stok', 'hutang', 'piutang', 'omset'));
-   
+
     }
 
     public function realtime(Request $request){
@@ -123,7 +123,7 @@ class HomeController extends Controller
 
       $omset = [];
 
-      if($request->qo == 'Y'){        
+      if($request->qo == 'Y'){
         $qobulan = DB::select("SELECT count(q_id) as bulan FROM d_quotation WHERE MONTH(q_created_at) = ".date('m')." AND YEAR(q_created_at) = ".date('Y')."");
         $qotahun = DB::select("SELECT count(q_id) as tahun FROM d_quotation WHERE YEAR(q_created_at) = ".date('Y')."");
         $qowon = DB::table('d_quotation')
@@ -135,72 +135,113 @@ class HomeController extends Controller
         $qoprinted = DB::table('d_quotation')
                         ->where('q_status', 3)
                         ->count();
-        
+
         $qo['bulan'] = $qobulan[0]->bulan;
         $qo['tahun'] = $qotahun[0]->tahun;
         $qo['won'] = $qowon;
         $qo['release'] = $qorelease;
-        $qo['printed'] = $qoprinted;        
-      } if($request->so == 'Y'){        
+        $qo['printed'] = $qoprinted;
+      } if($request->so == 'Y'){
         $sobulan = DB::select("SELECT count(so_id) as bulan FROM d_sales_order WHERE RIGHT(so_nota,6) = ".date('m').date('Y')."");
-        $sotahun = DB::select("SELECT count(so_id) as tahun FROM d_sales_order WHERE RIGHT(so_nota,4) = ".date('Y')."");    
+        $sotahun = DB::select("SELECT count(so_id) as tahun FROM d_sales_order WHERE RIGHT(so_nota,4) = ".date('Y')."");
         $sorelease = DB::table('d_sales_order')
                         ->where('so_status', 'Released')
                         ->count();
         $soprinted = DB::table('d_sales_order')
                         ->where('so_status', 'Printed')
                         ->count();
-        
+
         $so['bulan'] = $sobulan[0]->bulan;
-        $so['tahun'] = $sotahun[0]->tahun;        
+        $so['tahun'] = $sotahun[0]->tahun;
         $so['release'] = $sorelease;
-        $so['printed'] = $soprinted;                        
-      } if($request->wo == 'Y'){        
+        $so['printed'] = $soprinted;
+      } if($request->wo == 'Y'){
         $wobulan = DB::select("SELECT count(wo_id) as bulan FROM d_work_order WHERE RIGHT(wo_nota,6) = ".date('m').date('Y')."");
         $wotahun = DB::select("SELECT count(wo_id) as tahun FROM d_work_order WHERE RIGHT(wo_nota,4) = ".date('Y')."");
-      
+
         $worelease = DB::table('d_work_order')
                         ->where('wo_status', 'Released')
                         ->count();
         $woprinted = DB::table('d_work_order')
                         ->where('wo_status', 'Printed')
                         ->count();
-        
+
         $wo['bulan'] = $wobulan[0]->bulan;
-        $wo['tahun'] = $wotahun[0]->tahun;        
+        $wo['tahun'] = $wotahun[0]->tahun;
         $wo['release'] = $worelease;
-        $wo['printed'] = $woprinted;                
-      } if($request->pay == 'Y'){        
-        $paybulan = DB::select("SELECT count(po_id) as bulan FROM d_payment_order WHERE RIGHT(po_nota,6) = ".date('m').date('Y')."");
-        $paytahun = DB::select("SELECT count(po_id) as tahun FROM d_payment_order WHERE RIGHT(po_nota,4) = ".date('Y')."");
-      
-        $payrelease = DB::table('d_payment_order')
-                        ->where('po_status', 'Released')
-                        ->count();
-        $payprinted = DB::table('d_payment_order')
-                        ->where('po_status', 'Printed')
-                        ->count();
-        
-        $pay['bulan'] = $paybulan[0]->bulan;
-        $pay['tahun'] = $paytahun[0]->tahun;        
-        $pay['release'] = $payrelease;
-        $pay['printed'] = $payprinted;                
-      } if($request->ro == 'Y'){        
+        $wo['printed'] = $woprinted;
+      } if($request->pay == 'Y'){
+        $so1 = DB::table('d_sales_order')
+                ->select('so_ref as nota')
+                ->where('so_status','Printed')
+                ->get()->toArray();
+
+        $wo2 = DB::table('d_work_order')
+                ->select('wo_ref as nota')
+                ->where('wo_status','Printed')
+                ->get()->toArray();
+
+        $temp = array_merge($so1,$wo2);
+        $merge = [];
+
+        for ($i=0; $i < count($temp); $i++) {
+          $merge[$i] = $temp[$i]->nota;
+        }
+        $merge = array_unique($merge);
+        $merge = array_values($merge);
+        $data = DB::table('d_quotation')
+                  ->join('m_customer', 'c_code', '=', 'q_customer')
+                  ->where('q_status',1)
+                  ->whereIn('q_nota',$merge)
+                  ->orderBy('q_id','DESC')
+                  ->get();
+
+        $temp = $data;
+
+        $pay['semua'] = count($temp);
+        $countpaid = 0;
+        $countnot = 0;
+        for ($i=0; $i < count($temp); $i++) {
+          if ($temp[$i]->q_remain == 0) {
+             $countpaid += 1;
+          } else {
+            $countnot += 1;
+          }
+        }
+
+        $pay['paid'] = $countpaid;
+        $pay['not'] = $countnot;
+        //
+        // $paybulan = DB::select("SELECT count(po_id) as bulan FROM d_payment_order WHERE RIGHT(po_nota,6) = ".date('m').date('Y')."");
+        // $paytahun = DB::select("SELECT count(po_id) as tahun FROM d_payment_order WHERE RIGHT(po_nota,4) = ".date('Y')."");
+        //
+        // $payrelease = DB::table('d_payment_order')
+        //                 ->where('po_status', 'Released')
+        //                 ->count();
+        // $payprinted = DB::table('d_payment_order')
+        //                 ->where('po_status', 'Printed')
+        //                 ->count();
+        //
+        // $pay['bulan'] = $paybulan[0]->bulan;
+        // $pay['tahun'] = $paytahun[0]->tahun;
+        // $pay['release'] = $payrelease;
+        // $pay['printed'] = $payprinted;
+      } if($request->ro == 'Y'){
         $robulan = DB::select("SELECT count(ro_id) as bulan FROM d_requestorder WHERE MONTH(ro_insert) = ".date('m')." AND YEAR(ro_insert) = ".date('Y')."");
-        $rotahun = DB::select("SELECT count(ro_id) as tahun FROM d_requestorder WHERE YEAR(ro_insert) = ".date('Y')."");            
-        
+        $rotahun = DB::select("SELECT count(ro_id) as tahun FROM d_requestorder WHERE YEAR(ro_insert) = ".date('Y')."");
+
         $ro['bulan'] = $robulan[0]->bulan;
-        $ro['tahun'] = $rotahun[0]->tahun;               
-      } if($request->po == 'Y'){        
+        $ro['tahun'] = $rotahun[0]->tahun;
+      } if($request->po == 'Y'){
         $pobulan = DB::select("SELECT count(po_id) as bulan FROM d_purchaseorder WHERE MONTH(po_insert) = ".date('m')." AND YEAR(po_insert) = ".date('Y')."");
-        $potahun = DB::select("SELECT count(po_id) as tahun FROM d_purchaseorder WHERE YEAR(po_insert) = ".date('Y')."");            
-        
+        $potahun = DB::select("SELECT count(po_id) as tahun FROM d_purchaseorder WHERE YEAR(po_insert) = ".date('Y')."");
+
         $po['bulan'] = $pobulan[0]->bulan;
-        $po['tahun'] = $potahun[0]->tahun;               
-      } if($request->stok == 'Y'){        
-        $stoksemua = DB::table('i_stock_gudang')->select(DB::raw("SUM(sg_qty) as semua"))->first();     
-        
-        $stok['semua'] = $stoksemua->semua;        
+        $po['tahun'] = $potahun[0]->tahun;
+      } if($request->stok == 'Y'){
+        $stoksemua = DB::table('i_stock_gudang')->select(DB::raw("SUM(sg_qty) as semua"))->first();
+
+        $stok['semua'] = $stoksemua->semua;
       }
 
       return response()->json([
