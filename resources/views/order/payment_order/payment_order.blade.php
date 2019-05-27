@@ -104,5 +104,24 @@ $(document).ready(function(){
       ]
 	});
 })
+
+function showpembayaran(id){
+	var html = "";
+	$.ajax({
+		type: 'get',
+		data: {id},
+		dataType: 'json',
+		url: baseUrl + '/order/payment_order/detailpemayaran',
+		success : function(response){
+			for (var i = 0; i < response.length; i++) {
+				html += '<tr>'+
+					'<td>A002</td>'+
+					'<td>Alpha</td>'+
+					'<td align="left">Rp. 700.000,00</td>'+
+				'</tr>';
+			}
+		}
+	});
+}
 </script>
 @endsection

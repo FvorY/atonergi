@@ -1165,6 +1165,7 @@ class OrderController extends Controller
                           if ($data->q_remain != 0) {
                             return '<div class="btn-group">'.
                             '<a href="'.url('/order/payment_order/detail_payment_order').'/'.$data->q_id.'" class="btn btn-outline-info btn-sm">Process</a>'.
+                            '<button type="button" onclick="showpembayaran('.$data->q_id.')" class="btn btn-success" name="button"> <i class="fa fa-money"></i> </button>'.
                             '</div>';
                           }else{
                             return  '<span class="badge badge-pill badge-success">Paid Off</span>';
