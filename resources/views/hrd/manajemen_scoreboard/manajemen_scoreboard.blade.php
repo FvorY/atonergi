@@ -180,15 +180,15 @@
               <label class="tebal">Divisi</label>
             </div>
 
-            <div class="col-md-6 col-sm-6 col-xs-6">
-              <label class="tebal">Jabatan</label>
-            </div>
+						<div class="col-md-6 col-sm-6 col-xs-6">
+							<div class="form-group">
+								<input type="text" name="e_divisi" id="e_divisi" class="form-control input-sm" readonly>
+								<input type="hidden" name="e_iddivisi" id="e_iddivisi" class="form-control input-sm" readonly>
+							</div>
+						</div>
 
             <div class="col-md-6 col-sm-6 col-xs-6">
-              <div class="form-group">
-                <input type="text" name="e_divisi" id="e_divisi" class="form-control input-sm" readonly>
-                <input type="hidden" name="e_iddivisi" id="e_iddivisi" class="form-control input-sm" readonly>
-              </div>
+              <label class="tebal">Jabatan</label>
             </div>
 
             <div class="col-md-6 col-sm-6 col-xs-6">
@@ -280,14 +280,14 @@
             <div id="appending"></div> {{-- appending --}}
 
 					</div>
-										
+
         </div>
 
         <div class="modal-footer" style="border-top: none;">
           <button type="button" class="btn btn-info" onclick="submitKpi()" id="btn_simpan">Submit</button>
           <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
         </div>
-				
+
       </div>
       <!-- /Modal content-->
     </form>
@@ -474,7 +474,7 @@ function confirmKpi(id)
 
 			$('#e_old').val(response.data[0].d_kpi_id);
 			$('#e_idpegawai').val(response.data[0].d_kpi_pid);
-			$('#e_pegawai').val(response.pegawai.c_nama);
+			$('#e_pegawai').val(response.pegawai.mp_name);
 			$('#e_tgl_kpi').val(newDueDate);
 			$('#e_divisi').val(response.pegawai.c_divisi);
 			$('#e_iddivisi').val(response.data[0].kpi_div_id);
@@ -521,7 +521,7 @@ function detailKpi(id)
 			if(date != null) { var newDueDate = date.split("-").reverse().join("-"); }
 
 			$('#d_old').val(response.data[0].d_kpi_id);
-			$('#d_pegawai').text(response.pegawai.c_nama);
+			$('#d_pegawai').text(response.pegawai.mp_name);
 			$('#d_tgl_kpi').text(newDueDate);
 			$('#d_divisi').text(response.pegawai.c_divisi);
 			$('#d_jabatan').text(response.pegawai.c_posisi);

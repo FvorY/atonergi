@@ -181,7 +181,7 @@ class MankpiController extends Controller
     }
 
     public function getDataEdit($id)
-    {        
+    {
       if (!mMember::akses('MANAJEMEN SCOREBOARD', 'ubah')) {
         return redirect('error-404');
       }
@@ -236,7 +236,7 @@ class MankpiController extends Controller
                         ]);
             }
 
-            logController::inputlog('Manajemen Scoreboard', 'Update', $data->e_old);
+            logController::inputlog('Manajemen Scoreboard', 'Update', $request->e_old);
 
             DB::commit();
             return response()->json([

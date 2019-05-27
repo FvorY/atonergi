@@ -19,7 +19,7 @@
 			content: "";
 			background-image: url("{{asset('assets/img/background-tammafood-surat.jpg')}}");
 			background-repeat: no-repeat;
-			background-position: center; 
+			background-position: center;
 			background-size: 700px 700px;
 			position: absolute;
 			z-index: -1;
@@ -28,7 +28,7 @@
 			left: 0;
 			bottom: 0;
 			right: 0;
-			opacity: 0.1; 
+			opacity: 0.1;
 			width: 900px;
 		}
 		.underline{
@@ -132,12 +132,12 @@
 				content: "";
 				background-image: url("{{asset('assets/img/background-tammafood-surat.jpg')}}");
 				background-repeat: no-repeat;
-				background-position: center; 
+				background-position: center;
 				background-size: 700px 700px;
 				position: absolute;
 				z-index: -1;
 				margin: auto;
-				opacity: 0.1; 
+				opacity: 0.1;
 				width: 95vw;
 			}
 		}
@@ -177,8 +177,8 @@
 	@php
 		setlocale(LC_ALL, 'IND');
 	@endphp
-	
-		
+
+
 	<div class="div-width">
 		<h2>Data KPI Pegawai</h2>
 		<table width="100%" class="border-none">
@@ -186,7 +186,7 @@
 				<td width="10%">Tanggal</td>
 				<td width="1%">:</td>
 				<td width="45%">{{strftime('%e %B %Y', strtotime($data[0]['d_kpix_date']) ) }}</td>
-			
+
 				<td width="10%">Divisi</td>
 				<td width="1%">:</td>
 				<td>{{$pegawai['c_divisi']}}</td>
@@ -195,10 +195,10 @@
 				<td>Jabatan</td>
 				<td>:</td>
 				<td>{{$pegawai['c_posisi']}}</td>
-			
+
 				<td>Pegawai</td>
 				<td>:</td>
-				<td>{{$pegawai['c_nama']}}</td>
+				<td>{{$pegawai['mp_name']}}</td>
 			</tr>
 		</table>
 
@@ -241,7 +241,7 @@
 				<td width="10%">Tanggal</td>
 				<td width="1%">:</td>
 				<td width="45%">{{strftime('%e %B %Y', strtotime($data[0]['d_kpix_date']) ) }}</td>
-			
+
 				<td width="10%">Divisi</td>
 				<td width="1%">:</td>
 				<td>{{$pegawai['c_divisi']}}</td>
@@ -250,10 +250,10 @@
 				<td>Jabatan</td>
 				<td>:</td>
 				<td>{{$pegawai['c_posisi']}}</td>
-			
+
 				<td>Pegawai</td>
 				<td>:</td>
-				<td>{{$pegawai['c_nama']}}</td>
+				<td>{{$pegawai['mp_name']}}</td>
 			</tr>
 		</table>
 

@@ -27,7 +27,7 @@
              <label for="">Total : </label>
            </div>
            <div class="col-md-5" id="total">
-             asd
+             
            </div>
          </div>
        </center>

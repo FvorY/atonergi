@@ -1,4 +1,4 @@
-@extends('main') 
+@extends('main')
 @section('content')
 <style type="text/css">
   .ui-autocomplete { z-index:2147483647; }
@@ -57,13 +57,13 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
   @include('hrd.manajemenkpix.modal')
   @include('hrd.manajemenkpix.modal-detail')
   @include('hrd.manajemenkpix.modal-detail-score')
   @include('hrd.manajemenkpix.modal-edit')
 </div>
-@endsection 
+@endsection
 @section("extra_scripts")
   <script src="{{ asset ('assets/script/icheck.min.js') }}"></script>
   <script type="text/javascript">
@@ -84,7 +84,7 @@
       var newdate = new Date(date);
       newdate.setDate(newdate.getDate()-3);
       var nd = new Date(newdate);
-      
+
       //datepicker
       $('.datepicker1').datepicker({
         autoclose: true,
@@ -98,7 +98,7 @@
         endDate: 'today'
       });//datepicker("setDate", "0");
       //end datepicker
-      
+
       // fungsi jika modal hidden
       $(".modal").on("hidden.bs.modal", function(){
         //remove append tr
@@ -122,7 +122,7 @@
       $('.select2').select2({
       });
 
-      $('.jenis_pegawai').change(function() 
+      $('.jenis_pegawai').change(function()
       {
         if($(this).val() != ""){
           $('.divjenis').removeClass('has-error').addClass('has-valid');
@@ -157,7 +157,7 @@
                 };
             },
             cache: true
-          }, 
+          },
         });
       });
 
@@ -265,7 +265,7 @@
       });
     }
 
-    function confirmKpi(id) 
+    function confirmKpi(id)
     {
       $.ajax({
         url : baseUrl + "/hrd/manscorekpi/get-edit/"+id,
@@ -284,7 +284,7 @@
           $('#e_idjabatan').val(response.data[0].kpix_div_id);
           $('#e_pegawai').val(response.pegawai.c_nama);
           $('#e_idpegawai').val(response.data[0].d_kpix_pid);
-          
+
           var i = randString(5);
           var key = 1;
           var tgl = "";
@@ -325,7 +325,7 @@
       });
     }
 
-    function detailKpi(id) 
+    function detailKpi(id)
     {
       $.ajax({
         url : baseUrl + "/hrd/manscorekpi/get-edit/"+id,
@@ -340,7 +340,7 @@
           $('#d_divisi').text(response.pegawai.c_divisi);
           $('#d_jabatan').text(response.pegawai.c_posisi);
           $('#d_pegawai').text(response.pegawai.c_nama);
-          
+
           var i = randString(5);
           var key = 1;
           var totBobot = 0;
@@ -402,7 +402,7 @@
           $('#ds_iddivisi').val(response.data[0].kpi_div_id);
           $('#ds_jabatan').val(response.pegawai.c_posisi);
           $('#ds_idjabatan').val(response.data[0].kpi_jabatan_id);
-          
+
           var i = randString(5);
           var key = 1;
           //loop data
@@ -430,7 +430,7 @@
       });
     }
 
-    function updateKpix() 
+    function updateKpix()
     {
       iziToast.question({
         close: false,
@@ -482,7 +482,7 @@
                         $('#modal_edit_data').modal('hide');
                         $('#tbl-index').DataTable().ajax.reload();
                       }
-                    }); 
+                    });
                   }
                 },
                 error: function(){
@@ -493,7 +493,7 @@
                   });
                 },
                 async: false
-              }); 
+              });
             }
             else
             {
@@ -517,7 +517,7 @@
       });
     }
 
-    function ubahStatus(id, status) 
+    function ubahStatus(id, status)
     {
       iziToast.question({
         timeout: 20000,
@@ -577,7 +577,7 @@
       });
     }
 
-    function randString(angka) 
+    function randString(angka)
     {
       var text = "";
       var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -588,15 +588,15 @@
       return text;
     }
 
-    function refreshTabelIndex() 
+    function refreshTabelIndex()
     {
       $('#tbl-index').DataTable().ajax.reload();
     }
 
-    function refreshTabelScore() 
+    function refreshTabelScore()
     {
       $('#tbl-score').DataTable().ajax.reload();
     }
-    
-  </script> 
+
+  </script>
 @endsection()
