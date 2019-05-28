@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Laporan Jurnal Umum</title>
-        
+
 		<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/bootstrap_4_1_3/css/bootstrap.min.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/font-awesome_4_7_0/css/font-awesome.min.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ asset('modul_keuangan/css/style.css') }}">
@@ -54,14 +54,14 @@
 
 		    .navbar-nav {
 		      flex-direction: row;
-		      padding-right: 40px; 
+		      padding-right: 40px;
 		    }
-		    
+
 		    .nav-link {
 		      padding-right: .5rem !important;
 		      padding-left: .5rem !important;
 		    }
-		    
+
 		    /* Fixes dropdown menus placed on the right side */
 		    .ml-auto .dropdown-menu {
 		      left: auto !important;
@@ -224,7 +224,7 @@
 			<div class="container-fluid" style="background: none; margin-top: 70px; padding: 10px 30px;">
 				<div id="contentnya">
 
-					<?php 
+					<?php
 						$tanggal_1 = explode('/', $_GET['d1'])[0].' '.switchBulan(explode('/', $_GET['d1'])[1]).' '.explode('/', $_GET['d1'])[2];
 
 						$tanggal_2 = explode('/', $_GET['d2'])[0].' '.switchBulan(explode('/', $_GET['d2'])[1]).' '.explode('/', $_GET['d2'])[2];
@@ -235,7 +235,7 @@
 							$type = 'Transaksi Bank';
 						else if($_GET["type"] == 'M')
 							$type = 'Transaksi Memorial'
-					?>					
+					?>
 
 					{{-- Judul Kop --}}
 
@@ -273,8 +273,9 @@
 									<th :width="(requestNama == 'true') ? '20%' : '40%'">Keterangan</th>
 									<th width="10%">No. Akun</th>
 									<th width="20%" v-if="requestNama == 'true'">Nama Akun</th>
-									<th width="15%">Debet</th>
-									<th width="15%">Kredit</th>
+									<th width="10%">Debet</th>
+									<th width="10%">Kredit</th>
+									<th width="10%">Noted</th>
 								</tr>
 							</thead>
 
@@ -292,6 +293,7 @@
 										<td class="text-right" style="border: 1px solid #eee;">
 											<span v-html="(detail.jrdt_dk == 'K') ? humanizePrice(detail.jrdt_value) : '0.00'"></span>
 										</td>
+										<td style="text-align: center">Transaksi Tgl @{{ data.tgl_buku }}</td>
 									</tr>
 
 									<tr>
@@ -302,6 +304,7 @@
 										<td class="text-right" style="border: 1px solid #eee; background: #eee; font-weight: bold; padding: 10px 5px;">
 											@{{ humanizePrice(dkSummary[idx].kredit) }}
 										</td>
+										<td style="background: #eee; padding: 0px;"></td>
 									</tr>
 								</template>
 							</tbody>
@@ -342,7 +345,7 @@
 
 	                    <span class="close"><i class="fa fa-times" style="font-size: 12pt; color: #CC0000"></i></span>
 	                </div>
-	                
+
 	                <div class="content-popup">
 	                	<form id="form-setting" method="get" action="{{ route('laporan.keuangan.jurnal_umum') }}">
 	                	<input type="hidden" readonly name="_token" value="{{ csrf_token() }}">
@@ -688,12 +691,12 @@
 				                    commas = bilangan.split('.')[1];
 				                    bilangan = bilangan.split('.')[0];
 				                  }
-				                  
+
 				                  var number_string = bilangan.toString(),
 				                    sisa  = number_string.length % 3,
 				                    rupiah  = number_string.substr(0, sisa),
 				                    ribuan  = number_string.substr(sisa).match(/\d{3}/g);
-				                      
+
 				                  if (ribuan) {
 				                    separator = sisa ? ',' : '';
 				                    rupiah += separator + ribuan.join(',');

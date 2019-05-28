@@ -47,12 +47,13 @@ class laporan_jurnal_controller extends Controller
             }
 
         // Selesai Mengambil Cabang
-        
+
         $data = jurnal::where(DB::raw('SUBSTR(jr_type, 1, 1)'), $type)
                             ->with([
                                     'detail' => function($query){
                                         $query->select('jrdt_jurnal', 'jrdt_akun', 'jrdt_value', 'jrdt_dk', 'ak_nama', 'ak_nomor')
                                                 ->join('dk_akun', 'dk_akun.ak_id', '=', 'dk_jurnal_detail.jrdt_akun')
+                                                ->orderBy('jrdt_dk', 'asc')
                                                 ->get();
                                     }
                             ])
@@ -63,11 +64,11 @@ class laporan_jurnal_controller extends Controller
 
             if(modulSetting()['support_cabang']){
                 $data = $data->where('jr_comp', $request->cab)
-                                ->select('jr_id', 'jr_ref', 'jr_tanggal_trans', 'jr_keterangan', 'jr_type')
+                                ->select('jr_id', 'jr_ref', 'jr_tanggal_trans', 'jr_keterangan', 'jr_type', DB::raw('date(created_at) as tgl_buku'))
                                 ->orderBy('jr_tanggal_trans', 'asc')
                                 ->get();
             }else{
-                $data = $data->select('jr_id', 'jr_ref', 'jr_tanggal_trans', 'jr_keterangan', 'jr_type')
+                $data = $data->select('jr_id', 'jr_ref', 'jr_tanggal_trans', 'jr_keterangan', 'jr_type', DB::raw('date(created_at) as tgl_buku'))
                                 ->orderBy('jr_tanggal_trans', 'asc')
                                 ->get();
             }
@@ -109,12 +110,13 @@ class laporan_jurnal_controller extends Controller
             }
 
         // Selesai Mengambil Cabang
-        
+
         $res = jurnal::where(DB::raw('SUBSTR(jr_type, 1, 1)'), $type)
                             ->with([
                                     'detail' => function($query){
                                         $query->select('jrdt_jurnal', 'jrdt_akun', 'jrdt_value', 'jrdt_dk', 'ak_nama', 'ak_nomor')
                                                 ->join('dk_akun', 'dk_akun.ak_id', '=', 'dk_jurnal_detail.jrdt_akun')
+                                                ->orderBy('jrdt_dk', 'asc')
                                                 ->get();
                                     }
                             ])
@@ -172,6 +174,7 @@ class laporan_jurnal_controller extends Controller
                                     'detail' => function($query){
                                         $query->select('jrdt_jurnal', 'jrdt_akun', 'jrdt_value', 'jrdt_dk', 'ak_nama')
                                                 ->join('dk_akun', 'dk_akun.ak_id', '=', 'dk_jurnal_detail.jrdt_akun')
+                                                ->orderBy('jrdt_dk', 'asc')
                                                 ->get();
                                     }
                             ])
@@ -207,22 +210,33 @@ class laporan_jurnal_controller extends Controller
         else if($type == 'M')
             $t = 'Memorial';
 
-        $res = jurnal::where(DB::raw('SUBSTR(jr_type, 1, 1)'), $type)
-                            ->with([
-                                    'detail' => function($query){
-                                        $query->select('jrdt_jurnal', 'jrdt_akun', 'jrdt_value', 'jrdt_dk', 'ak_nama')
-                                                ->join('dk_akun', 'dk_akun.ak_id', '=', 'dk_jurnal_detail.jrdt_akun')
-                                                ->get();
-                                    }
-                            ])
-                            ->where('jr_tanggal_trans', ">=", $d1)
-                            ->where('jr_tanggal_trans', "<=", $d2)
-                            ->select('jr_id', 'jr_ref', 'jr_tanggal_trans', 'jr_keterangan', 'jr_type')
-                            ->orderBy('jr_tanggal_trans', 'asc')
-                            ->get();
+            $data = jurnal::where(DB::raw('SUBSTR(jr_type, 1, 1)'), $type)
+                              ->with([
+                                      'detail' => function($query){
+                                          $query->select('jrdt_jurnal', 'jrdt_akun', 'jrdt_value', 'jrdt_dk', 'ak_nama', 'ak_nomor')
+                                                  ->join('dk_akun', 'dk_akun.ak_id', '=', 'dk_jurnal_detail.jrdt_akun')
+                                                  ->orderBy('jrdt_dk', 'asc')
+                                                  ->get();
+                                      }
+                              ])
+                              ->where('jr_tanggal_trans', ">=", $d1)
+                              ->where('jr_tanggal_trans', "<=", $d2);
+
+          // ketika support cabang
+
+              if(modulSetting()['support_cabang']){
+                  $data = $data->where('jr_comp', $request->cab)
+                                  ->select('jr_id', 'jr_ref', 'jr_tanggal_trans', 'jr_keterangan', 'jr_type', DB::raw('date(created_at) as tgl_buku'))
+                                  ->orderBy('jr_tanggal_trans', 'asc')
+                                  ->get();
+              }else{
+                  $data = $data->select('jr_id', 'jr_ref', 'jr_tanggal_trans', 'jr_keterangan', 'jr_type', DB::raw('date(created_at) as tgl_buku'))
+                                  ->orderBy('jr_tanggal_trans', 'asc')
+                                  ->get();
+              }
 
         $data = [
-            "data"      => $res,
+            "data"      => $data,
             "request"   => $request->all(),
         ];
 
@@ -231,7 +245,7 @@ class laporan_jurnal_controller extends Controller
 
     public function generateRandomString($length = 10) {
 
-    	for ($i=0; $i < 1000; $i++) { 
+    	for ($i=0; $i < 1000; $i++) {
     		array_push($data, ["id" => $this->generateRandomString(), "name" => 'Dirga Ambara - '.($i+1)]);
     	}
 
