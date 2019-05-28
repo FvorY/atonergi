@@ -97,7 +97,7 @@
 					<td style="text-align: right; padding: 0px 5px;">{{ ($detail->jrdt_dk == 'K') ? number_format($detail->jrdt_value, 2) : number_format(0, 2) }}</td>
 
 					@if($resource->tgl_buku != $resource->jr_tanggal_trans)
-						<td style="text-align: center">Untuk Tgl {{ $resource->tgl_buku }}</td>
+						<td style="text-align: center">Untuk Tgl {{ $resource->jr_tanggal_trans }}</td>
 					@else
 						<td style="text-align: center">-</td>
 					@endif

@@ -293,7 +293,8 @@
 										<td class="text-right" style="border: 1px solid #eee;">
 											<span v-html="(detail.jrdt_dk == 'K') ? humanizePrice(detail.jrdt_value) : '0.00'"></span>
 										</td>
-										<td style="text-align: center">Transaksi Tgl @{{ data.tgl_buku }}</td>
+										<td v-if="data.tgl_buku != data.jr_tanggal_trans" style="text-align: center">Transaksi Tgl @{{ data.jr_tanggal_trans }}</td>
+										<td v-if="data.tgl_buku == data.jr_tanggal_trans" style="text-align: center">-</td>
 									</tr>
 
 									<tr>
