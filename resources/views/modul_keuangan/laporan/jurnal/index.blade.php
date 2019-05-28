@@ -275,7 +275,7 @@
 									<th width="20%" v-if="requestNama == 'true'">Nama Akun</th>
 									<th width="10%">Debet</th>
 									<th width="10%">Kredit</th>
-									<th width="10%">Noted</th>
+									{{-- <th width="10%">Noted</th> --}}
 								</tr>
 							</thead>
 
@@ -293,8 +293,8 @@
 										<td class="text-right" style="border: 1px solid #eee;">
 											<span v-html="(detail.jrdt_dk == 'K') ? humanizePrice(detail.jrdt_value) : '0.00'"></span>
 										</td>
-										<td v-if="data.tgl_buku != data.jr_tanggal_trans" style="text-align: center">Transaksi Tgl @{{ data.jr_tanggal_trans }}</td>
-										<td v-if="data.tgl_buku == data.jr_tanggal_trans" style="text-align: center">-</td>
+										{{-- <td v-if="data.tgl_buku != data.jr_tanggal_trans" style="text-align: center">Transaksi Tgl @{{ data.jr_tanggal_trans }}</td>
+										<td v-if="data.tgl_buku == data.jr_tanggal_trans" style="text-align: center">-</td> --}}
 									</tr>
 
 									<tr>
@@ -305,7 +305,7 @@
 										<td class="text-right" style="border: 1px solid #eee; background: #eee; font-weight: bold; padding: 10px 5px;">
 											@{{ humanizePrice(dkSummary[idx].kredit) }}
 										</td>
-										<td style="background: #eee; padding: 0px;"></td>
+										{{-- <td style="background: #eee; padding: 0px;"></td> --}}
 									</tr>
 								</template>
 							</tbody>

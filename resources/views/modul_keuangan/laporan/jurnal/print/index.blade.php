@@ -74,7 +74,7 @@
 
 			<th width="10%" style="background-color: #0099CC; color: #ffffff; text-align: center;">Debet</th>
 			<th width="10%" style="background-color: #0099CC; color: #ffffff; text-align: center;">Kredit</th>
-			<th width="10%" style="background-color: #0099CC; color: #ffffff; text-align: center;">Noted</th>
+			{{-- <th width="10%" style="background-color: #0099CC; color: #ffffff; text-align: center;">Noted</th> --}}
 		</tr>
 	</thead>
 
@@ -96,11 +96,11 @@
 					<td style="text-align: right; padding: 0px 5px;">{{ ($detail->jrdt_dk == 'D') ? number_format($detail->jrdt_value, 2) : number_format(0, 2) }}</td>
 					<td style="text-align: right; padding: 0px 5px;">{{ ($detail->jrdt_dk == 'K') ? number_format($detail->jrdt_value, 2) : number_format(0, 2) }}</td>
 
-					@if($resource->tgl_buku != $resource->jr_tanggal_trans)
+					{{-- @if($resource->tgl_buku != $resource->jr_tanggal_trans)
 						<td style="text-align: center">Untuk Tgl {{ $resource->jr_tanggal_trans }}</td>
 					@else
 						<td style="text-align: center">-</td>
-					@endif
+					@endif --}}
 
 					<?php
 						if($detail->jrdt_dk == "D"){
@@ -124,7 +124,7 @@
 
 				<td style="background-color: #eee; text-align: right; padding: 5px; font-weight: bold">{{ number_format($DS, 2) }}</td>
 				<td style="background-color: #eee; text-align: right; padding: 5px; font-weight: bold">{{ number_format($KS, 2) }}</td>
-				<td style="background-color: #eee; text-align: right; padding: 5px; font-weight: bold"></td>
+				{{-- <td style="background-color: #eee; text-align: right; padding: 5px; font-weight: bold"></td> --}}
 			</tr>
 		@endforeach
 
