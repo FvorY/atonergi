@@ -276,12 +276,16 @@ $('#amount').mask('000.000.000.000.000', {reverse: true});
 	        });
 
 			$('#amount').val(accounting.formatMoney(batas,"", 0, ".",','));
-		} else if (parseInt(amount) > parseInt(remain)) {
+		} else if (parseInt(amount) > parseInt(remain)) {			
+			var lebih = parseInt(amount) - parseInt(remain);
 			iziToast.warning({
 	            icon: 'fa fa-info',
-	            message: 'Tidak boleh lebih dari remain!',
+	            message: 'Nominal melebihi remain!',
 	        });
-			$('#amount').val(accounting.formatMoney(batas,"", 0, ".",','));
+			$('#amount').val(accounting.formatMoney(remain,"", 0, ".",','));
+			$('#akunsisa').css('display', '');
+			$('#labelakunsisa').css('display', '');
+			$('input[name=lebih]').val(accounting.formatMoney(lebih,"", 0, ".",','));
 		}
 	}
 
