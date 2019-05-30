@@ -196,7 +196,7 @@
 				            <div class="col-md-2 col-sm-6 col-xs-12">
 				              <div class="form-group">
 				                <input value="{{ 'Rp. '. number_format($data->q_remain, 2, ",", ".") }}" type="text" class="form-control form-control-sm" name="" readonly="" value="" id="remain">
-												<input type="hidden" name="tmpremain" value="{{$data->q_remain}}">
+												<input type="hidden" name="tmpremain" id="tmpremain" value="{{$data->q_remain}}">
 				              </div>
 				            </div>
 				            <div class="col-md-12 col-sm-12 col-xs-12" align="right" style="margin-top: 15px;">
@@ -269,6 +269,24 @@ $('#amount').mask('000.000.000.000.000', {reverse: true});
 	        });
 	        return false;
 		}
+
+		// function amountupp(){
+		// 	var amount = $('#amount').val();
+		// 	var remain = $('#tmpremain').val();
+    //
+		// 	amount = amount.replace(/[^0-9\-]+/g,"");
+		// 	if (parseInt(amount) > parseInt(remain)) {
+		// 		var lebih = parseInt(amount) - parseInt(remain);
+		// 		iziToast.warning({
+		// 						icon: 'fa fa-info',
+		// 						message: 'Nominal melebihi remain!',
+		// 				});
+		// 		$('#amount').val(accounting.formatMoney(remain,"", 0, ".",','));
+		// 		$('#akunsisa').css('display', '');
+		// 		$('#labelakunsisa').css('display', '');
+		// 		$('input[name=lebih]').val(accounting.formatMoney(lebih,"", 0, ".",','));
+		// 	}
+		// }
 
 		iziToast.show({
             overlay: true,

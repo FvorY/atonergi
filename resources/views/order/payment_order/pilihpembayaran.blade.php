@@ -26,7 +26,7 @@
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="form-group">
-              <input type="text" class="form-control-sm form-control amount" id="amount" name="amount">
+              <input type="text" class="form-control-sm form-control amount" id="amount" name="amount" onblur="amountup()">
             </div>
           </div>
 
@@ -97,7 +97,7 @@
             </div>
           </div>
 
-          <div class="col-md-3 col-sm-6 col-xs-12">
+          {{-- <div class="col-md-3 col-sm-6 col-xs-12">
             <label>Reference</label>
           </div>
           <div class="col-md-3 col-sm-6 col-xs-12">
@@ -112,7 +112,7 @@
                 <input type="text" class="form-control-sm form-control" name="nota2">
               @endif
             </div>
-          </div>
+          </div> --}}
 
           <div class="col-md-3 col-sm-6 col-xs-12">
             <label>Notes</label>
@@ -130,8 +130,33 @@
               @endif
             </div>
           </div>
-         </div>
+
+          <div class="col-md-3 col-sm-6 col-xs-12" id="labelakunsisa" style="display:none">
+            <label>Akui Nominal Lebih Sebagai</label>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12" id="akunsisa" style="display:none">
+            <div class="form-group">
+              <div>
+                <select class="form-control form-control-sm akunsisa" name="akunsisa">
+                    @foreach($akunsisa as $key => $akun)
+                      <option value="{{ $akun->ak_id }}">{{ $akun->ak_nomor }} - {{ $akun->ak_nama }}</option>
+                    @endforeach
+                </select>
+              </div>
+            </div>
+          </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12" id="labellebih">
+          <label>Nominal Lebih</label>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="form-group">
+              <input type="text" readonly class="form-control-sm form-control" name="lebih">
+          </div>
+        </div>
+
       </form>
+      </div>
       <div class="modal-footer">
         <button class="btn btn-primary" type="button" id="save_detail" onclick="save_detail()" >Save Detail</button>
         <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -143,6 +168,24 @@
 
 
 <script type="text/javascript">
+
+  function amountup(){
+    var amount = $('#amount').val();
+    var remain = $('#tmpremain').val();
+    
+    amount = amount.replace(/[^0-9\-]+/g,"");
+    if (parseInt(amount) > parseInt(remain)) {
+      var lebih = parseInt(amount) - parseInt(remain);
+      iziToast.warning({
+              icon: 'fa fa-info',
+              message: 'Nominal melebihi remain!',
+          });
+      $('#amount').val(accounting.formatMoney(remain,"", 0, ".",','));
+      $('#akunsisa').css('display', '');
+      $('#labelakunsisa').css('display', '');
+      $('input[name=lebih]').val(accounting.formatMoney(lebih,"", 0, ".",','));
+  }
+}
 
   function methodChange(e){
     if(e == 'Transfer'){

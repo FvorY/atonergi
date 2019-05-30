@@ -831,7 +831,7 @@ class OrderController extends Controller
             $lebih = 0;
           } else {
             $akunsisa = $req->akunsisa;
-            $lebih = filter_var($req->lebih,FILTER_SANITIZE_NUMBER_INT)/100;
+            $lebih = filter_var($req->lebih,FILTER_SANITIZE_NUMBER_INT);
           }
 
           DB::table('d_paydeposit')
@@ -842,7 +842,7 @@ class OrderController extends Controller
                   'p_wo' => $req->wo_nota,
                   'p_note' => $req->nota1,
                   'p_type' => $req->payment_type,
-                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
+                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT),
                   'p_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
                   'p_method' => $req->pay_method,
                   'p_account' => $req->pay_akun,
@@ -861,12 +861,12 @@ class OrderController extends Controller
                   'p_wo' => $req->wo_nota,
                   'p_note' => $req->nota1,
                   'p_type' => $req->payment_type,
-                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
+                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT),
                   'p_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
                   'p_method' => $req->pay_method,
                   'p_account' => $req->pay_akun,
                   'p_account_sisa' => $req->akunsisa,
-                  'p_lebih' => filter_var($req->lebih,FILTER_SANITIZE_NUMBER_INT)/100,
+                  'p_lebih' => filter_var($req->lebih,FILTER_SANITIZE_NUMBER_INT),
                   'p_date' => carbon::parse($req->date)->format('Y-m-d'),
                   'p_pay' => carbon::parse($req->datepay)->format('Y-m-d'),
                   'p_insert' => Carbon::now('Asia/Jakarta'),
@@ -924,7 +924,7 @@ class OrderController extends Controller
                                 'so_ref'        => $data->q_nota,
                                 'so_note'       => $paydeposit->p_note,
                                 'so_type'       => $paydeposit->p_type,
-                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT),
                                 'so_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'so_method'     => $paydeposit->p_method,
                                 'so_account'    => $paydeposit->p_account,
@@ -943,7 +943,7 @@ class OrderController extends Controller
                                 'so_ref'        => $data->q_nota,
                                 'so_note'       => $paydeposit->p_note,
                                 'so_type'       => $paydeposit->p_type,
-                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT),
                                 'so_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'so_method'     => $paydeposit->p_method,
                                 'so_account'    => $paydeposit->p_account,
@@ -975,7 +975,7 @@ class OrderController extends Controller
                                 'wo_ref'        => $data->q_nota,
                                 'wo_note'       => $paydeposit->p_note,
                                 'wo_type'       => $paydeposit->p_type,
-                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT),
                                 'wo_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'wo_method'     => $paydeposit->p_method,
                                 'wo_account'    => $paydeposit->p_account,
@@ -993,7 +993,7 @@ class OrderController extends Controller
                                 'wo_ref'        => $data->q_nota,
                                 'wo_note'       => $paydeposit->p_nota,
                                 'wo_type'       => $paydeposit->p_type,
-                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
+                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT),
                                 'wo_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'wo_method'     => $paydeposit->p_method,
                                 'wo_account'    => $paydeposit->p_account,
@@ -1017,7 +1017,7 @@ class OrderController extends Controller
 
             if (filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100 == 0) {
 
-              if (filter_var($paydeposit->p_lebih,FILTER_SANITIZE_NUMBER_INT)/100 == 0) {
+              if (filter_var($paydeposit->p_lebih,FILTER_SANITIZE_NUMBER_INT) == 0) {
                 // Tambahan Dirga
                     $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
                     $jurnalDetail = [];
@@ -1217,7 +1217,7 @@ class OrderController extends Controller
                             'po_total'      => 0,
                             'po_remain'     => $data->q_remain,
                             'po_method'     => "",
-                            'po_note2'      => "",
+                            // 'po_note2'      => "",
                             'po_status'     => 'Released',
                             'po_date'       => carbon::parse()->format('Y-m-d'),
                             'po_updated_at' => carbon::now(),
@@ -1403,13 +1403,27 @@ class OrderController extends Controller
                     ->where('p_status', 'Y')
                     ->first();
 
+                    $akunsisa = [];
+
+        $tmp = DB::table('dk_akun')
+                ->where('ak_nama', 'Pendapatan lebih bayar customer')
+                ->first();
+
+        array_push($akunsisa, $tmp);
+
+        $tmp = DB::table('dk_akun')
+                ->where('ak_nama', 'Titipan lebih bayar customer')
+                ->first();
+
+        array_push($akunsisa, $tmp);
+
         $validation = [];
         if ($so_dt != null or $wo_dt != null) {
           array_push($validation, 1);
         }
         if (in_array(1, $validation)) {
           if ($so->so_status == 'Printed' or $wo->wo_status == 'Printed') {
-            return view('order/payment_order/detail_payment_order',compact('percent','item','data','data_dt','id','nota_po','market','nama_item','so','wo', 'akunKas', 'akunBank'));
+            return view('order/payment_order/detail_payment_order',compact('akunsisa','percent','item','data','data_dt','id','nota_po','market','nama_item','so','wo', 'akunKas', 'akunBank'));
           }else{
             return redirect()->back();
           }
@@ -1435,35 +1449,141 @@ class OrderController extends Controller
 
           $hasil  = $data->q_remain - filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT);
 
-          // Tambahan Dirga
-              $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
-              $jurnalDetail = [];
-              $akunPiutang = DB::table('dk_akun')
-                                ->where('ak_id', function($query) use ($isPusat){
-                                    $query->select('ap_akun')->from('dk_akun_penting')
-                                          ->where('ap_nama', 'Piutang Usaha')->where('ap_comp', $isPusat)->first();
-                                })->first();
+          if ((int)$hasil == 0) {
 
-              $cek = DB::table('dk_akun')->where('ak_id', $req->pay_akun)->first();
+            if (filter_var($req->lebih,FILTER_SANITIZE_NUMBER_INT) == 0) {
+              // Tambahan Dirga
+                  $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+                  $jurnalDetail = [];
 
-              if(!$akunPiutang || !$cek)
-                return 'error';
+                  $akunDeposit = DB::table('dk_akun')
+                                      ->where('ak_id', function($query) use ($isPusat){
+                                          $query->select('ap_akun')->from('dk_akun_penting')
+                                                ->where('ap_nama', 'Pendapatan Usaha')->where('ap_comp', $isPusat)->first();
+                                      })->first();
 
-              $jurnalDetail[$akunPiutang->ak_id] = [
-                    'jrdt_akun'          => $akunPiutang->ak_id,
-                    'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
-                    'jrdt_dk'            => 'K'
-              ];
+                  $akunKas = DB::table('dk_akun')->where('ak_id', $req->pay_akun)->first();
 
-              $jurnalDetail[$req->pay_akun] = [
-                    'jrdt_akun'          => $req->pay_akun,
-                    'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
-                    'jrdt_dk'            => 'D'
-              ];
+                  // return json_encode($akunDeposit);
+                  if(!$akunKas || !$akunDeposit){
+                    DB::rollback();
+                    return response()->json(['status' => 8]);
+                  }else{
 
-              keuangan::jurnal()->addJurnal($jurnalDetail, date('Y-m-d', strtotime($req->datepay)), $req->po_nota, 'Payment Order Atas Nota '.$req->q_nota, 'KM', modulSetting()['onLogin'], true);
+                    $jurnalDetail[$akunKas->ak_id] = [
+                          'jrdt_akun'          => $akunKas->ak_id,
+                          'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
+                          'jrdt_dk'            => 'D'
+                    ];
 
-          // selesai Dirga
+                    $jurnalDetail[$akunDeposit->ak_id] = [
+                          'jrdt_akun'          => $akunDeposit->ak_id,
+                          'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
+                          'jrdt_dk'            => 'K'
+                    ];
+
+                  }
+
+                  if(!DB::table('dk_jurnal')->where('jr_ref', $data->q_nota)->first()) {
+                    keuangan::jurnal()->addJurnal($jurnalDetail, Carbon::parse($req->datepay)->format('Y-m-d'), $data->q_nota, 'Payment Order '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
+                  }
+                  // return json_encode($jurnalDetail);
+
+              // Selesai Dirga
+            } else {
+
+              // Tambahan Dirga
+                  $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+                  $jurnalDetail = [];
+
+                  $akunDeposit = DB::table('dk_akun')
+                                      ->where('ak_id', function($query) use ($isPusat){
+                                          $query->select('ap_akun')->from('dk_akun_penting')
+                                                ->where('ap_nama', 'Pendapatan Usaha')->where('ap_comp', $isPusat)->first();
+                                      })->first();
+
+                  $akunKas = DB::table('dk_akun')->where('ak_id', $req->pay_akun)->first();
+
+                  $akuntitipan = DB::table('dk_akun')->where('ak_id', $req->akunsisa)->first();
+
+                  // return json_encode($akunDeposit);
+
+                  if(!$akunKas || !$akunDeposit || !$akuntitipan){
+                    DB::rollback();
+                    return response()->json(['status' => 8]);
+                  }else {
+
+                    $jurnalDetail[$akunKas->ak_id] = [
+                          'jrdt_akun'          => $akunKas->ak_id,
+                          'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT) - filter_var($req->lebih,FILTER_SANITIZE_NUMBER_INT),
+                          'jrdt_dk'            => 'D'
+                    ];
+
+                    $jurnalDetail[$akunDeposit->ak_id] = [
+                          'jrdt_akun'          => $akunDeposit->ak_id,
+                          'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
+                          'jrdt_dk'            => 'K'
+                    ];
+
+                    $jurnalDetail[$akuntitipan->ak_id] = [
+                          'jrdt_akun'          => $akuntitipan->ak_id,
+                          'jrdt_value'         => filter_var($req->lebih,FILTER_SANITIZE_NUMBER_INT),
+                          'jrdt_dk'            => 'K'
+                    ];
+
+                  }
+
+                  if(!DB::table('dk_jurnal')->where('jr_ref', $data->q_nota)->first()) {
+                    keuangan::jurnal()->addJurnal($jurnalDetail, Carbon::parse($req->datepay)->format('Y-m-d'), $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
+                  }
+
+                  // return json_encode($jurnalDetail);
+
+              // Selesai Dirga
+            }
+
+          } else {
+            // Tambahan Dirga
+                $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
+                $jurnalDetail = [];
+
+                $akunDeposit = DB::table('dk_akun')
+                                    ->where('ak_id', function($query) use ($isPusat){
+                                        $query->select('ap_akun')->from('dk_akun_penting')
+                                              ->where('ap_nama', 'Uang Muka Penjualan')->where('ap_comp', $isPusat)->first();
+                                    })->first();
+
+                $akunKas = DB::table('dk_akun')->where('ak_id', $req->pay_akun)->first();
+
+                // return json_encode($akunDeposit);
+
+                if(!$akunKas || !$akunDeposit){
+                  DB::rollback();
+                  return response()->json(['status' => 8]);
+                }else{
+
+                  $jurnalDetail[$akunKas->ak_id] = [
+                        'jrdt_akun'          => $akunKas->ak_id,
+                        'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
+                        'jrdt_dk'            => 'D'
+                  ];
+
+                  $jurnalDetail[$akunDeposit->ak_id] = [
+                        'jrdt_akun'          => $akunDeposit->ak_id,
+                        'jrdt_value'         => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
+                        'jrdt_dk'            => 'K'
+                  ];
+
+                }
+
+                if(!DB::table('dk_jurnal')->where('jr_ref', $data->q_nota)->first()) {
+                  keuangan::jurnal()->addJurnal($jurnalDetail, Carbon::parse($req->datepay)->format('Y-m-d'), $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
+                }
+                // return json_encode($jurnalDetail);
+
+            // Selesai Dirga
+          }
+
 
           $update = DB::table('d_quotation')
                       ->where('q_id',$req->id)
@@ -1482,7 +1602,7 @@ class OrderController extends Controller
                       'po_total'      => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
                       'po_remain'     => $hasil,
                       'po_method'     => $req->pay_method,
-                      'po_note2'      => $req->nota2,
+                      // 'po_note2'      => $req->nota2,
                       'po_status'     => 'Released',
                       'po_date'       => carbon::parse($req->dates)->format('Y-m-d'),
                       'po_pay'        => carbon::parse($req->datepay)->format('Y-m-d'),
@@ -1647,7 +1767,7 @@ class OrderController extends Controller
                       'po_type'       => $req->payment_type,
                       'po_total'      => filter_var($req->amount,FILTER_SANITIZE_NUMBER_INT),
                       'po_method'     => $req->pay_method,
-                      'po_note2'      => $req->nota2,
+                      // 'po_note2'      => $req->nota2,
                       'po_status'     => 'Released',
                       'po_date'       => carbon::parse($req->dates)->format('Y-m-d'),
                       'po_updated_at' => carbon::now(),
