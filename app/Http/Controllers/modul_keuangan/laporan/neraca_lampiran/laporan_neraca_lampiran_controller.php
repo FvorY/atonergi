@@ -15,7 +15,22 @@ use PDF;
 class laporan_neraca_lampiran_controller extends Controller
 {
     public function index(Request $request){
-    	$cabang = '';
+    	
+        $status = true;
+
+        if($request->type == 'bulan')
+            $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        else if($request->type == 'triwulan'){
+            $d1 = explode('/', $request->triwulan)[1].'-'.explode('/', $request->triwulan)[0].'-01';
+        }
+
+        $cek = DB::table('dk_periode_keuangan')->where('pk_periode', $d1)->first();
+
+        if(!$cek){
+            $status = false;
+        }
+
+        $cabang = '';
 
         if(modulSetting()['support_cabang']){
             $cabang = DB::table(tabel()->cabang->nama)
@@ -24,59 +39,34 @@ class laporan_neraca_lampiran_controller extends Controller
                                 ->first()->nama;
         }
 
-    	return view('modul_keuangan.laporan.neraca_lampiran.index', compact('cabang'));
+    	return view('modul_keuangan.laporan.neraca_lampiran.index', compact('cabang', 'status'));
     }
 
     public function dataResource(Request $request){
         
-        $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        if($request->type == 'bulan')
+            $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        else if($request->type == 'triwulan'){
+            $d1 = explode('/', $request->triwulan)[1].'-'.explode('/', $request->triwulan)[0].'-01';
+        }
 
-        // ketika support cabang
-
-            if(modulSetting()['support_cabang']){
-                $data = level_2::where('hld_level_1', '<=', '3')
-                            ->with([
-                                'akun' => function($query) use ($d1, $request){
-                                    $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
-                                            ->where('as_periode', $d1)
-                                            ->where('ak_comp', $request->cab)
-                                            ->select(
-                                                'ak_id',
-                                                'ak_nomor',
-                                                'ak_kelompok',
-                                                'ak_nama',
-                                                'ak_posisi',
-                                                DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
-                                            );
-                                }
-                            ])
-                            ->select('hld_id', 'hld_nama')
-                            ->get();
-            }else{
-                $data = level_2::where('hld_level_1', '<=', '3')
-                            ->with([
-                                'akun' => function($query) use ($d1, $request){
-                                    $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
-                                            ->where('as_periode', $d1)
-                                            ->select(
-                                                'ak_id',
-                                                'ak_nomor',
-                                                'ak_kelompok',
-                                                'ak_nama',
-                                                'ak_posisi',
-                                                DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
-                                            );
-                                }
-                            ])
-                            ->select('hld_id', 'hld_nama')
-                            ->get();
-            }
-
-        // selesai
-
-        // return json_encode($data);
-
-        // return json_encode($res);
+        $data = level_2::where('hld_level_1', '<=', '3')
+                        ->with([
+                            'akun' => function($query) use ($d1, $request){
+                                $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
+                                        ->where('as_periode', $d1)
+                                        ->select(
+                                            'ak_id',
+                                            'ak_nomor',
+                                            'ak_kelompok',
+                                            'ak_nama',
+                                            'ak_posisi',
+                                            DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
+                                        );
+                            }
+                        ])
+                        ->select('hld_id', 'hld_nama')
+                        ->get();
 
     	return json_encode([
     		"data"	        => $data

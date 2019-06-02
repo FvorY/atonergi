@@ -268,14 +268,14 @@ class OrderController extends Controller
 
               // Deposit
                 $jurnalDetail[$akunDeposit->ak_id] = [
-                  "jrdt_akun"   => $akunDeposit->ak_id,
+                    "jrdt_akun"   => $akunDeposit->ak_id,
                     "jrdt_value"  => $quote->q_dp,
                     "jrdt_dk"     => 'D'
                 ];
 
               // Piutanf
                 $jurnalDetail[$akunPiutang->ak_id] = [
-                  "jrdt_akun"   => $akunPiutang->ak_id,
+                    "jrdt_akun"   => $akunPiutang->ak_id,
                     "jrdt_value"  => $totPendapatan - $quote->q_dp,
                     "jrdt_dk"     => 'D'
                 ];

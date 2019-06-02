@@ -254,9 +254,9 @@
 			            	</td>
 			            </tr>
 
-			            <tr>
-			            	<?php $tot = 0; ?>
+			            <?php $tot = 0; ?>
 			            	@foreach($data as $key => $detail)
+			            <tr>			            	
 				            	<td class="appropriate" width="18%" style="border-left: 1px solid #2E2E2E; border-right: 1px solid #2E2E2E; border-bottom: 0px; border-top: 0px;"></td>
 				            	<td width="18%" style="background: rgba(0,0,0,0.1); color: #333; text-align: center;">
 				            		{{ $detail->ak_nomor }}
@@ -267,10 +267,10 @@
 				            	<td width="18%" style="background: rgba(0,0,0,0.1); color: #333; text-align: right;">
 				            		{{ number_format($detail->jrdt_value, 2) }}
 				            	</td>
-
-				            	<?php $tot += $detail->jrdt_value ?>
-				            @endforeach
+				            	
 			            </tr>
+			            <?php $tot += $detail->jrdt_value ?>
+				            @endforeach
 			          </thead>
 
 			          <tfoot>
@@ -290,7 +290,7 @@
 			          	<tr>
 			            	<td class="appropriate" width="18%" style="text-align: center;">Terbilang</td>
 			            	<td colspan="2" width="18%" style="background: rgba(0,0,0,0.1); color: #333; text-align: left;">
-			            		Terbilang
+			            		{{ penyebut($tot) }}
 			            	</td>
 			            	<td width="18%" style="background: white; color: #333; text-align: right;">
 			            		{{ number_format($tot, 2) }}

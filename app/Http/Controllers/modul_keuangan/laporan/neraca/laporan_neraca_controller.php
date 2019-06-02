@@ -16,6 +16,22 @@ class laporan_neraca_controller extends Controller
 {
     public function index(Request $request){
 
+        // return json_encode($request->all());
+
+        $status = true;
+
+        if($request->type == 'bulan')
+            $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        else if($request->type == 'triwulan'){
+            $d1 = explode('/', $request->triwulan)[1].'-'.explode('/', $request->triwulan)[0].'-01';
+        }
+
+        $cek = DB::table('dk_periode_keuangan')->where('pk_periode', $d1)->first();
+
+        if(!$cek){
+            $status = false;
+        }
+
         $cabang = '';
 
         if(modulSetting()['support_cabang']){
@@ -25,84 +41,50 @@ class laporan_neraca_controller extends Controller
                                 ->first()->nama;
         }
 
-    	return view('modul_keuangan.laporan.neraca.index', compact('cabang'));
+    	return view('modul_keuangan.laporan.neraca.index', compact('cabang', 'status'));
     }
 
     public function dataResource(Request $request){
         
-        $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        // return json_encode($request->all());
 
-        // ketika support cabang
+        if($request->type == 'bulan')
+            $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        else if($request->type == 'triwulan'){
+            $d1 = explode('/', $request->triwulan)[1].'-'.explode('/', $request->triwulan)[0].'-01';
+        }
 
-            if(modulSetting()['support_cabang']){
-                $data = level_1::where('hls_id', '<=', '3')
-                            ->with([
-                                'subclass' => function($query) use ($d1, $request){
-                                    $query->select('hs_id', 'hs_nama', 'hs_level_1')
-                                            ->orderBy('hs_flag')
-                                            ->with([
-                                                'level_2' => function($query) use ($d1, $request){
-                                                    $query->select('hld_id', 'hld_nama', 'hld_subclass')
-                                                        ->with([
-                                                            'akun' => function($query) use ($d1, $request){
-                                                                $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
-                                                                        ->where('as_periode', $d1)
-                                                                        ->where('ak_comp', $request->cab)
-                                                                        ->select(
-                                                                            'ak_id',
-                                                                            'ak_kelompok',
-                                                                            'ak_nama',
-                                                                            'ak_posisi',
-                                                                            DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
-                                                                        );
-                                                            }
-                                                        ]);
-                                                }
-                                            ]);
-                                }
-                            ])
-                            ->select('hls_id', 'hls_nama')
-                            ->get();
-            }else{
-                
-                // return here;
-
-                $data = level_1::where('hls_id', '<=', '3')
-                            ->with([
-                                'subclass' => function($query) use ($d1){
-                                    $query->select('hs_id', 'hs_nama', 'hs_level_1')
-                                            ->orderBy('hs_flag')
-                                            ->with([
-                                                'level_2' => function($query) use ($d1){
-                                                    $query->select('hld_id', 'hld_nama', 'hld_subclass')
-                                                        ->with([
-                                                            'akun' => function($query) use ($d1){
-                                                                $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
-                                                                        ->where('as_periode', $d1)
-                                                                        ->select(
-                                                                            'ak_id',
-                                                                            'ak_kelompok',
-                                                                            'ak_nama',
-                                                                            'ak_posisi',
-                                                                            DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
-                                                                        );
-                                                            }
-                                                        ]);
-                                                }
-                                            ]);
-                                }
-                            ])
-                            ->select('hls_id', 'hls_nama')
-                            ->get();
-            }
+        $data = level_1::where('hls_id', '<=', '3')
+                    ->with([
+                        'subclass' => function($query) use ($d1){
+                            $query->select('hs_id', 'hs_nama', 'hs_level_1')
+                                    ->orderBy('hs_flag')
+                                    ->with([
+                                        'level_2' => function($query) use ($d1){
+                                            $query->select('hld_id', 'hld_nama', 'hld_subclass')
+                                                ->with([
+                                                    'akun' => function($query) use ($d1){
+                                                        $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
+                                                                ->where('as_periode', $d1)
+                                                                ->select(
+                                                                    'ak_id',
+                                                                    'ak_kelompok',
+                                                                    'ak_nama',
+                                                                    'ak_posisi',
+                                                                    DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
+                                                                );
+                                                    }
+                                                ]);
+                                        }
+                                    ]);
+                        }
+                    ])
+                    ->select('hls_id', 'hls_nama')
+                    ->get();
 
         // selesai
 
-        // return json_encode($data);
-
-        // return json_encode($res);
-
-        $lr = getLR($request);
+        $lr = getLR($d1);
 
         // return json_encode($lr);
 
@@ -113,81 +95,40 @@ class laporan_neraca_controller extends Controller
     }
 
     public function print(Request $request){
-        $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        
+        if($request->type == 'bulan')
+            $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        else if($request->type == 'triwulan'){
+            $d1 = explode('/', $request->triwulan)[1].'-'.explode('/', $request->triwulan)[0].'-01';
+        }
 
-        // Mengambil Cabang
-
-            $namaCabang = '';
-
-            if(modulSetting()['support_cabang']){
-                $namaCabang = DB::table(tabel()->cabang->nama)
-                                    ->where(tabel()->cabang->kolom->id, $request->cab)
-                                    ->select(tabel()->cabang->kolom->nama.' as nama')
-                                    ->first()->nama;
-            }
-
-        // Selesai Mengambil Cabang
-
-        // ketika support cabang
-
-            if(modulSetting()['support_cabang']){
-                $data = level_1::where('hls_id', '<=', '3')
-                            ->with([
-                                'subclass' => function($query) use ($d1, $request){
-                                    $query->select('hs_id', 'hs_nama', 'hs_level_1')
-                                            ->orderBy('hs_flag')
-                                            ->with([
-                                                'level_2' => function($query) use ($d1, $request){
-                                                    $query->select('hld_id', 'hld_nama', 'hld_subclass')
-                                                        ->with([
-                                                            'akun' => function($query) use ($d1, $request){
-                                                                $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
-                                                                        ->where('as_periode', $d1)
-                                                                        ->where('ak_comp', $request->cab)
-                                                                        ->select(
-                                                                            'ak_id',
-                                                                            'ak_kelompok',
-                                                                            'ak_nama',
-                                                                            'ak_posisi',
-                                                                            DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
-                                                                        );
-                                                            }
-                                                        ]);
-                                                }
-                                            ]);
-                                }
-                            ])
-                            ->select('hls_id', 'hls_nama')
-                            ->get();
-            }else{
-                $data = level_1::where('hls_id', '<=', '3')
-                            ->with([
-                                'subclass' => function($query) use ($d1){
-                                    $query->select('hs_id', 'hs_nama', 'hs_level_1')
-                                            ->orderBy('hs_flag')
-                                            ->with([
-                                                'level_2' => function($query) use ($d1){
-                                                    $query->select('hld_id', 'hld_nama', 'hld_subclass')
-                                                        ->with([
-                                                            'akun' => function($query) use ($d1){
-                                                                $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
-                                                                        ->where('as_periode', $d1)
-                                                                        ->select(
-                                                                            'ak_id',
-                                                                            'ak_kelompok',
-                                                                            'ak_nama',
-                                                                            'ak_posisi',
-                                                                            DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
-                                                                        );
-                                                            }
-                                                        ]);
-                                                }
-                                            ]);
-                                }
-                            ])
-                            ->select('hls_id', 'hls_nama')
-                            ->get();
-            }
+        $data = level_1::where('hls_id', '<=', '3')
+                    ->with([
+                        'subclass' => function($query) use ($d1){
+                            $query->select('hs_id', 'hs_nama', 'hs_level_1')
+                                    ->orderBy('hs_flag')
+                                    ->with([
+                                        'level_2' => function($query) use ($d1){
+                                            $query->select('hld_id', 'hld_nama', 'hld_subclass')
+                                                ->with([
+                                                    'akun' => function($query) use ($d1){
+                                                        $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
+                                                                ->where('as_periode', $d1)
+                                                                ->select(
+                                                                    'ak_id',
+                                                                    'ak_kelompok',
+                                                                    'ak_nama',
+                                                                    'ak_posisi',
+                                                                    DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
+                                                                );
+                                                    }
+                                                ]);
+                                        }
+                                    ]);
+                        }
+                    ])
+                    ->select('hls_id', 'hls_nama')
+                    ->get();
 
         // selesai
 
@@ -197,81 +138,48 @@ class laporan_neraca_controller extends Controller
     }
 
     public function pdf(Request $request){
-        $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        
+        $status = true;
 
-        // Mengambil Cabang
+        if($request->type == 'bulan')
+            $d1 = explode('/', $request->d1)[1].'-'.explode('/', $request->d1)[0].'-01';
+        else if($request->type == 'triwulan'){
+            $d1 = explode('/', $request->triwulan)[1].'-'.explode('/', $request->triwulan)[0].'-01';
+        }
 
-            $namaCabang = '';
+        $cek = DB::table('dk_periode_keuangan')->where('pk_periode', $d1)->first();
 
-            if(modulSetting()['support_cabang']){
-                $namaCabang = DB::table(tabel()->cabang->nama)
-                                    ->where(tabel()->cabang->kolom->id, $request->cab)
-                                    ->select(tabel()->cabang->kolom->nama.' as nama')
-                                    ->first()->nama;
-            }
+        if(!$cek){
+            $status = false;
+        }
 
-        // Selesai Mengambil Cabang
-
-        // ketika support cabang
-
-            if(modulSetting()['support_cabang']){
-                $data = level_1::where('hls_id', '<=', '3')
-                            ->with([
-                                'subclass' => function($query) use ($d1, $request){
-                                    $query->select('hs_id', 'hs_nama', 'hs_level_1')
-                                            ->orderBy('hs_flag')
-                                            ->with([
-                                                'level_2' => function($query) use ($d1, $request){
-                                                    $query->select('hld_id', 'hld_nama', 'hld_subclass')
-                                                        ->with([
-                                                            'akun' => function($query) use ($d1, $request){
-                                                                $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
-                                                                        ->where('as_periode', $d1)
-                                                                        ->where('ak_comp', $request->cab)
-                                                                        ->select(
-                                                                            'ak_id',
-                                                                            'ak_kelompok',
-                                                                            'ak_nama',
-                                                                            'ak_posisi',
-                                                                            DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
-                                                                        );
-                                                            }
-                                                        ]);
-                                                }
-                                            ]);
-                                }
-                            ])
-                            ->select('hls_id', 'hls_nama')
-                            ->get();
-            }else{
-                $data = level_1::where('hls_id', '<=', '3')
-                            ->with([
-                                'subclass' => function($query) use ($d1){
-                                    $query->select('hs_id', 'hs_nama', 'hs_level_1')
-                                            ->orderBy('hs_flag')
-                                            ->with([
-                                                'level_2' => function($query) use ($d1){
-                                                    $query->select('hld_id', 'hld_nama', 'hld_subclass')
-                                                        ->with([
-                                                            'akun' => function($query) use ($d1){
-                                                                $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
-                                                                        ->where('as_periode', $d1)
-                                                                        ->select(
-                                                                            'ak_id',
-                                                                            'ak_kelompok',
-                                                                            'ak_nama',
-                                                                            'ak_posisi',
-                                                                            DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
-                                                                        );
-                                                            }
-                                                        ]);
-                                                }
-                                            ]);
-                                }
-                            ])
-                            ->select('hls_id', 'hls_nama')
-                            ->get();
-            }
+        $data = level_1::where('hls_id', '<=', '3')
+                    ->with([
+                        'subclass' => function($query) use ($d1){
+                            $query->select('hs_id', 'hs_nama', 'hs_level_1')
+                                    ->orderBy('hs_flag')
+                                    ->with([
+                                        'level_2' => function($query) use ($d1){
+                                            $query->select('hld_id', 'hld_nama', 'hld_subclass')
+                                                ->with([
+                                                    'akun' => function($query) use ($d1){
+                                                        $query->leftJoin('dk_akun_saldo', 'dk_akun_saldo.as_akun', 'dk_akun.ak_id')
+                                                                ->where('as_periode', $d1)
+                                                                ->select(
+                                                                    'ak_id',
+                                                                    'ak_kelompok',
+                                                                    'ak_nama',
+                                                                    'ak_posisi',
+                                                                    DB::raw('coalesce(as_saldo_akhir, 2) as saldo_akhir')
+                                                                );
+                                                    }
+                                                ]);
+                                        }
+                                    ]);
+                        }
+                    ])
+                    ->select('hls_id', 'hls_nama')
+                    ->get();
 
         // selesai
 
@@ -280,18 +188,17 @@ class laporan_neraca_controller extends Controller
         // return json_encode($res[0]->group[0]->akun[0]->fromKelompok);
 
         $data = [
-            "data"       => $data,
-            "cabang"     => $namaCabang
+            "data"       => $data
         ];
 
         // return view('modul_keuangan.laporan.jurnal.print.pdf', compact('data'));
 
         $title = "Laporan_Neraca_".$d1.".pdf";
 
-        $pdf = PDF::loadView('modul_keuangan.laporan.neraca.print.pdf', compact('data', 'lr'));
+        $pdf = PDF::loadView('modul_keuangan.laporan.neraca.print.pdf', compact('data', 'lr', 'status'));
         $pdf->setPaper('A4', 'portrait');
 
-        return $pdf->stream($title);
+        return $pdf->download($title);
     }
 
     public function excel(Request $request){

@@ -225,10 +225,27 @@
 				<div id="contentnya">
 
 					<?php 
-						if($_GET['type'] == 'bulan')
+						$tanggal_1 = '';
+
+						if($_GET['type'] == 'bulan'){
 							$tanggal_1 = switchBulan(explode('/', $_GET['d1'])[0]).' '.explode('/', $_GET['d1'])[1];
-						else
-							$tanggal_1 = $_GET['y1'];
+						}
+						else if($_GET['type'] == 'triwulan'){
+							switch(explode('/', $_GET['triwulan'])[0]){
+								case '03' :
+									$tanggal_1 = 'Triwulan 1';
+									break;
+								case '06' : 
+									$tanggal_1 = 'Triwulan 2';
+									break;
+								case '09' : 
+									$tanggal_1 = 'Triwulan 3';
+									break;
+								case '10' : 
+									$tanggal_1 = 'Triwulan 4';
+									break;
+							}
+						}
 					?>					
 
 					{{-- Judul Kop --}}
@@ -257,44 +274,48 @@
 
 			    	<div style="padding-top: 20px;">
 
-			    		<template>
-							<table class="table" id="table-data" v-cloak>
-								<tbody>
-									<template v-for="(data, idx) in dataPrint">
-										<tr>
-											<td colspan="2" style="font-weight: 600; font-size: 10pt;">
-												@{{ data.hld_id }} - @{{ data.hld_nama }}
-											</td>
-										</tr>
-
-										<template v-for="(detail, idx) in data.akun">
+			    		@if (!$status)
+			    			<small><center>Laporan Keuangan Untuk Periode Ini Belum Ada</center></small>
+			    		@else
+				    		<template>
+								<table class="table" id="table-data" v-cloak>
+									<tbody>
+										<template v-for="(data, idx) in dataPrint">
 											<tr>
-												<td style="padding: 5px 0px 5px 30px;">@{{ detail.ak_nomor }} - @{{ detail.ak_nama }}</td>
-
-												<td style="padding: 5px 20px 5px 30px; text-align: right;">
-													@{{ (detail.saldo_akhir < 0) ? '('+humanizePrice(detail.saldo_akhir)+')' : humanizePrice(detail.saldo_akhir) }}
+												<td colspan="2" style="font-weight: 600; font-size: 10pt;">
+													@{{ data.hld_id }} - @{{ data.hld_nama }}
 												</td>
 											</tr>
+
+											<template v-for="(detail, idx) in data.akun">
+												<tr>
+													<td style="padding: 5px 0px 5px 30px;">@{{ detail.ak_nomor }} - @{{ detail.ak_nama }}</td>
+
+													<td style="padding: 5px 20px 5px 30px; text-align: right;">
+														@{{ (detail.saldo_akhir < 0) ? '('+humanizePrice(detail.saldo_akhir)+')' : humanizePrice(detail.saldo_akhir) }}
+													</td>
+												</tr>
+											</template>
+
+											<tr>
+												<td style="font-weight: 600; font-size: 9pt;">
+													Total @{{ data.hld_nama }}
+												</td>
+
+												<td style="padding: 5px 20px 5px 30px; text-align: right; font-weight: 600; font-size: 9pt; border-top: 2px solid #888;">
+													@{{ (counter[data.hld_id] < 0) ? '('+humanizePrice(counter[data.hld_id])+')' : humanizePrice(counter[data.hld_id]) }}
+												</td>
+											</tr>
+
+											<tr>
+												<td colspan="2" style="border: 1px solid #eee;">&nbsp;</td>
+											</tr>
 										</template>
+									</tbody>
 
-										<tr>
-											<td style="font-weight: 600; font-size: 9pt;">
-												Total @{{ data.hld_nama }}
-											</td>
-
-											<td style="padding: 5px 20px 5px 30px; text-align: right; font-weight: 600; font-size: 9pt; border-top: 2px solid #888;">
-												@{{ (counter[data.hld_id] < 0) ? '('+humanizePrice(counter[data.hld_id])+')' : humanizePrice(counter[data.hld_id]) }}
-											</td>
-										</tr>
-
-										<tr>
-											<td colspan="2" style="border: 1px solid #eee;">&nbsp;</td>
-										</tr>
-									</template>
-								</tbody>
-
-							</table>
-						</template>
+								</table>
+							</template>
+						@endif
 					</div>
 				</div>
 			</div>
@@ -382,7 +403,6 @@
 				            	$('#loading-popup').ezPopup('show');
 
 				            	$('#d1').val('{{ $_GET['d1'] }}');
-				            	$('#y1').val('{{ $_GET['y1'] }}');
 				            	$('#type').val('{{ $_GET['type'] }}').trigger('change.select2');
 				            	this.typeChange('{{ $_GET['type'] }}');
 				            	$('#tampilan').val('{{ $_GET['tampilan'] }}').trigger('change.select2');

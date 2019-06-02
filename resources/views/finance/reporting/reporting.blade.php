@@ -40,7 +40,7 @@
             $neraca_saldo = "_token=".csrf_token()."&d1=".$bulanFirst.$cabang;
 
         // Neraca
-            $neraca = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=".$cabang;
+            $neraca = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=".date('Y')."&triwulan=03/".date('Y').$cabang;
 
         // laba_rugi
             $laba_rugi = "_token=".csrf_token()."&d1=".$bulanFirst."&type=bulan&tampilan=tabular&y1=".$cabang;
