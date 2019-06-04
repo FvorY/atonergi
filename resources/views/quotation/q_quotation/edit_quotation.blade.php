@@ -610,20 +610,20 @@ function edit_item(p) {
 
 
 $(document).on('blur','.unit_price',function(){
-  @if (Auth::user()->akses('LOWER PRICE','aktif'))
-    var ini = $(this);
-    var par = ini.parents('tr');
-    var low = par.find('.lower_price').val()*1;
-    var qty = par.find('.jumlah').val()*1;
-    var harga = ini.val().replace(/[^0-9\-]+/g,"")*1;
-    if (parseInt(harga) < parseInt(low)) {
-      ini.val('');
-      par.find('.line_total').val(0);
-      iziToast.warning({
-              icon: 'fa fa-info',
-              message: 'Harga Jual Kurang Dari Harga Terendah Item Ini Yaitu'+accounting.formatMoney(low, "", 0, ".",','),
-          });
-    }
+  @if (Auth::user()->m_jabatan == "MANAGER")
+    // var ini = $(this);
+    // var par = ini.parents('tr');
+    // var low = par.find('.lower_price').val()*1;
+    // var qty = par.find('.jumlah').val()*1;
+    // var harga = ini.val().replace(/[^0-9\-]+/g,"")*1;
+    // if (parseInt(harga) < parseInt(low)) {
+    //   ini.val('');
+    //   par.find('.line_total').val(0);
+    //   iziToast.warning({
+    //           icon: 'fa fa-info',
+    //           message: 'Harga Jual Kurang Dari Harga Terendah Item Ini Yaitu'+accounting.formatMoney(low, "", 0, ".",','),
+    //       });
+    // }
   @else
     var ini = $(this);
     var par = ini.parents('tr');
@@ -632,8 +632,8 @@ $(document).on('blur','.unit_price',function(){
     var harga = ini.val().replace(/[^0-9\-]+/g,"")*1;
 
     if (parseInt(harga) < parseInt(low)) {
-      ini.val('');
-      par.find('.line_total').val(0);
+      ini.val(accounting.formatMoney(low, "", 0, ".",','));
+      par.find('.line_total').val(accounting.formatMoney(low*qty, "", 0, ".",','));
       iziToast.warning({
               icon: 'fa fa-info',
               message: 'Tidak Boleh Kurang Dari Harga Terendah, Harga Terendah Item Ini Adalah '+accounting.formatMoney(low, "", 0, ".",','),

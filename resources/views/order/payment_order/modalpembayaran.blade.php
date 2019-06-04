@@ -12,11 +12,18 @@
         <center>
         <div class="row">
           <div class="table-responsive" style="margin-bottom: 15px;">
-            <table class="table table-hover" cellspacing="1">
-              <tbody id="showdata">
+            <table class="table table-hover" cellspacing="0" id="tablepembayaran">
+						  <thead class="bg-gradient-info">
+                <tr>
+                  <th id="noqo"></th>
+                  <th id="2clm"></th>
+                  <th id="3clm"></th>
+                </tr>
+						  </thead>
+						  <tbody>
 
-              </tbody>
-            </table>
+						  </tbody>
+						</table>
           </div>
 
 
@@ -27,7 +34,7 @@
              <label for="">Total : </label>
            </div>
            <div class="col-md-5" id="total">
-             
+
            </div>
          </div>
        </center>

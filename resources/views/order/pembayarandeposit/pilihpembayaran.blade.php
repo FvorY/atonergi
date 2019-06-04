@@ -146,8 +146,76 @@
               @endif
             </div>
           </div>
-         </div>
+
+            @if (count($paydeposit) == 0)
+            <div class="col-md-3 col-sm-6 col-xs-12" id="labelakunsisa" style="display:none">
+              <label>Akui Nominal Lebih Sebagai</label>
+            </div>
+            @else
+              @if ((int)$paydeposit->p_lebih == 0)
+                <div class="col-md-3 col-sm-6 col-xs-12" id="labelakunsisa" style="display:none">
+                  <label>Akui Nominal Lebih Sebagai</label>
+                </div>
+                @else
+                  <div class="col-md-3 col-sm-6 col-xs-12" id="labelakunsisa">
+                    <label>Akui Nominal Lebih Sebagai</label>
+                  </div>
+                @endif
+            @endif
+            @if (count($paydeposit) == 0)
+            <div class="col-md-3 col-sm-6 col-xs-12" id="akunsisa" style="display:none">
+              <div class="form-group">
+                <div>
+                  <select class="form-control form-control-sm akunsisa" name="akunsisa">
+                      @foreach($akunsisa as $key => $akun)
+                        <option value="{{ $akun->ak_id }}">{{ $akun->ak_nomor }} - {{ $akun->ak_nama }}</option>
+                      @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+            @else
+              @if ((int)$paydeposit->p_lebih == 0)
+                <div class="col-md-3 col-sm-6 col-xs-12" id="akunsisa" style="display:none">
+                  <div class="form-group">
+                    <div>
+                      <select class="form-control form-control-sm akunsisa" name="akunsisa">
+                          @foreach($akunsisa as $key => $akun)
+                            <option value="{{ $akun->ak_id }}">{{ $akun->ak_nomor }} - {{ $akun->ak_nama }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              @else
+                <div class="col-md-3 col-sm-6 col-xs-12" id="akunsisa">
+                  <div class="form-group">
+                    <div>
+                      <select class="form-control form-control-sm akunsisa" name="akunsisa">
+                          @foreach($akunsisa as $key => $akun)
+                            <option value="{{ $akun->ak_id }}">{{ $akun->ak_nomor }} - {{ $akun->ak_nama }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              @endif
+            @endif
+
+          <div class="col-md-3 col-sm-6 col-xs-12" id="labellebih">
+            <label>Nominal Lebih</label>
+          </div>
+          <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+              @if (count($paydeposit) == 0)
+                <input type="text" readonly class="form-control-sm form-control" name="lebih">
+              @else
+                <input type="text" readonly class="form-control-sm form-control" value="{{number_format($paydeposit->p_lebih,0,',','.')}}" name="lebih">
+              @endif
+            </div>
+          </div>
       </form>
+      </div>
       <div class="modal-footer">
         <button class="btn btn-primary" type="button" id="save_detail" onclick="save_detail()" >Save Detail</button>
         <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>

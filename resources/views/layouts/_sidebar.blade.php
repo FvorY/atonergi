@@ -233,9 +233,9 @@
                   @endif
                   @if( (int)$sidebar[8]->aktif == 1)
 
-                  @if( (int)$sidebar[8]->aktif == 1)
+                  {{-- @if( (int)$sidebar[8]->aktif == 1)
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/modul/keuangan/master/group-akun') ? 'active' : '' || Request::is('master/modul/keuangan/master/group-akun/*') ? 'active' : '' }}" href="{{url('master/modul/keuangan/master/group-akun')}}">Master Data Group Akun</a></li>
-                  @endif
+                  @endif --}}
 
                   <li class="nav-item"> <a class="nav-link {{Request::is('master/modul/keuangan/master/akun') ? 'active' : '' || Request::is('master/modul/keuangan/master/akun/*') ? 'active' : '' }}" href="{{url('master/modul/keuangan/master/akun')}}">Master Data Akun Keuangan</a></li>
                   @endif

@@ -59,7 +59,15 @@
 @endsection
 @section('extra_script')
 <script type="text/javascript">
+var tablepembayaran;
 $(document).ready(function(){
+	tablepembayaran = $('#tablepembayaran').DataTable({
+		dom: 'Bfrtip',
+		title: '',
+		buttons: [
+				'copy', 'csv', 'excel', 'pdf', 'print'
+		],
+	});
 	$('#table_quote').DataTable({
       processing: true,
       serverSide: true,
@@ -108,6 +116,7 @@ $(document).ready(function(){
 })
 
 function showpembayaran(id){
+	tablepembayaran.clear();
 	var html = "";
 	var total = 0;
 	$.ajax({
@@ -116,26 +125,33 @@ function showpembayaran(id){
 		dataType: 'json',
 		url: baseUrl + '/order/payment_order/detailpemayaran',
 		success : function(response){
-			console.log(response);
+			tablepembayaran.clear();
 			for (var i = 0; i < response.length; i++) {
 				if (i == 0) {
-					html += "";
+					tablepembayaran.clear();
 				} else if (i == 1) {
-					html += '<tr>'+
-						'<td>DP '+i+'</td>'+
-						'<td align="left">Rp. '+get_currency(response[i].po_dp)+'</td>'+
-					'</tr>';
+					tablepembayaran.row.add([
+						'DP '+i,
+						'Rp. '+get_currency(response[i].po_dp),
+						response[i].po_pay
+					]).draw(false);
+
 					total += parseInt(response[i].po_dp);
 				} else {
-					html += '<tr>'+
-						'<td>DP '+i+'</td>'+
-						'<td align="left">Rp. '+get_currency(response[i].po_total)+'</td>'+
-					'</tr>';
+					tablepembayaran.row.add([
+						'DP '+i,
+						'Rp. '+get_currency(response[i].po_total),
+						response[i].po_pay
+					]).draw(false);
+
 					total += parseInt(response[i].po_total);
 				}
 			}
-			$('#showdata').html(html);
 			$('#total').text('Rp. '+get_currency(total));
+			$('#noqo').text(response[0].po_ref);
+			$('#noqo').attr('colspan', '3');
+			$('#2clm').css('display', 'none');
+			$('#3clm').css('display', 'none');
 			$('#pembayaran').modal('show');
 		}
 	});
