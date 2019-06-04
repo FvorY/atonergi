@@ -1227,6 +1227,15 @@ Route::get('/master/type/datatable_type', 'MasterType\TypeController@datatable_t
                 ])->name('laporan.keuangan.laba_rugi.print.excel');
 
 
+            // laporan Neraca Lampiran
+                Route::get('modul/keuangan/laporan/laba-rugi-lampiran', [
+                    'uses'  => 'modul_keuangan\laporan\laba_rugi_lampiran\laporan_lr_lampiran_controller@index'
+                ])->name('laporan.keuangan.laba_rugi_lampiran');
+
+                Route::get('modul/keuangan/laporan/laba-rugi-lampiran/data_resource', [
+                    'uses'  => 'modul_keuangan\laporan\laba_rugi_lampiran\laporan_lr_lampiran_controller@dataResource'
+                ])->name('laporan.keuangan.laba_rugi_lampiran.data_resource');
+
             // laporan Arus Kas
                 Route::get('modul/keuangan/laporan/arus_kas', [
                     'uses'  => 'modul_keuangan\laporan\arus_kas\laporan_arus_kas_controller@index'

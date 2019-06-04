@@ -281,7 +281,7 @@ class laporan_laba_rugi_controller extends Controller
         $pdf = PDF::loadView('modul_keuangan.laporan.laba_rugi.print.pdf', compact('data'));
         $pdf->setPaper('A4', 'portrait');
 
-        return $pdf->download($title);
+        return $pdf->stream($title);
     }
 
     public function excel(Request $request){

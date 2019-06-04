@@ -71,22 +71,35 @@ class periode_keuangan_controller extends Controller
 
                     foreach ($akun as $key => $coa) {
 
-                        if($coa->ak_posisi == 'D' && $coa->as_saldo_awal > 0){
+                        if($coa->ak_posisi == 'D' && $coa->as_saldo_awal != 0){
+                            
+                            $pos = 'K';
                             $k += $coa->as_saldo_awal;
+
+                            if($coa->as_saldo_awal < 0){
+                                $pos = 'D';
+                            }
 
                             $jurnalDetail[$coa->ak_id] = [
                                 'jrdt_akun'          => $coa->ak_id,
-                                'jrdt_value'         => $coa->as_saldo_awal,
-                                'jrdt_dk'            => 'K'
+                                'jrdt_value'         => ($coa->as_saldo_awal < 0) ? ($coa->as_saldo_awal * -1) : $coa->as_saldo_awal,
+                                'jrdt_dk'            => $pos,
+                                'nama_akun'          => $coa->ak_id
                             ];
 
                         }else if($coa->ak_posisi == 'K' && $coa->as_saldo_awal > 0){
+                            $pos = 'D';
                             $d += $coa->as_saldo_awal;
+
+                            if($coa->as_saldo_awal < 0){
+                                $pos = 'K';
+                            }
 
                             $jurnalDetail[$coa->ak_id] = [
                                 'jrdt_akun'          => $coa->ak_id,
-                                'jrdt_value'         => $coa->as_saldo_awal,
-                                'jrdt_dk'            => 'D'
+                                'jrdt_value'         => ($coa->as_saldo_awal < 0) ? ($coa->as_saldo_awal * -1) : $coa->as_saldo_awal,
+                                'jrdt_dk'            => $pos,
+                                'nama_akun'          => $coa->ak_id
                             ];
                         }
                     }
@@ -100,13 +113,15 @@ class periode_keuangan_controller extends Controller
                             $jurnalDetail[$akk->ap_akun] = [
                                 'jrdt_akun'          => $akk->ap_akun,
                                 'jrdt_value'         => $selisih * -1,
-                                'jrdt_dk'            => 'K'
+                                'jrdt_dk'            => 'K',
+                                'nama_akun'          => $akk->ap_akun
                             ];
                         }else{
                             $jurnalDetail[$akk->ap_akun] = [
                                 'jrdt_akun'          => $akk->ap_akun,
                                 'jrdt_value'         => $selisih,
-                                'jrdt_dk'            => 'D'
+                                'jrdt_dk'            => 'D',
+                                'nama_akun'          => $akk->ap_akun
                             ];
                         }
 
@@ -116,6 +131,8 @@ class periode_keuangan_controller extends Controller
                     // return json_encode($jurnalDetail);
 
                 // Penghitungan nilai aset
+                    $jurnal = [];
+                    
                     $aktiva = DB::table('dk_aktiva')
                                     ->where('at_comp', modulSetting()['onLogin'])
                                     ->join('dk_aktiva_golongan', 'dk_aktiva_golongan.ga_id', 'dk_aktiva.at_id')
