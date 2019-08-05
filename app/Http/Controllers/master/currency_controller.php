@@ -32,6 +32,7 @@ class currency_controller extends Controller
 
 
         // return $data;
+                  
         $data = collect($data);
         // return $data;
         return Datatables::of($data)
@@ -50,7 +51,7 @@ class currency_controller extends Controller
 
                         })
                         ->addColumn('total', function ($data) {
-                            return 'Rp. '. number_format($data->cu_value, 2, ",", ".");
+                            return $data->cu_value;
                         })
                         ->rawColumns(['aksi','total'])
                         ->addIndexColumn()

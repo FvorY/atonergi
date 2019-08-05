@@ -48,7 +48,7 @@
                       <th class="wd-15p">Code</th>
                       <th>Symbol</th>
                       <th>Currency Name</th>
-                      <th class="wd-15p">Value</th>
+                      <th class="wd-15p">Total</th>
                       <th width="15%">Action</th>
                     </tr>
                   </thead>

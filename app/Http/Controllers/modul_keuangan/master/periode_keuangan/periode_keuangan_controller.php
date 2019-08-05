@@ -52,7 +52,7 @@ class periode_keuangan_controller extends Controller
     			]);
 
                 keuangan::akunSaldo()->addNewPeriode(date('Y-m-d', $periode));
-
+                
                 // Penutupan akun laba rugi
                     $akun = DB::table('dk_akun')
                                 ->join('dk_hierarki_lvl_dua', 'dk_hierarki_lvl_dua.hld_id', 'dk_akun.ak_kelompok')

@@ -40,6 +40,8 @@ class KpiController extends Controller
                     ->leftjoin('m_jabatan', 'm_kpix.kpix_jabatan_id', '=', 'm_jabatan.c_id')
                     ->get();
 
+        // return json_encode($data);
+
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('deadline', function ($data)
