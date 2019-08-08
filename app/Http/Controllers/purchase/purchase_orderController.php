@@ -120,7 +120,7 @@ class purchase_orderController extends Controller
 
             $item = DB::table('m_item')->leftjoin('d_unit', 'u_id', '=', 'i_unit')->leftjoin('i_stock_gudang','i_stock_gudang.sg_iditem','=','m_item.i_Code')->get();
 
-            return view('purchase/purchaseorder/create_purchaseorder',compact('ro','data_header','data_seq','vendor','nota','no_ro','no_vendor','item'));
+            return view('purchase/purchaseorder/create_purchaseorder',compact('ro','data_header','data_seq','nota','no_ro','no_vendor','item'));
       }
 
     public function detail_purchaseorder(Request $request)

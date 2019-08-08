@@ -20,6 +20,9 @@ class BarangController extends Controller
 {
     public function barangproses(Request $request)
     {
+
+        // return json_encode((float)$request->price);
+
       if (!mMember::akses('MASTER DATA BARANG', 'aktif')) {
         return redirect('error-404');
       }
@@ -28,7 +31,6 @@ class BarangController extends Controller
             $nama = Auth::user()->m_name;
             $m1 = DB::table('m_item')->where('i_jenis','ITEM')->max('i_id');
         	$index = DB::table('m_item')->max('i_id')+1;
-
 
             if($index<=9)
             {
@@ -70,9 +72,9 @@ class BarangController extends Controller
                       ->save($thumbnail_path . $file_name);
             }
 
-            $request->price = str_replace('.', '', $request->price);
-            $request->sell_price = str_replace('.', '', $request->sell_price);
-            $request->lower_price = str_replace('.', '', $request->lower_price);
+            $request->price = str_replace(',', '', $request->price);
+            $request->sell_price = str_replace(',', '', $request->sell_price);
+            $request->lower_price = str_replace(',', '', $request->lower_price);
 
             $save = DB::table('m_item')->insert([
                 'i_id'          =>  $index,
@@ -194,9 +196,12 @@ class BarangController extends Controller
 
             ->addColumn('lower', function ($barang){
               if ($barang->i_lower_currency != null) {
-              $lowercurrency = DB::table('m_currency')->where('cu_code', '=', strtoupper($barang->i_lower_currency))->first();
+
+                $lowercurrency = DB::table('m_currency')->where('cu_code', '=', strtoupper($barang->i_lower_currency))->first();
                 $harga = $barang->i_lower_price * $lowercurrency->cu_value;
-                return '<div class="float-left">'.'Rp .'.'</div>'.
+                $harga = $barang->i_lower_price;
+
+                return '<div class="float-left">'.$lowercurrency->cu_symbol.' .'.'</div>'.
                 '<div class="float-right">'.number_format($harga,2,',','.').'</div>';
               } else {
                 $harga = $barang->i_lower_price;
@@ -223,6 +228,7 @@ class BarangController extends Controller
 
     public function barang_update(Request $request)
     {
+
       if (!mMember::akses('MASTER DATA BARANG', 'ubah')) {
         return redirect('error-404');
       }
@@ -255,9 +261,11 @@ class BarangController extends Controller
                 ]);
             }
 
-            $request->price = str_replace('.', '', $request->price);
-            $request->sell_price = str_replace('.', '', $request->sell_price);
-            $request->lower_price = str_replace('.', '', $request->lower_price);
+            $request->price = str_replace(',', '', $request->price);
+            $request->sell_price = str_replace(',', '', $request->sell_price);
+            $request->lower_price = str_replace(',', '', $request->lower_price);
+
+            // return json_encode((float)$request->price);
 
         	$save = DB::table('m_item')->where('i_id',$request->kode_barang)->update([
                 'i_id'          =>  $request->kode_barang,
