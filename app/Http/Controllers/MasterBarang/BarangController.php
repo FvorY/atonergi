@@ -217,6 +217,7 @@ class BarangController extends Controller
           ->addIndexColumn()
             ->make(true);
     }
+
     public function barang_edit(Request $request)
     {
       if (!mMember::akses('MASTER DATA BARANG', 'ubah')) {
@@ -233,6 +234,8 @@ class BarangController extends Controller
         return redirect('error-404');
       }
         // dd($request->all());
+
+        // return json_encode($request->all());
 
         return DB::transaction(function() use ($request) {
             $nama = Auth::user()->m_name;
@@ -267,6 +270,12 @@ class BarangController extends Controller
 
             // return json_encode((float)$request->price);
 
+            $itm = DB::table('m_item')->where('i_id', $request->kode_barang)->first();
+
+            if(!$itm){
+                return json_encode('error');
+            }
+
         	$save = DB::table('m_item')->where('i_id',$request->kode_barang)->update([
                 'i_id'          =>  $request->kode_barang,
                 'i_name'        =>  strtoupper($request->item_name),
@@ -290,6 +299,39 @@ class BarangController extends Controller
                 'i_update_at'   =>  Carbon::now(),
                 'i_update_by'   =>  $nama,
             ]);
+
+            // update bundle
+                $bundle = DB::table('m_item')
+                            ->whereIn('i_id', function($query) use ($itm){
+                                $query->select(DB::raw('distinct(id_id)'))->from('m_item_dt')->where('id_item', $itm->i_code);
+                            })->get();
+
+                DB::table('m_item_dt')->where('id_item', $itm->i_code)->update([
+                    'id_price_unit'  => (float)$request->price,
+                    'id_total_price' => DB::raw('id_qty * '.(float)$request->price)
+                ]);
+
+                foreach($bundle as $key => $detail){
+                    $details = DB::table('m_item_dt')->where('id_id', $detail->i_id)->get();
+                    $value = 0;
+
+                    foreach ($details as $key => $det) {
+                        $item = DB::table('m_item')
+                                    ->where('i_code', $det->id_item)
+                                    ->join('m_currency', 'cu_code', 'i_price_currency')
+                                    ->first();
+
+                        if($item){
+                           $value += $item->i_price * $item->cu_value;
+                        }
+
+                    }
+
+                    DB::table('m_item')->where('i_id', $detail->i_id)->update([
+                        'i_price'   => $value
+                    ]);
+                }
+
             logController::inputlog('Master Data Barang', 'Update',  $request->item_name);
             return Response::json(['status'=>1]);
     	});

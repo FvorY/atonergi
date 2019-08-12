@@ -192,7 +192,7 @@
                 '<input type="text" id="jumlah[]" name="ib_qty_dt[]" class="form-control input-sm min-width right format_money" readonly="" value="'+qty+'">',
                 '<input type="text" readonly id="[]" name="ib_unit_dt[]" class="form-control input-sm min-width right format_money" value="'+data.data.u_unit+'asdas">',
                 '<input type="text" name="ib_price_dt[]" class="ib_price_dt form-control input-sm min-width right format_money" readonly="" value="'+data.data.i_price*currency  +'">',
-                '<input type="text" name="ib_total_price[]" class="ib_total_price form-control input-sm min-width right format_money" readonly="" value="'+ price +'">',
+                '<input type="text" name="ib_total_price[]" class="ib_total_price form-control input-sm min-width right format_money" readonly="" value="'+ price +'" data-val="'+price+'">',
                 '<button type="button" class="delete btn btn-outline-danger btn-sm hapus"><i class="fa fa-trash"></i></button>',
             ]).draw( false );
 
@@ -200,7 +200,10 @@
             var awal = 0;
             table.$('.ib_total_price').each(function(){
               var total = $(this).val();
-              awal += parseFloat(total);
+              var total2 = $(this).data('val');
+              awal += parseFloat(total2);
+
+              // console.log(total2);
             });
             $(".ib_price").val(awal);
             $('#bund_kodeitem').val('').trigger('change');

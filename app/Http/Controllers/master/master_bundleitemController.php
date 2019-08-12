@@ -175,19 +175,25 @@ class master_bundleitemController extends Controller
         for ($i=0; $i < count($req->ib_kode_dt); $i++) {
           $dt = DB::table('m_item_dt')->max('id_id')+1;
 
-          $save = DB::table('m_item_dt')->insert([
+          $item = DB::table('m_item')->where('i_code', $req->ib_kode_dt[$i])->first();
+
+          if($item){
+
+            $save = DB::table('m_item_dt')->insert([
                   'id_id'           =>  $index,
                   'id_detailid'     =>  $i+1,
                   'id_item'         =>  $req->ib_kode_dt[$i],
                   'id_unit'         =>  $req->ib_unit_dt[$i],
                   'id_qty'          =>  $req->ib_qty_dt[$i],
-                  'id_price_unit'   =>  $req->ib_price_dt[$i],
-                  'id_total_price'  =>  $req->ib_total_price[$i],
+                  'id_price_unit'   =>  $item->i_price,
+                  'id_total_price'  =>  $item->i_price * $req->ib_qty_dt[$i],
                   'id_insert_at'    =>  Carbon::now(),
                   'id_update_at'    =>  Carbon::now(),
                   'id_insert_by'    =>  $nama,
                   'id_update_by'    =>  $nama,
                 ]);
+
+          }
         }
 
         logController::inputlog('Master Bundle Item', 'Insert', $req->ib_name);

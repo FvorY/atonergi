@@ -72,9 +72,9 @@
               <div class="form-group">
                   <select class="form-control m_currency" name="m_currency">
                     @foreach($currency as $val)
-                      <option @if ($data->i_price_currency == $val->cu_code)
-                        selected=""
-                      @endif value="{{$val->cu_code}}" data-nilai="{{ $val->cu_value }}">{{$val->cu_code}} || {{$val->cu_name}}</option>
+                      @if($val->cu_code == 'IDR')
+                        <option selected="" value="{{$val->cu_code}}" data-nilai="{{ $val->cu_value }}">{{$val->cu_code}} || {{$val->cu_name}}</option>
+                      @endif
                     @endforeach
                   </select>
               </div>
@@ -242,13 +242,14 @@ var table  = $("#bundle_table").DataTable({
               var currency = 1;
             }
             var price  = parseInt(qty)*parseFloat(data.data.i_price)*currency;
+
             table.row.add( [
                '<input type="text" id="item_kode[]" name="ib_kode_dt[]" class="form-control input-sm min-width" readonly="" value="'+data.data.i_code+'">',
                 '<input type="text" id="item_name[]" name="ib_name_dt[]" class="form-control input-sm min-width" readonly="" value="'+data.data.i_name+'">',
                 '<input type="text" id="jumlah[]" name="ib_qty_dt[]" class="form-control input-sm min-width right" readonly="" value="'+qty+'">',
                 '<input type="text" readonly id="[]" name="ib_unit_dt[]" class="form-control input-sm min-width right" value="'+data.data.u_unit+'">',
                 '<input type="text" name="ib_price_dt[]" class="ib_price_dt form-control input-sm min-width right" readonly="" value="'+data.data.i_price*currency  +'">',
-                '<input type="text" name="ib_total_price[]" class="ib_total_price form-control input-sm min-width right" readonly="" value="'+ price +'">',
+                '<input type="text" name="ib_total_price[]" class="ib_total_price form-control input-sm min-width right" readonly="" value="'+ price +'" data-val="'+price+'">',
                 '<button type="button" class="delete btn btn-outline-danger btn-sm hapus"><i class="fa fa-trash"></i></button>',
             ]).draw( false );
 
@@ -256,7 +257,10 @@ var table  = $("#bundle_table").DataTable({
             var awal = 0;
             table.$('.ib_total_price').each(function(){
               var total = $(this).val();
-              awal += parseFloat(total);
+              var total2 = $(this).data('val');
+              awal += parseFloat(total2);
+
+              console.log(parseFloat(total));
             });
             console.log(awal);
             $(".ib_price").val(awal);

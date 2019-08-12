@@ -63,9 +63,9 @@
               <div class="form-group">
                   <select class="form-control m_currency" name="m_currency">
                     @foreach($currency as $val)
-                      <option @if ($val->cu_code == 'USD')
-                        selected=""
-                      @endif value="{{$val->cu_code}}" data-nilai="{{ $val->cu_value }}">{{$val->cu_code}} || {{$val->cu_name}}</option>
+                      @if($val->cu_code == 'IDR')
+                        <option selected="" value="{{$val->cu_code}}" data-nilai="{{ $val->cu_value }}">{{$val->cu_code}} || {{$val->cu_name}}</option>
+                      @endif
                     @endforeach
                   </select>
               </div>
