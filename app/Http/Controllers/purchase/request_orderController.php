@@ -76,8 +76,8 @@ class request_orderController extends Controller
                 ->addColumn('aksi', function ($list) {
                         if ($list->ro_status_po == 'F' && $list->ro_status == 'F') {                                                  
                             return  '<div class="btn-group">'.
-                                   '<button type="button" onclick="edit(this)" data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm" title="edit">'.
-                                   '<label class="fa fa-pencil"></label></button>'.
+                                   // '<button type="button" onclick="edit(this)" data-toggle="modal" data-target="#edit" class="btn btn-info btn-sm" title="edit">'.
+                                   // '<label class="fa fa-pencil"></label></button>'.
                                    '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-sm" title="hapus">'.
                                    '<label class="fa fa-trash"></label></button>'.
                                   '</div>';
@@ -217,7 +217,7 @@ class request_orderController extends Controller
                         'ro_price' =>$ro_price_header,
                         'ro_qty' =>$ro_qty_header,
                         'ro_qty_approved' => 0,
-                        'ro_insert' =>$tanggal,
+                        'ro_insert' => date("Y-m-d h:i:s", strtotime($request->ro_date)),
             ]);
 
             $kode_seq = 0;
@@ -280,11 +280,16 @@ class request_orderController extends Controller
                     ->where('rodt_code', $request->id)
                     ->get();
 
+        // return json_encode($dataseq);
+
         return response()->json(['dataheader' => $dataheader,'dataseq' => $dataseq]);
 
     }
 
     public function update_rencanapembelian(Request $request){
+
+        return json_encode($request->all());
+
         if (!mMember::akses('REQUEST ORDER', 'ubah')) {
             return redirect('error-404');
           }
@@ -295,23 +300,23 @@ class request_orderController extends Controller
           DB::table('d_requestorder')->where('ro_code','=',$request->ro_code_header)->where('ro_status_po','!=','T')->delete();
           DB::table('d_requestorder_dt')->where('rodt_code','=',$request->ro_code_header)->where('rodt_status_po','!=','T')->delete();
 
-                // dd($request->all());
-                $kode = DB::table('d_requestorder')->max('ro_id');
-                    if ($kode == null) {
-                        $kode = 1;
-                    }else{
-                        $kode += 1;
-                    }
+        // dd($request->all());
+        $kode = DB::table('d_requestorder')->max('ro_id');
+            if ($kode == null) {
+                $kode = 1;
+            }else{
+                $kode += 1;
+            }
 
-                $ro_price_header = str_replace('.','',$request->ro_total_header);
-                $ro_price_header = str_replace('Rp ','',$ro_price_header);
-                $ro_price_header = str_replace('$ ','',$ro_price_header);
-                $ro_qty_header = str_replace('.','',$request->ro_qty_header);
-                $ro_qty_header = str_replace('Rp ','',$ro_qty_header);
-                $ro_qty_header = str_replace('$ ','',$ro_qty_header);
-                $tanggal = date("Y-m-d h:i:s");
+        $ro_price_header = str_replace('.','',$request->ro_total_header);
+        $ro_price_header = str_replace('Rp ','',$ro_price_header);
+        $ro_price_header = str_replace('$ ','',$ro_price_header);
+        $ro_qty_header = str_replace('.','',$request->ro_qty_header);
+        $ro_qty_header = str_replace('Rp ','',$ro_qty_header);
+        $ro_qty_header = str_replace('$ ','',$ro_qty_header);
+        $tanggal = date("Y-m-d h:i:s", strtotime($request->ro_date));
 
-                $header = DB::table('d_requestorder')
+        $header = DB::table('d_requestorder')
                         ->insert([
                             'ro_id'    => $kode,
                             'ro_code' => $request->ro_code_header,
@@ -322,39 +327,46 @@ class request_orderController extends Controller
                             'ro_status_po' => $hapus_header[0]->ro_status_po,
                             'ro_status' => $hapus_header[0]->ro_status,
                             'ro_insert' =>$tanggal,
+                        ]);
+
+        // return json_encode($ro_qty_header);
+
+        $kode_seq = 0;
+        DB::table('d_requestorder_dt')->where('rodt_code', $request->ro_code_header)->delete();
+
+        if(isset($request->ro_item_seq)){
+            for ($i=0; $i < count($request->ro_item_seq); $i++) {
+                $unit_price_seq[$i] = str_replace('.','',$request->ro_unit_price_seq[$i]);
+                $unit_price_seq[$i] = str_replace('Rp ','',$unit_price_seq[$i]);
+                $unit_price_seq[$i] = str_replace('$ ','',$unit_price_seq[$i]);
+                $price_seq[$i] = str_replace('.','',$request->ro_price_seq[$i]);
+                $price_seq[$i] = str_replace('Rp ','',$price_seq[$i]);
+                $price_seq[$i] = str_replace('$ ','',$price_seq[$i]);
+                $qty_seq[$i] = str_replace('.','',$request->ro_qty_seq[$i]);
+                $qty_seq[$i] = str_replace('Rp ','',$qty_seq[$i]);
+                $qty_seq[$i] = str_replace('$ ','',$qty_seq[$i]);
+
+                $kode_seq = $kode_seq + 1;
+
+                $sequence[$i] = DB::table('d_requestorder_dt')
+                    ->insert([
+                        'rodt_id'     => $kode_seq,
+                        'rodt_code' => $request->ro_code_header,
+                        'rodt_barang' => $request->ro_item_seq[$i],
+                        'rodt_qty' => $qty_seq[$i],
+                        'rodt_qty_approved' => 0,
+                        'rodt_price' =>$price_seq[$i],
+                        'rodt_unit_price' =>$unit_price_seq[$i],
+                        'rodt_status' => $hapus_header[0]->ro_status,
+                        'rodt_status_po' => $hapus_header[0]->ro_status_po,
+                        'rodt_insert' =>$tanggal,
                 ]);
+            }
+        }
+        
+        logController::inputlog('Request Order', 'Update', $request->ro_code_header);
 
-                $kode_seq = 0;
-                for ($i=0; $i < count($request->ro_item_seq); $i++) {
-                    $unit_price_seq[$i] = str_replace('.','',$request->ro_unit_price_seq[$i]);
-                    $unit_price_seq[$i] = str_replace('Rp ','',$unit_price_seq[$i]);
-                    $unit_price_seq[$i] = str_replace('$ ','',$unit_price_seq[$i]);
-                    $price_seq[$i] = str_replace('.','',$request->ro_price_seq[$i]);
-                    $price_seq[$i] = str_replace('Rp ','',$price_seq[$i]);
-                    $price_seq[$i] = str_replace('$ ','',$price_seq[$i]);
-                    $qty_seq[$i] = str_replace('.','',$request->ro_qty_seq[$i]);
-                    $qty_seq[$i] = str_replace('Rp ','',$qty_seq[$i]);
-                    $qty_seq[$i] = str_replace('$ ','',$qty_seq[$i]);
-
-                    $kode_seq = $kode_seq + 1;
-
-                    $sequence[$i] = DB::table('d_requestorder_dt')
-                        ->insert([
-                            'rodt_id'     => $kode_seq,
-                            'rodt_code' => $request->ro_code_header,
-                            'rodt_barang' => $request->ro_item_seq[$i],
-                            'rodt_qty' => $qty_seq[$i],
-                            'rodt_qty_approved' => 0,
-                            'rodt_price' =>$price_seq[$i],
-                            'rodt_unit_price' =>$unit_price_seq[$i],
-                            'rodt_status' => $hapus_header[0]->ro_status,
-                            'rodt_status_po' => $hapus_header[0]->ro_status_po,
-                            'rodt_insert' =>$tanggal,
-                    ]);
-                }
-                logController::inputlog('Request Order', 'Update', $request->ro_code_header);
-
-            return response()->json(['status'=>1]);
+        return response()->json(['status'=>1]);
     }
 
 }

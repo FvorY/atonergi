@@ -120,8 +120,8 @@
 						      <th>Unit</th>
 						      <th>Description</th>
 						      <th>Unit Price</th>
-									<th>Line Before Tax</th>
-									<th>Tax</th>
+							  <!-- <th>Line Before Tax</th> -->
+							  <!-- <th>Tax</th> -->
 						      <th>Line Total</th>
 						    </tr>
 						  </thead>
@@ -133,8 +133,8 @@
 						    	<td>{{ $val->i_unit }}</td>
 						    	<td>{{ $val->qd_description }}</td>
 						    	<td>{{ 'Rp. '. number_format($val->qd_price, 2, ",", ".") }}</td>
-									<td>{{ 'Rp. '. number_format($val->qd_beforetax, 2, ",", ".") }}</td>
-									<td>{{ 'Rp. '. number_format($val->qd_tax, 2, ",", ".") }}</td>
+									<!-- <td>{{ 'Rp. '. number_format($val->qd_beforetax, 2, ",", ".") }}</td> -->
+									<!-- <td>{{ 'Rp. '. number_format($val->qd_tax, 2, ",", ".") }}</td> -->
 						    	<td>{{ 'Rp. '. number_format($val->qd_total, 2, ",", ".") }}</td>
 						    </tr>
 						    @endforeach
@@ -153,14 +153,14 @@
 				                <input type="text" class="form-control form-control-sm" name="subtotal" value="{{ 'Rp. '. number_format($data->q_subtotal, 2, ",", ".") }}" readonly="">
 				              </div>
 				            </div>
-				            <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
+				            <!-- <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
 				              <label>Sales Tax</label>
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
 				              <div class="form-group">
 				                <input type="text" class="form-control form-control-sm" name="tax" value="{{ 'Rp. '. number_format($data->q_tax, 2, ",", ".") }}" readonly="">
 				              </div>
-				            </div>
+				            </div> -->
 				            <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
 				              <label>Total</label>
 				            </div>
@@ -177,11 +177,11 @@
 				              	@if($data->q_dp != null)
 				                <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{'Rp. '. number_format($data->q_dp, 2, ",", ".")}}">
 				                @else
-													@if ($percent == null)
-														<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format((0 / 100) * $data->q_total , 2, ",", ".") }}">
-													@else
-														<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format(($percent->p_percent / 100) * $data->q_total , 2, ",", ".") }}">
-													@endif
+									@if ($percent == null)
+										<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format((0 / 100) * $data->q_total , 2, ",", ".") }}">
+									@else
+										<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format(($percent->p_percent / 100) * $data->q_total , 2, ",", ".") }}">
+									@endif
 				                @endif
 				              </div>
 				            </div>

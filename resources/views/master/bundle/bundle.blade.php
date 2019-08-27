@@ -35,7 +35,7 @@
                                     <th class="wd-15p" width="5%">Bundle Code</th>
                                     <th class="wd-15p" width="20%">Bundle Name</th>
                                     <th class="wd-15p" >Description</th>
-                                    <th>Price Bundle</th>
+                                    <th>Price Bundle (USD)</th>
                                     <th>Price Bundle (Rp)</th>
                                     <th width="15%">Action</th>
                                   </tr>
@@ -143,7 +143,7 @@
             {data: 'i_code', name: 'i_code'},
             {data: 'i_name', name: 'i_name'},
             {data: 'i_description', name: 'i_description'},
-            {data: 'i_price'},
+            {data: 'dollars'},
             {data: 'convert',render: $.fn.dataTable.render.number( ',', '.', 0, '' )},
             {data: 'aksi', name: 'aksi'},
             ]

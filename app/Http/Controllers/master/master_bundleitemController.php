@@ -47,14 +47,6 @@ class master_bundleitemController extends Controller
                               $b = '';
                             }
 
-
-                            // if(Auth::user()->akses('MASTER DATA BUNDLE ITEM','print')){
-                            //  $c =
-                            //  '<button type="button" onclick="printing(\''.$data->i_id.'\')" class="btn btn-info btn-lg" title="print">'.'<label class="fa fa-print"></label></button>';
-                            // }else{
-                            //   $c = '';
-                            // }
-
                             if(Auth::user()->akses('MASTER DATA BUNDLE ITEM','hapus')){
                              $d =
                                  '<button type="button" onclick="hapus(this)" class="btn btn-danger btn-lg" title="hapus">'.
@@ -68,12 +60,23 @@ class master_bundleitemController extends Controller
 
                         return $a . $b  . $d .$e ;
                 })
-                ->addColumn('none', function ($data) {
-                    return '-';
+                ->addColumn('dollars', function ($data) {
+                    $harga = 0;
+
+                    $currenncy = DB::table('m_currency')
+                                 ->where('cu_code', 'USD')
+                                 ->first();
+
+                    if($currenncy && $currenncy->cu_value > 0){
+                      $harga = $data->i_price / $currenncy->cu_value;
+                    }
+
+                    return number_format($harga, 2);
                 })
                 ->addColumn('convert', function ($data) {
 
                     $harga = 0;
+
                     if ($data->i_price_currency == 'idr') {
                       return $total = $data->i_price * 1;
                     }else{

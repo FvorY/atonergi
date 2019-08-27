@@ -245,14 +245,14 @@
                     <input style="text-align: right;" value="0" type="text" class="form-control form-control-sm" readonly="" name="subtotal" id="subtotal">
                   </div>
                 </div>
-                <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
+                <!-- <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                   <label>Sales Tax</label>
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
                   <div class="form-group">
                     <input style="text-align: right;" readonly type="text" class="form-control form-control-sm" value="0" name="tax" id="tax">
                   </div>
-                </div>
+                </div> -->
                 <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                   <label>Total</label>
                 </div>

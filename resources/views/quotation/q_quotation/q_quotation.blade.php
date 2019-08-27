@@ -353,14 +353,16 @@ q_qty.keypress(function(e) {
 
 					var beforetax = tmp / 1.1;
 
-					var tax = parseInt(tmp) - parseInt(beforetax);
+					// var tax = parseInt(tmp) - parseInt(beforetax);
+					tax = tmp * (1.1 / 100);
 
 				} else {
 					var tmp = data.data.i_sell_price * q_qty.val();
 
 					var beforetax = tmp / 2.5;
 
-					var tax = parseInt(tmp) - parseInt(beforetax);
+					// var tax = parseInt(tmp) - parseInt(beforetax);
+					tax = tmp * (2.5 / 100);
 				}
 
 				var itemname = [];

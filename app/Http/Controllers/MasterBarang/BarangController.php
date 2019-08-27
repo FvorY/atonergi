@@ -313,22 +313,29 @@ class BarangController extends Controller
 
                 foreach($bundle as $key => $detail){
                     $details = DB::table('m_item_dt')->where('id_id', $detail->i_id)->get();
-                    $value = 0;
+                    $value = $value2 = $value3 = 0;
 
                     foreach ($details as $key => $det) {
                         $item = DB::table('m_item')
                                     ->where('i_code', $det->id_item)
-                                    ->join('m_currency', 'cu_code', 'i_price_currency')
+                                    ->join('m_currency as price', 'price.cu_code', 'i_price_currency')
+                                    ->join('m_currency as sell', 'sell.cu_code', 'i_price_currency')
+                                    ->join('m_currency as lower', 'lower.cu_code', 'i_price_currency')
+                                    ->select('m_item.*', 'lower.cu_value as lower', 'price.cu_value as price', 'sell.cu_value as sell')
                                     ->first();
 
                         if($item){
-                           $value += $item->i_price * $item->cu_value;
+                           $value += $item->i_price * $item->price;
+                           $value2 += $item->i_lower_price * $item->lower;
+                           $value3 += $item->i_sell_price * $item->sell;
                         }
 
                     }
 
                     DB::table('m_item')->where('i_id', $detail->i_id)->update([
-                        'i_price'   => $value
+                        'i_price'   => $value,
+                        'i_sell_price'   => $value3,
+                        'i_lower_price'   => $value2,
                     ]);
                 }
 

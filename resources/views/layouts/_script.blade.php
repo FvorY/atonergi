@@ -443,9 +443,6 @@
           $search_fld.focus();
         });
 
-
-
-
       });
       @if (App\mMember::akses('LOG ACTIVITY', 'aktif'))
         function openlog(){

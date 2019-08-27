@@ -801,12 +801,14 @@ class OrderController extends Controller
           Session::flash('gagal', 'Percent tidak ada yang aktif, aktifkan percent di master percent terlebih dahulu!');
           return view('order/pembayarandeposit/pembayarandeposit');
         } else {
-          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('akunsisa','paydeposit', 'item','data','data_dt','id','nota_so','market','nama_item','nota_wo','so','wo','percent', 'akunKas', 'akunBank'));
+          return view('order/pembayarandeposit/detail_pembayarandeposit',compact('akunsisa','paydeposit', 'item','data','data_dt','id','nota_so','market','nota_wo','so','wo','percent', 'akunKas', 'akunBank'));
         }
     }
 
     public function save_deposit(Request $req){
       // return json_encode($req->all());
+
+      // return json_encode(filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100);
 
       DB::beginTransaction();
       try {
@@ -834,6 +836,8 @@ class OrderController extends Controller
             $lebih = filter_var($req->lebih,FILTER_SANITIZE_NUMBER_INT);
           }
 
+          // return json_encode(filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT));
+
           DB::table('d_paydeposit')
                 ->insert([
                   'p_id' => $id,
@@ -842,7 +846,7 @@ class OrderController extends Controller
                   'p_wo' => $req->wo_nota,
                   'p_note' => $req->nota1,
                   'p_type' => $req->payment_type,
-                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT),
+                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
                   'p_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
                   'p_method' => $req->pay_method,
                   'p_account' => $req->pay_akun,
@@ -861,7 +865,7 @@ class OrderController extends Controller
                   'p_wo' => $req->wo_nota,
                   'p_note' => $req->nota1,
                   'p_type' => $req->payment_type,
-                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT),
+                  'p_amount' => filter_var($req->dp,FILTER_SANITIZE_NUMBER_INT)/100,
                   'p_remain' => filter_var($req->remain,FILTER_SANITIZE_NUMBER_INT)/100,
                   'p_method' => $req->pay_method,
                   'p_account' => $req->pay_akun,
@@ -924,7 +928,7 @@ class OrderController extends Controller
                                 'so_ref'        => $data->q_nota,
                                 'so_note'       => $paydeposit->p_note,
                                 'so_type'       => $paydeposit->p_type,
-                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT),
+                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'so_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'so_method'     => $paydeposit->p_method,
                                 'so_account'    => $paydeposit->p_account,
@@ -943,7 +947,7 @@ class OrderController extends Controller
                                 'so_ref'        => $data->q_nota,
                                 'so_note'       => $paydeposit->p_note,
                                 'so_type'       => $paydeposit->p_type,
-                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT),
+                                'so_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'so_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'so_method'     => $paydeposit->p_method,
                                 'so_account'    => $paydeposit->p_account,
@@ -975,7 +979,7 @@ class OrderController extends Controller
                                 'wo_ref'        => $data->q_nota,
                                 'wo_note'       => $paydeposit->p_note,
                                 'wo_type'       => $paydeposit->p_type,
-                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT),
+                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'wo_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'wo_method'     => $paydeposit->p_method,
                                 'wo_account'    => $paydeposit->p_account,
@@ -993,7 +997,7 @@ class OrderController extends Controller
                                 'wo_ref'        => $data->q_nota,
                                 'wo_note'       => $paydeposit->p_nota,
                                 'wo_type'       => $paydeposit->p_type,
-                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT),
+                                'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'wo_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'wo_method'     => $paydeposit->p_method,
                                 'wo_account'    => $paydeposit->p_account,

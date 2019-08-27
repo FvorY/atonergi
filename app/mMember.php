@@ -74,14 +74,7 @@ class mMember extends Model implements AuthenticatableContract, CanResetPassword
               ->join('d_daftar_menu', 'dm_id', '=', 'ha_id')
               ->where('m_id', $m_id)
               ->get();
-             // $cek = DB::select("select ha_id, aktif, ha_menu from d_daftar_menu join d_hak_akses on dm_id = ha_id join d_mem on ha_level = m_jabatan where m_id = '".$m_id."' group by dm_group order by dm_id");
-     // $cek = DB::table('d_daftar_menu')
-     //              ->join('d_hak_akses', 'd_daftar_menu.dm_id', '=', 'd_hak_akses.ha_id')
-     //              ->join('d_mem', 'ha_level', '=', 'm_jabatan')
-     //              ->where('m_id', '=', Auth::user()->m_id)
-     //              ->groupby('dm_group')
-     //              ->orderBy('dm_id')
-     //              ->get();
+              
      return $cek;
    }
 

@@ -427,14 +427,14 @@
                     <input style="text-align: right;" value="{{ number_format($data->q_subtotal, 0, ",", ".") }}" type="text" class="form-control form-control-sm" readonly="" name="subtotal" id="subtotal">
                   </div>
                 </div>
-                <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
+                <!-- <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                   <label>Sales Tax</label>
                 </div>
                 <div class="col-md-2 col-sm-6 col-xs-12">
                   <div class="form-group">
                     <input style="text-align: right;" type="text" readonly class="form-control form-control-sm" name="tax" id="tax">
                   </div>
-                </div>
+                </div> -->
                 <div class="offset-md-8 col-md-2 col-sm-6 col-xs-12">
                   <label>Total</label>
                 </div>
