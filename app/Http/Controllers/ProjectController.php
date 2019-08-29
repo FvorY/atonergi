@@ -17,7 +17,7 @@ class ProjectController extends Controller
 {
     public function dokumentasi()
     {
-    	return view('project/dokumentasi/dokumentasi');
+      return view('project/dokumentasi/dokumentasi');
     }
     public function jadwalujicoba()
     {
@@ -27,7 +27,7 @@ class ProjectController extends Controller
       $data = DB::table('d_schedule')
                 ->get();
 
-    	return view('project/jadwalujicoba/jadwalujicoba', compact('data'));
+      return view('project/jadwalujicoba/jadwalujicoba', compact('data'));
     }
     public function hapus_jadwal(Request $request){
       if (!mMember::akses('SCHEDULE UJI COBA DAN DOKUMENTASI', 'hapus')) {
@@ -412,7 +412,7 @@ class ProjectController extends Controller
 
       $bank = DB::table('m_bank')->get();
 
-    	return view('project/pemasangan/pemasangan', compact('data','countd','countp','countpd', 'bank'));
+      return view('project/pemasangan/pemasangan', compact('data','countd','countp','countpd', 'bank'));
     }
     public function prosespemasangan($id){
       if (!mMember::akses('PEMASANGAN', 'tambah')) {
@@ -457,7 +457,7 @@ class ProjectController extends Controller
 
       logController::inputlog('Pemasangan', 'Insert', '');
 
-    	return view('project/pemasangan/prosespemasangan', compact('data', 'barang', 'pelaksana', 'finalkode'));
+      return view('project/pemasangan/prosespemasangan', compact('data', 'barang', 'pelaksana', 'finalkode'));
     }
     public function simpanpemasangan(Request $request){
       if (!mMember::akses('PEMASANGAN', 'tambah')) {
@@ -691,15 +691,15 @@ class ProjectController extends Controller
     }
     public function pengadaanbarang()
     {
-    	return view('project/pengadaanbarang/pengadaanbarang');
+      return view('project/pengadaanbarang/pengadaanbarang');
     }
     public function prosespengadaanbarang()
     {
-    	return view('project/pengadaanbarang/prosespengadaanbarang');
+      return view('project/pengadaanbarang/prosespengadaanbarang');
     }
     public function pengepakanbarang()
     {
-    	return view('project/pengepakanbarang/pengepakanbarang');
+      return view('project/pengepakanbarang/pengepakanbarang');
     }
     public function pengirimanbarang()
     {
@@ -730,7 +730,7 @@ class ProjectController extends Controller
                 ->where('so_active', 'Y')
                 ->count();
 
-    	return view('project/pengirimanbarang/pengirimanbarang', compact('data','countd','countp','countpd'));
+      return view('project/pengirimanbarang/pengirimanbarang', compact('data','countd','countp','countpd'));
     }
     public function prosespengirimanbarang($id)
     {
@@ -748,6 +748,8 @@ class ProjectController extends Controller
                 ->join('d_unit', 'u_id', '=', 'i_unit')
                 ->where('qd_id', $data[0]->q_id)
                 ->where('qd_item', 'LIKE', '%BRG%')
+                ->orWhere('qd_item', 'LIKE', '%BND%')
+                ->where('qd_id', $data[0]->q_id)
                 ->get();
 
       for ($i=0; $i < count($barang); $i++) {
@@ -756,7 +758,7 @@ class ProjectController extends Controller
         }
       }
 
-    	return view('project/pengirimanbarang/prosespengirimanbarang', compact('data', 'barang'));
+      return view('project/pengirimanbarang/prosespengirimanbarang', compact('data', 'barang'));
     }
     public function edit(Request $request){
       if (!mMember::akses('PENGIRIMAN BARANG', 'ubah')) {
@@ -1194,7 +1196,7 @@ class ProjectController extends Controller
     }
     public function salescommon()
     {
-    	return view('project/salescommon/salescommon');
+      return view('project/salescommon/salescommon');
     }
     public function technicianfee()
     {
@@ -1202,7 +1204,7 @@ class ProjectController extends Controller
         return redirect('error-404');
       }
 
-    	return view('project/technicianfee/technicianfee');
+      return view('project/technicianfee/technicianfee');
     }
     public function deleteDir($dirPath)
     {

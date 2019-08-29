@@ -166,10 +166,10 @@ function hitung_total() {
 	var tax = $('#tax').val();
 	var sub = $('#subtotal').val();
 
-	tax = tax.replace(/[^0-9\-]+/g,"")/1;
+	// tax = tax.replace(/[^0-9\-]+/g,"")/1;
 	sub = sub.replace(/[^0-9\-]+/g,"")*1;
 
-	$('#total').val(accounting.formatMoney(tax + sub, "", 0, ".",','))
+	$('#total').val(accounting.formatMoney(sub, "", 0, ".",','))
 }
 
 $('#tax').keyup(function(){

@@ -32,8 +32,8 @@
                   <td id="{{$value->ro_code}}">{{$value->s_company}}</td>
                   <td align="center">
                     <div class="checkbox checkbox-primary checkbox-inline col-sm-2">
-                                    <input type="checkbox" id="check{{$key}}" class="check" name="check[]" value="{{$value->ro_code}}">
-                                    <label for="check{{$key}}"></label>
+                        <input type="checkbox" id="check{{$key}}" class="check" name="check[]" value="{{$value->ro_code}}">
+                        <label for="check{{$key}}"></label>
                     </div>
                   </td>
                   <input type="hidden" name="vendor[]" class="vendor" value="{{$value->ro_vendor}}">

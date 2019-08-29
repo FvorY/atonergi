@@ -174,12 +174,16 @@
 				            </div>
 				            <div class="col-md-2 col-sm-6 col-xs-12">
 				              <div class="form-group">
+				              	<?php $dp = 0; ?>
 				              	@if($data->q_dp != null)
-				                <input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{'Rp. '. number_format($data->q_dp, 2, ",", ".")}}">
+				              		<?php $dp = $data->q_dp ?>
+				                	<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{'Rp. '. number_format($data->q_dp, 2, ",", ".")}}">
 				                @else
 									@if ($percent == null)
+										<?php $dp = (0 / 100) * $data->q_total ?>
 										<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format((0 / 100) * $data->q_total , 2, ",", ".") }}">
 									@else
+										<?php $dp = ($percent->p_percent / 100) * $data->q_total ?>
 										<input type="text" class="form-control form-control-sm" name="dp" id="dp" readonly="" value="{{ 'Rp. '. number_format(($percent->p_percent / 100) * $data->q_total , 2, ",", ".") }}">
 									@endif
 				                @endif
@@ -200,7 +204,7 @@
 				            <div class="col-md-2 col-sm-6 col-xs-12">
 				              <div class="form-group">
 				              	@if($data->q_remain != null)
-				                <input value="{{'Rp. '. number_format($data->q_remain, 2, ",", ".")}}" type="text" class="form-control form-control-sm" name="remain" readonly="" id="remaining_dp">
+				                <input value="{{'Rp. '. number_format($data->q_total - $dp, 2, ",", ".")}}" type="text" class="form-control form-control-sm" name="remain" readonly="" id="remaining_dp">
 												<input type="hidden" name="remaintmp" value="{{$data->q_remain}}">
 										    @else
 				                <input value="0" type="text" class="form-control form-control-sm" name="remain" readonly="" id="remaining_dp">

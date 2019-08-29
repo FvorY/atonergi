@@ -1,0 +1,12 @@
+ 
+Quote :
+ -> Quotation ada 2 field ada double input
+ -> address customer sering error (inputan sering null sendiri)
+ -> sub total tidak 0 tapi total jadi 0
+
+
+Sales Order :
+ -> Pembayaran ke 2 di payment order data tidak keluar
+ -> kop alamat di data tidak benar
+ -> barang detail bundle tidak muncul ketika masuk ke halaman sales order padahal barang termasuk tipe BRG
+ -> data pembayaran bu debby di hapus (pembayaran deposit)

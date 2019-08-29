@@ -184,10 +184,12 @@ class OrderController extends Controller
             $data_dt = [];
 
             for ($i=0; $i < count($tmp); $i++) {
-              if (stristr($tmp[$i]->i_code, 'BRG')) {
+              if (stristr($tmp[$i]->i_code, 'BRG') || stristr($tmp[$i]->i_code, 'BND')) {
                 $data_dt[$i] = $tmp[$i];
               }
             }
+
+            // return json_encode($data_dt);
 
             return view('order/salesorder/detail_salesorder',compact('data_dt','data','market','id'));
         }
@@ -1022,6 +1024,7 @@ class OrderController extends Controller
             if (filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100 == 0) {
 
               if (filter_var($paydeposit->p_lebih,FILTER_SANITIZE_NUMBER_INT) == 0) {
+                // return 'a';
                 // Tambahan Dirga
                     $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
                     $jurnalDetail = [];
@@ -1063,6 +1066,7 @@ class OrderController extends Controller
 
                 // Selesai Dirga
               } else {
+                // return 'b';
                 // Tambahan Dirga
                     $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
                     $jurnalDetail = [];
@@ -1115,6 +1119,7 @@ class OrderController extends Controller
               }
 
             } else {
+              // return 'c';
               // Tambahan Dirga
                   $isPusat = (modulSetting()['id_pusat'] == modulSetting()['onLogin']) ? null : modulSetting()['onLogin'];
                   $jurnalDetail = [];
@@ -1149,8 +1154,9 @@ class OrderController extends Controller
                   }
 
                   if(!DB::table('dk_jurnal')->where('jr_ref', $data->q_nota)->first()) {
-                    keuangan::jurnal()->addJurnal($jurnalDetail, $paydeposit->p_pay, $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
+                    return keuangan::jurnal()->addJurnal($jurnalDetail, $paydeposit->p_pay, $data->q_nota, 'Deposit (DP) Atas Quototation '.$data->q_nota, 'KM', modulSetting()['onLogin'], true);
                   }
+
                   // return json_encode($jurnalDetail);
 
               // Selesai Dirga

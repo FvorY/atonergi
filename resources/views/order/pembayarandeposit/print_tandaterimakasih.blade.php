@@ -438,7 +438,7 @@ table.border-none > tbody > tr > td{
 					<br>
 					<small style="display: block;width: 300px;text-align: center;">
 						Perum Juanda Regency Blok F-9<br>
-						Desa Sejati Kec. Pabean<br>
+						Desa Pabean Kec. Sedati<br>
 						Sidoarjo (031) 99682814<br>
 						www.atonergi.com
 					</small>
