@@ -131,14 +131,13 @@
     $(document).ready(function(){
        $('#table_datatable_rencana').DataTable({
               processing: true,
-              // responsive:true,
               serverSide: true,
+              pagging: true,
               dom: 'Bfrtip',
               title: '',
               buttons: [
                   'copy', 'csv', 'excel', 'pdf', 'print'
               ],
-              aasorting: [],
               ajax: {
                   url:'{{ route('datatable_rencanapembelian') }}',
               },
@@ -158,15 +157,15 @@
                     },
 
                   ],
-              "columns": [
-              { "data": "ro_code" },
-              { "data": "ro_insert" },
-              { "data": "s_company" },
-              { "data": "ro_qty" },
-              { "data": "ro_qty_approved" },
-              { "data": "status" },
-              { "data": "detail" },
-              { "data": "aksi" },
+              columns: [
+                { "data": "ro_code" },
+                { "data": "ro_insert" },
+                { "data": "s_company" },
+                { "data": "ro_qty" },
+                { "data": "ro_qty_approved" },
+                { "data": "status" },
+                { "data": "detail" },
+                { "data": "aksi" },
               ]
         });
 

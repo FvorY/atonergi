@@ -40,7 +40,16 @@
                                   <td>{{$value->s_so}}</td>
                                   <td>{{$value->c_name}}</td>
                                   <td>{{$value->c_address}}</td>
-                                  <td align="center"><button class="btn btn-info btn-sm btn-print" onclick="cetak({{$value->s_id}})" type="button" title="Print"><i class="fa fa-print"></i></button></td>
+                                  <td align="center">
+                                    <button class="btn btn-info btn-sm btn-print" onclick="cetak({{$value->s_id}})" type="button" title="Print"><i class="fa fa-print"></i>
+                                    </button>
+
+                                    <button class="btn btn-primary btn-sm btn-print" onclick="edit({{ $value->s_id }})" type="button" title="Edit Data"><i class="fa fa-pencil-square-o"></i>
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm btn-print" onclick="deletes({{ $value->s_id }})" type="button" title="Edit Data"><i class="fa fa-trash"></i>
+                                    </button>
+                                  </td>
                                 </tr>
                               @endforeach
                             </tbody>
@@ -61,6 +70,40 @@ $(document).ready(function(){
 
 function cetak(id){
   window.location.href='{{route('print_suratjalan')}}?id='+id;
+}
+
+function deletes(id){
+  $.ajax({
+    type: 'get',
+    data: $('#formdata').serialize(),
+    dataType: 'json',
+    url: baseUrl + '/project/suratjalan/delete_sj?id='+id,
+    success : function(response){
+      if (response.status == 'berhasil') {
+        iziToast.success({
+            icon: 'fa fa-trash',
+            message: 'Berhasil Dihapus!',
+        });
+        setTimeout(function () {
+          window.location.href = "{{route('suratjalan')}}";
+        }, 100);
+      } else if (true) {
+        iziToast.warning({
+          icon: 'fa fa-info',
+          message: 'No DO sudah digunakan!',
+        });
+      } else {
+        iziToast.warning({
+            icon: 'fa fa-info',
+            message: 'Periksa kembali data anda!',
+        });
+      }
+    }
+  });
+}
+
+function edit(id){
+  window.location.href='{{route('edit_suratjalan')}}?id='+id;
 }
 </script>
 @endsection

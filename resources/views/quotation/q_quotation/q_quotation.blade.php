@@ -103,8 +103,8 @@ $(document).ready(function(){
 		$('#table_quote').DataTable({
           processing: true,
           serverSide: true,
-					pagging: true,
-					dom: 'Bfrtip',
+			pagging: true,
+			dom: 'Bfrtip',
 	        title: '',
 	        buttons: [
 	            'copy', 'csv', 'excel', 'pdf', 'print'

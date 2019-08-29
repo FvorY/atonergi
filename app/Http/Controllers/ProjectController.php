@@ -1277,6 +1277,38 @@ class ProjectController extends Controller
       return view('project.suratjalan.print_suratjalan', compact('data', 'dt'));
     }
 
+    public function edit_suratjalan(Request $request){
+      $data = DB::table('d_suratjalan')
+                ->leftjoin('d_sales_order', 'so_nota', '=', 's_so')
+                ->leftjoin('d_quotation', 'q_nota', '=', 'so_ref')
+                ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
+                ->leftjoin('m_ekspedisi', 'e_id', '=', 's_ekspedisi')
+                ->where('s_id', $request->id)
+                ->first();
+
+      $dt = DB::table('d_suratjalan_dt')
+                ->where('sd_suratjalan', $data->s_id)
+                ->get();
+
+      $ekspedisi = DB::table('m_ekspedisi')
+                      ->get();
+
+      $quotation = DB::table('d_quotation')
+                ->join('d_quotation_dt', 'qd_id', '=', 'q_id')
+                ->join('m_customer', 'c_code', '=', 'q_customer')
+                ->join('m_item', 'i_code', '=', 'qd_item')
+                ->join('d_unit', 'u_id', '=', 'i_unit')
+                ->where('q_nota', $data->so_ref)
+                ->where('qd_item', 'LIKE', '%BRG%')
+                ->orWhere('qd_item', 'LIKE', '%BND%')
+                ->where('q_nota', $data->so_ref)
+                ->get();
+
+      // return json_encode($dt);
+
+      return view('project.suratjalan.edit_suratjalan', compact('data', 'dt', 'ekspedisi', 'quotation'));
+    }
+
     public function getso(Request $request){
       $so = DB::table('d_sales_order')
               ->where('so_nota', $request->so)
@@ -1297,6 +1329,9 @@ class ProjectController extends Controller
     }
 
     public function simpansj(Request $request){
+
+      // return json_encode($request->all());
+
       DB::beginTransaction();
       try {
 
@@ -1327,8 +1362,8 @@ class ProjectController extends Controller
                   ->insert([
                     'sd_id' => $dt,
                     'sd_suratjalan' => $id,
-                    'sd_banyaknya' => $request->banyakin[$i],
-                    'sd_barang' => $request->itemin[$i],
+                    'sd_banyaknya' => $request->itemin[$i],
+                    'sd_barang' => $request->banyakin[$i],
                     'sd_insert' => Carbon::now('Asia/Jakarta'),
                     'sd_update' => Carbon::now('Asia/Jakarta')
                   ]);
@@ -1347,6 +1382,78 @@ class ProjectController extends Controller
       }
 
     }
+
+    public function updatesj(Request $request){
+      try {
+        DB::beginTransaction();
+
+        $suratjalan = DB::table('d_suratjalan')->where('s_id', $request->s_id);
+
+        if(!$suratjalan->first()){
+          return json_encode('data tidak ada');
+        }
+
+        $suratjalan->update([
+            's_ekspedisi' => $request->ekspedisi
+        ]);
+
+        DB::table('d_suratjalan_dt')->where('sd_suratjalan', $request->s_id)->delete();
+
+        for ($i=0; $i < count($request->banyakin); $i++) {
+          $dt = DB::table('d_suratjalan_dt')->max('sd_id')+1;
+
+          DB::table('d_suratjalan_dt')
+                ->insert([
+                  'sd_id' => $dt,
+                  'sd_suratjalan' => $request->s_id,
+                  'sd_banyaknya' => $request->itemin[$i],
+                  'sd_barang' => $request->banyakin[$i],
+                  'sd_insert' => Carbon::now('Asia/Jakarta'),
+                  'sd_update' => Carbon::now('Asia/Jakarta')
+                ]);
+        }
+
+        // return json_encode($request->all());
+
+        DB::commit();
+        return response()->json([
+          'status' => 'berhasil'
+        ]);
+
+      } catch (Exception $e) {
+          DB::rollback();
+          return response()->json([
+            'status' => 'gagal'
+          ]);
+      }
+    }
+
+    public function deletesj(Request $request){
+      try {
+
+        DB::beginTransaction();
+        $suratjalan = DB::table('d_suratjalan')->where('s_id', $request->id);
+
+        if(!$suratjalan->first()){
+          return json_encode('data tidak ada');
+        }
+
+        DB::table('d_suratjalan')->where('s_id', $request->id)->delete();
+        DB::table('d_suratjalan_dt')->where('sd_suratjalan', $request->id)->delete();
+
+        DB::commit();
+        return response()->json([
+          'status' => 'berhasil'
+        ]);
+
+      } catch (Exception $e) {
+          DB::rollback();
+          return response()->json([
+            'status' => 'gagal'
+          ]);
+      }
+    }
+
     public function print_checklistform(Request $request){
       $data = DB::table('d_sales_order')
                   ->leftjoin('d_quotation', 'so_ref', '=', 'q_nota')

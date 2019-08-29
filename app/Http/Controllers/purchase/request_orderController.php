@@ -71,6 +71,8 @@ class request_orderController extends Controller
        //  }
         // return $lol;
 
+        // $list = collect($list);
+
         return Datatables::of($list)
 
                 ->addColumn('aksi', function ($list) {

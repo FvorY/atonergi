@@ -221,7 +221,7 @@
                           <td><input type="text" class="form-control form-control-sm min-width2 right format_money readonly qty" value="{{ $seq->podt_qty }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width2 right format_money qty_approved_value"  onkeyup="hitung_qty(this)" name="podt_qty[]" value="{{ $seq->podt_qty_approved }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="{{ $seq->u_unit }}"></td>
-                          <td><input type="text" class="form-control form-control-sm min-width right format_money readonly unit_price" name="podt_unit_price[]" value="{{ number_format($seq->podt_unit_price,0,',','.') }}"></td>
+                          <td><input type="text" class="form-control form-control-sm min-width right format_money unit_price" name="podt_unit_price[]" value="{{ number_format($seq->podt_unit_price,0,',','.') }}"></td>
                           <td><input type="text" class="form-control form-control-sm min-width right format_money total_price readonly" name="podt_price[]" onchange="hitung_total(this)" value="{{ number_format($seq->podt_price,0,',','.') }}"></td>
                           <td><input type="checkbox" name="podt_ppn[]" class="ppn" onchange="ppn_10(this)">10%</td>
                           <td><button type="button" class="delete btn btn-outline-danger btn-sm hapus"><i class="fa fa-trash"></i></button></td>
@@ -332,7 +332,7 @@
             '<input type="text" id="podt_qty_requested[]"   class="form-control input-sm min-width right readonly " value="'+rp_qty.val()+'">',
             '<input type="text" id="podt_qty[]"     name="podt_qty[]"    class="form-control input-sm min-width right readonly qty_approved_value qty" onkeyup="hitung_qty(this)" value="'+rp_qty.val()+'">',
             '<input type="text" class="form-control form-control-sm min-width2 readonly" name="podt_unit[]" value="'+rp_kodeitem.find(':selected').data('unit')+'">',
-            '<input type="text" id="podt_unit_price[]"   name="podt_unit_price[]"    class="form-control input-sm min-width right readonly unit_price" value="'+ accounting.formatMoney(rp_kodeitem.find(':selected').data('price'),"",0,'.',',') +'">',
+            '<input type="text" id="podt_unit_price[]"   name="podt_unit_price[]"    class="form-control input-sm min-width right unit_price" value="'+ accounting.formatMoney(rp_kodeitem.find(':selected').data('price'),"",0,'.',',') +'">',
             '<input type="text" id="podt_price[]"   name="podt_price[]"    class="form-control input-sm min-width right readonly total_price " value="'+ accounting.formatMoney(total,"",0,'.',',') +'">',
             '<td><input type="checkbox" name="podt_ppn[]" class="ppn" onchange="ppn_10(this)">10%</td>',
             '<button type="button" class="delete btn btn-outline-danger btn-sm"><i class="fa fa-trash"></i></button>',

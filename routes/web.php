@@ -263,8 +263,11 @@ Route::get('/project/pengirimanbarang/checklistform/print', 'ProjectController@p
 Route::get('/project/suratjalan/suratjalan', 'ProjectController@suratjalan')->name('suratjalan');
 Route::get('/project/suratjalan/getso', 'ProjectController@getso');
 Route::get('/project/suratjalan/simpansj', 'ProjectController@simpansj');
+Route::get('/project/suratjalan/updatesj', 'ProjectController@updatesj');
+Route::get('/project/suratjalan/delete_sj', 'ProjectController@deletesj')->name('delete_suratjalan');
 Route::get('/project/suratjalan/tambah_suratjalan', 'ProjectController@tambah_suratjalan')->name('tambah_suratjalan');
 Route::get('/project/suratjalan/print_suratjalan', 'ProjectController@print_suratjalan')->name('print_suratjalan');
+Route::get('/project/suratjalan/edit_suratjalan', 'ProjectController@edit_suratjalan')->name('edit_suratjalan');
 Route::get('/project/perdin/perdin', 'ProjectController@perdin')->name('perdin');
 Route::get('/project/perdin/proses_perdin', 'ProjectController@proses_perdin')->name('proses_perdin');
 Route::get('/project/perdin/simpan_lpj', 'ProjectController@simpan_lpj');
