@@ -1233,6 +1233,7 @@ class ProjectController extends Controller
 
       return view('project.suratjalan.suratjalan', compact('data'));
     }
+
     public function tambah_suratjalan(){
       $so = DB::table('d_sales_order')
                 ->where('so_status', 'Printed')
@@ -1250,14 +1251,16 @@ class ProjectController extends Controller
         $kode = "001";
       }
 
-
       $finalkode = 'SJ-' . $kode . '/' . date('m') . date('Y');
 
       $ekspedisi = DB::table('m_ekspedisi')
                       ->get();
 
+      // return 'oke';
+
       return view('project.suratjalan.tambah_suratjalan', compact('ekspedisi', 'finalkode', 'so'));
     }
+
     public function print_suratjalan(Request $request){
       $data = DB::table('d_suratjalan')
                 ->leftjoin('d_sales_order', 'so_nota', '=', 's_so')
@@ -1286,6 +1289,8 @@ class ProjectController extends Controller
                 ->join('d_unit', 'u_id', '=', 'i_unit')
                 ->where('q_nota', $so->so_ref)
                 ->where('qd_item', 'LIKE', '%BRG%')
+                ->orWhere('qd_item', 'LIKE', '%BND%')
+                ->where('q_nota', $so->so_ref)
                 ->get();
 
       return response()->json($data);
