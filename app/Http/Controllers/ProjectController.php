@@ -1354,6 +1354,8 @@ class ProjectController extends Controller
                 ->join('m_item', 'i_code', '=', 'qd_item')
                 ->where('q_nota', $data->so_ref)
                 ->where('qd_item', 'LIKE', '%BRG%')
+                ->orWhere('qd_item', 'LIKE', '%BND%')
+                ->where('q_nota', $data->so_ref)
                 ->get();
 
       $acc = DB::table('d_accessories')->where('a_so', $request->id)->get();
