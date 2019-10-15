@@ -368,7 +368,7 @@ class ProjectController extends Controller
               ->leftjoin('d_perdin', 'p_wo', '=', 'wo_nota')
               ->leftjoin('d_lpj_perdin', 'lp_perdin', '=', 'p_id')
               ->leftjoin('m_pegawai', 'mp_id', '=', 'p_pelaksana')
-              ->where('q_remain', 0)
+              // ->where('q_remain', 0)
               ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
               ->groupby('wo_id')
@@ -380,7 +380,7 @@ class ProjectController extends Controller
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
               ->leftjoin('d_perdin', 'p_wo', '=', 'wo_nota')
               ->leftjoin('m_pegawai', 'mp_id', '=', 'p_pelaksana')
-              ->where('q_remain', 0)
+              // ->where('q_remain', 0)
               ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
               ->where('p_status', 'released')
@@ -392,7 +392,7 @@ class ProjectController extends Controller
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
               ->leftjoin('d_perdin', 'p_wo', '=', 'wo_nota')
               ->leftjoin('m_pegawai', 'mp_id', '=', 'p_pelaksana')
-              ->where('q_remain', 0)
+              // ->where('q_remain', 0)
               ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
               ->where('p_status', 'acc')
@@ -404,13 +404,15 @@ class ProjectController extends Controller
               ->leftjoin('m_customer', 'c_code', '=', 'q_customer')
               ->leftjoin('d_perdin', 'p_wo', '=', 'wo_nota')
               ->leftjoin('m_pegawai', 'mp_id', '=', 'p_pelaksana')
-              ->where('q_remain', 0)
+              // ->where('q_remain', 0)
               ->where('wo_status', 'Printed')
               ->where('wo_active', 'Y')
               ->where('p_status', 'revition')
               ->count();
 
       $bank = DB::table('m_bank')->get();
+
+      // return json_encode($data);
 
       return view('project/pemasangan/pemasangan', compact('data','countd','countp','countpd', 'bank'));
     }

@@ -48,69 +48,67 @@
 		                  	<thead class="bg-gradient-info">
 		                  		<tr>
 		                  			<th>No</th>
-														<th>Code WO</th>
+									<th>Code WO</th>
 		                  			<th>Customer</th>
-														<th>Status SO</th>
-														<th>Installer</th>
-														<th>Code Perdin</th>
-														<th>Delivery Rsp</th>
-														<th></th>
-														<th>Status Perdin</th>
+									<th>Status SO</th>
+									<th>Installer</th>
+									<th>Code Perdin</th>
+									<th>Delivery Rsp</th>
+									<th></th>
+									<th>Status Perdin</th>
 		                  			<th>Action</th>
 		                  		</tr>
 		                  	</thead>
 		                  	<tbody>
-													@foreach ($data as $key => $value)
-														@if ($value->so_status_delivery == 'D')
-															<tr>
-																<td>{{$key + 1}}</td>
-																<td>{{$value->wo_nota}}</td>
-																<td>{{$value->c_name}}</td>
-																<td><span class="badge badge-pill badge-success">Delivered</span></td>
-																<td>{{$value->mp_name}}</td>
-																<td>{{$value->p_code}}</td>
-																@if ($value->p_tanggung_jawab == null)
-																	<td></td>
-																@else
-																	<td>{{Carbon\Carbon::parse($value->p_tanggung_jawab)->format('d-m-Y')}}</td>
-																@endif
-																@if (strtotime($value->p_tanggung_jawab) < strtotime('now') && $value->lp_code == null)
-																	<td> <span style="color:red;">*</span> </td>
-																@else
-																	<td></td>
-																@endif
-																@if ($value->p_status == 'released')
-																	<td> <span class="badge badge-warning" style="text-transform:uppercase;">{{$value->p_status}}</span> </td>
-																@elseif ($value->p_status == 'revition')
-																	<td> <span class="badge badge-danger" style="text-transform:uppercase;">{{$value->p_status}}</span> </td>
-																@else
-																	<td> <span class="badge badge-primary" style="text-transform:uppercase;">{{$value->p_status}}</span> </td>
-																@endif
-																	<td>
-																		<div class="btn-group">
-																			@if ($value->p_code == null)
-																				<a href="{{url('project/pemasangan/prosespemasangan').'/'.$value->wo_id}}" class="btn btn-info btn-sm" title="Buat Perdin"><i class="fa fa-sign-in"></i></a>
-																			@else
-																			@if ($value->p_status_approve != 'Y')
-																				<a href="{{url('/project/pemasangan/editperdin').'?id='.$value->wo_id}}" class="btn btn-info btn-sm" title="Edit Perdin"><i class="fa fa-edit"></i></a>
-																			@endif
-																			@endif
-																			@if ($value->p_status != null)
-																				<a href="{{url('/project/pemasangan/detailperdin').'?id='.$value->wo_id}}" class="btn btn-warning btn-sm" title="Detail Perdin"><i class="fa fa-folder"></i></a>
-																			@endif
-																			@if (Auth::user()->m_jabatan == 'FINANCE')
-																				@if ($value->p_status_approve == 'N')
-																					<button type="button" class="btn btn-success btn-sm" onclick="approve({{$value->wo_id}})" name="button" title="Approve"> <i class="fa fa-check"></i> </button>
-																				@endif
-																			@endif
-																			@if ($value->p_status_approve == 'Y')
-																				<button type="button" class="btn btn-primary btn-sm" onclick="printperdin({{$value->wo_id}})" name="button" title="Print"> <i class="fa fa-print"></i> </button>
-																			@endif
-																		</div>
-																	</td>
-															</tr>
-															@endif
-														@endforeach
+							@foreach ($data as $key => $value)
+									<tr>
+										<td>{{$key + 1}}</td>
+										<td>{{$value->wo_nota}}</td>
+										<td>{{$value->c_name}}</td>
+										<td><span class="badge badge-pill badge-success">Delivered</span></td>
+										<td>{{$value->mp_name}}</td>
+										<td>{{$value->p_code}}</td>
+										@if ($value->p_tanggung_jawab == null)
+											<td></td>
+										@else
+											<td>{{Carbon\Carbon::parse($value->p_tanggung_jawab)->format('d-m-Y')}}</td>
+										@endif
+										@if (strtotime($value->p_tanggung_jawab) < strtotime('now') && $value->lp_code == null)
+											<td> <span style="color:red;">*</span> </td>
+										@else
+											<td></td>
+										@endif
+										@if ($value->p_status == 'released')
+											<td> <span class="badge badge-warning" style="text-transform:uppercase;">{{$value->p_status}}</span> </td>
+										@elseif ($value->p_status == 'revition')
+											<td> <span class="badge badge-danger" style="text-transform:uppercase;">{{$value->p_status}}</span> </td>
+										@else
+											<td> <span class="badge badge-primary" style="text-transform:uppercase;">{{$value->p_status}}</span> </td>
+										@endif
+											<td>
+												<div class="btn-group">
+													@if ($value->p_code == null)
+														<a href="{{url('project/pemasangan/prosespemasangan').'/'.$value->wo_id}}" class="btn btn-info btn-sm" title="Buat Perdin"><i class="fa fa-sign-in"></i></a>
+													@else
+													@if ($value->p_status_approve != 'Y')
+														<a href="{{url('/project/pemasangan/editperdin').'?id='.$value->wo_id}}" class="btn btn-info btn-sm" title="Edit Perdin"><i class="fa fa-edit"></i></a>
+													@endif
+													@endif
+													@if ($value->p_status != null)
+														<a href="{{url('/project/pemasangan/detailperdin').'?id='.$value->wo_id}}" class="btn btn-warning btn-sm" title="Detail Perdin"><i class="fa fa-folder"></i></a>
+													@endif
+													@if (Auth::user()->m_jabatan == 'FINANCE')
+														@if ($value->p_status_approve == 'N')
+															<button type="button" class="btn btn-success btn-sm" onclick="approve({{$value->wo_id}})" name="button" title="Approve"> <i class="fa fa-check"></i> </button>
+														@endif
+													@endif
+													@if ($value->p_status_approve == 'Y')
+														<button type="button" class="btn btn-primary btn-sm" onclick="printperdin({{$value->wo_id}})" name="button" title="Print"> <i class="fa fa-print"></i> </button>
+													@endif
+												</div>
+											</td>
+									</tr>
+								@endforeach
 		                  	</tbody>
 		                  </table>
 		              </div>

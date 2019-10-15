@@ -1,12 +1,29 @@
  
-Quote :
- -> Quotation ada 2 field ada double input
- -> address customer sering error (inputan sering null sendiri)
- -> sub total tidak 0 tapi total jadi 0
+-------------------------------------------------------------------------------------------------------------------
 
 
-Sales Order :
- -> Pembayaran ke 2 di payment order data tidak keluar
- -> kop alamat di data tidak benar
- -> barang detail bundle tidak muncul ketika masuk ke halaman sales order padahal barang termasuk tipe BRG
- -> data pembayaran bu debby di hapus (pembayaran deposit)
+	Quote :
+	 -> Quotation ada 2 field ada double input
+	 -> address customer sering error (inputan sering null sendiri)
+	 -> sub total tidak 0 tapi total jadi 0
+
+
+	Sales Order :
+	 -> Pembayaran ke 2 di payment order data tidak keluar
+	 -> kop alamat di data tidak benar
+	 -> barang detail bundle tidak muncul ketika masuk ke halaman sales order padahal barang termasuk tipe BRG
+	 -> data pembayaran bu debby di hapus (pembayaran deposit)
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+	Inventory :
+	 - Data check stok tidak sesuai dengan data stock gudang (yang benar data stok gudang).
+
+--------------------------------------------------------------------------------------------------------------------
+
+
+	* Jurnal Harus Dihapus
+	 - Bank BCA Reja Aton Energy (debet) 83,900,000.00
+	 - Uang Muka Penjualan (kredit) 83,900,000.00

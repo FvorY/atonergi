@@ -423,7 +423,7 @@ class OrderController extends Controller
              $data_dt = [];
 
              for ($i=0; $i < count($tmp); $i++) {
-               if (stristr($tmp[$i]->i_code, 'BJS')) {
+               if (stristr($tmp[$i]->i_code, 'BRJ')) {
                  $data_dt[$i] = $tmp[$i];
                }
              }
@@ -686,6 +686,7 @@ class OrderController extends Controller
                   ->first();
 
         $paydeposit = [];
+
         if ($data->q_approved == 'N') {
           $cek = DB::table('d_paydeposit')
                     ->where('p_qo', $id)
@@ -723,6 +724,8 @@ class OrderController extends Controller
                    ->where('i_jenis','JASA')
                    ->first();
 
+        // return json_encode($wo_dt);
+
         $bulan = Carbon::now()->format('m');
         $tahun = Carbon::now()->format('Y');
 
@@ -743,7 +746,7 @@ class OrderController extends Controller
 
         $nota_wo = "";
         if ($wo_dt != null) {
-           $nota_wo = str_replace('QO','wO', $data->q_nota);
+           $nota_wo = str_replace('QO','WO', $data->q_nota);
            $nota_wo = str_replace('-rev'.$data->q_rev,'', $nota_wo);
         }
         // END
@@ -997,7 +1000,7 @@ class OrderController extends Controller
                               ->update([
                                 'wo_nota'       => $nota,
                                 'wo_ref'        => $data->q_nota,
-                                'wo_note'       => $paydeposit->p_nota,
+                                'wo_note'       => $paydeposit->p_note,
                                 'wo_type'       => $paydeposit->p_type,
                                 'wo_amount'     => filter_var($paydeposit->p_amount,FILTER_SANITIZE_NUMBER_INT)/100,
                                 'wo_remain'     => filter_var($paydeposit->p_remain,FILTER_SANITIZE_NUMBER_INT)/100,
